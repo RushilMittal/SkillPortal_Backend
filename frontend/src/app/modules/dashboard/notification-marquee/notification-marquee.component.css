@@ -1,0 +1,16 @@
+.row{
+    width: 100%;
+}
+b, strong{
+    font-size: 15px;
+    color: #FFFFFF;
+
+}
+a {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+    font-size: 15px;
+    font-family: unset;
+}

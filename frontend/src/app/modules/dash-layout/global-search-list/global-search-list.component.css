@@ -1,0 +1,9 @@
+.dropdown-menu { 
+    background: linear-gradient(to right, #0697C3 , #4DBFE2);
+    width: 100%; 
+  }
+
+  .gray {
+      background-color: rgba(0, 0, 0, 0);
+      color: white;
+  }

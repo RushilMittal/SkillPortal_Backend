@@ -1,0 +1,44 @@
+[{
+    "id": 1,
+    "employeeId":"10155",
+    "subSkill":[{"id": 1,
+        "skillId":1,
+        "name": "Java"}],
+    "rating":1,
+    "lastModified": "1519253832"
+},{
+    "id": 1,
+    "employeeId":"10155",
+    "subSkill":[{
+        "id": 6,
+        "skillId":2,
+        "name": "AWS Cloud"
+        
+    }],
+    "rating":2,
+    "lastModified": "1519253832"
+},{
+    "id": 1,
+    "employeeId":"10155",
+    "subSkill":[{
+        "id": 3,
+        "skillId":1,
+        "name": "Python"
+        
+    }],
+    "rating":3,
+    "lastModified": "1519253832"
+},{
+    "id": 1,
+    "employeeId":"10155",
+    "subSkill":[{
+        "id": 8,
+        "skillId":3,
+        "name": "HTML"
+
+        
+    }],
+    "rating":4,
+    "lastModified": "1519253832"
+}
+]

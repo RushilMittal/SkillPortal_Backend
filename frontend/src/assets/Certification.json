@@ -1,0 +1,12 @@
+[{
+        "id": 1,
+        "name": "Project Management Professional",
+        "institution": "PMI"
+    },
+    {
+        "id": 2,
+        "name": "AWS Certified Professional(PMP)",
+        "institution": "Amazon"
+        
+    }
+]

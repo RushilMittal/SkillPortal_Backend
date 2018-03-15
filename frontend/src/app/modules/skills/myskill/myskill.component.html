@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8" >
+        <h5 style="font-size:150%; color: rgba(0, 0, 0, 0.71); margin-left:4%;">
+          Your Skill List
+        </h5>
+    </div>
+    <div class="col-md-4" >
+      <input id="add-new-skill" class="btn right" routerLink="/skills/allskill" routerLinkActive="active"  value="Add a new Skill">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-xs-12 table-responsive-md" style="margin:2%">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Skill Name</th>
+            <th>Rating</th>
+            <th></th>
+          </tr>
+        </thead>
+        
+        <tbody *ngFor="let empskill of employeeSkill ">
+          <tr>                     
+            <td style="width:45%; vertical-align:middle">
+              {{empskill.subSkill?.name}}
+            </td>
+            <td style="width:30%; vertical-align:middle">
+              {{empskill?.rating}}
+            </td>
+            
+            <td style="width:30%; vertical-align:middle">
+            <button id="{{ updateButton + empskill.subSkill?.name}}" 
+              (click)=Valid(empskill.subSkill?.name) class="btn" 
+              data-toggle="collapse" data-target="#content" 
+              aria-expanded="false" aria-controls="content">Update</button>
+            </td>
+          </tr>
+          
+          <tr  id={{empskill.subSkill?.name}} hidden=true>
+            <td style="transform:translate(10%,0)" colspan="2" id="rating">
+              <app-rating [newEmployeeData]=empskill [subSkillName] = empskill.subSkill.name
+                  (updateClicked) = 'OnRatingUpdated($event)'
+                  (cancelClicked) = 'onCanceledClicked($event)'></app-rating>
+            </td>                   
+          </tr> 
+       </tbody>
+      </table>
+    </div>
+  </div>
+</div>

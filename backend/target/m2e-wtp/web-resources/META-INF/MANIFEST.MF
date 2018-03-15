@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: SkillPortal_Skill
+Implementation-Version: 0.0.1
+Built-By: ashekhawat
+Implementation-Vendor-Id: com.teksystems.skillportal
+Build-Jdk: 1.8.0_121
+Implementation-URL: http://projects.spring.io/spring-boot/skillportal/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+Main-Class: com.programmer.gate.SkillPortalBackendApplication
+

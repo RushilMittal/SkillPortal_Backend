@@ -1,0 +1,56 @@
+
+.h3{
+    padding: 1%;
+}
+.row{
+    background-image: url('../../../../assets/images/BannerImage.png');
+    background-position-x:15px; 
+    background-size: 97.3%;
+    background-repeat: no-repeat;
+}
+
+@media(max-width:1202px){
+    .row{
+        background-size:97% 100%;
+        
+    }
+}
+
+@media(max-width:999px){
+    .row{
+    background-size:96.5% 100%;
+    
+}
+    #badge{
+        height: 113px;
+        width:95px;
+    }
+
+}
+@media(max-width:972px){
+    .row{
+        background-size:95.9% 100%;
+        
+    }
+}
+@media(max-width:772px){
+    .row{
+        background-size:94.5% 100%;
+        
+    }
+
+}
+@media(max-width:570px){
+    .row{
+        background-size:94% 100%;
+        
+    }
+}
+
+@media(max-width:450px){
+    .row{
+        background-size:92% 100%;
+        
+    }
+
+}

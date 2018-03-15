@@ -1,0 +1,30 @@
+<div class="container-fluid">
+  <div class="row" style="padding-top:2%; padding-bottom:2%">
+    <div class="col-4 col-xs-4"> <h2 >Certifications</h2></div>
+    <div class="col-4 offset-4 col-xs-4">
+       <button id="request-for-certification" class="btn right">
+          Request for Certification 
+        </button>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <ul id="certification-nav" class="nav nav-tabs justify-content-left" style="cursor:pointer">
+      <li class="nav-item">
+        
+        <a id="mycertifications"  class="nav-link"  [routerLink]="['mycertifications']" routerLinkActive="active">
+          My Certifications
+        </a>
+      </li>
+      <li class="nav-item">
+       
+        <a id="availablecertifications" class="nav-link"  [routerLink]="['availablecertifications']" routerLinkActive="active">
+          Available Certifications
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <br> <br>
+    <router-outlet></router-outlet>
+</div>
