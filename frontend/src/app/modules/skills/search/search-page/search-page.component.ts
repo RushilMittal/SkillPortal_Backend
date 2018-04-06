@@ -18,7 +18,7 @@ export class SearchPageComponent implements OnInit {
 
  }
 
-filter: SearchItem = {skillId: "", name: '', isChild: false, subSkillId: ""};
+filter: string;
 
 
 goBack(): void {

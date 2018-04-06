@@ -1,7 +1,12 @@
 
 <ul class="list-group">
-    <li *ngFor="let skill of skills" routerLink="../allskill/explore/{{skill.skillId}}" class="list-group-item list-group-item-action" >
-        {{skill.name}}
+    <li *ngFor="let skill of skills" routerLink="/skills/skillgroup/explore/{{skill}}" class="list-group-item list-group-item-action">
+        {{skill|stringManipulation}}
     </li>
     <li *ngIf="skills?.length==0" class="list-group-item">No Results Found</li>
-  </ul>
+</ul>
+<div class="row" *ngIf="showSpinner">
+        <div class=" offset-5 col-1">
+            <span class="fa fa-spinner fa-spin" id="spinner"></span>
+        </div>
+    </div>

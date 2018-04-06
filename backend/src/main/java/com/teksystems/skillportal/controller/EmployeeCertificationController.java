@@ -2,6 +2,7 @@ package com.teksystems.skillportal.controller;
 
 import com.teksystems.skillportal.domain.CertificationDomain;
 import com.teksystems.skillportal.domain.EmployeeCertificationDomain;
+import com.teksystems.skillportal.domain.EmployeeCertificationPlaceholderDomain;
 import com.teksystems.skillportal.model.Certification;
 import com.teksystems.skillportal.model.EmployeeCertification;
 import com.teksystems.skillportal.service.EmployeeCertificationService;
@@ -39,14 +40,11 @@ public class EmployeeCertificationController {
         employeeCertificationService.addNewCertificate(employeeCertificationDomain);
     }
 	
-    @GetMapping("/gettoptwocertifications")
-    public String[] getTopTwoEmployeeCertificationById(@RequestParam String employeeId) {
-        return employeeCertificationService.getTopTwoEmployeeCertificationById(employeeId);
-    }
-    
-    @GetMapping("/gettoptwocertificationsyear")
-    public String[] getTopTwoEmployeeCertificationYearById(@RequestParam String employeeId) {
-        return employeeCertificationService.getTopTwoEmployeeCertificationYearById(employeeId);
+
+
+    @GetMapping("/getcertificationplaceholder")
+    public List<EmployeeCertificationPlaceholderDomain> getTopTwoEmployeeCertificationYearById(@RequestParam String employeeId) {
+        return employeeCertificationService.getTopTwoEmployeeCertificationPlaceholderById(employeeId);
     }
 }
 	

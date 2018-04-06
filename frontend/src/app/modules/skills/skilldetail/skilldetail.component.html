@@ -1,59 +1,67 @@
-<div *ngIf="true"> 
-  <style>
-    table{table-layout: fixed;}
-  </style>
+<div *ngIf='true'>
   
-  <div class="container">
     <div class="row">
-      <!-- <div class="col-md-1" style="text-align:center; vertical-align:middle;">
-        <i id="back-btn" (click)=goBack() class="fa fa-chevron-circle-left" 
-          aria-hidden="true"></i>
-      </div> -->
-
-      <div class="col-md-8" style="vertical-align:middle; padding:0">
-        <h2 id="textHeader">{{(skill?.name)}}</h2>
+      <div class="col-md-8 align-middle" id="header">
+        <h2 id="textHeader">
+          {{skill}}
+        </h2>
       </div>
-      <div class="col-md-4">
-        <button id="back-to-skill" class="btn right" routerLink="/skills/allskill" routerLinkActive="active">
+      <div class="col-md-4 mb-3">
+        
+        <button id="back-to-skill" class="btn right mt-2" routerLink="/skills/skillgroup" routerLinkActive="active">
           Back To Skill List
         </button>
       </div>
     </div>
-  </div>
-   
+  
+
   <div class="row">
-    <div class="col-12 table-responsive-md" style="margin:2%">
+    <div class="col-12 table-responsive">
       <table class="table">
         <thead>
           <tr>
             <th>Skill Name</th>
-            <th>Users</th>
+            <th>No of Rated Users</th>
             <th></th>
           </tr>
         </thead>
-    
-        <tbody *ngFor = "let subskill of subSkillList;">
-          <tr>  
-            <td style="width:45%; vertical-align:middle;" #name >{{subskill?.name}} </td>
-            <td style="width:30%; vertical-align:middle;">{{subskill?.ratedUsers}}</td>
-            
-            <td style="width:30%; vertical-align:middle">
-              <button id="{{ rateButton + subskill.name}}"
-              (click)=Valid(subskill) class="btn" data-toggle="collapse" data-target="#content" 
-              aria-expanded="false" aria-controls="content">Rate Your Skill</button>
+        
+          <!-- SPiNNer code -->
+        <tbody *ngIf="showSpinner">
+            <tr>
+              <td colspan=3  id="spinner">
+                <span class="fa fa-spinner fa-spin" style="font-size: 60px;" ></span>
+              </td>
+            </tr>
+        </tbody>
+
+
+        <tbody *ngFor="let employeeskill of employeeSkillList;">
+          <tr>
+            <td class="align-middle" id="tdname" #name>{{employeeskill.subSkill?.subSkill}} </td>
+            <td id="tdRatedUsers" >
+              <p *ngIf= " employeeskill.subSkill?.totalNumberofRatedUsers!==0">
+              {{employeeskill.subSkill?.totalNumberofRatedUsers}}
+              </p>
+            </td>
+            <td>
+              <button id="rate-button" class="btn" [hidden]="activeTags.includes(employeeskill.subSkill?.id)"
+                   (click)="toggle(employeeskill.subSkill?.id)">
+                   Rate Your Skill
+              </button>
             </td>
           </tr>
-          
-          <tr id={{subskill.name}} hidden=true>
+          <tr [class.show]="activeTags.includes(employeeskill.subSkill?.id)" Class="collapse">
             <td style="transform:translate(10%,0)" colspan="2">
-              <app-rating [newEmployeeData]=employeeSkill [subSkillName] = subskill?.name
-                  (updateClicked) = 'OnRatingUpdated($event)'
-                  (cancelClicked) = 'onCanceledClicked($event)'></app-rating>
+              <app-rating [skills]=employeeskill
+                          (cancelClicked)="toggle($event)"
+                          (updateClicked)="OnRatingUpdated($event)"
+              ></app-rating>
             </td>
           </tr>
+
         </tbody>
       </table>
     </div>
   </div>
 </div>
-       

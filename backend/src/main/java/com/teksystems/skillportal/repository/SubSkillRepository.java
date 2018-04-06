@@ -15,8 +15,12 @@ public interface SubSkillRepository extends MongoRepository<SubSkill,String> {
 	    * automatically generated from its signature by Spring Data JPA.
 	    */
 
-	SubSkill findById(String subSkillId);
-    List<SubSkill>findAll();
-    List<SubSkill> findBySkillId(String skillId);
-	
-	}
+	 SubSkill findById(String id);
+	 SubSkill findOneBySkillGroup(String skillGroup);
+	List<SubSkill> findBySkillGroupAndSkill(String skillGroup,String skill);
+	SubSkill findBySkillAndSubSkill(String skill, String subSkill);
+	List<SubSkill> findBySkillGroup(String skillGroup);
+	List<SubSkill> findBySkill(String skill);
+
+
+}

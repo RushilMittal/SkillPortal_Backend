@@ -1,48 +1,75 @@
 package com.teksystems.skillportal.domain;
 
 public class SubSkillDomain {
-	
-String id;
-String name;
-String skillId;
-private int ratedUsers;
-
-public SubSkillDomain(String id,String name,String skillId,int ratedUsers)
-{
-	this.id=id;
-	this.name=name;
-	this.skillId=skillId;
-	this.ratedUsers=ratedUsers;
-}
-
-	public SubSkillDomain(String id, String name, String skillId) {
+	String id;
+	String subSkill;
+	String subSkillDesc;
+	String skill;
+	String skillGroup;
+	String practice;
+	int totalNumberofRatedUsers;
+	public SubSkillDomain(String id, String subSkill, String subSkillDesc, String skill, String skillGroup,
+						  String practice, int totalNumberofRatedUsers) {
 		this.id = id;
-		this.name = name;
-		this.skillId = skillId;
+		this.subSkill = subSkill;
+		this.subSkillDesc = subSkillDesc;
+		this.skill = skill;
+		this.skillGroup = skillGroup;
+		this.practice = practice;
+		this.totalNumberofRatedUsers = totalNumberofRatedUsers;
 	}
-
-	public String getId()
-   {
- return this.id;	
+	public String getId() {
+		return id;
 	}
-
-
-public String getName()
-   {
-	 return this.name;	
+	public void setId(String id) {
+		this.id = id;
 	}
-
-
-
-public String getSkillId()
-   {
-	 return this.skillId;	
+	public String getSubSkill() {
+		return subSkill;
 	}
-
-	public int getRatedUsers() {
-		return ratedUsers;
+	public void setSubSkill(String subSkill) {
+		this.subSkill = subSkill;
 	}
-
-
-
+	public String getSubSkillDesc() {
+		return subSkillDesc;
+	}
+	public void setSubSkillDesc(String subSkillDesc) {
+		this.subSkillDesc = subSkillDesc;
+	}
+	public String getSkill() {
+		return skill;
+	}
+	public void setSkill(String skill) {
+		this.skill = skill;
+	}
+	public String getSkillGroup() {
+		return skillGroup;
+	}
+	public void setSkillGroup(String skillGroup) {
+		this.skillGroup = skillGroup;
+	}
+	public String getPractice() {
+		return practice;
+	}
+	public void setPractice(String practice) {
+		this.practice = practice;
+	}
+	public int getTotalNumberofRatedUsers() {
+		return totalNumberofRatedUsers;
+	}
+	public void setTotalNumberofRatedUsers(int totalNumberofRatedUsers) {
+		this.totalNumberofRatedUsers = totalNumberofRatedUsers;
+	}
+	@Override
+	public String toString() {
+		return "SubSkillDomain{" +
+				"id='" + id + '\'' +
+				", subSkill='" + subSkill + '\'' +
+				", subSkillDesc='" + subSkillDesc + '\'' +
+				", skill='" + skill + '\'' +
+				", skillGroup='" + skillGroup + '\'' +
+				", practice='" + practice + '\'' +
+				", totalNumberofRatedUsers=" + totalNumberofRatedUsers +
+				'}';
+	}
 }

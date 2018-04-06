@@ -1,16 +1,19 @@
-.row{
-    width: 100%;
+.col-8
+{
+  font-family: inherit;
+  padding-top: 12px;
+  padding-bottom: 10px;
+  font-size: 100%;
 }
-b, strong{
-    font-size: 15px;
-    color: #FFFFFF;
 
+.col-4
+{
+  font-family: inherit;
+  padding-top: 12px;
+  padding-bottom: 10px;
+  font-size: 100%;
 }
-a {
-    color: #ffffff;
-    text-decoration: none;
-    background-color: transparent;
-    -webkit-text-decoration-skip: objects;
-    font-size: 15px;
-    font-family: unset;
+
+.white{
+  color:rgba(255, 255, 255, 1);
 }

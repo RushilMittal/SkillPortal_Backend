@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class CertificationService {
@@ -96,5 +98,23 @@ public class CertificationService {
             System.out.println("saved");
             this.certificationRepository.save(certification1);
         }
+    }
+
+    public List<CertificationDomain> searchCertItems(String searchTerm){
+
+        List<CertificationDomain> certDomain = getAllCertifications();
+        List<CertificationDomain> certSearch = new LinkedList<>();
+
+        for(CertificationDomain iterable: certDomain)
+        {
+            Pattern p = Pattern.compile(searchTerm);
+            Matcher m1 = p.matcher((iterable.getCertificationName()).toLowerCase());
+            Matcher m2 = p.matcher((iterable.getInstitution()).toLowerCase());
+            if(m1.find()||m2.find())
+            {
+                certSearch.add(iterable);
+            }
+        }
+        return certSearch;
     }
 }

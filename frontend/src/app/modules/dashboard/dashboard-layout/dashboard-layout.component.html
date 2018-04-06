@@ -1,35 +1,39 @@
-<div class="container">
-    <div class="row">
-        <h2>My Dashboard</h2>
-    </div>
-    <div id="notification" class="row" >
-        <app-notification-marquee style="width:100%; padding:1%;"></app-notification-marquee>
-    </div>
-    <div id="placeholder" class="row">
-        <app-placeholderbadge style="width:100%;"></app-placeholderbadge>
-    </div>
-    
-    <div class="row">
-    <!-- <div class="wrapper">
-    
-        
-      <section class="columns">-->
-        
-        <div class="col-4">
-            <app-skills-placeholder></app-skills-placeholder>
+
+    <div class="col-12 background">
+
+        <div id="myDashboard" class="row">
+
+            <p id="text">My Dashboard</p>
+
         </div>
-        
-        <div class="col-4">
-            <app-certification-placeholder></app-certification-placeholder>
+
+        <div id="notification" class="row">
+            <div class="col-12">
+                <app-notification-marquee></app-notification-marquee>
+            </div>
         </div>
-        
-        <div class="col-4" >
-            <app-training-placeholder></app-training-placeholder>
-         
+        <div id="placeholder" class="row">
+            <div class="col-12">
+                <app-placeholderbadge></app-placeholderbadge>
+            </div>
         </div>
-        
-      <!-- </section>	
-      
-      </div> -->
-      </div>
-      </div>
+
+        <div class="row placeholders">
+
+
+            <div class="col-sm-4">
+                <app-skills-placeholder></app-skills-placeholder>
+            </div>
+
+            <div class="col-sm-4">
+                <app-certification-placeholder></app-certification-placeholder>
+            </div>
+
+            <div class="col-sm-4">
+                <app-training-placeholder></app-training-placeholder>
+
+            </div>
+
+
+        </div>
+    </div>

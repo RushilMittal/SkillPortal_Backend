@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {MyCertificationService} from '../../../services/mycertification.service';
-import {Certification} from '../../../model/Certification';
-import {EmployeeCertificate} from '../../../model/EmployeeCertification';
+import { Certification } from '../../../model/Certification';
+import { EmployeeCertificate } from '../../../model/EmployeeCertification';
+import { MyCertificationService } from '../../../services/mycertification.service';
+
 
 @Component({
   selector: 'app-my-certification',
@@ -9,13 +10,18 @@ import {EmployeeCertificate} from '../../../model/EmployeeCertification';
   styleUrls: ['./my-certification.component.css']
 })
 export class MyCertificationComponent implements OnInit {
+  errorMessage: any;
   certification: Certification;
   empCertification: EmployeeCertificate;
-  constructor( private myCertificationService: MyCertificationService) { }
+  constructor(private myCertificateService: MyCertificationService) { }
 
   ngOnInit() {
-    this.myCertificationService.getEmployeeCertification().subscribe(
-      empCertification => {this.empCertification = empCertification;
-      console.log(this.empCertification); });
-    }
+    this.myCertificateService.getEmployeeCertification()
+        .subscribe( empCertification => {
+            this.empCertification = empCertification;
+        },
+        error => this.errorMessage = <any>error
+        );
   }
+
+}

@@ -1,44 +1,21 @@
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-9"> 
-      <h5 style="font-size:150%; color: rgba(0, 0, 0, 0.71); margin-left:4%;">
-        Explore and rate your skills
-      </h5>
-    </div>
-    <div class="col-md-3">
-    <form class="form-inline" role="form">
-        <div class="form-group has-success has-feedback">
-          <label class="control-label" for="inputSuccess4"></label>
-          <span class="fas fa-search form-control-feedback" id="searchIcon"></span>
-          <input type="text" class="form-control" placeholder='      Search' routerLink="/skills/searchskill" routerLinkActive="active" id="inputSuccess4">
-        </div>
-      </form>
-    </div>
-  </div>
+<div class="row">
+  <div class="col-12 table-responsive-md border-botttom-1">
+    <table class="table">
+      <thead>
+      </thead>
 
-  <div class="row">
-    <div class="col-12 table-responsive-md" style="margin:4%">
-      <table class="table">
-        <thead>
-          <tr>
-            <th style="vertical-align:middle;" scope="col">Tool</th>
-            <th style="vertical-align:middle;" scope="col">Number of Rated Users</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
+      <tbody>
+        <tr *ngFor="let skill of skills">
+          <td id="tdname">{{skill}}</td>
 
-        <tbody>
-          <tr *ngFor="let skill of skills">
-            <td style="width:45%; vertical-align:middle;">{{skill?.name}}</td>
-            <td style="width:30%; vertical-align:middle;">{{skill?.ratedUsers}}</td> 
-            <td style="text-align:center;vertical-align:middle;">
-              <button id="explore-button" [routerLink]="['explore',skill?.id]" routerLinkActive="active" type="button" 
-              class="btn">Explore</button>
-            </td>
-          </tr>
+          <td id="tdbutton">
+            <!-- to be placed inside button later   routerLinkActive="active" -->
+            
+            <button id="explore-button" type="button" class="btn" [routerLink]="['explore',skillGroup +'_' + skill]" >Explore</button>
+          </td>
+        </tr>
       </tbody>
-  </table>
-</div>
-
+    </table>
+  </div>
 </div>

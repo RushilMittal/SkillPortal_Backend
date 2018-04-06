@@ -1,0 +1,50 @@
+
+.pointer {cursor: pointer;}
+
+
+#spinner{
+    text-align: center;
+    padding-top: 10%;
+    padding-bottom: 10%;
+    font-size:60px;
+}
+
+.h5{
+    font-size:150%;
+     color: rgba(0, 0, 0, 0.71); 
+     margin-left:4%;
+}
+/* style icon */
+.inner-addon .fa {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+
+#searchicon{
+    color:black;
+    background-color: white;
+}
+
+#searchform{
+    margin-right: 11%;
+}
+
+#explore-button {
+    background: linear-gradient(to right, #04AF0B , #40C940);
+    color: white;
+    text-align: center;
+    padding: 2%;
+    width:45%;
+}
+#searchIcon{position: absolute;
+    z-index: 1;
+     margin-left:15px;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+ }

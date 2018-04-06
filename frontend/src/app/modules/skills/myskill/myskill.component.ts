@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { EmployeeSkill } from '../../../model/EmployeeSkill';
+
 import { MySkillService } from '../../../services/myskillservice.service';
 import {GetDataPipe} from './extractdata.pipe';
+import { EmployeeSkill } from '../../../model/EmployeeSkill';
+import { SubSkill } from '../../../model/SubSkill';
 
 @Component({
   selector: 'app-myskill',
@@ -11,19 +13,36 @@ import {GetDataPipe} from './extractdata.pipe';
 
 export class MyskillComponent implements OnInit {
   errorMessage: any;
-  employeeSkill: EmployeeSkill[];
+  employeeSkill : EmployeeSkill[];
   updateButton = 'update-button';
   activeId: string;
+  buttonNotClicked = true;
+  activeTags = [];
+  showSpinner =false;
 
   constructor(private dataService: MySkillService) {
 
+  }
+
+  toggle(param: string) {
+    this.buttonNotClicked = !this.buttonNotClicked;
+    if (this.activeTags.includes(param)) {
+      let index = this.activeTags.indexOf(param,0);
+      if(index >-1){
+        this.activeTags.splice(index,1);
+      }
+    } else {
+      this.activeTags.push(param);
+    }
+    
+    // console.log(this.activeTags);
   }
 
   public Valid(isValid: string) {
 
     const x = document.getElementById(isValid);
     x.hidden = !(x.hidden);
-    console.log(isValid);
+    // console.log(isValid);
     const y = document.getElementById(this.updateButton.concat(isValid));
     y.hidden = !(y.hidden);
     this.activeId = isValid;
@@ -45,14 +64,14 @@ export class MyskillComponent implements OnInit {
                 (error: any) => this.errorMessage = <any>error
             );
             // this.getEmployeeSkill();
-            console.log('NO Error in ifss');
+            // console.log('NO Error in ifss');
       } else {
             this.errorMessage = 'Invalid Id';
-            console.log('Employee Id missing cannot run query');
+            // console.log('Employee Id missing cannot run query');
       }
 
     // this.onCanceledClicked(ne);
-    // console.log(this.updateButton.concat(newEmployeeSkillRated.subSkill.name.toString()));
+    // // console.log(this.updateButton.concat(newEmployeeSkillRated.subSkill.name.toString()));
     // const y = document.getElementById(this.updateButton.concat(newEmployeeSkillRated.subSkill.name.toString()));
     // y.hidden = !(y.hidden);
     // const x = document.getElementById(newEmployeeSkillRated.subSkill.name.toString());
@@ -60,7 +79,7 @@ export class MyskillComponent implements OnInit {
   }
 
   onCanceledClicked(toHideId: string): void {
-    console.log(this.updateButton.concat(toHideId));
+    // console.log(this.updateButton.concat(toHideId));
     const y = document.getElementById(this.updateButton.concat(toHideId));
     y.hidden = !(y.hidden);
     const x = document.getElementById(toHideId);
@@ -68,18 +87,22 @@ export class MyskillComponent implements OnInit {
   }
 
  getEmployeeSkill() {
+   this.showSpinner = true;
   this.dataService.getEmployeeSkills('101')
   .subscribe(employeeSkill => {
         this.employeeSkill = employeeSkill;
-        console.log(this.employeeSkill);
 
       },
-              error => this.errorMessage = <any>error);
-}
+              error => this.errorMessage = <any>error,
+              ()=> this.showSpinner=false
+            
+          );
+        }
 
 
 
   ngOnInit() {
       this.getEmployeeSkill();
+     
   }
 }

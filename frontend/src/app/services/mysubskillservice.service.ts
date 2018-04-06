@@ -3,22 +3,27 @@ import { Http, Response, Headers, RequestOptions, URLSearchParams} from '@angula
 import { Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import { SubSkill } from '../model/SubSkill';
-import {baseUrlSkill} from './baseUrl';
+import {  baseUrlSkill } from '../baseUrl';
+import { HttpClient } from '@angular/common/http';
+
+
 @Injectable()
 export class MySubSkillService {
+  // private apiRoot = 'http://localhost:8000/api';
   private apiRoot = baseUrlSkill;
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
-  getEmployeeSubSkillExceptRatedSubSkill(employeeId: string, skillId: string): Observable<SubSkill> {
-    console.log('inside getEmployeeSubSkillExceptRatedSubSkill');
-    const url = `${this.apiRoot}/getSubSkillsBySkillId?empId=${employeeId}&skillId=${skillId}`;
-    console.log(url);
+  getEmployeeSubSkillExceptRatedSubSkill(employeeId: string, skillId: string): Observable<SubSkill[]> {
+    // console.log('inside getEmployeeSubSkillExceptRatedSubSkill');
+    const url = `${this.apiRoot}/getSubSkillsBySkill?empId=${employeeId}&skillName=${skillId}`;
+    // console.log(url);
+
     return this.http.get(url)
-            .map((response: Response) => <SubSkill>response.json())
-            .do(data => console.log(JSON.stringify(data)))
-            .catch(this.handleError);
-            // .do(data => console.log(JSON.stringify(data)));
+      .catch(this.handleError);
+    
+        
+          
   }
 
   getEmployeeSubSkillById(subSkillId: string): Observable<SubSkill> {

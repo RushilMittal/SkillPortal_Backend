@@ -1,9 +1,11 @@
-import {Certification} from './Certification';
+import { Certification } from './Certification';
 export class EmployeeCertificate {
-    employeeId: string;
-   certificationId: Certification;
-   certificationDate: Date;
-   certificationValidityDate: Date;
-   certificationUrl: string;
-   certificationNumber: number;
-   }
+    empId: string;
+    certificationId: Certification = new Certification(null, null, null, null);
+    certificationDate: Date;
+    certificationValidityDate: Date;
+    certificationUrl: string;
+    certificationNumber: number;
+    constructor() { }
+
+}

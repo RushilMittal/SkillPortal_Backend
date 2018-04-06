@@ -1,102 +1,53 @@
-@import url(https://fonts.googleapis.com/css?family=Open+Sans);
-* {
-  box-sizing: border-box;
-}
-.container{
-  margin-left: 0;
-  width:102%;
-  padding: 0%;
-}
-body {
-  font-family: 'Open Sans', sans-serif;
-  color: #666;
-}
-.h2, h2 {
-  font-size: 2rem;
-  margin-left: 3%;
-  margin-bottom: 1.5%;
-  float: left;
-  color: #585554;
-}
-/* STRUCTURE */
-.wrapper {
-  padding: 55px;
-  max-width: 960px;
-  width: 95%;
-  margin: 20px auto;
-}
-
-header {
-  padding: 15px;
-}
-
-
-.columns {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  margin: 5px 0;
-}
-
 #notification
 { 
-  background:#F48300;
-  border: 1px solid gray;
-  margin: 0px;
-  padding: 0px;
-  width:100%; 
+  background:rgba(244, 131, 0, 0.9);
+  /* border: 1px solid gray; */
+  /* margin: 0px;
+  padding: 0px; */
 }
 
 
+.background{
+  background-color:rgba(0, 0, 0, 0.02);
+}
+
+#myDashboard
+{ 
+  background:rgba(0, 0, 0, 0.02);
+  /* border: 1px solid gray; */
+  /* margin: 0px;
+  padding: 0px; */
+  height: 60px;
+  
+}
+#text
+{
+ 
+  font-family: inherit;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  padding-left: 12px;
+  size: 55px;
+  width:330px;
+  height: 65px;
+  font-size: 2rem; 
+  color:rgba(0, 0, 0, 0.71);
+}
+
+.placeholders{
+  margin-top:69px;
+  margin-bottom:20px;
+}
 #placeholder
 { 
   background:rgba(139, 136, 136, 0.63);
-  border: 1px solid gray;
-  margin: 0px;
-  padding: 0px;
-}
-
-
-.col-4 {
-  flex: 1;
   /* border: 1px solid gray; */
-  margin: 50px;
-  padding: 10px;
-  /* background:rgba(199, 195, 195, 0.678); */
+  /* margin: 0px;
+  padding: 0px; */
 }
-.column:first-child {
-  margin-left: 0;
+#logo-img {
+    max-width: 185px;
 }
-.column:last-child {
-  margin-right: 0;
-}
-
-footer {
-  padding: 0 15px;
-}
-
-@media screen and (max-width: 980px) {
-  .columns .column {
-    margin-bottom: 5px;
-    flex-basis: 40%;
-  }
-  .columns .column:nth-last-child(2) {
-    margin-right: 0;
-  }
-  .columns .column:last-child {
-    flex-basis: 100%;
-    margin: 0;
-  }
-}
-@media screen and (max-width: 680px) {
-  .columns .column {
-    flex-basis: 100%;
-    margin: 0 0 5px 0;
-  }
-}
-
-@media(max-width:440px){
-  .h2, h2 {
-    margin-left: 5%;
-  }
+.card-deck{
+    margin-top: 3%;
 }

@@ -9,7 +9,7 @@ export class IdService {
 
     sendMessage(message: number) {
         this.subject.next(message);
-        console.log('inside sendMessage:IdService' + message);
+        // console.log('inside sendMessage:IdService' + message);
     }
 
     clearMessage() {
@@ -17,7 +17,7 @@ export class IdService {
     }
 
     getMessage(): Observable<number> {
-        console.log('inside getMessage:IdService' + this.subject);
+        // console.log('inside getMessage:IdService' + this.subject);
         return this.subject.asObservable();
     }
 }

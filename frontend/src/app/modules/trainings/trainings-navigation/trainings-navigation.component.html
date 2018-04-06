@@ -1,0 +1,38 @@
+<div class="col-12">
+    <div class="row padding">
+        <div class="col-8">
+            <h2>Trainings</h2>
+        </div>
+        <div class="col-2-md-8-xs-6-sm-6">
+            <button id="request-a-training" type="button" class="btn btn-right" data-toggle="modal" data-target="#exampleModal">
+                Request a Training
+            </button>
+            
+        </div>
+        <div class="col-2-md-4-xs-6-sm-6">
+            <button id="offer-a-training" type="button" class="btn btn-right" data-toggle="modal" data-target="#exampleModal">
+                Offer a Training
+            </button>
+</div>
+
+    </div>
+
+    <div class="row panel-body margin-49">
+        <ul id="trainings-nav" class="nav nav-tabs justify-content-left pointer">
+            <li class="nav-item">
+                <a id="myenrolledtrainings" class="nav-link" [routerLink]="['myenrolledtrainings']" routerLinkActive="active">
+                    My Enrolled Trainings
+                </a>
+            </li>
+            <li class="nav-item">
+
+                <a id="availabletrainings" class="nav-link" [routerLink]="['availabletrainings']" routerLinkActive="active">
+                    Available Trainings
+                </a>
+            </li>
+        </ul>
+    </div>
+
+
+    <router-outlet></router-outlet>
+</div>

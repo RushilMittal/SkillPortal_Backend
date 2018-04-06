@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { SubSkill } from '../../../model/SubSkill';
+
 import { AllSubSkillService } from '../../../services/allsubskillservice.service';
-import { ActivatedRoute } from '@angular/router';
-import { AllSkillService } from '../../../services/allskillservice.service';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { Skill } from '../../../model/Skill';
 import { MySubSkillService } from '../../../services/mysubskillservice.service';
 import { NullTemplateVisitor } from '@angular/compiler';
 import { EmployeeSkill } from '../../../model/EmployeeSkill';
 import { MySkillService } from '../../../services/myskillservice.service';
+import { SubSkill } from '../../../model/SubSkill';
 
 @Component({
   selector: 'app-skilldetail',
@@ -15,38 +16,70 @@ import { MySkillService } from '../../../services/myskillservice.service';
   styleUrls: ['./skilldetail.component.css']
 })
 export class SkilldetailComponent implements OnInit {
-  subSkillList: SubSkill;
-  skillId: string; // used to fetch the skill detail of selected skill on explore
-  skill: Skill;
+
+  activeTags = [];
+  buttonNotClicked = true;
+  skillName: string;
+  skill:string;
+  subSkillList :SubSkill[];
+  employeeSkillList= [];
+  // hard coded will be changed
+  employeeId = '101';
   errorMessage: any;
-  rateButton = 'rate-button';
-  activeId: string;
-  employeeSkill: EmployeeSkill;
-  constructor(private route: ActivatedRoute,
-              private skillService: AllSkillService,
-              private mySubSkillService: MySubSkillService,
-              private dataService: MySkillService) { }
-
-  public Valid(isValid: SubSkill) {
-   console.log('buttonname contains' + isValid);
-    const x = document.getElementById(isValid.name);
-    x.hidden = !(x.hidden);
-    console.log(isValid);
-    const y = document.getElementById(this.rateButton.concat(isValid.name));
-    y.hidden = !(y.hidden);
-    this.activeId = isValid.name;
-
-     this.mySubSkillService.getEmployeeSubSkillById(isValid.id)
-          .subscribe( subSkill => {
-            this.employeeSkill.subSkill = subSkill,
-            // tslint:disable-next-line:no-unused-expression
-            (error: any) => this.errorMessage = <any>error;
-          });
-
-          console.log('SUbSKill in employee in valid ' + JSON.stringify(this.employeeSkill.subSkill));
-
+  showSpinner =true;
+  constructor(private mySubSkillService :MySubSkillService,
+    private route:ActivatedRoute,
+    private mySkillService :MySkillService,
+    private router:Router
+  ) { }
+  ngOnInit() {
+    this.route.params.subscribe(
+      params => {
+        let stringToSplit = params['id'];
+       let x = stringToSplit.split("_");
+       console.log(x[1]);
+       this.skill = x[1];
+       this.skillName = params['id'];
+      });
+      
+      this.mySubSkillService.getEmployeeSubSkillExceptRatedSubSkill(this.employeeId,this.skillName)
+          .subscribe( subskill =>{
+            this.subSkillList =subskill
+            },
+          error =>this.errorMessage = <any>error,
+          () => this.createEmployeeSkillList());
+  }
+  createEmployeeSkillList(){
+    this.showSpinner =false;
+    console.log("create EmployeeSkill");
+      
+      for(let subskill of this.subSkillList){
+        let employeeSkill = new EmployeeSkill();    
+          employeeSkill.employeeId = this.employeeId;
+          employeeSkill.subSkill = subskill;
+          employeeSkill.rating = 0;
+          employeeSkill.lastModified = new Date();
+          
+          this.employeeSkillList.push(employeeSkill);
+          
+      }
+      
   }
 
+ 
+  toggle(param: string) {
+    this.buttonNotClicked = !this.buttonNotClicked;
+    if (this.activeTags.includes(param)) {
+      let index = this.activeTags.indexOf(param,0);
+      if(index >-1){
+        this.activeTags.splice(index,1);
+      }
+    } else {
+      this.activeTags.push(param);
+    }
+    
+    // console.log(this.activeTags);
+  }
 
   OnRatingUpdated(newEmployeeSkillRated: EmployeeSkill): void {
 
@@ -54,59 +87,40 @@ export class SkilldetailComponent implements OnInit {
     console.log('Run the post query to the Server with the data recieved' +
       'call the service again with the updated data');
     console.log('Data recieved' + JSON.stringify(newEmployeeSkillRated));
-    if (newEmployeeSkillRated.employeeId.length !== 0) {
-        this.dataService.saveEmployeeSkill(newEmployeeSkillRated)
+    console.log('Emnployee ID' + newEmployeeSkillRated.employeeId);
+    newEmployeeSkillRated.lastModified = new Date();
+    if (newEmployeeSkillRated.employeeId) {
+        this.mySkillService.saveEmployeeSkill(newEmployeeSkillRated)
             .subscribe(
                 () => console.log('Product Passed to savefunction'),
                 (error: any) => this.errorMessage = <any>error
             );
-            console.log('NO Error in ifss');
+            this.onRefresh();
+            // this.getEmployeeSkill();
+            // console.log('NO Error in ifss');
       } else {
             this.errorMessage = 'Invalid Id';
+            // console.log('Employee Id missing cannot run query');
       }
 
+    // this.onCanceledClicked(ne);
+    // // console.log(this.updateButton.concat(newEmployeeSkillRated.subSkill.name.toString()));
+    // const y = document.getElementById(this.updateButton.concat(newEmployeeSkillRated.subSkill.name.toString()));
+    // y.hidden = !(y.hidden);
+    // const x = document.getElementById(newEmployeeSkillRated.subSkill.name.toString());
+    // x.hidden = !(x.hidden);
   }
 
-  onCanceledClicked(toHideId: string): void {
-    console.log(this.rateButton.concat(toHideId));
-    const y = document.getElementById(this.rateButton.concat(toHideId));
-    y.hidden = !(y.hidden);
-    const x = document.getElementById(toHideId);
-    x.hidden = !(x.hidden);
-  }
-
-  ngOnInit() {
-
-    this.route.params.subscribe(
-        params => {
-          this.skillId = params['id'];
-        }
-    );
-    console.log('Skill ID received: ' + this.skillId);
-    // now will fetch the name of the skill service for displaying as title.
-
-    this.skillService.getSkillById(this.skillId)
-        .subscribe( skill => {
-            this.skill = skill,
-            // tslint:disable-next-line:no-unused-expression
-            error => this.errorMessage = <any>error;
-          });
-
-    // Temporary Initalizng the employee variable
-    this.employeeSkill = new EmployeeSkill;
-    this.employeeSkill.employeeId = '101';
-    this.employeeSkill.rating = 0;
-    // now we need to fetch the query from mysubskills and fetch the unrated recoeds.
-    // providing the employee skill manually, later we will call the service to get the employee data
-    this.mySubSkillService.getEmployeeSubSkillExceptRatedSubSkill(this.employeeSkill.employeeId, this.skillId)
-        .subscribe(subskill => {
-            this.subSkillList = subskill,
-            // tslint:disable-next-line:no-unused-expression
-            error => this.errorMessage = <any>error;
-        });
-
-        console.log('Printing SubSkill Except:- ' + this.subSkillList);
-
-  }
-
+  // Can be used to refresh the component to same page
+  onRefresh() {
+    this.router.routeReuseStrategy.shouldReuseRoute = function(){return false;};
+  
+    let currentUrl = this.router.url + '?';
+  
+    this.router.navigateByUrl(currentUrl)
+      .then(() => {
+        this.router.navigated = false;
+        this.router.navigate([this.router.url]);
+      });
+    }
 }

@@ -1,8 +1,8 @@
-export class training {
+export class Training {
     trainingId: string;
-    enrolledTrainings: string; 
-    upcomingTrainings:string;
-    enrolledTrainingDate:string;
-    upcomingTrainingDate:string;
-  
+    enrolledTrainings: string;
+    upcomingTrainings: string;
+    enrolledTrainingDate: string;
+    upcomingTrainingDate: string;
+
    }

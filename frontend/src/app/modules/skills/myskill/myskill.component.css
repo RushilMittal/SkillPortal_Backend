@@ -1,4 +1,4 @@
-#add-new-skill
+#back-to-skill
 {
     background: linear-gradient(to right, #0697C3 , #4DBFE2);
     color: white;
@@ -8,35 +8,43 @@
     margin-left:65px;
 }
 
+#tdname{
+    width: 43%;
+}
+
+#spinner{
+    text-align: center;
+    padding-top: 10%;
+    padding-bottom: 10%;
+
+}
+#textHeader{
+    font-size:150%; 
+    color: rgba(0, 0, 0, 0.71);
+}
+.table thead th{
+    vertical-align:middle;
+}
+
+.table tbody td{
+    vertical-align:middle;
+}
+
 .table{
-    width:90%;
+    
+    padding: 0%;
     background-color:white !important;
     border: 1px solid #E6E6E6;
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.16); 
-    color: rgba(0, 0, 0, 0.81);
+    color: rgba(0, 0, 0, 0.71);
+    
 }
-button[id*="update-button"]{
+
+
+#update-button{
 
     background: linear-gradient(to right, #04AF0B , #40C940);
     color: white;
     font-size: 100%;
     text-align: center;
-    padding: 2%;
-    width:55%;
-}
-.table td{
-    width: 100%;
-}
-@media (max-width:786px) {
-    button[id*="update-button"]{
-        font-size: 50%;
-        width: 100%;
-        padding: 0 !important;
-    }
-
-    #add-new-skill {
-        font-size: 80%;
-        width:120px;
-    }
-
 }

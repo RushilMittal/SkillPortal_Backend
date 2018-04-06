@@ -1,25 +1,33 @@
-<div class="container-fluid">
-  <div class="row">
-    <h2 style="margin-top:2%; margin-left:5%" id="head">Skills</h2>
-  </div>
+
   
-    <div class="panel-body">
-      <ul id="skill-nav" class="nav nav-tabs justify-content-left" style="cursor:pointer">
-        <li class="nav-item">
-          <!-- (click)="focusOn(1)" -->
-          <a id="myskill"  class="nav-link"  [routerLink]="['myskill']" routerLinkActive="active">
-            My Skills
-          </a>
-        </li>
-        <li class="nav-item">
-          <!-- (click)="focusOn(2)" -->
-          <a id="allskill" class="nav-link"  [routerLink]="['allskill']" routerLinkActive="active">
-            All Skills
-          </a>
-        </li>
-      </ul>
+    <div class="col-12">
+
+      <h2 style="padding-top:2%">Skills</h2>
+    
+
+    <div class="row mb-xl-4 mb-lg-4 mb-md-3 mb-sm-2 mb-1">
+      <div class="col-12">
+        <ul id="skill-nav" class="nav nav-tabs justify-content-center" style="cursor:pointer">
+          <li class="nav-item">
+          
+            <a id="myskill"  class="nav-link"  [routerLink]="['myskill']" routerLinkActive="active">
+              My Skills
+            </a>
+          </li>
+          <li class="nav-item">
+        
+            <a id="allskill" class="nav-link"  [routerLink]="['skillgroup']" routerLinkActive="active">
+              All Skills
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+    <router-outlet></router-outlet>
     </div>
   
-  <br> <br>
-  <router-outlet></router-outlet>
-</div>
+
+  
+  
+  

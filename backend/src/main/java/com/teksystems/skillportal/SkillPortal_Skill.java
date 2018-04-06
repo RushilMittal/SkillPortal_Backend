@@ -1,7 +1,11 @@
 package com.teksystems.skillportal;
+import com.teksystems.skillportal.init.GuavaCacheInit;
 import org.springframework.context.ApplicationContext;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -62,20 +66,25 @@ SkillRepository skillRepository;
                 new Skill("2","AWS"),
                 new Skill("3","Front End")
         ));
-   }
+   }*/
 	
 	@Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(SkillPortal_Skill.class);
-    }*/
+    }
 	
 
 	public static void main(String[] args) {
 		SpringApplication.run(SkillPortal_Skill.class, args);
-		ApplicationContext ctx =
-                new AnnotationConfigApplicationContext(MongoConfigNew.class);
-		MongoOperations mongoOperation =
-                (MongoOperations) ctx.getBean("mongoTemplate");
+		Map<String, List<String>> skillGroupMap = GuavaCacheInit.loadSkillGroup();
+		GuavaCacheInit.skillGroupCache.putAll(skillGroupMap);
+
+		Map<String, List<SubSkill>> skillMap = GuavaCacheInit.loadSkill();
+		GuavaCacheInit.skillCache.putAll(skillMap);
+//		ApplicationContext ctx =
+//                new AnnotationConfigApplicationContext(MongoConfigNew.class);
+//		MongoOperations mongoOperation =
+//                (MongoOperations) ctx.getBean("mongoTemplate");
 		/*
 		mongoOperation.createCollection("employeeskill");
 		mongoOperation.insert(new EmployeeSkill("101","6",4));

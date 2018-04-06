@@ -1,4 +1,5 @@
 package com.teksystems.skillportal.service;
+import com.teksystems.skillportal.domain.EmployeeCertificationPlaceholderDomain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +11,7 @@ import com.teksystems.skillportal.model.EmployeeSkill;
 import com.teksystems.skillportal.repository.CertificationRepository;
 import com.teksystems.skillportal.repository.EmployeeCertificationRepository;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class EmployeeCertificationService {
@@ -42,8 +39,8 @@ public class EmployeeCertificationService {
         }
         return employeeCertificationDomains;
     }
-    
-    
+
+
     public void addNew(String empId,String certificationId,Date certificationDate, Date certificationValidityDate,
     		int certificatioNumber, String certificationUrl)
     {
@@ -52,76 +49,52 @@ public class EmployeeCertificationService {
     		 certificatioNumber, certificationUrl);
  	//saving the object into employee skill database
  	employeeCertificationRepository.save(newCertification);
- 	
+
     }
     public void addNewCertificate(EmployeeCertificationDomain empDom) {
-    	EmployeeCertification newCert=new EmployeeCertification(empDom.getempId(),empDom.getCertificationIdId(),empDom.getCertificationDate(),empDom.getCertificationValidityDate(),empDom.getCertificationNumber(),empDom.getCertificationUrl());
+    	EmployeeCertification newCert=new EmployeeCertification(empDom.getempId(),empDom.getCertificationId().getId(),empDom.getCertificationDate(),empDom.getCertificationValidityDate(),empDom.getCertificationNumber(),empDom.getCertificationUrl());
     	employeeCertificationRepository.save(newCert);
     }
-    
-    public String[] getTopTwoEmployeeCertificationById(String employeeId){
-        String[] names=new String[2];
-        names[0] =names[1] =null;
-        try {
-            List<EmployeeCertificationDomain> employeeCertificationDomain = getEmployeeCertificationByEmployeeId(employeeId);
 
-            System.out.println("Printing  Second Function " + employeeCertificationDomain.size());
-            for (EmployeeCertificationDomain b : employeeCertificationDomain) {
-                System.out.println(b.toString());
+    public List<EmployeeCertificationPlaceholderDomain>  getTopTwoEmployeeCertificationPlaceholderById(String employeeId) {
 
-            }
-            if (employeeCertificationDomain.size() >= 2) {
-                String certification1 = employeeCertificationDomain.get(0).getCertificationId().getCertificationName();
-                String certification2 = employeeCertificationDomain.get(1).getCertificationId().getCertificationName();
-                names[0] = certification1;
-                names[1] = certification2;
-
-            } else if (employeeCertificationDomain.size() == 1) {
-                String certification1 = employeeCertificationDomain.get(0).getCertificationId().getCertificationName();
-                names[0] = certification1;
-                names[1] = null;
-
-            } else {
-                System.out.println("No data Present");
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        System.out.println(names[0] + " : " + names[1]);
-        return names;
-    }
-    
-    public String[] getTopTwoEmployeeCertificationYearById(String employeeId){
-        String[] years=new String[2];
-        years[0] =years[1] =null;
+        String[] names = new String[2];
+        names[0] = names[1] = null;
+        String[] years = new String[2];
+        years[0] = years[1] = null;
         Date[] dates = new Date[2];
+        List<EmployeeCertificationPlaceholderDomain> employeeCertificationPlaceholderDomainsList = new ArrayList<>();
         try {
             List<EmployeeCertificationDomain> employeeCertificationDomain = getEmployeeCertificationByEmployeeId(employeeId);
 
-            if (employeeCertificationDomain.size() >= 2) {
-                dates[0] = employeeCertificationDomain.get(0).getCertificationDate();
-                dates[1] = employeeCertificationDomain.get(1).getCertificationDate();
-                Calendar calendar = new GregorianCalendar();
-                calendar.setTime(dates[0]);
-                years[0] = String.valueOf(calendar.get(Calendar.YEAR));
-                calendar.setTime(dates[1]);
-                years[1] = String.valueOf(calendar.get(Calendar.YEAR));
 
-            } else if (employeeCertificationDomain.size() == 1) {
-                dates[0] = employeeCertificationDomain.get(0).getCertificationDate();
+            if (employeeCertificationDomain.size() >= 2) {
+
                 Calendar calendar = new GregorianCalendar();
-                calendar.setTime(dates[0]);
-                years[0] = String.valueOf(calendar.get(Calendar.YEAR));
-                years[1] = null;
+                calendar.setTime(employeeCertificationDomain.get(0).getCertificationDate());
+                EmployeeCertificationPlaceholderDomain temp1 = new EmployeeCertificationPlaceholderDomain(employeeCertificationDomain.get(0).getCertificationId().getCertificationName(),String.valueOf(calendar.get(Calendar.YEAR)));
+                calendar.setTime(employeeCertificationDomain.get(1).getCertificationDate());
+                EmployeeCertificationPlaceholderDomain temp2 = new EmployeeCertificationPlaceholderDomain(employeeCertificationDomain.get(1).getCertificationId().getCertificationName(),String.valueOf(calendar.get(Calendar.YEAR)));
+                employeeCertificationPlaceholderDomainsList.add(temp1);
+                employeeCertificationPlaceholderDomainsList.add(temp2);
+            }
+            else if (employeeCertificationDomain.size() == 1) {
+                Calendar calendar = new GregorianCalendar();
+                calendar.setTime(employeeCertificationDomain.get(0).getCertificationDate());
+                EmployeeCertificationPlaceholderDomain temp1 = new EmployeeCertificationPlaceholderDomain(employeeCertificationDomain.get(0).getCertificationId().getCertificationName(),String.valueOf(calendar.get(Calendar.YEAR)));
+                calendar.setTime(employeeCertificationDomain.get(1).getCertificationDate());
+                EmployeeCertificationPlaceholderDomain temp2 = new EmployeeCertificationPlaceholderDomain(null,null);
+                employeeCertificationPlaceholderDomainsList.add(temp1);
+                employeeCertificationPlaceholderDomainsList.add(temp2);
 
             } else {
                 System.out.println("No data Present");
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(dates[0] + " : " + dates[1]);
-        return years;
+
+        return employeeCertificationPlaceholderDomainsList;
     }
 
 

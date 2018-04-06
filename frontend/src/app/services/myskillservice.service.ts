@@ -5,21 +5,22 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { EmployeeSkill } from '../model/EmployeeSkill';
-import {baseUrlSkill} from './baseUrl';
+import { baseUrlSkill } from '../baseUrl';
+import { HttpClient } from '@angular/common/http';
+
 @Injectable()
 export class MySkillService {
   // private url = './assets/EmployeeSkill.json';
+  // private apiRoot = 'http://localhost:8000/api';
   private apiRoot = baseUrlSkill;
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
   getEmployeeSkills(employeeId: string): Observable<EmployeeSkill[]> {
-    console.log('inside getEmployeeSkill');
+    // console.log('inside getEmployeeSkill');
     const url = `${this.apiRoot}/getEmployeeSkills?empId=101`;
     console.log(url);
 
     return this.http.get(url)
-            .map((response: Response) => <EmployeeSkill[]>response.json())
-            .do(data => console.log(JSON.stringify(data)))
             .catch(this.handleError);
   }
 
@@ -28,7 +29,7 @@ saveEmployeeSkill(employeeSkill: EmployeeSkill): Observable<EmployeeSkill> {
     const options = new RequestOptions({ headers: headers });
 
     if (!employeeSkill.employeeId) {
-        console.log('PLease provide the EmployeeID');
+        // console.log('PLease provide the EmployeeID');
 
     }
     return this.addEmployeeSkill(employeeSkill, options);
@@ -36,14 +37,14 @@ saveEmployeeSkill(employeeSkill: EmployeeSkill): Observable<EmployeeSkill> {
 }
 
 private addEmployeeSkill(employeeSkill: EmployeeSkill, options: RequestOptions): Observable<EmployeeSkill> {
-    console.log('inside createEmployeeSkill');
-    console.log('sahib' + employeeSkill.subSkill.id + 'sahib');
-    const url = `${this.apiRoot}/update?empId=${employeeSkill.employeeId}
+    // console.log('inside createEmployeeSkill');
+    // console.log('sahib' + employeeSkill.subSkill.id + 'sahib');
+    const url = `${this.apiRoot}/add?empId=${employeeSkill.employeeId}
                   &subSkillId=${employeeSkill.subSkill.id}
                 &rating=${employeeSkill.rating}`;
                 console.log(url);
    const  employeeSkilltemp  = JSON.stringify(employeeSkill);
-    return this.http.post(url, employeeSkilltemp, options)
+    return this.http.post(url,{ employeeSkilltemp, options})   //changed after httpclient by ashwin ' {} '
         .map(this.extractData)
         .do(data => console.log('createProduct: ' + JSON.stringify(data)))
         .catch(this.handleError);
@@ -100,7 +101,6 @@ private addEmployeeSkill(employeeSkill: EmployeeSkill, options: RequestOptions):
   // //   let body = response.json();
   // //   return body.data || {};
   // // }
-
 
 
 }

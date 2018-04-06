@@ -9,14 +9,27 @@
     margin-left:65px;
 }
 
+#spinner{
+    text-align: center;
+    padding-top: 10%;
+    padding-bottom: 10%;
+
+}
 
 #textHeader{
     font-size:150%; 
     color: rgba(0, 0, 0, 0.71);
 }
+.table thead th{
+    vertical-align:middle;
+}
+
+.table tbody td{
+    vertical-align:middle;
+}
 
 .table{
-    width:90%;
+    
     padding: 0%;
     background-color:white !important;
     border: 1px solid #E6E6E6;
@@ -24,25 +37,14 @@
     color: rgba(0, 0, 0, 0.71);
     
 }
+   
 
-button[id*="rate-button"]{
-
+#rate-button{
     background: linear-gradient(to right, #04AF0B , #40C940);
     color: white;
-    width:100%;
+    font-size: 100%;
+    text-align: center;
+
     
-}
-
-@media(max-width:610px){
-    button[id*="rate-button"]{
-        width: 100%;
-        font-size: 60%;
-        padding: 0%;
-    }
-    .table{
-        padding: .5%;
-
-    }
-
 }
 

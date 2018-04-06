@@ -1,28 +1,32 @@
 package com.teksystems.skillportal.domain;
 
+import com.teksystems.skillportal.model.SubSkill;
+
+import java.util.List;
+
 public class SkillDomain {
 
-    private String id;
-    private String name;
-    private int ratedUsers;
-    
-    public SkillDomain (String id,String name,int ratedUsers)
-    {
-    	 this.id = id;
-    	 this.name = name;
-    	 this.ratedUsers = ratedUsers;
+    String skill;
+    List<SubSkill> subSkills;
+
+    public SkillDomain(String skill, List<SubSkill> subSkills) {
+        this.skill = skill;
+        this.subSkills = subSkills;
     }
 
-    public String getId() {
-        return id;
+    public String getSkill() {
+        return skill;
     }
 
-    public String getName() {
-        return name;
+    public void setSkill(String skill) {
+        this.skill = skill;
     }
 
-    public int getRatedUsers() {
-        return ratedUsers;
+    public List<SubSkill> getSubSkills() {
+        return subSkills;
     }
 
+    public void setSubSkills(List<SubSkill> subSkills) {
+        this.subSkills = subSkills;
+    }
 }

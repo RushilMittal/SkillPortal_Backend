@@ -4,10 +4,11 @@ import {Http} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { SearchService } from '../../../../services/search.service';
-import { Subject }    from 'rxjs/Subject';
+import { Subject } from 'rxjs/Subject';
 import {
   debounceTime, distinctUntilChanged, switchMap
 } from 'rxjs/operators';
+import { SubSkill } from '../../../../model/SubSkill';
 
 
 @Component({
@@ -16,12 +17,12 @@ import {
   styleUrls: ['./search-list.component.css']
 })
 export class SearchListComponent implements OnInit {
-  @Input() filter: SearchItem;
-  skills : SearchItem[];
-  skillitem: Observable<SearchItem[]>;
+  @Input() filter: string;
+  skills: string[];
+  skillitem: Observable<string[]>;
   private searchTerms = new Subject<string>();
+  showSpinner = false;
 
-  
 
 public items: SearchItem[] = [];
 public retvalues: SearchItem[] = [];
@@ -29,14 +30,19 @@ public retvalues: SearchItem[] = [];
   constructor(private searchService: SearchService ) { }
 
   ngOnInit() {
+    
     this.skillitem = this.searchTerms.pipe(
-     
+
       debounceTime(500),
- 
+
       distinctUntilChanged(),
 
-      switchMap((term: string) => this.searchService.searchSkills(this.filter.name)),
+      switchMap((term: string) => this.searchService.searchSkills(this.filter)
+      
+    )
+      
     );
+    
   }
 
   search(term: string): void {
@@ -44,11 +50,18 @@ public retvalues: SearchItem[] = [];
   }
   
    keyeventfunc() {
-    this.search(this.filter.name);
+    this.search(this.filter);
+    this.showSpinner = true;
+    console.log(this.showSpinner);
     this.skillitem.subscribe(skills => {this.skills = skills;
-                                        console.log(this.skills)});
-    //console.log(this.skills);
+                                        console.log(this.skills);
+                                        this.showSpinner =false
+                                       }
+                                       
+                                      );
+    // console.log(this.skills);
+    console.log("after" + this.showSpinner);
    }
 
-   
+
 }

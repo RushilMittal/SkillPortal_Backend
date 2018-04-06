@@ -3,18 +3,19 @@ import {Http} from '@angular/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import { HttpClientModule } from '@angular/common/http';
- import { HttpModule } from '@angular/http';
- import { of } from 'rxjs/observable/of';
-import { catchError, map, tap } from 'rxjs/operators';
+import { HttpModule } from '@angular/http';
 import {SearchItem} from '../model/search-item';
 import { Response } from '@angular/http/src/static_response';
-import { Certification } from '../model/certification';
-import { baseUrlSkill } from './baseUrl';
+import { of } from 'rxjs/observable/of';
+import { catchError, map, tap } from 'rxjs/operators';
 
+import {Certification} from '../../app/model/Certification';
+import { baseUrlSkill } from '../baseUrl';
 @Injectable()
 export class SearchService {
-  url = baseUrlSkill + 'searchitems?searchTerm';
-  certurl = baseUrlSkill + 'searchcertitems?searchTerm';
+  url = baseUrlSkill + '/searchskill?searchTerm';
+  certurl = baseUrlSkill + '/searchcertitems?searchTerm';
+res: Response;
 
 searchCert(term: string): Observable<Certification[]> {
   if (!term.trim()) {
@@ -26,17 +27,16 @@ searchCert(term: string): Observable<Certification[]> {
   );
 }
 
-searchSkills(term: string): Observable<SearchItem[]> {
-  console.log('called it');
+searchSkills(term: string): Observable<string[]> {
+  // console.log('called it');
   if (!term.trim()) {
     // if not search term, return empty hero array.
     return of([]);
   }
-  return this.http.get<SearchItem[]>(`${this.url}=${term}`).pipe(
+  return this.http.get<string[]>(`${this.url}=${term}`).pipe(
     tap(_ => console.log(`found heroes matching "${term}"`))
   );
 }
-
 constructor(private http: HttpClient) { }
 
 

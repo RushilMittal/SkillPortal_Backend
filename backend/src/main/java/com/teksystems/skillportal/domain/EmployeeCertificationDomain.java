@@ -11,7 +11,7 @@ public class EmployeeCertificationDomain {
     int certificationNumber;
     String certificationUrl;
     public EmployeeCertificationDomain() {}
-    public EmployeeCertificationDomain(String empId, CertificationDomain certificationId, Date certificationDate, 
+    public EmployeeCertificationDomain(String empId, CertificationDomain certificationId, Date certificationDate,
     		Date certificationValidityDate, int certificationNumber, String certificationUrl) {
         this.empId = empId;
         this.certificationId = certificationId;
@@ -22,7 +22,7 @@ public class EmployeeCertificationDomain {
     }
 
 
-    
+
 	public String getempId() {
         return this.empId;
     }
@@ -30,7 +30,7 @@ public class EmployeeCertificationDomain {
     public CertificationDomain getCertificationId() {
         return this.certificationId;
     }
-    
+
     public String getCertificationIdId() {
     	return this.certificationId.id;
     }
@@ -49,6 +49,18 @@ public class EmployeeCertificationDomain {
 
     public String getCertificationUrl() {
         return this.certificationUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "EmployeeCertificationDomain{" +
+                "employeeId='" + empId + '\'' +
+                ", certificationId=" + certificationId +
+                ", certificationDate=" + certificationDate +
+                ", certificationValidityDate=" + certificationValidityDate +
+                ", certificationNumber=" + certificationNumber +
+                ", certificationUrl='" + certificationUrl + '\'' +
+                '}';
     }
 }
 

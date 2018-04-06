@@ -1,47 +1,30 @@
 package com.teksystems.skillportal.service;
 
-import com.teksystems.skillportal.repository.SkillRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.teksystems.skillportal.domain.SkillDomain;
-import com.teksystems.skillportal.model.Skill;
-
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.google.common.cache.LoadingCache;
+import com.teksystems.skillportal.init.GuavaCacheInit;
 
 @Service
 public class SkillService {
 	
-	@Autowired
-    SkillRepository skillRepository;
-
-	/* Service to get all skills from skill database
-	 *  
-	*/	
-  public List<Skill> getAll(){
-    	
-      return this.skillRepository.findAll();
-
-    }
-  
-  
-    /* Service to get a particular skill by skill id
-	 *  
-	 */
-  public Skill getById(String skillId){
-
-        return skillRepository.findById(skillId);
-       
-
-      
-    }
-  
-  public Skill getBySkillName(String skillName)
-  {
-      return this.skillRepository.findBySkillName(skillName);
-  }
-  
+	public List<String> getSkillGroup(@RequestParam String skillGroup) throws ExecutionException
+	{
+		LoadingCache<String, List<String>> skillGroupCache = GuavaCacheInit.getLoadingCache();
+		System.out.println("Cache Size:" + skillGroupCache.size());
+		return skillGroupCache.get(skillGroup);
+	}
+	
+	public Map<String,List<String>> getAllSkillGroups() throws ExecutionException
+	{
+		LoadingCache<String, List<String>> skillGroupCache = GuavaCacheInit.getLoadingCache();
+		System.out.println("Cache Size:" + skillGroupCache.size());
+		return skillGroupCache.asMap();
+	}
 
 }

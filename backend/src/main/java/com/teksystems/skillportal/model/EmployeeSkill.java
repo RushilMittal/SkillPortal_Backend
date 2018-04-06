@@ -15,11 +15,11 @@ public class EmployeeSkill {
 	int rating;
 	Date lastModifiedDate;
 
-	public EmployeeSkill(String empId, String subSkillId, int rating) {
+	public EmployeeSkill(String empId, String subSkillId, int rating,Date lastModifiedDate) {
 		this.empId=empId;
 		this.subSkillId=subSkillId;
 		this.rating=rating;
-		this.lastModifiedDate=new Date();
+		this.lastModifiedDate=lastModifiedDate;
 	}
 
 	public EmployeeSkill() {
@@ -66,4 +66,14 @@ public class EmployeeSkill {
 		this.lastModifiedDate = lastModifiedDate;
 	}
 
+	@Override
+	public String toString() {
+		return "EmployeeSkill{" +
+				"id='" + id + '\'' +
+				", empId='" + empId + '\'' +
+				", subSkillId='" + subSkillId + '\'' +
+				", rating=" + rating +
+				", lastModifiedDate=" + lastModifiedDate +
+				'}';
+	}
 }

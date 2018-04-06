@@ -2,11 +2,16 @@ package com.teksystems.skillportal.controller;
 
 
 
+import com.teksystems.skillportal.model.SubSkill;
 import com.teksystems.skillportal.service.SubSkillService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.teksystems.skillportal.domain.SubSkillDomain;
+
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/skill")
@@ -17,13 +22,20 @@ public class SubSkillController {
 	@Autowired
    SubSkillService subSkillService;
 
+    /*
+     * For fetching all the Subskills of a Particular Skill
+     *
+     */
+    @GetMapping("/getallsubskill")
+    public Map<String,List<SubSkill>> getAllSubSkillsOfEmployee(@RequestParam String skillName) throws ExecutionException {
+
+        System.out.println("Received :" + skillName);
 
 
-    @GetMapping("/getBySubSkillId")
-    public SubSkillDomain getBySubSkillId(@RequestParam String subSkillId) {
-               logger.debug("Parameters : skillId "+subSkillId);
-               logger.info("Subskill having subskillid "+subSkillId+" fetched");
-               return subSkillService.getBySubSkillId(subSkillId);
+
+        return subSkillService.getAllSubSkillsOfEmployee(skillName);
     }
+
+
     
 }

@@ -8,9 +8,23 @@
     color: rgba(0, 0, 0, 0.81);
     padding-right:30%; 
 }
-h5, h5 {
-    font-size: 1.25rem;
+
+/* .certificateTable{
+    margin:2%;
+} */
+.td1{
+    width:23%; 
+    vertical-align:middle;
+}
+
+.td2{
+    width:23%; 
+    vertical-align:middle;
+}
+h5, .h5 {
     margin-left: 3%;
+    font-size:150%; 
+    color: rgba(0, 0, 0, 0.71);
 }
 @media (max-width:786px) {
     #certTable{

@@ -4,7 +4,8 @@ import { Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 import { SubSkill } from '../model/SubSkill';
-import {baseUrlSkill} from './baseUrl';
+import { baseUrlSkill } from '../baseUrl';
+
 @Injectable()
 export class AllSubSkillService {
   private apiRoot = baseUrlSkill;
@@ -12,9 +13,9 @@ export class AllSubSkillService {
   constructor(private http: Http) { }
 
   getSubSkill(): Observable<SubSkill> {
-    console.log('inside getSkill');
+    // console.log('inside getSkill');
     const url = `${this.apiRoot}/all`;
-    console.log(url);
+    // console.log(url);
 
 
     // we need to fetch the skill of employee except the rated ones.
