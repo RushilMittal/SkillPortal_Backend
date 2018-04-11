@@ -4,11 +4,19 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { by } from 'protractor';
 import { By } from '@angular/platform-browser';
-
+import {SearchTransformPipe} from '../../search-transform.pipe'
 import { Observable } from 'rxjs/';
 import { NewCertificationService } from '../../../services/newcertification.service';
 import { NewCertificationComponent } from './new-certification.component';
 import { AllSkillService } from '../../../services/allskillservice.service';
+import { HttpClient,HttpHandler, HttpClientModule } from '@angular/common/http';
+import { RouterTestingModule } from '@angular/router/testing';
+describe('Pipe: stringManipulation', () => {
+  it('create an instance', () => {
+    let pipe = new SearchTransformPipe();
+    expect(pipe).toBeTruthy();
+  });
+});
 
 describe('NewCertificationComponent',
     () => {
@@ -21,16 +29,17 @@ describe('NewCertificationComponent',
       beforeEach(async(
         () => {
         TestBed.configureTestingModule({
-        providers: [ BaseRequestOptions, MockBackend, Http, AllSkillService, NewCertificationService,
+          imports :[HttpClientModule,RouterTestingModule],
+        providers: [ BaseRequestOptions, MockBackend, Http, HttpClient,AllSkillService, NewCertificationService,
          {
            deps: [MockBackend, BaseRequestOptions],
-           provide: Http,
+           provide: Http, HttpClient,
            useFactory: (mockXHRBackend: XHRBackend,
                         defaultOptions: BaseRequestOptions) => {
              return new Http(mockXHRBackend, defaultOptions);
            }
          }],
-         declarations: [ NewCertificationComponent ],
+         declarations: [ NewCertificationComponent, SearchTransformPipe ],
          schemas: [NO_ERRORS_SCHEMA]
       }).compileComponents();
 

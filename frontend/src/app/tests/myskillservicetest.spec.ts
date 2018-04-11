@@ -1,104 +1,100 @@
-import {Observable} from 'rxjs/';
-import {async,
-        getTestBed,
-        inject,
-        TestBed} from '@angular/core/testing';
-import {BaseRequestOptions,
-        Http,
-        Response,
-        ResponseOptions,
-        XHRBackend} from '@angular/http';
+import { TestBed, inject } from '@angular/core/testing';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
+
 import {
-         MockBackend,
-         MockConnection
-       }from '@angular/http/testing';
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
+
 import { MySkillService } from '../services/myskillservice.service';
 import { EmployeeSkill } from '../model/EmployeeSkill';
-import { SubSkill } from '../model/SubSkill';
 
 
-    describe('MySkillService', () => {
-       let myskillservice: MySkillService;
-       let mockbackend: MockBackend;
-
-     beforeEach(async(() => {
-         TestBed.configureTestingModule({
-        providers: [
-
-          BaseRequestOptions,
-          MockBackend,
-          Http,
-          MySkillService,
-          { deps: [MockBackend, BaseRequestOptions],
-            provide: Http,
-            useFactory: (mockBackend: XHRBackend,
-                         defaultOptions: BaseRequestOptions) => {
-              return new Http(mockBackend, defaultOptions);
-            }
-          }]
-       });
-      const testbed = getTestBed();
-      mockbackend = testbed.get(MockBackend);
-      myskillservice = testbed.get(MySkillService);
-    }
-    ));
-
-    function setUpConnections(mockBackend: MockBackend, options: any) {
-      mockBackend.connections.subscribe((connection: MockConnection) => {
-        const responseOptions = new ResponseOptions(options);
-        const response = new Response(responseOptions);
-
-        connection.mockRespond(response);
-      });
-    }
-
-     it('to check myskillservice exists', inject([MySkillService], (myskillservice) => {
-        expect(myskillservice).toBeDefined();
-     }));
-     it('to check  getEmployeeSkills by empId', () => {
-        setUpConnections(mockbackend, {
-            body: [{
-                'employeeId': '101',
-                'subSkill': {
-                    'id': '5',
-                    'name': 'Java',
-                    'skillId': '1',
-                    'ratedUsers': 1
-                },
-                'rating': 4,
-                'lastModifiedDate': 1520580455002
-            },
-            {
-                'employeeId': '101',
-                'subSkill': {
-                    'id': '6',
-                    'name': 'Angular',
-                    'skillId': '3',
-                    'ratedUsers': 1
-                },
-                'rating': 5,
-                'lastModifiedDate': 1520420725630
-            }],
-            status: 200
-          });
-
-           myskillservice.getEmployeeSkills('101').subscribe((data: EmployeeSkill[]) => {
-              expect(data.length).toBe(2);
-        });
-     });
-   //post method
-    it('to check saveEmployeeSkill which updates the rating', () => {
-       myskillservice.saveEmployeeSkill({
-            'employeeId': '101',
-            'subSkill': {
-                'id': '5',
-                'name': 'Java',
-                'skillId': '1',
-                'ratedUsers': 1
-            },
-            'rating': 3,
-          }).subscribe((data: EmployeeSkill) => {
-               expect(data).toBeDefined();
-          });
+describe('MySkillService', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [MySkillService]
     });
+  });
+
+  it(
+    'check whether MySkill service exists',
+    inject(
+      [HttpTestingController, MySkillService],
+      (
+        httpMock: HttpTestingController,
+        eventService: MySkillService
+      ) => {
+       expect(eventService).toBeDefined();
+      }
+    )
+  );
+
+  it(
+    'check getEmployeeSkills',
+    inject(
+      [HttpTestingController, MySkillService],
+      (
+        httpMock: HttpTestingController,
+        eventService: MySkillService
+      ) => {
+      eventService.getEmployeeSkills('101').subscribe((data: EmployeeSkill[]) => {
+        expect(data).toBeDefined();
+        expect(data[2].subSkill.subSkill).toEqual('VPC');
+      });
+      
+      const req = httpMock.expectOne(`http://10.188.27.105:8745/skillportal-0.0.1/skill/getEmployeeSkills?empId=101`);
+      expect(req.request.method).toBe("GET");
+      req.flush([
+        {
+            "employeeId": "101",
+            "subSkill": {
+                "id": "37",
+                "subSkill": "Glacier",
+                "subSkillDesc": "Glacier",
+                "skill": "AWS",
+                "skillGroup": "Cloud",
+                "practice": "ADM",
+                "totalNumberofRatedUsers": 1
+            },
+            "rating": 2,
+            "lastModifiedDate": 1523008178884
+        },
+        {
+            "employeeId": "101",
+            "subSkill": {
+                "id": "28",
+                "subSkill": "EC2",
+                "subSkillDesc": "EC2",
+                "skill": "AWS",
+                "skillGroup": "Cloud",
+                "practice": "ADM",
+                "totalNumberofRatedUsers": 1
+            },
+            "rating": 5,
+            "lastModifiedDate": 1523008173968
+        },
+        {
+            "employeeId": "101",
+            "subSkill": {
+                "id": "29",
+                "subSkill": "VPC",
+                "subSkillDesc": "VPC",
+                "skill": "AWS",
+                "skillGroup": "Cloud",
+                "practice": "ADM",
+                "totalNumberofRatedUsers": 1
+            },
+            "rating": 2,
+            "lastModifiedDate": 1523002664562
+        }]
+    );
+      
+      }
+    )
+  );
+
+  
+
 });

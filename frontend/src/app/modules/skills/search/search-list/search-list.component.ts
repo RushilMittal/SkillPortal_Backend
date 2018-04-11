@@ -52,7 +52,7 @@ public retvalues: SearchItem[] = [];
    keyeventfunc() {
     this.search(this.filter);
     this.showSpinner = true;
-    console.log(this.showSpinner);
+    // console.log(this.showSpinner);
     this.skillitem.subscribe(skills => {this.skills = skills;
                                         console.log(this.skills);
                                         this.showSpinner =false
@@ -60,7 +60,7 @@ public retvalues: SearchItem[] = [];
                                        
                                       );
     // console.log(this.skills);
-    console.log("after" + this.showSpinner);
+    // console.log("after" + this.showSpinner);
    }
 
 

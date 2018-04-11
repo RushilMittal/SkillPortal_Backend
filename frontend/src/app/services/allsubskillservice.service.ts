@@ -5,12 +5,13 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 import { SubSkill } from '../model/SubSkill';
 import { baseUrlSkill } from '../baseUrl';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class AllSubSkillService {
   private apiRoot = baseUrlSkill;
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
   getSubSkill(): Observable<SubSkill> {
     // console.log('inside getSkill');
@@ -20,8 +21,7 @@ export class AllSubSkillService {
 
     // we need to fetch the skill of employee except the rated ones.
     return this.http.get(url)
-            .map((response: Response) => <SubSkill>response.json())
-            .do(data => console.log(JSON.stringify(data)))
+            
             .catch(this.handleError);
 
             // .do(data => console.log(JSON.stringify(data)));

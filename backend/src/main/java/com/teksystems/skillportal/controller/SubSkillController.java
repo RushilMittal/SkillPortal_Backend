@@ -24,15 +24,13 @@ public class SubSkillController {
 
     /*
      * For fetching all the Subskills of a Particular Skill
-     *
+     * UI:- for displaying the list of Subskill to rate on clicking "Explore"
+     * params:- skillName,,format(skillgroupname_skill_name),,Ex:- Cloud_AWS
+     * Integration Testing done:-(11-04-2018)
      */
     @GetMapping("/getallsubskill")
     public Map<String,List<SubSkill>> getAllSubSkillsOfEmployee(@RequestParam String skillName) throws ExecutionException {
-
         System.out.println("Received :" + skillName);
-
-
-
         return subSkillService.getAllSubSkillsOfEmployee(skillName);
     }
 

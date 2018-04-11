@@ -43,7 +43,13 @@
           <th scope="col"></th>
         </tr>
       </thead>
-
+      <tbody *ngIf="showSpinner">
+        <tr>
+          <td colspan=3 id="spinner">
+            <span class="fa fa-spinner fa-spin" style="font-size: 60px;"></span>
+          </td>
+        </tr>
+      </tbody>
       <tbody *ngFor="let certification of certifications">
         <tr>
           <td>{{certification?.certificationName}}</td>

@@ -36,8 +36,11 @@ export class SkilldetailComponent implements OnInit {
     this.route.params.subscribe(
       params => {
         let stringToSplit = params['id'];
-       let x = stringToSplit.split("_");
-       console.log(x[1]);
+        let x;
+        if(stringToSplit!=undefined)
+        {
+        x = stringToSplit.split("_");
+        }
        this.skill = x[1];
        this.skillName = params['id'];
       });
@@ -84,10 +87,10 @@ export class SkilldetailComponent implements OnInit {
   OnRatingUpdated(newEmployeeSkillRated: EmployeeSkill): void {
 
 
-    console.log('Run the post query to the Server with the data recieved' +
-      'call the service again with the updated data');
-    console.log('Data recieved' + JSON.stringify(newEmployeeSkillRated));
-    console.log('Emnployee ID' + newEmployeeSkillRated.employeeId);
+    // console.log('Run the post query to the Server with the data recieved' +
+    //   'call the service again with the updated data');
+    // console.log('Data recieved' + JSON.stringify(newEmployeeSkillRated));
+    // console.log('Emnployee ID' + newEmployeeSkillRated.employeeId);
     newEmployeeSkillRated.lastModified = new Date();
     if (newEmployeeSkillRated.employeeId) {
         this.mySkillService.saveEmployeeSkill(newEmployeeSkillRated)

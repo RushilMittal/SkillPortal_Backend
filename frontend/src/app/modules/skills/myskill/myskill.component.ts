@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { MySkillService } from '../../../services/myskillservice.service';
-import {GetDataPipe} from './extractdata.pipe';
+
 import { EmployeeSkill } from '../../../model/EmployeeSkill';
 import { SubSkill } from '../../../model/SubSkill';
 

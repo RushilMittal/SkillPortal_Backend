@@ -50,6 +50,8 @@ import { SkillGroupComponent } from './modules/skills/skillgroup/skillgroup.comp
 import { SkillGroupService } from './services/SkillGroupService.service';
 import { SearchTransformPipe } from './modules/search-transform.pipe';
 import { SpinnerComponent } from './modules/shared/spinner/spinner.component';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+
 
 
 @NgModule({
@@ -88,7 +90,7 @@ import { SpinnerComponent } from './modules/shared/spinner/spinner.component';
     TrainingsNavigationComponent,
     MyEnrolledTrainingsComponent,
     AvailableTrainingsComponent,
-    SpinnerComponent,
+    SpinnerComponent
     
   ],
   imports: [
@@ -127,7 +129,8 @@ import { SpinnerComponent } from './modules/shared/spinner/spinner.component';
     // for Authorization and login guard
     AuthorizationGuard,
     EmployeeAuthorizationService,
-    SkillGroupService
+    SkillGroupService,
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
     //testing purpose
     
   ],

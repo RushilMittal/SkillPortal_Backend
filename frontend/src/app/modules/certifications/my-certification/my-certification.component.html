@@ -1,7 +1,7 @@
 
   <div class="row">
-    <div class="col-md-8" >
-        <h5 class="h5">
+    <div class="col-md-8 mb-2" >
+        <h5>
           Certifications you received
         </h5>
     </div>
@@ -18,6 +18,13 @@
             <th>Expires on</th>
           </tr>
         </thead>
+        <tbody *ngIf="showSpinner">
+          <tr>
+            <td colspan=3 id="spinner">
+              <span class="fa fa-spinner fa-spin" style="font-size: 60px;"></span>
+            </td>
+          </tr>
+        </tbody>
         <tbody *ngFor="let empCert of empCertification ">
             <tr>                     
               <td  class="td1" id="certName">
@@ -30,9 +37,20 @@
                 {{empCert.certificationDate | date}}
               </td>
               <td class="td2" >
+                <span *ngIf="!empCert?.certificationValidityDate">
+                  Lifetime
+                </span>
+                <span *ngIf="empCert?.certificationValidityDate">
                 {{empCert.certificationValidityDate | date}}
+              </span>
               </td>
               
+            </tr>
+            <tr>
+    
+                <td class="td2" *ngIf="empCert?.length==0"> 
+                    No Results Found
+                 </td>
             </tr>
         </tbody>
       </table>

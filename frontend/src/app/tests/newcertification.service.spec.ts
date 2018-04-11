@@ -1,4 +1,3 @@
-
 import { async, getTestBed, inject, TestBed } from '@angular/core/testing';
 import { BaseRequestOptions, Http, Response, ResponseOptions, XHRBackend } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
@@ -61,4 +60,3 @@ describe('NewCertificationService',
         expect(data[0].institution).toBe('SoloLearn'); });
       });
 });
-

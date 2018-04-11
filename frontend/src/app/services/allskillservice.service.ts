@@ -12,7 +12,7 @@ import { SubSkill } from '../model/SubSkill';
 export class AllSkillService {
   // private apiRoot = 'http://localhost:8000/api';
   private apiRoot = baseUrlSkill;
-  constructor(private http: Http,private httpClient: HttpClient) { }
+  constructor(private http: HttpClient,private httpClient: HttpClient) { }
 
   getAllSkillsData(){
     let url =  this.apiRoot + '/getallskills';
@@ -26,8 +26,8 @@ export class AllSkillService {
     const url = `${this.apiRoot}/all`;
     // console.log(url);
     return this.http.get(url)
-            .map((response: Response) => <Skill>response.json())
-            .do(data => console.log(JSON.stringify(data)))
+            // .map((response: Response) => <Skill>response.json())
+            // .do(data => console.log(JSON.stringify(data)))
             .catch(this.handleError);
   }
 

@@ -13,8 +13,19 @@ public class SubSkill {
 	String skill;
 	String skillGroup;
 	String practice;
-	
-	
+
+	public SubSkill() {
+	}
+
+	public SubSkill(String id, String subSkill, String subSkillDesc, String skill, String skillGroup, String practice) {
+		this.id = id;
+		this.subSkill = subSkill;
+		this.subSkillDesc = subSkillDesc;
+		this.skill = skill;
+		this.skillGroup = skillGroup;
+		this.practice = practice;
+	}
+
 	public String getId() {
 		return id;
 	}

@@ -18,7 +18,7 @@
 //  export const baseUrlCertificationashwin = 'http://localhost:8000/certifications';
 
 
- // testing
+ // SERVER ADDRESS
 
 
  export const baseUrlSkill = 'http://10.188.27.105:8745/skillportal-0.0.1/skill';

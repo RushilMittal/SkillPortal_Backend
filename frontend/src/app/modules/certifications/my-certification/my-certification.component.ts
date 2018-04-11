@@ -14,13 +14,16 @@ export class MyCertificationComponent implements OnInit {
   certification: Certification;
   empCertification: EmployeeCertificate;
   constructor(private myCertificateService: MyCertificationService) { }
-
+  showSpinner = false;
   ngOnInit() {
+    this.showSpinner=true;
     this.myCertificateService.getEmployeeCertification()
         .subscribe( empCertification => {
+            
             this.empCertification = empCertification;
         },
-        error => this.errorMessage = <any>error
+        error => this.errorMessage = <any>error, 
+        ()=>this.showSpinner=false
         );
   }
 

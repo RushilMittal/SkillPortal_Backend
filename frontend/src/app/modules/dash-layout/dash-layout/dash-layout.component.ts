@@ -11,11 +11,11 @@ export class DashLayoutComponent {
   toShow = false;
   constructor() { }
   called(){
-    console.log("I am called ");
+    // console.log("I am called ");
     this.toShow = true;
   }
   decalled(){
-    console.log("gone");
+    // console.log("gone");
     this.toShow =false;
   }
 

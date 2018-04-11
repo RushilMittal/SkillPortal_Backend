@@ -1,4 +1,3 @@
-
 import { async, ComponentFixture, TestBed, getTestBed } from '@angular/core/testing';
 import { RatingComponent } from './rating.component';
 import { SubSkill } from '../../../model/SubSkill';
@@ -30,7 +29,7 @@ describe('RatingComponent', () => {
 
   it('to check update your rating text', () => {
       h5 = document.querySelector('h5');
-      expect(h5).toBeTruthy();
+      expect(h5).toBeDefined()
   });
 
   it('to check list is present', () => {

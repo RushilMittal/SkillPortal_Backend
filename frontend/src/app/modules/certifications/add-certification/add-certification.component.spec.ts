@@ -54,26 +54,23 @@ describe('AddCertificationComponent', () => {
     it('should create', () => {
         expect(component).toBeDefined();
     });
-    it('to check search input exists', () => {
+    it('to check search input1 exists', () => {
         input = fixture.nativeElement.querySelector('#certificateDateId');
         expect(input).toBeTruthy();
      });
-     it('to check search input exists', () => {
+     it('to check search input2 exists', () => {
         input = fixture.nativeElement.querySelector('#certificateNumberId');
         expect(input).toBeTruthy();
      });
-     it('to check search input exists', () => {
+     it('to check search input3 exists', () => {
         input = fixture.nativeElement.querySelector('#certificationUrlId');
         expect(input).toBeTruthy();
      });
-     it('to check search input exists', () => {
+     it('to check search input4 exists', () => {
         input = fixture.nativeElement.querySelector('#validityId');
         expect(input).toBeTruthy();
      });
-     it('to check search input exists', () => {
-        input = fixture.nativeElement.querySelector('#certificationValidityDateId');
-        expect(input).toBeTruthy();
-     });
+ 
      it('to check explore button exists', () => {
       button = fixture.nativeElement.querySelector('.btn btn-primary');
           expect(button).toBeDefined();

@@ -1,88 +1,75 @@
-import {Observable} from 'rxjs/';
-import {async,
-        getTestBed,
-        inject,
-        TestBed} from '@angular/core/testing';
-import {BaseRequestOptions,
-        Http,
-        Response,
-        ResponseOptions,
-        XHRBackend} from '@angular/http';
+import { TestBed, inject } from '@angular/core/testing';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
+
 import {
-         MockBackend,
-         MockConnection
-       }from '@angular/http/testing';
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
 import { AllSubSkillService } from '../services/allsubskillservice.service';
 import { SubSkill } from '../model/SubSkill';
 
 
-describe('AllSubSkillService', () => {
-       let allSubSkillService: AllSubSkillService;
-       let mockbackend: MockBackend;
+describe('allsubskillservice', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [AllSubSkillService]
+    });
+  });
 
-     beforeEach(async(() => {
-         TestBed.configureTestingModule({
-        providers: [
+  it(
+    'check whether event service exists',
+    inject(
+      [HttpTestingController, AllSubSkillService],
+      (
+        httpMock: HttpTestingController,
+        eventService: AllSubSkillService
+      ) => {
+       expect(eventService).toBeDefined();
+      }
+    )
+  );
 
-          BaseRequestOptions,
-          MockBackend,
-          Http,
-          AllSubSkillService,
-          { deps: [MockBackend, BaseRequestOptions],
-            provide: Http,
-            useFactory: (mockBackend: XHRBackend,
-                         defaultOptions: BaseRequestOptions) => {
-              return new Http(mockBackend, defaultOptions);
-            }
-          }]
-       });
-      const testbed = getTestBed();
-      mockbackend = testbed.get(MockBackend);
-      allSubSkillService = testbed.get(AllSubSkillService);
-    }
-    ));
-
-    function setUpConnections(mockBackend: MockBackend, options: any) {
-      mockBackend.connections.subscribe((connection: MockConnection) => {
-        const responseOptions = new ResponseOptions(options);
-        const response = new Response(responseOptions);
-
-        connection.mockRespond(response);
+  it(
+    'check getEvents',
+    inject(
+      [HttpTestingController, AllSubSkillService],
+      (
+        httpMock: HttpTestingController,
+        eventService: AllSubSkillService
+      ) => {
+      eventService.getSubSkill().subscribe((data: SubSkill) => {
+        expect(data).toBeDefined();
+        expect(data[1].totalNumberofRatedUsers).toEqual('6');
       });
-    }
+      
+      const req = httpMock.expectOne(`http://10.188.27.105:8745/skillportal-0.0.1/skill/all`);
+      expect(req.request.method).toBe("GET");
+      req.flush([
+        {
+          "id": "1" ,
+          "subSkill": "Project/Program vision",
+          "subSkillDesc": "Elicit or identify the vision as applicable",
+          "skill": "Analysis",
+          "skillGroup": "BPMG",
+          "practice": "ADM",
+          "totalNumberofRatedUsers": "2"
+        }, 
+        {
+          "id": "1" ,
+          "subSkill": "Project/Program vision",
+          "subSkillDesc": "Derive the project scope",
+          "skill": "Analysis",
+          "skillGroup": "BPMG",
+          "practice": "ADM",
+          "totalNumberofRatedUsers": "6"
+        }
+    ]);
+      
+      }
+    )
+  );
 
-     it('to check allsubskillservice exists', inject([AllSubSkillService], (allSubSkillService) => {
-      expect(allSubSkillService).toBeDefined();
-     }));
-     it('to check  getAllSubSkill', () => {
-        setUpConnections(mockbackend, {
-            body: [
-               {
-                'id': '1',
-                'name': 'Programming',
-                'ratedUsers': 1
-             },
-             {
-                'id': '2',
-                'name': 'AWS',
-                'ratedUsers': 1
-             },
-             {
-                'id': '3',
-                'name': 'Front End',
-                'ratedUsers': 1
-             }
-            ],
-          status: 200
-         });
-            allSubSkillService. getSubSkill().subscribe((data: SubSkill) => {
-            expect(data).toBeDefined();
-            expect(data[0].id).toBe('1');
-            expect(data[0].name).toBe('Programming');
-            expect(data[0].ratedUsers).toBe(1);
-        });
-     });
-
-
+  
 
 });

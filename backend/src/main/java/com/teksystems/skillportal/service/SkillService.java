@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import com.teksystems.skillportal.model.SubSkill;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -26,5 +27,12 @@ public class SkillService {
 		System.out.println("Cache Size:" + skillGroupCache.size());
 		return skillGroupCache.asMap();
 	}
+
+    public Map<String,List<SubSkill>> getAllSkills() throws ExecutionException{
+        LoadingCache<String, List<SubSkill>> skillCache = GuavaCacheInit.getSkillLoadingCache();
+        System.out.println("Cache Size:" + skillCache.size());
+        return skillCache.asMap();
+    }
+
 
 }

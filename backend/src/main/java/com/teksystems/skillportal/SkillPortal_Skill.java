@@ -66,8 +66,9 @@ SkillRepository skillRepository;
                 new Skill("2","AWS"),
                 new Skill("3","Front End")
         ));
-   }*/
-	
+   }
+	*/
+
 	@Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(SkillPortal_Skill.class);

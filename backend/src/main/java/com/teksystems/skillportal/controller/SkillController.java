@@ -6,6 +6,7 @@ import com.teksystems.skillportal.helper.SkillHelper;
 import com.teksystems.skillportal.init.GuavaCacheInit;
 import com.teksystems.skillportal.model.SubSkill;
 import com.teksystems.skillportal.service.SkillGroupService;
+import com.teksystems.skillportal.service.SkillService;
 import com.teksystems.skillportal.service.SubSkillService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,70 +32,45 @@ public class SkillController {
     SkillGroupService skillGroupService;
     @Autowired
     SubSkillService subSkillService;
+    @Autowired
+    SkillService skillService;
 
     /*
     * For fetching the skill groups with the skills
     * UI :- for "All Skill", listing all skill groups with skills (DropDown Menu)
-     */
+    * Param:- NOPARAM
+    * Integration Testing Done :- 	11-04-2018
+    */
     @GetMapping("/getallskillgroups")
     public  Map<String,List<String>> getAllSkillGroups() throws ExecutionException
     {
         return skillGroupService.getAllSkillGroups();
 
     }
-
-
-
-
-    @GetMapping("/getskill")
-    public List<SubSkill> getSkill(@RequestParam String skill) throws ExecutionException
-    {
-        LoadingCache<String, List<SubSkill>> skillCache = GuavaCacheInit.getSkillLoadingCache();
-        System.out.println("Cache Size:" + skillCache.size());
-        return skillCache.get(skill);
-    }
-
+    /*
+     * For fetching the all skills of all the Skill Group
+     * UI :- Used for populating the dropdown under the "New Certification"
+     * Param:- NOPARAM
+     * Integration Testing Done :- 	11-04-2018
+     */
     @GetMapping("/getallskills")
     public Map<String,List<SubSkill>> getAllSkills() throws ExecutionException
     {
 
-        LoadingCache<String, List<SubSkill>> skillCache = GuavaCacheInit.getSkillLoadingCache();
-        System.out.println("Cache Size:" + skillCache.size());
-        return skillCache.asMap();
+        return skillService.getAllSkills();
     }
 
-    @GetMapping("/getallskillsbyskillgroup")
-    public List<String> getAllSkillsBySkillGroup(@RequestParam String skillGroup) throws ExecutionException
+    /*
+     * For fetching the skills of particular Skill Group
+     * UI :- NOT USED YET
+     * Param:- skillgroup name format:-(skillgroup)
+     * Integration Testing Done :- 	11-04-2018
+     */
+
+    @GetMapping("/getskillgroup")
+    public List<String> getSkillGroup(@RequestParam String skillGroup) throws ExecutionException
     {
-        return skillGroupService.getAllSkillsBySkillGroup(skillGroup);
-
+        return skillService.getSkillGroup(skillGroup);
     }
-
-
-
-
-
-//
-//    @GetMapping("/all")
-//    public List<SkillDomain> getAllSkills()
-//    {   logger.info("All skills fetched");
-//        return skillHelper.getAll();
-//    }
-//
-//    @GetMapping("/getBySkillId")
-//    public SkillDomain getBySubSkillId(@RequestParam String skillId)
-//    {
-//        logger.debug("Parameters : skillId "+skillId);
-//        logger.info("Skill having skillid "+skillId+" fetched");
-//        return skillHelper.getById(skillId);
-//    }
-//
-//    @GetMapping("/getBySkillName")
-//    public SkillDomain getBySkillName(@RequestParam String skillName)
-//    {
-//        logger.debug("Parameters : skillName "+skillName);
-//        logger.info("Skill having skillName "+skillName+" fetched");
-//        return skillHelper.getBySkillName(skillName);
-//    }
 
 }

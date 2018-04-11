@@ -14,7 +14,7 @@ export class AvailableCertificationsComponent implements OnInit {
   certifications: Certification;
   errorMessage: any;
   addCertificate: String = 'add-certificate';
-
+  showSpinner = false;
   activeId: string;
 
   constructor(private allCertificationService: AllCertificationService) { }
@@ -45,11 +45,20 @@ export class AvailableCertificationsComponent implements OnInit {
     x.hidden = !(x.hidden);
   }
 
-  ngOnInit() {
+  getAllCertificate() {
 
-   this.allCertificationService.getAllCertificates()
-      .subscribe(
-        certifications => this.certifications = certifications,
-        error => this.errorMessage = error);
+    this.showSpinner=true;
+    this.allCertificationService.getAllCertificates()
+    .subscribe(
+      certifications => this.certifications = certifications,
+      error => this.errorMessage = error,
+      ()=>this.showSpinner=false
+      );
+         }
+ 
+  ngOnInit() {
+    
+    this.getAllCertificate();
+ 
   }
 }

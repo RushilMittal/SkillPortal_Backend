@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/';
 import { AllCertificationService } from '../../../services/allcertification.service';
 import { AvailableCertificationsComponent } from './available-certifications.component';
 
-describe('AllCertificationComponent',
+describe('AvailablecertificationComponent',
     () => {
 
       // for component testing
