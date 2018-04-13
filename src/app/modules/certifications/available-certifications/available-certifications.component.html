@@ -1,0 +1,69 @@
+
+<div class="row">
+  <div class="col-md-9">
+    <h5>
+      Choose Your Certification
+    </h5>
+  </div>
+ 
+  <div class="col-md-3">
+    
+    <!-- Button trigger modal -->
+    <button id="not-in-list" type="button" class="btn right" data-toggle="modal" data-target="#newCertificationModal">
+      Certification Not in List?
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="newCertificationModal" tabindex="-1" role="dialog" aria-labelledby="newCertificationModalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="newCertificationModalTitle">Certification not in list?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="redirect()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <app-new-certification></app-new-certification>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12 table-responsive-md">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Certification Name</th>
+          <th scope="col">Institution</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+
+      <tbody *ngFor="let certification of certifications">
+        <tr>
+          <td>{{certification?.certificationName}}</td>
+          <td>{{certification?.institution}}</td>
+          <td>
+              <button id="{{addCertificate + certification?.certificationName}}" class="btn right"
+               (click)= Valid(certification?.certificationName)>
+                 Add
+              </button>
+          </td>
+         
+        </tr>
+        <tr id={{certification?.certificationName}} hidden=true>
+          <td id="hidden-row" colspan="2">
+            <app-add-certification [certificationReceived]=certification
+              [certificationName] = certification?.certificationName 
+              (cancelClicked) = 'onCanceledClicked($event)'></app-add-certification>
+          </td>                   
+        </tr> 
+      </tbody>
+    </table>
+  </div>
+  

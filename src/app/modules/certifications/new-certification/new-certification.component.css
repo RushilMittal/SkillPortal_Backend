@@ -1,0 +1,11 @@
+#err-msg{
+    color:rgba(255, 0, 0, 0.8);
+}
+
+#save-certificate
+{
+    background: linear-gradient(to right, #04AF0B , #40C940);
+    color: white;
+    font-size: 100%;
+    text-align: center;
+}

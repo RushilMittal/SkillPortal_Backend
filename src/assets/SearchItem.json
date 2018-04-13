@@ -1,0 +1,62 @@
+[{
+        "skillId":"1",
+        "name": "C++",
+	    "isChild": true,
+	    "subSkillId" : "103"
+    },
+    {
+        "skillId":"1",
+        "name": "Programming",
+	    "isChild": false,
+	    "subSkillId" : ""
+    },
+    {
+        "skillId":"1",
+        "name": "Python",
+	    "isChild": true,
+	    "subSkillId" : "107"
+    },
+   {
+        "skillId":"1",
+        "name": "Java",
+	    "isChild": true,
+	    "subSkillId" : "108"
+    },
+    {
+        "skillId":"1",
+        "name": "C#",
+	    "isChild": true,
+	    "subSkillId" : "109"
+    },
+   {
+        "skillId":"2",
+        "name": "AWS",
+	    "isChild": false,
+	    "subSkillId" :""
+    },
+    {
+        "skillId":"3",
+        "name": "FrontEnd",
+	    "isChild": false,
+	    "subSkillId" :""
+    },
+    {
+        "skillId":"2",
+        "name": "Amazon API Gateway",
+	    "isChild": true,
+	    "subSkillId" : "104"
+    },
+    {
+        "skillId":"2",
+        "name": "AWS Device Farm",
+	    "isChild": true,
+	    "subSkillId" : "106"
+    },
+    {
+        "skillId":"3",
+        "name": "Bootstrap",
+	    "isChild": true,
+	    "subSkillId" : "105"
+    }
+    
+]

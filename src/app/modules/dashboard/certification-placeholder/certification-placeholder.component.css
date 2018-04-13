@@ -1,0 +1,31 @@
+.font13{
+    font-size: 13pt;
+}
+
+.certifications{    
+    padding: 3%;
+    padding-left: 7%;
+
+}
+
+.black{
+    color:black;
+    margin-bottom:3px;
+}
+.grey{
+    color:grey;
+    font-size: 14px;
+    margin-bottom:16px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0%;
+  }
+
+  #viewDetails
+  {
+      background: linear-gradient(to right, #0697C3 , #4DBFE2);
+      color: white;
+      
+  }

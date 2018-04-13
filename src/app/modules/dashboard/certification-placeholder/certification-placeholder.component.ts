@@ -1,0 +1,33 @@
+import { Component, OnInit } from '@angular/core';
+import {  DashboardCertificationPlaceholderService } from '../../../services/dashboardcertificationplaceholder.service';
+import { EmployeeCertificatePlaceholderModel } from '../../../model/EmployeeCertificatePlaceholderModel';
+
+@Component({
+  selector: 'app-certification-placeholder',
+  templateUrl: './certification-placeholder.component.html',
+  styleUrls: ['./certification-placeholder.component.css']
+})
+export class CertificationPlaceholderComponent implements OnInit {
+  employeeCertificatePlaceholderModel: EmployeeCertificatePlaceholderModel;
+  employeeId = '101';
+  title = 'app';
+  subtitle1 = 'Certifications received';
+  subtitle2 = 'Certifications required';
+
+  errorMessage: any;
+  constructor(private certificationPlaceholderService: DashboardCertificationPlaceholderService) { }
+  ngOnInit() {
+    // console.log('In ngOnInit');
+    this.certificationPlaceholderService.getCertificatePlaceholder(this.employeeId)
+      .subscribe(employeecertificatevar => {
+        this.employeeCertificatePlaceholderModel = employeecertificatevar,
+          error => this.errorMessage = <any>error;
+      }, () => {console.log('hello '); }
+    );
+
+
+  }
+
+  }
+
+

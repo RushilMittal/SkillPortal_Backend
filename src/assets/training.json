@@ -1,0 +1,17 @@
+[{
+    "trainingId":"1",
+    "enrolledTrainings": "AWS architecture discussion",
+    "upcomingTrainings": "AWS architecture discussion",
+    "enrolledTrainingDate": "22-Feb-2018",
+    "upcomingTrainingDate": "22-Feb-2018"
+},
+
+{
+    "trainingId":"2",
+    "enrolledTrainings": "Aladin",
+    "upcomingTrainings": "Aladin",
+    "enrolledTrainingDate": "12-Feb-2018",
+    "upcomingTrainingDate": "12-Feb-2018"
+}
+
+]

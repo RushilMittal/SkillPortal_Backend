@@ -1,0 +1,37 @@
+.col-7
+{
+    padding-top: 60px;
+    padding-bottom: 57px;
+
+}
+
+.col-5
+{
+    padding-top: 31px;
+    padding-bottom: 50px;
+
+}
+
+.background{
+    background-image: url('/assets/images/banner.png') ;
+     background-size: 100% 100%;
+}
+
+.maxwidth100{
+    
+    max-width:100%;     
+}
+.superstar{
+    color:rgba(0, 0, 0, 0.71);
+    font-family:Rockwell, Regular;
+}
+.opactity6926{
+    opacity: 69.26%;
+}
+.font-size120{
+    font-size:120%;
+}
+
+.coloryellow{
+    color:rgba(244, 142, 24, 1)
+}

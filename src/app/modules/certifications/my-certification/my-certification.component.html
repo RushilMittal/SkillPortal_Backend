@@ -1,0 +1,41 @@
+
+  <div class="row">
+    <div class="col-md-8" >
+        <h5 class="h5">
+          Certifications you received
+        </h5>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class=" col-12 certificateTable table-responsive-md " >
+      <table class="table" id="certTable">
+        <thead>
+          <tr>
+            <th>Certification Name</th>
+            <th>Institution</th>
+            <th>Received on</th>
+            <th>Expires on</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let empCert of empCertification ">
+            <tr>                     
+              <td  class="td1" id="certName">
+                {{empCert.certificationId?.certificationName}}
+              </td>
+              <td class="td2" id="certInst">
+                {{empCert.certificationId?.institution}}
+              </td>
+              <td  class="td2">
+                {{empCert.certificationDate | date}}
+              </td>
+              <td class="td2" >
+                {{empCert.certificationValidityDate | date}}
+              </td>
+              
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+

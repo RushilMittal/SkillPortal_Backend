@@ -1,0 +1,181 @@
+
+<form class="form" novalidate (ngSubmit)="save()" (keyup.enter)="save()" [formGroup]="newTrainingForm"> 
+    <fieldset>
+
+        <!-- Training Name -->
+             <div class="form-group"
+            [ngClass]="{'has-error': ((newTrainingForm.get('name').touched) ||
+                                      (newTrainingForm.get('name').dirty)) &&
+                                      (newTrainingForm.get('name').valid) }">
+        <label class="control-label" for="name"> Training Name </label>
+        
+          <input class="form-control" id="nameId" type="text"
+                  placeholder="Training Name (required) " 
+                  formControlName="name"/>
+          
+          <span class="help-block" *ngIf="((newTrainingForm.get('name').touched) ||
+                                          (newTrainingForm.get('name').dirty)) &&
+                                          (newTrainingForm.get('name').errors) ">
+            <span id="err-msg" *ngIf="newTrainingForm.get('name').errors.required">
+              Please enter Training Name !
+            </span>
+            <span id="err-msg" *ngIf="newTrainingForm.get('name').errors.minlength">
+              Training Name must be longer than two characters !
+            </span>  
+          </span>
+        
+      </div>
+
+      <!--Description -->
+      <div class="form-group"
+            [ngClass]="{'has-error': ((newTrainingForm.get('description').touched) ||
+                                      (newTrainingForm.get('description').dirty)) &&
+                                      (newTrainingForm.get('description').valid) }">
+        <label class="control-label" for="description"> Training Description </label>        
+         
+                  <textarea class="form-control" rows="3" id="descriptionId"
+                  placeholder="Description (required) " 
+                  formControlName="description"></textarea>
+          
+          <span class="help-block" *ngIf="((newTrainingForm.get('description').touched) ||
+                                          (newTrainingForm.get('description').dirty)) &&
+                                          (newTrainingForm.get('description').errors) ">
+            <span id="err-msg" *ngIf="newTrainingForm.get('description').errors.required">
+              Please enter Training Description!
+            </span>
+            <span id="err-msg" *ngIf="newTrainingForm.get('description').errors.minlength">
+              Training Name must be more than ten characters !
+            </span>  
+          </span>        
+      </div>
+
+      <!-- Location -->
+      <div class="form-group"
+            [ngClass]="{'has-error': ((newTrainingForm.get('location').touched) ||
+                                      (newTrainingForm.get('location').dirty)) &&
+                                      (newTrainingForm.get('location').valid) }">
+        <label class="control-label" for="location"> Location </label>
+        
+          <input class="form-control" id="locationId" type="text"
+                  placeholder="location(required) " 
+                  formControlName="location" />  
+          
+          <span class="help-block" *ngIf="((newTrainingForm.get('location').touched) ||
+                (newTrainingForm.get('location').dirty)) &&
+                (newTrainingForm.get('location').errors) ">
+                  <span id="err-msg" *ngIf="newTrainingForm.get('location').errors.required">
+                  Please enter location!
+                  </span>             
+          </span>              
+          
+      </div>
+      
+      <!-- Type -->
+      <div class="form-group"
+            [ngClass]="{'has-error': ((newTrainingForm.get('type').touched) ||
+                                      (newTrainingForm.get('type').dirty)) &&
+                                      (newTrainingForm.get('type').valid) }">
+        <label class="control-label" for="type"> Training Type </label>
+        
+          <input class="form-control" id="typeId" type="text"
+                  placeholder="Training Type (required) "
+                  formControlName="type"/>
+          
+          <span class="help-block" *ngIf="((newTrainingForm.get('type').touched) ||
+                                          (newTrainingForm.get('type').dirty)) &&
+                                          (newTrainingForm.get('type').errors) ">
+            <span id="err-msg" *ngIf="newTrainingForm.get('type').errors.required">
+              Please enter Training Type !
+            </span>   </span>          
+         
+        
+      </div>
+
+
+      <!-- Trainer Name -->
+      <div class="form-group"
+            [ngClass]="{'has-error': ((newTrainingForm.get('trainer').touched) ||
+                                      (newTrainingForm.get('trainer').dirty)) &&
+                                      (newTrainingForm.get('trainer').valid) }">
+        <label class="control-label" for="trainer"> Trainer Name </label>
+        
+          <input class="form-control" id="trainerId" type="text"
+                  placeholder="Trainer Name (required) " 
+                  formControlName="trainer"/>
+          
+          <span class="help-block" *ngIf="((newTrainingForm.get('trainer').touched) ||
+                                          (newTrainingForm.get('trainer').dirty)) &&
+                                          (newTrainingForm.get('trainer').errors) ">
+            <span id="err-msg" *ngIf="newTrainingForm.get('trainer').errors.required">
+              Please enter Trainer Name !
+            </span>   </span>          
+         
+        
+      </div>
+
+      <!-- No. of Seats -->
+      <div class="form-group"
+            [ngClass]="{'has-error': ((newTrainingForm.get('seats').touched) ||
+                                      (newTrainingForm.get('seats').dirty)) &&
+                                      (newTrainingForm.get('seats').valid) }">
+        <label class="control-label" for="seats"> Available Seats </label>
+        
+          <input class="form-control" id="seatsId" type="text"
+                  placeholder="Seats (required) "
+                  formControlName="seats"/>
+          
+          <span class="help-block" *ngIf="((newTrainingForm.get('seats').touched) ||
+                                          (newTrainingForm.get('seats').dirty)) &&
+                                          (newTrainingForm.get('seats').errors) ">
+            <span id="err-msg" *ngIf="newTrainingForm.get('seats').errors.required">
+              Please enter number of seats!
+            </span>  
+            </span>            
+      </div>    
+
+     
+
+      <!-- More Training Session Details -->      
+      
+      <div id="row" class="row">
+        <div class="col">           
+          <button id="trainingDate" class="btn" (click)="add()" title="Click to Add Sessions">
+          <!-- <i class="fas fa-plus"></i>               -->
+          Add Session
+          </button>    
+        </div>
+        <div class="col"
+        *ngIf="newTrainingForm.controls.trainingSession.controls.length > 1">
+          <button id="trainingDate" class="btn" (click)="remove()" title="Remove Sessions">                     
+            <!-- <i class="fas fa-minus"></i> --> Remove Session
+          </button> 
+        </div>           
+      </div>   
+
+      <div class="row" formArrayName ="trainingSession" 
+          *ngFor= "let t of newTrainingForm.controls.trainingSession.controls; let i = index;"  >                 
+          <div class="row" id="addition" [formGroupName]="i">
+          <div class="col"> 
+              <label>Start Date</label>
+              <input class="form-control" id="trainingDateId" type="date"               
+                formControlName="trainingDate"/>
+            </div>
+            <div class="col" >
+              <label>Start Time</label>
+              <input class="form-control" id="startTimeId" type="time"                  
+                formControlName="startTime"/>
+            </div>
+            <div class="col">
+              <label>End Time</label>
+              <input class="form-control" id="endTimeId" type="time"               
+                formControlName="endTime"/>
+            </div> 
+          </div>            
+      </div>          
+            <!-- SAVE -->
+            <div>                
+             <button id="save-training" type="submit" [disabled]="!newTrainingForm.valid" class="btn btn-secondary " >Save</button>
+            </div>
+    </fieldset>
+  </form>
+ 

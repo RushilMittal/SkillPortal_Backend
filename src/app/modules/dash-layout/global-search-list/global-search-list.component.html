@@ -1,0 +1,22 @@
+<div class="width100" >
+<ul class="dropdown-menu" >
+  <li class="list-group-item gray" >Skills</li>
+  <ul class="list-group" id="skill-list">
+     <li *ngFor="let skill of skillitems" routerLink="../skills/allskill/explore/{{skill.skillId}}" class="list-group-item list-group-item-action" >
+        {{skill.name}}
+     </li>
+     <li *ngIf="skillitems?.length==0" class="list-group-item">No Results Found</li>
+  </ul>
+  <li class="list-group-item gray">Certificate</li>
+  <ul class="list-group" id="cert-list">
+    <li *ngFor="let cert of certitems" class="list-group-item list-group-item-action" >
+        {{cert.certificationName}} by {{cert.institution}}
+     </li>
+     <li *ngIf="certitems?.length==0" class="list-group-item">No Results Found</li>
+  </ul>
+  <li class="list-group-item gray">Training</li>
+  <ul class="list-group" id="train-list">
+      <li class="list-group-item">No Results Found</li>
+  </ul>
+</ul>
+</div>

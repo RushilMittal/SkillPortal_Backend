@@ -1,0 +1,44 @@
+#err-msg{
+    color:rgba(255, 0, 0, 0.8);
+}
+
+#save-training
+{
+    background: linear-gradient(to right, #04AF0B , #40C940);
+    color: white;
+    font-size: 100%;
+    text-align: center;
+    width: 40%;
+    margin-top: 2%;
+    margin-left: 31%;
+    
+        
+}
+
+#trainingDate{  
+    margin-top: 2%;
+    margin-bottom:5%;
+    background: linear-gradient(to right, #0697C3 , #4DBFE2);
+     color: white;   
+        
+}
+
+#trainingDateId{
+    padding-left: 3%;
+    padding-right: 1%;
+}
+
+#startTimeId{
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+#endTimeId{
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+#addition{
+    padding-left: 4%;
+
+}

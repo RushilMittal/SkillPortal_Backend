@@ -1,0 +1,59 @@
+<div *ngIf="true"> 
+  <style>
+    table{table-layout: fixed;}
+  </style>
+  
+  
+    <div class="row">
+      <!-- <div class="col-md-1" style="text-align:center; vertical-align:middle;">
+        <i id="back-btn" (click)=goBack() class="fa fa-chevron-circle-left" 
+          aria-hidden="true"></i>
+      </div> -->
+
+      <div class="col-md-8" style="vertical-align:middle; padding:0">
+        <h2 id="textHeader">{{(skill?.name)}}</h2>
+      </div>
+      <div class="col-md-4">
+        <button id="back-to-skill" class="btn right" routerLink="/skills/allskill" routerLinkActive="active">
+          Back To Skill List
+        </button>
+      </div>
+    </div>
+  
+   
+  <div class="row">
+    <div class="col-12 table-responsive-md" style="margin:2%">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Skill Name</th>
+            <th>Users</th>
+            <th></th>
+          </tr>
+        </thead>
+    
+        <tbody *ngFor = "let subskill of subSkillList;">
+          <tr>  
+            <td style="width:45%; vertical-align:middle;" #name >{{subskill?.name}} </td>
+            <td style="width:30%; vertical-align:middle;">{{subskill?.ratedUsers}}</td>
+            
+            <td style="width:30%; vertical-align:middle">
+              <button id="{{ rateButton + subskill.name}}"
+              (click)=Valid(subskill) class="btn" data-toggle="collapse" data-target="#content" 
+              aria-expanded="false" aria-controls="content">Rate Your Skill</button>
+            </td>
+          </tr>
+          
+          <tr id={{subskill.name}} hidden=true>
+            <td style="transform:translate(10%,0)" colspan="2">
+              <app-rating [newEmployeeData]=employeeSkill [subSkillName] = subskill?.name
+                  (updateClicked) = 'OnRatingUpdated($event)'
+                  (cancelClicked) = 'onCanceledClicked($event)'></app-rating>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+       

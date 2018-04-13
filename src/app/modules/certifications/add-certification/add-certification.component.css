@@ -1,0 +1,61 @@
+.panel1{
+  padding-bottom:2%; 
+  padding-top:3%;
+  padding-left: 5%;
+  color: #000000;
+}
+  
+.form-control
+{
+  padding-left: 5%;
+  padding-right: 0;
+  width:112%;
+}
+
+.collapse-add 
+{
+  width:99%; 
+  background-color:rgba(0, 0, 0, 0.03); 
+  box-shadow:0px 0px 6px rgba(0,0,0,0.06);
+  padding-left:50px;
+  line-height: 30px;
+}
+
+.formit{
+  padding-left:2.5%;
+}
+
+#cancel-button
+{   background: linear-gradient(to right, #e6e6e6, #ffffff);
+  color: black;
+  border: 1px solid black;
+  width: 45%;
+}
+
+#submit-button
+{  background: linear-gradient(to right, #04AF0B, #40C940E2);
+    color: white;
+    border: 1px solid black;
+    width: 45%;
+    font-size: 100%;
+}
+
+.row{
+  padding-top: 1.5%;
+}
+  
+#add{
+  background: linear-gradient(to right, #04AF0B , #40C940);
+  color: white;
+  width:20%;
+}
+
+.help-block{
+  color:rgba(255, 0, 0, 0.80);
+  font-size: 85%;
+}
+
+.form-group{
+  color: #000000;
+  Opacity:100%
+}

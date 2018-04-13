@@ -1,0 +1,118 @@
+<div  class="collapse-add">
+    <div class="panel1"  >
+        <h4 > Add Some Details </h4> 
+    </div>
+
+<div class="formit" >
+  <form [formGroup]="certificateForm">
+      <fieldset>
+          
+          <div class="form-group inline" [ngClass]="{'has-error': (certificateForm.get('certificationDate').touched || certificateForm.get('certificationDate').dirty) && certificateForm.get('certificationDate').valid }">
+              <label class="col control-label" for="certificateDateId">When Did you complete your Certification?</label>
+
+              <div class="col-md-4">
+                  <input class="form-control" id="certificateDateId" type="date" placeholder="Certification Date: " min="1990-01-01" required
+                      formControlName="certificationDate" />
+                  <span class="help-block" *ngIf="(certificateForm.get('certificationDate').touched || certificateForm.get('certificationDate').dirty) && certificateForm.get('certificationDate').errors">
+                      <span *ngIf="certificateForm.get('certificationDate').errors.required" >
+                          Please enter completion Date.
+                      </span>
+
+                  </span>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="col">
+          <div class="form-group" [ngClass]="{'has-error': (certificateForm.get('certificationNumber').touched || certificateForm.get('certificationNumber').dirty) && !certificateForm.get('certificationNumber').valid }">
+              <label class="col control-label" for="certificateNumberId">Your Certificate Number:</label>
+
+              <div class="col-md-8">
+                  <input class="form-control" id="certificateNumberId" type="text" placeholder="Certificate Number" required formControlName="certificationNumber"
+                  />
+                  <span class="help-block" *ngIf="(certificateForm.get('certificationNumber').touched || certificateForm.get('certificationNumber').dirty) && certificateForm.get('certificationNumber').errors">
+                      <span *ngIf="certificateForm.get('certificationNumber').errors.required" style="color:rgba(255, 0, 0, 0.80)">
+                          Please enter certification number.
+                      </span>
+
+                  </span>
+              </div>
+          </div>
+      </div>
+
+      <div class="col">
+          <div class="form-group" [ngClass]="{'has-error': (certificateForm.get('certificationUrl').touched || certificateForm.get('certificationUrl').dirty) && !certificateForm.get('certificationUrl').valid }">
+              <label class="col control-label" for="certificationUrlId">Your Certificate Url:</label>
+
+              <div class="col-md-8">
+                  <input class="form-control" id="certificationUrlId" type="text" placeholder="Certificate Number" required 
+                          formControlName="certificationUrl" />
+
+                  <span class="help-block" *ngIf="(certificateForm.get('certificationUrl').touched || certificateForm.get('certificationUrl').dirty) && certificateForm.get('certificationUrl').errors">
+                      <span *ngIf="certificateForm.get('certificationUrl').errors.required" >
+                          Please enter certification Url.
+                      </span>
+
+                  </span>
+              </div>
+          </div>
+      </div>
+      </div>
+
+
+      <div class="row">
+          <div class="col">
+          <div class="form-group">
+              <label class="col control-label" for="validityId"> Is there a validity period for your certification?</label>
+              <div class="col-md-8">
+                  <label class="radio" style="margin-right:10%">
+                      <input  type="radio" id="validityId" formControlName="certificationValidityPeriod" value="Yes" 
+                          (click)="setValidity('Yes')">Yes                   
+                  </label>
+                  <label class="radio">
+                      <input type="radio" id="validityId" formControlName="certificationValidityPeriod" value="No" (click)="setValidity('No')">No
+                  </label>
+              </div>
+          </div>
+      </div>
+
+      <div class="col">
+          <div class="form-group" [ngClass]="{'has-error': (certificateForm.get('certificationValidityDate').touched || certificateForm.get('certificationValidityDate').dirty) && certificateForm.get('certificationValidityDate').valid }">
+              <label class="col control-label" for="certificationValidityDateId">Valid till:</label>
+
+              <div class="col-md-8">
+                  <input class="form-control" id="certificationValidityDateId" type="date" placeholder="Validity Date: " min="1990-01-01" formControlName="certificationValidityDate"
+                  />
+                  <span class="help-block" *ngIf="(certificateForm.get('certificationValidityDate').touched || certificateForm.get('certificationValidityDate').dirty) && certificateForm.get('certificationValidityDate').errors">
+                      <span *ngIf="certificateForm.get('certificationValidityDate').errors.required" style="color:rgba(255, 0, 0, 0.80)">
+                          Please enter completion Date.
+                      </span>
+
+                  </span>
+              </div>
+          </div>
+      </div>
+      </div>
+
+
+
+
+          <div class="form-group">
+              <div class="col-md-4 col-md-offset-2">                  
+                  <span>
+                      <button class="btn btn-primary" id="cancel-button" (click) ="cancel()" >
+                          Cancel
+                      </button>
+                  </span>
+                  <span>
+                    <button class="btn btn-primary" id="submit-button" type="submit" (click)="save()" [disabled]="!certificateForm.valid">
+                        Submit
+                    </button>
+                </span>
+
+              </div>
+          </div>
+      </fieldset>
+  </form>
+</div>
+</div>

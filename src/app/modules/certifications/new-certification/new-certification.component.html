@@ -1,0 +1,72 @@
+
+<form class="form" novalidate (ngSubmit)="save()" (keyup.enter)="save()" [formGroup]="newCertificationForm"> <!-- new -->
+  <fieldset>
+      
+    <div class="form-group">
+      <label class="control-label" for="skillNameId"> Select Skill: </label>
+      <select class="form-control custom-select" id="skillNameId" formControlName="skillName">
+          <option selected>Select A Skill...</option>
+          <option *ngFor="let skill of skills">
+              {{skill?.name}}
+          </option>
+        </select>
+    </div>
+      
+    <div class="form-group"
+          [ngClass]="{'has-error': ((newCertificationForm.get('certificationName').touched) ||
+                                    (newCertificationForm.get('certificationName').dirty)) &&
+                                    (newCertificationForm.get('certificationName').valid) }">
+      <label class="control-label" for="certificationNameId"> Certification Name: </label>
+      
+        <input class="form-control" id="certificationNameId" type="text"
+                placeholder="Certification Name (required) " required minlength="2"
+                formControlName="certificationName"/>
+        
+        <span class="help-block" *ngIf="((newCertificationForm.get('certificationName').touched) ||
+                                        (newCertificationForm.get('certificationName').dirty)) &&
+                                        (newCertificationForm.get('certificationName').errors) ">
+          <span id="err-msg" *ngIf="newCertificationForm.get('certificationName').errors.required">
+            Please enter Certification Name !
+          </span>
+          <span id="err-msg" *ngIf="newCertificationForm.get('certificationName').errors.minlength">
+            Certification Name must be longer than two characters !
+          </span>  
+        </span>
+      
+    </div>
+
+    <div class="form-group"
+          [ngClass]="{'has-error': ((newCertificationForm.get('institutionName').touched) ||
+                                    (newCertificationForm.get('institutionName').dirty)) &&
+                                    (newCertificationForm.get('institutionName').valid) }">
+      <label class="control-label" for="institutionNameId"> Institution Name: </label>
+      
+        <input class="form-control" id="institutionNameId" type="text"
+                placeholder="Institution Name (required) ... " required minlength="3"
+                formControlName="institutionName" />
+        
+        <span class="help-block" *ngIf="((newCertificationForm.get('institutionName').touched) ||
+                                        (newCertificationForm.get('institutionName').dirty)) &&
+                                        (newCertificationForm.get('institutionName').errors) ">
+          <span id="err-msg" *ngIf="newCertificationForm.get('institutionName').errors.required">
+            Please enter Institution Name !
+          </span>
+          <span id="err-msg" *ngIf="newCertificationForm.get('institutionName').errors.minlength">
+            Institution Name must be longer than three characters !
+          </span>  
+        </span>
+  
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-2">
+        <span>
+          <button id="save-certificate" class="btn right" type="submit" [disabled]="!newCertificationForm.valid">
+              Save Certification
+          </button>
+        </span>
+      </div>
+    </div>
+
+  </fieldset>
+</form>

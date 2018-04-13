@@ -1,0 +1,36 @@
+.training{    
+    padding: 3%;
+    padding-left: 7%;
+
+}
+
+.black{
+    color:black;
+    margin-bottom:3px;
+}
+.grey{
+    color:grey;
+    font-size: 14px;
+    margin-bottom:16px;
+}
+.font-size13pt{
+    font-size: 13pt;
+}
+
+
+/* #view-detail
+{
+    background: linear-gradient(to right, #0697C3 , #4DBFE2);
+    color: white;
+    width:150px;
+    height:40px;
+    margin-top:5px;
+    margin-left:0px;
+} */
+
+#viewDetails
+{
+    background: linear-gradient(to right, #0697C3 , #4DBFE2);
+    color: white;
+    
+}

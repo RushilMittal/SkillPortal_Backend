@@ -1,0 +1,19 @@
+.col-8
+{
+  font-family: inherit;
+  padding-top: 12px;
+  padding-bottom: 10px;
+  font-size: 100%;
+}
+
+.col-4
+{
+  font-family: inherit;
+  padding-top: 12px;
+  padding-bottom: 10px;
+  font-size: 100%;
+}
+
+.white{
+  color:rgba(255, 255, 255, 1);
+}

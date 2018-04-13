@@ -1,0 +1,53 @@
+#notification
+{ 
+  background:rgba(244, 131, 0, 0.9);
+  /* border: 1px solid gray; */
+  /* margin: 0px;
+  padding: 0px; */
+}
+
+
+.background{
+  background-color:rgba(0, 0, 0, 0.02);
+}
+
+#myDashboard
+{ 
+  background:rgba(0, 0, 0, 0.02);
+  /* border: 1px solid gray; */
+  /* margin: 0px;
+  padding: 0px; */
+  height: 60px;
+  
+}
+#text
+{
+ 
+  font-family: inherit;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  padding-left: 12px;
+  size: 55px;
+  width:330px;
+  height: 65px;
+  font-size: 2rem; 
+  color:rgba(0, 0, 0, 0.71);
+}
+
+.placeholders{
+  margin-top:69px;
+  margin-bottom:20px;
+}
+#placeholder
+{ 
+  background:rgba(139, 136, 136, 0.63);
+  /* border: 1px solid gray; */
+  /* margin: 0px;
+  padding: 0px; */
+}
+#logo-img {
+    max-width: 185px;
+}
+.card-deck{
+    margin-top: 3%;
+}

@@ -1,0 +1,21 @@
+.skills{    
+    padding: 3%;
+    padding-left: 7%;
+
+}
+
+.black{
+    color:black;
+    margin-bottom:3px;
+}
+.grey{
+    color:grey;
+    font-size: 14px;
+    margin-bottom:16px;
+}
+#viewDetails
+{
+    background: linear-gradient(to right, #0697C3 , #4DBFE2);
+    color: white;
+    
+}

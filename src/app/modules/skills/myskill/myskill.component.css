@@ -1,0 +1,53 @@
+#add-new-skill
+{
+    background: linear-gradient(to right, #0697C3 , #4DBFE2);
+    color: white;
+    width:150px;
+    height:40px;
+    margin-top:5px;
+    margin-left:37%;
+}
+
+.table thead th{
+    vertical-align:middle;
+}
+
+.table tbody td{
+    vertical-align:middle;
+}
+
+
+.table{
+    width:90%;
+    margin:4%;
+    background-color:white !important;
+    border: 1px solid #E6E6E6;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.16); 
+    color: rgba(0, 0, 0, 0.81);
+}
+
+button[id*="update-button"]{
+
+    background: linear-gradient(to right, #04AF0B , #40C940);
+    color: white;
+    font-size: 100%;
+    text-align: center;
+    padding: 2%;
+    width:55%;
+}
+.table td{
+    width: 100%;
+}
+@media (max-width:786px) {
+    button[id*="update-button"]{
+        font-size: 50%;
+        width: 100%;
+        padding: 0 !important;
+    }
+
+    #add-new-skill {
+        font-size: 80%;
+        width:120px;
+    }
+
+}
