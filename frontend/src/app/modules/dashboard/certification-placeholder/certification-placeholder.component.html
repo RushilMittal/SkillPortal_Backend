@@ -1,0 +1,27 @@
+<div class="card certifications">
+  <div class="card-block">
+    <h4>Certifications</h4>
+    <p class="card-text font13">
+       {{subtitle1}}
+      
+    </p>
+    <ul *ngFor="let emplcert of employeeCertificatePlaceholderModel" class="grey">
+
+      <li *ngIf="emplcert?.certificationName">{{emplcert?.certificationName}}</li>
+      {{emplcert?.year}}
+
+    </ul>
+
+    <p class="card-text font13">
+      {{subtitle2}}
+      
+    </p>
+
+    <ul class="grey">
+      <li>Under development</li>
+    </ul>
+    <a routerLink="/certifications/mycertifications" id="viewDetails" class="btn btn-primary">View Details</a>
+
+  </div>
+
+</div>

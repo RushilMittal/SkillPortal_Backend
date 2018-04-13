@@ -1,0 +1,83 @@
+<div *ngIf='true'>
+
+  <div class="row">
+    <div class="col-md-8 align-middle" id="header">
+      <h2 id="textHeader">Your Skill List
+      </h2>
+    </div>
+    <div class="col-md-4 mb-3">
+
+      <button id="back-to-skill" class="btn right mt-2" routerLink="/skills/skillgroup" routerLinkActive="active">
+        Add new skill
+      </button>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-12 table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Skill Name</th>
+            <th>Skill Group</th>
+            <th>Rating</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody *ngIf="showSpinner">
+          <tr>
+            <td colspan=3 id="spinner">
+              <span class="fa fa-spinner fa-spin" style="font-size: 60px;"></span>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="employeeSkill?.length===0">
+            <tr >
+                <td>
+                  <p>No Skill Rated,Hurry Up Rate your First Skill</p>
+                </td>
+              </tr>
+        </tbody>
+        <tbody *ngFor="let skills of employeeSkill;">
+           
+          <tr *ngIf="skills">
+            <td title={{skills?.subSkill?.subSkillDesc}} class="align-middle" id="tdname" #name>{{skills?.subSkill?.subSkill}} </td>
+            <td title={{skills?.subSkill?.skillGroup}} class="align-middle" id="td">{{skills?.subSkill?.skillGroup}}</td>
+            <td id="tdRatedUsers">
+              {{skills?.rating}}
+              <span *ngIf="skills?.rating===1">
+                - Book Knowledge
+              </span>
+              <span *ngIf="skills?.rating===2">
+                - Working knowledge
+              </span>
+              <span *ngIf="skills?.rating===3">
+                - Project Knowledge
+              </span>
+              <span *ngIf="skills?.rating===4">
+                - Done Certification
+              </span>
+              <span *ngIf="skills?.rating===5">
+                - Presented White Papers
+              </span>
+            </td>
+          
+            <td>
+              <button class="btn right mt-2" id="update-button" [hidden]="activeTags.includes(skills?.subSkill?.id)" (click)="toggle(skills?.subSkill?.id)">Update Rating</button>
+            </td>
+          </tr>
+          
+          <tr [class.show]="activeTags.includes(skills?.subSkill?.id)" Class="collapse">
+            <td style="transform:translate(10%,0)" colspan="2">
+              <app-rating [skills]=skills (cancelClicked)="toggle($event)" (updateClicked)="OnRatingUpdated($event)"></app-rating>
+            </td>
+          </tr>
+
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

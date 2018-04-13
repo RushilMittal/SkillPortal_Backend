@@ -1,0 +1,52 @@
+
+.pointer{
+    cursor:pointer;
+}
+
+.nav-item{
+    margin-left: 4%;
+    margin-right: 4%;
+}
+.margin-49{
+    margin-bottom:4.9%;
+}
+#request-for-certification
+{
+    background: linear-gradient(to right, #0697C3 , #4DBFE2);
+    color: white;
+    width:200px;
+    height:40px;
+    margin-top:5px;
+    margin-left:65px;
+}
+
+.nav-link{
+    color:rgba(0, 0, 0, 0.49);
+    border-top:0;
+    border-left:0;
+    border-right:0;
+    font-size: 150%;
+    text-align: center;
+    padding-left: 36px;
+    padding-right:  36px;
+    
+}
+
+#certification-nav .active{
+    color: #0697C3;
+    background-color: rgba(0,0,0,0.02);
+    border-bottom: 4px solid #0697C3;
+}
+
+@media (max-width:786px) {
+    .nav-link {
+        font-size: 100%;
+    }
+}
+
+
+@media(max-width:388px){
+    #head{
+        margin-left:20%;
+    }
+}

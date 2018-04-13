@@ -1,7 +1,0 @@
-
-<ul class="list-group">
-    <li *ngFor="let skill of skills" routerLink="../allskill/explore/{{skill.skillId}}" class="list-group-item list-group-item-action" >
-        {{skill.name}}
-    </li>
-    <li *ngIf="skills?.length==0" class="list-group-item">No Results Found</li>
-  </ul>

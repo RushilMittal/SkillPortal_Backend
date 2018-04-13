@@ -1,0 +1,22 @@
+.table{
+    width:100%;
+    background-color:white !important;
+    border: 1px solid #E6E6E6;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.16); 
+    color: rgba(0, 0, 0, 0.81);
+}
+#tdname{
+    width:45%; 
+    vertical-align:middle;
+}
+#tdbutton{
+    text-align:center;
+    vertical-align:middle;
+}
+#explore-button{
+
+    background: linear-gradient(to right, #04AF0B , #40C940);
+    color: white;
+    font-size: 100%;
+    text-align: center;
+}

@@ -1,0 +1,311 @@
+[33mcommit 5f0a7ad6dc4bb9be697d06d0829cb6130a2cc609[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Tue Mar 27 13:45:33 2018 +0530
+
+    changed_state_to_states_linterror_removed
+
+[33mcommit dc3f72226445ba4e870b7d18797a0183b606f63d[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Mon Mar 26 15:57:06 2018 +0530
+
+    added_Angular_Material
+
+[33mcommit fe5cbeabb57f2ece16bae59a3a39a2f3a0e8429c[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Mon Mar 26 12:29:54 2018 +0530
+
+    routing_Guard_implemented
+
+[33mcommit e8881f613cccaa51dc0918e00dfa3abcfc7a4758[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Fri Mar 23 15:27:06 2018 +0530
+
+    sprint_3_begins
+
+[33mcommit b0becf9d388e6d14a7c9305be59a50828e80a6c6[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 21 17:22:43 2018 +0530
+
+    Do_console_logs_left
+
+[33mcommit da09ccedf0f690513732ceb712b1dbfcf0b7085a[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 21 17:09:27 2018 +0530
+
+    lint error removed
+
+[33mcommit 0a6bbb5eaa8cbc8ef625e5a1e4e5b63781596af9[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 21 16:48:05 2018 +0530
+
+    All_modules_converted_to_component
+
+[33mcommit 06261779cd33a5581223a59d216276e221056368[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 21 16:46:09 2018 +0530
+
+    skills_module_converted_to_component
+
+[33mcommit c0a607ea61d12761f4c4d4fd767e5bd5fbc55180[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 21 16:39:07 2018 +0530
+
+    reports_module_converted_to_component
+
+[33mcommit 39fb3378826f987b2c29b61efebd56e80a081e7e[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 21 16:37:58 2018 +0530
+
+    Dashboard_module_converted_to_component
+
+[33mcommit 3a48732b8980ffff48874143b4ffe43faf30c00c[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 21 16:33:32 2018 +0530
+
+    certification_module_removed_working_fine
+
+[33mcommit 7fcaf3cf8a7eabcb456cd6bf531e72a83f8bd183[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 21 16:24:26 2018 +0530
+
+    all scrollbar removed
+
+[33mcommit 035d8fa9e3690c1c94de7be86c12dece1b45f059[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Tue Mar 20 19:14:18 2018 +0530
+
+    need UI Chnages
+
+[33mcommit 3354fe575573c4820c15357709336125d93552f3[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Tue Mar 20 16:45:25 2018 +0530
+
+    certification_styles_moved
+
+[33mcommit 7726e8db5b813ecda54c2a9de60119abdf640f5a[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Tue Mar 20 16:14:43 2018 +0530
+
+    changing_Styles
+
+[33mcommit dfb5a076c9ac7aca7ae5b53fda9991cd7576cfc4[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Tue Mar 20 11:58:07 2018 +0530
+
+    Test_Cases_Implemented
+
+[33mcommit cb53d37a9cf3a3ad467db68a8e2c1357ab4edd3b[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Mon Mar 19 19:39:51 2018 +0530
+
+    SushNewCode_integrated
+
+[33mcommit 73058bb2207635d9beca4750309d83536ee352c7[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Mon Mar 19 19:26:49 2018 +0530
+
+    Mehak_newCode_Integrated
+
+[33mcommit 2f8d051a80d1053b1b75b35139e8a8d31dfa9983[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Mon Mar 19 16:55:48 2018 +0530
+
+    certification_placeholder_done
+
+[33mcommit c50b721236fa6cf2f31b06af638707c4572c0ebf[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Mon Mar 19 12:45:48 2018 +0530
+
+    skillplaceholdermodeldone
+
+[33mcommit 571d443c920cd4f345aa874c6beb39f81a92f786[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Thu Mar 15 19:08:56 2018 +0530
+
+    Gaurav_ui_integrated
+
+[33mcommit 94379a4a1bde313280d13921276da04797b4aa36[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Thu Mar 15 18:47:49 2018 +0530
+
+    UI_working_fine
+
+[33mcommit c408382b910148f1453e50ee174f81dda4260ef8[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Thu Mar 15 12:15:33 2018 +0530
+
+    updated_merged_UI
+
+[33mcommit e10665a2b612d55295df7fbff8a18517a810060d[m[33m ([m[1;32mabhishek[m[33m)[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 14 20:00:49 2018 +0530
+
+    All_code_working_fine_tested
+
+[33mcommit 1bc60bedbf7b5fd569316f69aefcfe685c68aabd[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 14 19:53:57 2018 +0530
+
+    UI by Sahib Done
+
+[33mcommit 8502c336f6def40ab651a753b37b8fda9e7bf6f6[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 14 19:51:51 2018 +0530
+
+    All files Removed
+
+[33mcommit e90d1ed400e1dab328f59c969ab379a609d7adc4[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 14 19:31:17 2018 +0530
+
+    Sprint_2_PLaceholders_done
+
+[33mcommit 5ad7a032a564557ec3867ff9dbda207c9325cdb9[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Fri Mar 9 19:33:40 2018 +0530
+
+    placeholders_done
+
+[33mcommit f87129a638be9320c82da1bf3cf5235cde8133ca[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 7 19:30:15 2018 +0530
+
+    placeholder_styles_left
+
+[33mcommit e1861d1c5807ff7d602b01756b49fbd6616667df[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 7 18:32:18 2018 +0530
+
+    dashboard_Static_module_done
+
+[33mcommit b56188c2a6e1d89194f40823845fa58d4eea3f11[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 7 18:21:23 2018 +0530
+
+    Search_implemented_dropdown_menu_fixed
+
+[33mcommit ade54e91e32e6c0fefa70631f61bca71dd3ee0a2[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 7 15:07:42 2018 +0530
+
+    Dash_layout_moved_to_dashlayout
+
+[33mcommit 0997cbefb68604783238f2247675fc67d510a859[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 7 13:04:24 2018 +0530
+
+    traing_placeholder_added
+
+[33mcommit ffe9b9a7fc3ee96571cc339156d5c24102ecf928[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 7 13:01:04 2018 +0530
+
+    Routes_Done
+
+[33mcommit 76edf8f42cb763dde41fae7726e912bf040c9fce[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 7 12:48:15 2018 +0530
+
+    moved_out_the_zip_files
+
+[33mcommit a63f25cbeb63fa02f49e546cc9dd2c7c946cc902[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 7 12:08:41 2018 +0530
+
+    certification_directory_made
+
+[33mcommit 33cd722d9e5f17b0fbd1ab93a05f44a580b414dd[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 7 12:04:39 2018 +0530
+
+    folder_strucute_for_dashboard_Created
+
+[33mcommit 8b58aa01b77561486dc05bae9392cd45a0bce9af[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Mar 7 11:57:17 2018 +0530
+
+    BUg_fixed_in_rating
+
+[33mcommit aa485aa378d26a142bb3a47b0811109bb63e8fc0[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Mon Mar 5 20:03:48 2018 +0530
+
+    search is left
+
+[33mcommit 7990a41491ca0580940c3b7940087f08eff18209[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Fri Mar 2 18:23:43 2018 +0530
+
+    all_modules_integrated_functionality_left
+
+[33mcommit f66631c155f37af156ed02fcc2c728b03bf5f9bf[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Thu Mar 1 19:09:14 2018 +0530
+
+    folder_Structure_done
+
+[33mcommit d7bd1079fdbc4f87bf7125e2bc8192a14e80c734[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Thu Mar 1 16:33:19 2018 +0530
+
+    created_reports_module
+
+[33mcommit d9f5e974edf65a708028397c3d0e6d943d0184c3[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Thu Mar 1 16:31:35 2018 +0530
+
+    training_module_created
+
+[33mcommit 6729764911a0bf66cdd46e2c8462aa02b4deab5c[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Thu Mar 1 16:31:05 2018 +0530
+
+    dashboard_module_created
+
+[33mcommit c43234f1431d0914143a6b94fef89a54e78708b6[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Thu Mar 1 16:25:01 2018 +0530
+
+    created_certifications_module
+
+[33mcommit 39875654d29edc3c7d3cf0d6f830aedcf42ed759[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Thu Mar 1 16:15:11 2018 +0530
+
+    added_rating_component
+
+[33mcommit 06b5145c5865efa81c0cc5ebc08d61ad1e475331[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Thu Mar 1 16:14:29 2018 +0530
+
+    added_skill_detail
+
+[33mcommit 678ed869cc8e3b9d4efc022cb6fc7cf579a4117a[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Thu Mar 1 16:12:00 2018 +0530
+
+    adde_myskill_allskill
+
+[33mcommit 41d3d7fa31d659d43cbfc4cba8f308a18586ed1c[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Thu Mar 1 16:04:08 2018 +0530
+
+    created_skills_navigation
+
+[33mcommit 5481de609075b061bc17c74b81b480ff16dbf5cf[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Thu Mar 1 12:39:18 2018 +0530
+
+    Updated_Directory_Structure
+
+[33mcommit a1b87b3eabdf3de6f05dd441ca330d1c12de5145[m
+Author: Sahib Singh <sdsahib95@gmail.com>
+Date:   Wed Feb 28 18:50:34 2018 +0530
+
+    created_basic_structure_child_Skill_Structure_left
+
+[33mcommit fe4c8715971795ecaf07742fdd96ffa9f1ac02b5[m
+Author: Angular CLI <angular-cli@angular.io>
+Date:   Wed Feb 28 17:26:09 2018 +0530
+
+    chore: initial commit from @angular/cli

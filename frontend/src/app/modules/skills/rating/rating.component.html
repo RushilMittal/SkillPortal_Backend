@@ -1,0 +1,56 @@
+<div id="collapse-update">
+    <div class="row">
+        <h5 style="font-size:150%; color: rgba(0, 0, 0, 0.71)"> Update Your Rating </h5> 
+    </div>  
+    <div class="row">
+        <h6 style="font-size:80%; color: rgba(0, 0, 0, 0.71); padding-top:2%"> I have: </h6>
+    </div>
+    <div class="row">
+        <div class="col-12 col-xs-12">   
+          <form>
+              <!--  -->
+              <!-- Need to pass the data to the parent route -->
+              <!--  -->
+              <div class="form-group" >
+                  <!-- (click) = "onClick(1)" id= "{{this.skills.subSkill.subSkill + 1}}" -->
+                  <button class="bs1" (click) = "onClick(1)" id= "{{this.skills.subSkill.id + 1}}" >1</button>
+                  <label>A Book Knowledge</label>
+              </div>
+              <div class="form-group" >
+                  <!-- (click) = "onClick(2)" id= "{{this.skills.subSkill.subSkill + 2}}" -->
+                      <button class="bs" (click) = "onClick(2)" id= "{{this.skills.subSkill.id + 2}}">2</button>
+                    <label>A Working Knowledge</label>
+              </div>  
+              <div class="form-group" >
+                  <!-- (click) = "onClick(3)" id= "{{this.skills.subSkill.subSkill + 3}}" -->
+                  <button class="bs" (click) = "onClick(3)" id= "{{this.skills.subSkill.id + 3}}"  >3</button>
+                  <label>A Project Knowledge</label>
+              </div>
+              <div class="form-group" >
+                  <!-- (click) = "onClick(4)" id= "{{this.skills.subSkill.subSkill + 4}}"  -->
+                  <button class="bs" (click) = "onClick(4)" id= "{{this.skills.subSkill.id + 4}}" >4</button>
+                  <label>Done A Certification</label>
+              </div>
+              <div class="form-group" >
+                  <!-- (click) = "onClick(5)" id= "{{this.skills.subSkill.subSkill + 5}}"  -->
+                  <button class="bs2" (click) = "onClick(5)" id= "{{this.skills.subSkill.id + 5}}">5</button>
+                  <label>Presented White Papers</label>
+              </div>  
+          </form>
+      </div>
+    </div> 
+    <div class="row">
+        <div class="col">
+            <button id= "{{ cancelbutton + this.skills.subSkill.id}}"
+              (click) ="cancelClickedFunction()" class="btn" type="button" data-toggle="collapse"
+               data-target="#content" style="width:129px; ">
+                Cancel
+            </button>
+        </div>
+        <div class="col">
+            <button id="update-rating" (click)="updateRating()" class="btn" data-toggle="collapse" data-target="#content">
+                Update Rating
+            </button>
+        </div>
+    </div>
+  </div>
