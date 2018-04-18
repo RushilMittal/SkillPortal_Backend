@@ -6,9 +6,9 @@ git config --global http.sslVerify false
 
 git remote add origin https://gitlab.blr.teksystems.com/interns2018/skill-portal
 
-git pull origin dev
-
 git checkout -b dev
+
+git pull origin dev
 
 git add .
 
