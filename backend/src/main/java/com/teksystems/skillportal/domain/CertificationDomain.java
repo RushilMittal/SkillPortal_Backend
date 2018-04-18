@@ -14,6 +14,12 @@ public class CertificationDomain {
         this.institution = institution;
     }
 
+    public CertificationDomain(String skillId, String certificationName, String institution) {
+        this.skillId = skillId;
+        this.certificationName = certificationName;
+        this.institution = institution;
+    }
+
     public CertificationDomain(){}
     
     public String getId() {

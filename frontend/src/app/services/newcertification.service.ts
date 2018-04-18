@@ -6,7 +6,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { baseUrlCertification } from '../baseUrl';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class NewCertificationService {
@@ -16,36 +16,21 @@ export class NewCertificationService {
     constructor(private http: HttpClient) { }
 
     saveNewCertification(certification: Certification): Observable<Certification> {
-        // console.log('Inside save: ' + certification.certificationName + '' + certification.institution + '' + certification.skillId);
-        const headers = new Headers({'Content-Type': 'application/json'});
-        const options = new RequestOptions({ headers: headers});
-
-        return this.addNewCertification(certification, options);
+        return this.addNewCertification(certification);
     }
 
-    private addNewCertification(certification: Certification, options: RequestOptions): Observable<Certification> {
-
-        // console.log('Adding New Certification:');
-
-        const url = `${this.apiRoot}/add_new`;
-        // console.log(url);
-
-        const  newCertification = JSON.stringify(certification);
-        // console.log(newCertification); // displays received data
-
-        return this.http.post(url, newCertification)
-            .map(this.extractData)
-            .do(data => console.log('createCertification: ' + JSON.stringify(newCertification)))
+    private addNewCertification(certificationReceived: Certification): Observable<Certification> {
+        const url = `${this.apiRoot}/addnewemployeecertificate?skillId=${certificationReceived.skillId}&`+
+                    `certificationName=${certificationReceived.certificationName}&`+
+                    `institution=${certificationReceived.institution}`;
+        const  certification = JSON.stringify(certificationReceived);
+        return this.http.post(url, certification)
             .catch(this.handleError);
     }
 
     private extractData(response: Response) {
         const body = response.text() ? response.json() : {};
         return body.data;
-
-        // below mentioned snippet generates Unexpected end of JSON error
-        // let body = response.json();
-        // return body.data || {};
     }
 
     private handleError(error: Response): Observable<any> {

@@ -26,8 +26,8 @@ export class SkillsPlaceholderComponent implements OnInit {
   }
 
   ngOnInit() {
-    const employeeId = '101';
-    this.skillPlaceHolderService.getemployeeSkillPlaceholder(employeeId)
+    
+    this.skillPlaceHolderService.getemployeeSkillPlaceholder()
         .subscribe(skillPlaceholder => {
             this.skillPlaceholder = skillPlaceholder,
             this.year = this.skillPlaceholder.lastUpdatedPeriod[0],

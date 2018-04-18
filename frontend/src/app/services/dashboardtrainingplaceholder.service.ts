@@ -19,8 +19,7 @@ export class DashboardTrainingPlaceholder {
         // let url = `${this.apiRoot}`;
 
             return this.http.get(this.url)
-                            .map((response: Response) => <Training>response.json())
-                            .do(data => console.log(JSON.stringify(data)))
+                            
                             .catch(this.handleError);
     }
 

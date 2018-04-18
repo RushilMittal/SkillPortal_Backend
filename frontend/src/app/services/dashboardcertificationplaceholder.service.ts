@@ -19,8 +19,7 @@ export class DashboardCertificationPlaceholderService {
     const url = `${this.apiRoot}/getcertificationplaceholder?employeeId=${empId}`;
     // console.log(url);
     return this.http.get(url)
-            .map((response: Response) => <EmployeeCertificatePlaceholderModel>response.json())
-            .do(data => console.log(JSON.stringify(data )))
+            
             .catch(this.handleError);
 
   }

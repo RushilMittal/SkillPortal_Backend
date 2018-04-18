@@ -54,6 +54,7 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { AuthModule, OidcSecurityService, OpenIDImplicitFlowConfiguration, AuthWellKnownEndpoints } from 'angular-auth-oidc-client';
 import { TokenInterceptor } from './Token.interceptor';
 import { RedirectComponent } from './redirect/redirect.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 // import { AuthService } from './services/AuthToken.service';
 
 
@@ -103,6 +104,7 @@ import { RedirectComponent } from './redirect/redirect.component';
     HttpClientModule,
     FormsModule,
     AuthModule.forRoot(),
+    NgbModule.forRoot(),
     AppRoutingModule,
     HttpModule,
     ReactiveFormsModule
@@ -157,7 +159,7 @@ export class AppModule {
     openIDImplicitFlowConfiguration.stsServer =
       'https://login.microsoftonline.com/371cb917-b098-4303-b878-c182ec8403ac/oauth2/authorize';
     openIDImplicitFlowConfiguration.redirect_url =
-      'http://localhost:4200/redirect';
+      'http://10.188.27.112:4200/redirect';
     openIDImplicitFlowConfiguration.client_id =
       'edb31c7a-1273-44e8-b0d0-50830aaede35';
     openIDImplicitFlowConfiguration.response_type = 'id_token';
@@ -166,7 +168,7 @@ export class AppModule {
       '00000002-0000-0000-c000-000000000000';
     openIDImplicitFlowConfiguration.scope = 'openid';
     openIDImplicitFlowConfiguration.post_logout_redirect_uri =
-      'http://localhost:4200';
+      'http://10.188.27.112:4200';
     openIDImplicitFlowConfiguration.post_login_route = '/dashboard';
     openIDImplicitFlowConfiguration.forbidden_route = '/dashboard';
     openIDImplicitFlowConfiguration.unauthorized_route = '/dashboard';
@@ -178,7 +180,7 @@ export class AppModule {
     const authWellKnownEndpoints = new AuthWellKnownEndpoints();
     authWellKnownEndpoints.issuer =
       'https://sts.windows.net/371cb917-b098-4303-b878-c182ec8403ac/';
-    authWellKnownEndpoints.jwks_uri = 'http://localhost:4000/keys';
+    authWellKnownEndpoints.jwks_uri = 'http://10.188.27.112:4000/keys';
     authWellKnownEndpoints.authorization_endpoint =
       'https://login.microsoftonline.com/371cb917-b098-4303-b878-c182ec8403ac/oauth2/authorize';
     authWellKnownEndpoints.token_endpoint =

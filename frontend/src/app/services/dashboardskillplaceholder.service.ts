@@ -15,14 +15,9 @@ export class DashBoardSkillPlaceHolderService {
     private apiRoot = baseUrlSkill;
     constructor(private http: HttpClient) { }
 
-    getemployeeSkillPlaceholder(employeeId: string): Observable<EmployeeSkillPlaceholder> {
-        // console.log('inside getemployeeSkillPlaceholder ');
-        const url = `${this.apiRoot}/getEmployeeSkillPlaceholder?empId=${employeeId}`;
-        // console.log(url);
-
+    getemployeeSkillPlaceholder(): Observable<EmployeeSkillPlaceholder> {
+        const url = `${this.apiRoot}/getEmployeeSkillPlaceholder`;
         return this.http.get(url)
-                    // .map((response: Response) => <EmployeeSkillPlaceholder>response.json())
-                    // .do(data => console.log(JSON.stringify(data)))
                     .catch(this.handleError);
     }
 

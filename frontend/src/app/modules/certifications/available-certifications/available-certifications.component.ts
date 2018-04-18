@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { AllCertificationService } from '../../../services/allcertification.service';
 import { Certification } from '../../../model/Certification';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-available-certifications',
@@ -16,14 +18,49 @@ export class AvailableCertificationsComponent implements OnInit {
   addCertificate: String = 'add-certificate';
   showSpinner = false;
   activeId: string;
+  closeResult: string;
+  constructor(private allCertificationService: AllCertificationService,
+    private modalService: NgbModal,
+    private router:Router) { }
 
-  constructor(private allCertificationService: AllCertificationService) { }
+  ngOnInit() {
 
-  // Page Refresh
-  redirect() {
-    window.location.reload();
+    this.getAllCertificate();
+
+  }
+  open(content) {
+    this.modalService.open(content).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+      console.log(this.closeResult);
+      this.onRefresh();
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
   }
 
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
+
+   // Can be used to refresh the component to same page
+   onRefresh() {
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {return false; };
+
+    const currentUrl = this.router.url + '?';
+
+    this.router.navigateByUrl(currentUrl)
+      .then(() => {
+        this.router.navigated = false;
+        this.router.navigate([this.router.url]);
+      });
+      this.getAllCertificate();
+    }
 
   public Valid(isValid: string) {
     // console.log('is valid' + isValid);
@@ -56,9 +93,5 @@ export class AvailableCertificationsComponent implements OnInit {
       );
          }
 
-  ngOnInit() {
-
-    this.getAllCertificate();
-
-  }
+  
 }

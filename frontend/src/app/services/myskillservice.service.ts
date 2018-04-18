@@ -10,14 +10,13 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class MySkillService {
-  // private url = './assets/EmployeeSkill.json';
-  // private apiRoot = 'http://localhost:8000/api';
+
   private apiRoot = baseUrlSkill;
   constructor(private http: HttpClient) { }
 
-  getEmployeeSkills(employeeId: string): Observable<EmployeeSkill[]> {
-    // console.log('inside getEmployeeSkill');
-    const url = `${this.apiRoot}/getEmployeeSkills?empId=101`;
+  getEmployeeSkills(): Observable<EmployeeSkill[]> {
+
+    const url = `${this.apiRoot}/getEmployeeSkills`;
     console.log(url);
 
     return this.http.get(url)
@@ -26,25 +25,24 @@ export class MySkillService {
 
 saveEmployeeSkill(employeeSkill: EmployeeSkill): Observable<EmployeeSkill> {
 
-    if (!employeeSkill.employeeId) {
-        // console.log('PLease provide the EmployeeID');
+    let toReturn ;
+    if (employeeSkill) {
+        toReturn = this.addEmployeeSkill(employeeSkill);
 
     }
-    return this.addEmployeeSkill(employeeSkill);
+    else{
+        console.log("Employee SKill not present");
+    }
+    return toReturn;
 
 }
 
 private addEmployeeSkill(employeeSkill: EmployeeSkill): Observable<EmployeeSkill> {
-    // console.log('inside createEmployeeSkill');
-    // console.log('sahib' + employeeSkill.subSkill.id + 'sahib');
-    const url = `${this.apiRoot}/add?empId=${employeeSkill.employeeId}
-                  &subSkillId=${employeeSkill.subSkill.id}
-                &rating=${employeeSkill.rating}`;
-                console.log(url);
-   const  employeeSkilltemp  = JSON.stringify(employeeSkill);
-    return this.http.post(url, { employeeSkilltemp})   // changed after httpclient by ashwin ' {} '
-        // .map(this.extractData)
-        // .do(data => console.log('createProduct: ' + JSON.stringify(data)))
+    
+    const url = `${this.apiRoot}/add?subSkillId=${employeeSkill.subSkill.id}&rating=${employeeSkill.rating}`;
+    console.log(url);
+    const  employeeSkilltemp  = JSON.stringify(employeeSkill);
+    return this.http.post(url,employeeSkilltemp)   
         .catch(this.handleError);
 }
 

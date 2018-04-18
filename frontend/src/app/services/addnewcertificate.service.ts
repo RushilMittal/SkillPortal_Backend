@@ -6,7 +6,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { Observable} from 'rxjs/Observable';
 import { EmployeeCertificate } from '../model/EmployeeCertification';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 
@@ -16,28 +16,19 @@ export class AddNewCertificateService {
     constructor(private http: HttpClient) {}
 
     saveNewCertification(employeeCertification: EmployeeCertificate): Observable<EmployeeCertificate> {
+        console.log('In the add certification component');
+        const url = `${this.apiRoot}/addCertification?certificationId=${employeeCertification.certificationId.id}`+
+                    `&certificationDateString=${employeeCertification.certificationDate}`+
+                    `&certificationValidityDateString=${employeeCertification.certificationValidityDate}`+
+                    `&certificationNumber=${employeeCertification.certificationNumber}`+
+                    `&certificationUrl=${employeeCertification.certificationUrl}`;
 
-        const headers = new Headers({'Content-Type': 'application/json'});
-        const options = new RequestOptions({ headers: headers});
+        const employeeCertificationDomain = JSON.stringify(employeeCertification);
 
-        return this.addNewCertification(employeeCertification, options);
-    }
-
-
-    addNewCertification(employeeCertification: EmployeeCertificate, options: RequestOptions): Observable<EmployeeCertificate> {
-        // console.log('In the add certification component');
-        const url = `${this.apiRoot}/addcertificate`;
-
-        // console.log(url);
-        const toSendEmployeeCertification = JSON.stringify(employeeCertification);
-        // console.log(toSendEmployeeCertification);
-        return this.http.post(url, toSendEmployeeCertification)
-            .map(this.extractData)
-            .do(data => console.log('createCertification: ' + JSON.stringify(data)))
+        return this.http.post(url, employeeCertificationDomain)
             .catch(this.handleError);
-
-
     }
+
 
     private extractData(response: Response) {
         const body = response.text() ? response.json() : {};

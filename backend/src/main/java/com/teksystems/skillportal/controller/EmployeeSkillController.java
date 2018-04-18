@@ -4,26 +4,24 @@ package com.teksystems.skillportal.controller;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import com.teksystems.skillportal.model.EmployeeSkill;
+import com.teksystems.skillportal.service.TokenValidationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.web.bind.annotation.*;
 
 import com.teksystems.skillportal.domain.EmployeeSkillDomain;
 import com.teksystems.skillportal.domain.EmployeeSkillPlaceholderDomain;
 import com.teksystems.skillportal.domain.SubSkillDomain;
 import com.teksystems.skillportal.service.EmployeeSkillService;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 @RestController
 @RequestMapping(value="/skill",method= {RequestMethod.GET,RequestMethod.POST})
-@CrossOrigin("*")
+@CrossOrigin()
 public class EmployeeSkillController {
 
 	private static Logger logger = Logger.getLogger(EmployeeSkillController.class);
@@ -31,20 +29,37 @@ public class EmployeeSkillController {
 	@Autowired
 	 private EmployeeSkillService employeeSkillService;
 
+    private TokenValidationService tokenValidator;
+
 	/*
 	 * For Fetching the SubSkill Domain of a particular Employee
 	 * UI:- For displaying in "My Skill"
 	 * Param:- Skill_Name and Employee_EmailId
 	 * Integration Testing Done :- 	11-04-2018
+	 * EmployeeId from Authorization token Done :- 14-04-2018
 	 */
 
 	@GetMapping("/getSubSkillsBySkill")
-	public List<SubSkillDomain> getBySubSkillId(@RequestParam String empId,@RequestParam String skillName) throws ExecutionException {
+	public List<SubSkillDomain> getBySubSkillId(HttpServletRequest request,@RequestParam String skillName) throws ExecutionException {
         logger.info("/api/getSubSkillsBySkillId accessed");
-		logger.debug("Paramater received : empId "+ empId+" skillId "+skillName );
-		logger.info("Getting all unassigned subskills for emplyoyee "+empId);
+        logger.debug("Paramater received : SkillName "+skillName );
+        List<SubSkillDomain> toReturn = null;
+        String employeeId = null;
+        try{
+            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
+            if(!( ((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+                employeeId = tokenValidator.ExtractEmployeeId(request);
+                logger.debug("Paramater received : employeeId " + employeeId);
+                toReturn = employeeSkillService.getAllUnassignedSubSkills(employeeId,skillName);
 
-		return employeeSkillService.getAllUnassignedSubSkills(empId,skillName);
+            } else {
+                logger.info("Employee Id not Found in the Authorization");
+            }
+        }catch(Exception e){
+            logger.info("Some error occured" + e.toString());
+            e.printStackTrace();
+        }
+        return toReturn;
 	}
 
     /*
@@ -52,39 +67,69 @@ public class EmployeeSkillController {
      * UI:- to save a rating from Rating Component
      * Param:- empId(Employee ID of the Employee), subSkillId, rating(Rating selected on the UI)
      * Integration Testing Done :- 	11-04-2018
+     * EmployeeId from Authorization token Done :- 14-04-2018
      */
 
 	@PostMapping("/add")
-	public void add(@RequestParam String empId,@RequestParam String subSkillId, @RequestParam int rating) throws Exception {
-		System.out.println("in add");
+	public void add(HttpServletRequest request, @RequestParam String subSkillId, @RequestParam int rating) throws Exception {
 		logger.info("/api/add accessed");
-		logger.debug("Paramater received : Empid "+empId +" subSkillid "+subSkillId+" rating "+rating);
-		if (rating <= 0 || rating > 5) {
-			throw new Exception("Rating Invalid"+ rating);
-		}
-		else {
-			employeeSkillService.addNew(empId, subSkillId, rating);
-		}
-		logger.info("New subskill " + subSkillId +" with rating "+ rating +" added for " + empId);
+		String employeeId =null;
+
+		try{
+
+            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
+            if(!( ((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+                employeeId = tokenValidator.ExtractEmployeeId(request);
+                logger.debug("Paramater received : employeeId " + employeeId);
+                logger.info("Trying to Add the Employee Rating of " + employeeId);
+                if (rating <= 0 || rating > 5) {
+                    throw new Exception("Rating Invalid"+ rating);
+                }
+                else {
+                    employeeSkillService.addNew(employeeId, subSkillId, rating);
+                }
+                logger.debug("Saved Rating of Employee "+employeeId +", subSkillid "+subSkillId+",with rating "+rating);
+            } else {
+
+                logger.info("Employee Id not Found in the Authorization");
+            }
+
+        }catch(Exception e){
+            logger.info("Some error occured" + e.toString());
+		    e.printStackTrace();
+        }
+
+
+
+
 	}
 
     /*
      * For getting the EmployeeSkillPlaceholder for Dashboard of a particular Employee
      * Param:- empId (Employee ID of the Employee)
      * Integration Testing Done :- 	11-04-2018
+     * EmployeeId from Authorization token Done :- 13-04-2018
      */
 	@GetMapping("/getEmployeeSkillPlaceholder")
-	public EmployeeSkillPlaceholderDomain getEmployeeSkillPlaceholder(@RequestParam String empId){
-		
+	public EmployeeSkillPlaceholderDomain getEmployeeSkillPlaceholder(HttpServletRequest request){
 		logger.info("/api/getEmployeeSkillPlaceholder");
-		EmployeeSkillPlaceholderDomain toReturn = null;
-		if(!empId.isEmpty()){
-			logger.debug("Paramater received : empId " + empId);
-			logger.info("Getting detail for the Skill Placeholder " + empId);
-			toReturn = employeeSkillService.getEmployeeSkillPlaceHolderDomain(empId);
-		}else{
-			logger.debug("Employee Id Not Received, Nothing Processed");
-		}
+
+        EmployeeSkillPlaceholderDomain toReturn = null;
+        String employeeId = null;
+		try {
+            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
+            if(!( ((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+                employeeId = tokenValidator.ExtractEmployeeId(request);
+                logger.debug("Paramater received : employeeId " + employeeId);
+                logger.debug("Getting detail for the Skill Placeholder, using employeeId " + employeeId);
+                toReturn = employeeSkillService.getEmployeeSkillPlaceHolderDomain(employeeId);
+            } else {
+                logger.info("Employee Id not Found in the Authorization");
+            }
+        }catch(Exception e){
+		    logger.info("Some error occured" + e.toString());
+		    e.printStackTrace();
+        }
 		return toReturn;
 	}
 
@@ -92,13 +137,29 @@ public class EmployeeSkillController {
      * For getting all the Employee Skills
      * Param:- empId (Employee ID of the Employee)
      * Integration Testing Done :- 	11-04-2018
+     * EmployeeId from Authorization token Done :- 13-04-2018
      */
 	@GetMapping("/getEmployeeSkills")
-	public List<EmployeeSkillDomain> getEmployeeSkills(@RequestParam String empId) {
-		logger.info("/api/getEmployeeSkills accessed");
-		logger.debug("Paramater received : empid "+empId );
-		logger.info("Employee skills fetched using id "+empId);
-		return employeeSkillService.getAll(empId);
+	public List<EmployeeSkillDomain> getEmployeeSkills(HttpServletRequest request) {
+        logger.info("/api/getEmployeeSkills accessed");
+        String employeeId =null;
+        List<EmployeeSkillDomain> toReturn = null;
+        try {
+            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
+            if(!( ((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+                employeeId = tokenValidator.ExtractEmployeeId(request);
+                logger.debug("Paramater received : EmployeeId " + employeeId);
+                logger.info("Fetching Employee Skills");
+                toReturn = employeeSkillService.getAll(employeeId);
+            }else{
+                logger.info("Employee Id not Found in the Authorization");
+            }
+        }catch(Exception e ) {
+            logger.info("Some Error Occured" + e.toString());
+            e.printStackTrace();
+        }
+
+		return toReturn;
 	}
 
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
 
@@ -21,43 +21,16 @@ export class NewCertificationComponent implements OnInit {
   newCertificationForm: FormGroup; // defines our form model (root)
   certification: Certification = new Certification('', '', '', ''); // defines our data model
 
+  @Output() saveClicked: EventEmitter<void> = new EventEmitter<void>();
+
   skills: SubSkill; // to populate selector
   skillSelected: Skill; // selected frm select option
   errorMessage: any;
   temp;
   keys;
   constructor(private allSkillService: AllSkillService,
-              private newCertificationService: NewCertificationService,
-             private route: Router) { }
-
-  save() {
-    // console.log(this.newCertificationForm);
-    // console.log(JSON.stringify(this.newCertificationForm.value));
-
-    this.saveCertification((this.newCertificationForm.get('skillName').value));
-
-  }
-
-  // Helper method: uses forwarded skill to make post call
-  saveCertification(skillForwarded: string) {
-
-    // console.log('Printing Skill Forwarded: ' + skillForwarded.id + ' ' + skillForwarded.name + ' ' + skillForwarded.ratedUsers) ;
-
-    // Providing value to data model Certification
-    this.certification.skillId = skillForwarded;
-    this.certification.certificationName = this.newCertificationForm.get('certificationName').value;
-    this.certification.institution = this.newCertificationForm.get('institutionName').value;
-
-    // Calling the new_certification_service method
-
-    this.newCertificationService.saveNewCertification(this.certification)
-        .subscribe(
-              () => console.log('Certification Passed to Certification API'),
-              (error: any) => this.errorMessage = <any>error
-        );
-
-    window.location.reload(); // Page Refresh : new
-  }
+    private newCertificationService: NewCertificationService,
+    private route: Router) { }
 
   ngOnInit() {
 
@@ -82,6 +55,36 @@ export class NewCertificationComponent implements OnInit {
 
       );
   }
+
+  save() {
+    // console.log(this.newCertificationForm);
+    // console.log(JSON.stringify(this.newCertificationForm.value));
+
+    this.saveCertification((this.newCertificationForm.get('skillName').value));
+    this.saveClicked.emit();
+  }
+
+  // Helper method: uses forwarded skill to make post call
+  saveCertification(skillForwarded: string) {
+
+    // console.log('Printing Skill Forwarded: ' + skillForwarded.id + ' ' + skillForwarded.name + ' ' + skillForwarded.ratedUsers) ;
+
+    // Providing value to data model Certification
+    this.certification.skillId = skillForwarded;
+    this.certification.certificationName = this.newCertificationForm.get('certificationName').value;
+    this.certification.institution = this.newCertificationForm.get('institutionName').value;
+
+    // Calling the new_certification_service method
+
+    this.newCertificationService.saveNewCertification(this.certification)
+      .subscribe(
+        () => console.log('Certification Passed to Certification API'),
+        (error: any) => this.errorMessage = <any>error
+      );
+
+    // window.location.reload(); // Page Refresh : new
+  }
+
 
   gettingKeys() {
 

@@ -23,8 +23,7 @@ export class SkilldetailComponent implements OnInit {
   skill: string;
   subSkillList: SubSkill[];
   employeeSkillList = [];
-  // hard coded will be changed
-  employeeId = '101';
+  
   errorMessage: any;
   showSpinner = true;
   constructor(private mySubSkillService: MySubSkillService,
@@ -44,7 +43,7 @@ export class SkilldetailComponent implements OnInit {
        this.skillName = params['id'];
       });
 
-      this.mySubSkillService.getEmployeeSubSkillExceptRatedSubSkill(this.employeeId, this.skillName)
+      this.mySubSkillService.getEmployeeSubSkillExceptRatedSubSkill(this.skillName)
           .subscribe( subskill => {
             this.subSkillList = subskill;
             },
@@ -57,7 +56,7 @@ export class SkilldetailComponent implements OnInit {
 
       for (const subskill of this.subSkillList) {
         const employeeSkill = new EmployeeSkill();
-          employeeSkill.employeeId = this.employeeId;
+          
           employeeSkill.subSkill = subskill;
           employeeSkill.rating = 0;
           employeeSkill.lastModified = new Date();
@@ -80,37 +79,29 @@ export class SkilldetailComponent implements OnInit {
       this.activeTags.push(param);
     }
 
-    // console.log(this.activeTags);
+   
   }
 
   OnRatingUpdated(newEmployeeSkillRated: EmployeeSkill): void {
 
-
-    // console.log('Run the post query to the Server with the data recieved' +
-    //   'call the service again with the updated data');
-    // console.log('Data recieved' + JSON.stringify(newEmployeeSkillRated));
-    // console.log('Emnployee ID' + newEmployeeSkillRated.employeeId);
+console.log("onrating updated inn parent");
+   
     newEmployeeSkillRated.lastModified = new Date();
-    if (newEmployeeSkillRated.employeeId) {
+    if (newEmployeeSkillRated.rating) {
         this.mySkillService.saveEmployeeSkill(newEmployeeSkillRated)
             .subscribe(
                 () => console.log('Product Passed to savefunction'),
                 (error: any) => this.errorMessage = <any>error
             );
             this.onRefresh();
-            // this.getEmployeeSkill();
-            // console.log('NO Error in ifss');
+   
       } else {
-            this.errorMessage = 'Invalid Id';
-            // console.log('Employee Id missing cannot run query');
+            this.errorMessage = 'Invalid Rating';
+            console.log(this.errorMessage);
+   
       }
 
-    // this.onCanceledClicked(ne);
-    // // console.log(this.updateButton.concat(newEmployeeSkillRated.subSkill.name.toString()));
-    // const y = document.getElementById(this.updateButton.concat(newEmployeeSkillRated.subSkill.name.toString()));
-    // y.hidden = !(y.hidden);
-    // const x = document.getElementById(newEmployeeSkillRated.subSkill.name.toString());
-    // x.hidden = !(x.hidden);
+   
   }
 
   // Can be used to refresh the component to same page

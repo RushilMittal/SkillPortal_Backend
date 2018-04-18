@@ -20,8 +20,6 @@ export class AllCertificationService {
         const url = `${this.apiRoot}/all`;
         // console.log(url);
         return this.http.get(url)
-            .map((response: Response) => <Certification>response.json())
-            .do(data => console.log(JSON.stringify(data)))
             .catch(this.handleError);
     }
 

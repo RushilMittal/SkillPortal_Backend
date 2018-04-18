@@ -66,7 +66,7 @@ public class EmployeeCertificationService {
         List<EmployeeCertificationPlaceholderDomain> employeeCertificationPlaceholderDomainsList = new ArrayList<>();
         try {
             List<EmployeeCertificationDomain> employeeCertificationDomain = getEmployeeCertificationByEmployeeId(employeeId);
-
+            System.out.println("employee certification " + employeeCertificationDomain.size());
 
             if (employeeCertificationDomain.size() >= 2) {
 
@@ -79,13 +79,13 @@ public class EmployeeCertificationService {
                 employeeCertificationPlaceholderDomainsList.add(temp2);
             }
             else if (employeeCertificationDomain.size() == 1) {
+                System.out.println("EmployeeCertification INside if 1");
                 Calendar calendar = new GregorianCalendar();
                 calendar.setTime(employeeCertificationDomain.get(0).getCertificationDate());
                 EmployeeCertificationPlaceholderDomain temp1 = new EmployeeCertificationPlaceholderDomain(employeeCertificationDomain.get(0).getCertificationId().getCertificationName(),String.valueOf(calendar.get(Calendar.YEAR)));
-                calendar.setTime(employeeCertificationDomain.get(1).getCertificationDate());
-                EmployeeCertificationPlaceholderDomain temp2 = new EmployeeCertificationPlaceholderDomain(null,null);
+
                 employeeCertificationPlaceholderDomainsList.add(temp1);
-                employeeCertificationPlaceholderDomainsList.add(temp2);
+
 
             } else {
                 System.out.println("No data Present");
@@ -93,8 +93,27 @@ public class EmployeeCertificationService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        for(EmployeeCertificationPlaceholderDomain temp : employeeCertificationPlaceholderDomainsList){
+            System.out.println(temp.toString());
+        }
         return employeeCertificationPlaceholderDomainsList;
+    }
+
+    public Date dateExtractor(String dateReceived, Calendar calendar) {
+        Date toReturn = null;
+        System.out.println("Recived param" + dateReceived);
+        if(!dateReceived.equals("null")) {
+            calendar.set(Calendar.YEAR, Integer.parseInt(dateReceived.split("-")[0]));
+            calendar.set(Calendar.MONTH, Integer.parseInt(dateReceived.split("-")[1]));
+            calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateReceived.split("-")[2]));
+
+            int month = calendar.get(Calendar.MONTH) -1;
+            calendar.set(Calendar.MONTH,month);
+            toReturn = calendar.getTime();
+
+        }
+        System.out.println("date:" + toReturn);
+        return toReturn;
     }
 
 

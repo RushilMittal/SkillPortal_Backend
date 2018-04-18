@@ -11,14 +11,13 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class MyCertificationService {
-    url = baseUrlCertification + '/getcertifications?empId=101';
+    url = baseUrlCertification + '/getcertifications';
 
     constructor(private http: HttpClient) {}
 
     getEmployeeCertification(): Observable<EmployeeCertificate> {
         return this.http.get(this.url)
-                            .map((response: Response) => <EmployeeCertificate>response.json())
-                            .do(data => console.log(JSON.stringify(data)))
+                            
                             .catch(this.handleError);
     }
     private handleError(error: Response): Observable<any> {

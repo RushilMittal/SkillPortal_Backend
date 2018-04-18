@@ -8,27 +8,27 @@
  
   <div class="col-md-3">
     
+
+    
     <!-- Button trigger modal -->
-    <button id="not-in-list" type="button" class="btn right" data-toggle="modal" data-target="#newCertificationModal">
+    <button id="not-in-list" type="button" class="btn right" (click)="open(certificationNotInListModal)">
       Certification Not in List?
     </button>
+    <ng-template #certificationNotInListModal let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="modal-title">Certification not in list?</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-new-certification (saveClicked)="c('Cross click')"></app-new-certification>
+      </div>
+    </ng-template>
+
 
     <!-- Modal -->
-    <div class="modal fade" id="newCertificationModal" tabindex="-1" role="dialog" aria-labelledby="newCertificationModalTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="newCertificationModalTitle">Certification not in list?</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <app-new-certification></app-new-certification>
-          </div>
-        </div>
-      </div>
-    </div>
+   
 
   </div>
 </div>

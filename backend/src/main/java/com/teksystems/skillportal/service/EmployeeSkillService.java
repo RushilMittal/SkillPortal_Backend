@@ -14,8 +14,10 @@ import java.util.stream.Collectors;
 
 import com.google.common.cache.LoadingCache;
 import com.mongodb.BasicDBObject;
+import com.teksystems.skillportal.controller.EmployeeSkillController;
 import com.teksystems.skillportal.init.GuavaCacheInit;
 import com.teksystems.skillportal.init.MongoConfigNew;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -41,12 +43,14 @@ public class EmployeeSkillService {
 			new AnnotationConfigApplicationContext(MongoConfigNew.class);
 	static MongoOperations mongoOperation =
 			(MongoOperations) ctx.getBean("mongoTemplate");
-	
+
+	private static Logger logger = Logger.getLogger(EmployeeSkillService.class);
 	@Autowired
 	 EmployeeSkillRepository empSkillRepository;
 	
 	@Autowired
 	 SubSkillRepository subSkillRepository;
+
 
 	public List<SubSkillDomain> getAllUnassignedSubSkills(String empId, String skill) throws ExecutionException
 
@@ -103,9 +107,13 @@ public class EmployeeSkillService {
 		newSkill.setSubSkillId(subSkillId);
 		newSkill.setRating(rating);
 		newSkill.setLastModifiedDate(new Date());
-
-		//saving the object into employee skill database
-		empSkillRepository.save(newSkill);
+		try {
+			//saving the object into employee skill database
+			empSkillRepository.save(newSkill);
+		}catch(Exception e){
+			logger.error("Unable to Save the Rating");
+			e.printStackTrace();
+		}
 
 	}
 /*
@@ -206,47 +214,53 @@ public int getSubSkillCount(String subSkillId) {
 	public List<EmployeeSkillDomain> getAll(String empId){
 		//retrieving all skills of a particular employee according to empId
         empId = empId.trim();
-		List<EmployeeSkill> empSkills = empSkillRepository.findByEmpId(empId);
-		System.out.println("Data fetched : "+ empId +" " + empSkills.toString() );
-		//grouping together objects which are ratings of the same subskill over time
-		Map<String, List<EmployeeSkill>> employeeSkillGrouped =
-				empSkills.stream().collect(Collectors.groupingBy(EmployeeSkill::getSubSkillId));
+        List<EmployeeSkillDomain> empSkillDom =  new LinkedList<>();
+		try {
+            List<EmployeeSkill> empSkills = empSkillRepository.findByEmpId(empId);
 
-		//a list to store employee skill objects grouped by subskillid
-		List<EmployeeSkill> latestEmpSkills = new LinkedList<>();
+            System.out.println("Data fetched : "+ empId +" " + empSkills.toString() );
+            //grouping together objects which are ratings of the same subskill over time
+            Map<String, List<EmployeeSkill>> employeeSkillGrouped =
+                    empSkills.stream().collect(Collectors.groupingBy(EmployeeSkill::getSubSkillId));
+            //a list to store employee skill objects grouped by subskillid
+            List<EmployeeSkill> latestEmpSkills = new LinkedList<>();
 
-		//iterating through all group of subskills of an employee
-		for(String key: employeeSkillGrouped.keySet()){
+            //iterating through all group of subskills of an employee
+            for(String key: employeeSkillGrouped.keySet()){
 
-			//retrieving all objects of same subskill
-			List<EmployeeSkill> empOne = employeeSkillGrouped.get(key);
+                //retrieving all objects of same subskill
+                List<EmployeeSkill> empOne = employeeSkillGrouped.get(key);
 
-			//sorting these objects by last modified date
-			Collections.sort(empOne,new Comparator<EmployeeSkill>() {
-				@Override
-				public int compare(EmployeeSkill o1, EmployeeSkill o2) {
-					return o1.getLastModifiedDate().compareTo(o2.getLastModifiedDate());
-				}
-			});
+                //sorting these objects by last modified date
+                Collections.sort(empOne,new Comparator<EmployeeSkill>() {
+                    @Override
+                    public int compare(EmployeeSkill o1, EmployeeSkill o2) {
+                        return o1.getLastModifiedDate().compareTo(o2.getLastModifiedDate());
+                    }
+                });
 
-			//adding the object with latest last modified date of a subskill
-			latestEmpSkills.add(empOne.get((empOne.size())-1));
-		}
+                //adding the object with latest last modified date of a subskill
+                latestEmpSkills.add(empOne.get((empOne.size())-1));
+            }
 
-		// conversion of latest employee skills to employeeSkillDomain type
-		List<EmployeeSkillDomain> empSkillDom =  new LinkedList<>();
+            // conversion of latest employee skills to employeeSkillDomain type
 
-		for(EmployeeSkill iterable: latestEmpSkills)
-		{
-			//retrieving subskill object from database according to subskillid
-			SubSkill subskill = subSkillRepository.findById(iterable.getSubSkillId());
 
-			SubSkillDomain subskilldomain = new SubSkillDomain(subskill.getId(),subskill.getSubSkill(),subskill.getSubSkillDesc(),subskill.getSkill(),subskill.getSkillGroup(),subskill.getPractice(),getSubSkillCount(subskill.getId()));
+            for(EmployeeSkill iterable: latestEmpSkills)
+            {
+                //retrieving subskill object from database according to subskillid
+                SubSkill subskill = subSkillRepository.findById(iterable.getSubSkillId());
 
-			EmployeeSkillDomain temp = new EmployeeSkillDomain(iterable.getEmpId(),subskilldomain,iterable.getRating(),iterable.getLastModifiedDate());
-			System.out.println(temp.toString());
-			empSkillDom.add(temp);
-		}
+                SubSkillDomain subskilldomain = new SubSkillDomain(subskill.getId(),subskill.getSubSkill(),subskill.getSubSkillDesc(),subskill.getSkill(),subskill.getSkillGroup(),subskill.getPractice(),getSubSkillCount(subskill.getId()));
+
+                EmployeeSkillDomain temp = new EmployeeSkillDomain(iterable.getEmpId(),subskilldomain,iterable.getRating(),iterable.getLastModifiedDate());
+                System.out.println(temp.toString());
+                empSkillDom.add(temp);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
 		//return
 		return empSkillDom;
@@ -260,36 +274,18 @@ public int getSubSkillCount(String subSkillId) {
 	public void deleteSubSkill(String empId,String subSkillId)
 	{
 		// retrieving all subskill ratings of a particular subskill of an employee
-		List<EmployeeSkill> employeeSkills= this.empSkillRepository.findByEmpIdAndSubSkillId(empId,subSkillId);
+        try {
+            List<EmployeeSkill> employeeSkills = this.empSkillRepository.findByEmpIdAndSubSkillId(empId, subSkillId);
 
-		//deleting those subskills
-		for(EmployeeSkill iterable: employeeSkills)
-		{
-			this.empSkillRepository.delete(iterable);
-		}
+            //deleting those subskills
+            for (EmployeeSkill iterable : employeeSkills) {
+                this.empSkillRepository.delete(iterable);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
 	}
-
-/* Service to get an employee skill by object id generated by mongo
- *  
-*/
-//public EmployeeSkillDomain getEmployeeSkillByObjectId(String id)
-//	{
-//	 //retrieving employee skill using object id
-//	  EmployeeSkill empSkill = empSkillRepository.findById(id);
-//
-//
-//
-//	//retrieving subskill object from database according to subskillid
-//		SubSkill subSkill = subSkillRepository.findById(empSkill.getSubSkillId());
-//
-//	//creating an object of subskilldomain type and copying attribute values from subskill object
-//		SubSkillDomain subSkillDomain = new SubSkillDomain(subSkill.getId(),subSkill.getName(),subSkill.getSkillId(),getSubSkillCount(subSkill.getId()));
-//
-//		//making a domain object to return to front end
-//		return  new EmployeeSkillDomain(empSkill.getEmpId(),subSkillDomain,empSkill.getRating(),empSkill.getLastModifiedDate());
-//
-//  }
 
 
 

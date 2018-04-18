@@ -88,7 +88,7 @@ export class MyskillComponent implements OnInit {
 
  getEmployeeSkill() {
    this.showSpinner = true;
-  this.dataService.getEmployeeSkills('101')
+  this.dataService.getEmployeeSkills()
   .subscribe(employeeSkill => {
         this.employeeSkill = employeeSkill;
 

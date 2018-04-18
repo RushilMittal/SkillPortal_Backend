@@ -5,6 +5,8 @@ import java.util.concurrent.ExecutionException;
 
 import com.teksystems.skillportal.service.CertificationService;
 import com.teksystems.skillportal.service.SearchServiceAtul;
+import com.teksystems.skillportal.service.TokenValidationService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,41 +20,64 @@ import com.teksystems.skillportal.helper.SearchHelper;
 import com.teksystems.skillportal.model.Skill;
 import com.teksystems.skillportal.model.SubSkill;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/skill")
 @CrossOrigin("*")
 public class SearchController {
 
-	@Autowired
-	SearchServiceAtul searchServiceAtul;
+    @Autowired
+    SearchServiceAtul searchServiceAtul;
 
-	@Autowired
-	CertificationService certificationService;
+    @Autowired
+    CertificationService certificationService;
 
-	@GetMapping("/searchskill")
-	public List<String> searchSkill(@RequestParam String searchTerm) throws ExecutionException
-	{
-		return searchServiceAtul.searchSkill(searchTerm);
-	}
+    private TokenValidationService tokenValidator;
 
-//	@GetMapping("/searchitems")
-//	 public List<SearchSkill> getSearch(@RequestParam String searchTerm) {
-//          return searchService.searchSkillItems(searchTerm);
-//		 }
-//
-//	@GetMapping("/searchskillitems")
-//	 public List<Skill> getSkillSearch(@RequestParam String searchTerm) {
-//         return searchService.searchItems(searchTerm);
-//		 }
-//
-//	@GetMapping("/searchsubskillitems")
-//	 public List<SubSkill> getSubSkillSearch(@RequestParam String searchTerm) {
-//        return searchService.searchSubSkillItems(searchTerm);
-//		 }
-//
-	@GetMapping("/searchcertitems")
-	 public List<CertificationDomain> getCertSearch(@RequestParam String searchTerm) {
+    private static Logger logger = Logger.getLogger(SearchController.class);
 
-         return certificationService.searchCertItems(searchTerm);
-		 }
+    @GetMapping("/searchskill")
+    public List<String> searchSkill(HttpServletRequest request, @RequestParam String searchTerm) throws ExecutionException {
+        logger.info("/searchskill API called");
+        String employeeId = null;
+        List<String> toReturn = null;
+        try {
+            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
+            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+                employeeId = tokenValidator.ExtractEmployeeId(request);
+                logger.debug("Paramater received : employeeId " + employeeId);
+                toReturn = searchServiceAtul.searchSkill(searchTerm);
+
+            } else {
+                logger.info("Employee Id not Found in the Authorization");
+            }
+        } catch (Exception e) {
+            logger.info("Some Error Occured: " + e.toString());
+        }
+        return toReturn;
+    }
+
+    @GetMapping("/searchcertitems")
+    public List<CertificationDomain> getCertSearch(HttpServletRequest request, @RequestParam String searchTerm) {
+        logger.info("/searchcertitems API called");
+        String employeeId = null;
+        List<CertificationDomain> toReturn = null;
+        try {
+            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
+            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+                employeeId = tokenValidator.ExtractEmployeeId(request);
+                logger.debug("Paramater received : employeeId " + employeeId);
+                toReturn = certificationService.searchCertItems(searchTerm);
+
+            } else {
+                logger.info("Employee Id not Found in the Authorization");
+            }
+        } catch (Exception e) {
+            logger.info("Some Error Occured: " + e.toString());
+        }
+        return toReturn;
+
+
+    }
 }

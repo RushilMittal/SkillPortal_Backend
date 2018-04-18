@@ -22,8 +22,11 @@ public class EmployeeCertificationDomain {
     }
 
 
+    public void setEmpId(String empId) {
+        this.empId = empId;
+    }
 
-	public String getempId() {
+    public String getempId() {
         return this.empId;
     }
 

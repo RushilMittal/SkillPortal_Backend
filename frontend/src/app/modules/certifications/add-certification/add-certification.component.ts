@@ -38,19 +38,19 @@ export class AddCertificationComponent implements OnInit {
     // console.log("Inside the add certification: " + this.certificationReceived.institution);
     // console.log("Inside the add certification: " + this.certificationReceived.skillId);
     // Print whole data and call the service to save all the certificate data..
-    const tempEmployeeId = '101';
+    
     this.certificationToAdd.certificationId.id = this.certificationReceived.id;
     this.certificationToAdd.certificationId.certificationName = this.certificationReceived.certificationName;
     this.certificationToAdd.certificationId.institution = this.certificationReceived.institution;
     this.certificationToAdd.certificationId.skillId = this.certificationReceived.skillId;
 
-    this.certificationToAdd.empId = '101';
+    
     this.certificationToAdd.certificationValidityDate = this.certificateForm.get('certificationValidityDate').value;
     this.certificationToAdd.certificationDate = this.certificateForm.get('certificationDate').value;
     this.certificationToAdd.certificationNumber = this.certificateForm.get('certificationNumber').value;
     this.certificationToAdd.certificationUrl = this.certificateForm.get('certificationUrl').value;
 
-    // console.log('Data with temp id saved to Object');
+    console.log('Data with temp id saved to Object');
     // Calling serivce method and passing the info.
       this.addNewCertificateService.saveNewCertification(this.certificationToAdd)
       .subscribe(

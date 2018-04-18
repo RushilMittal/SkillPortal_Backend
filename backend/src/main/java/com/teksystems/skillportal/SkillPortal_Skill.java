@@ -32,8 +32,8 @@ import com.teksystems.skillportal.repository.SubSkillRepository;
 @SpringBootApplication @ComponentScan({"com.teksystems.skillportal.*"})
 public class SkillPortal_Skill   extends SpringBootServletInitializer{
 	
-	@Autowired
-   EmployeeSkillRepository employeeSkillRepository;
+@Autowired
+EmployeeSkillRepository employeeSkillRepository;
 @Autowired
  SubSkillRepository subSkillRepository;
     
