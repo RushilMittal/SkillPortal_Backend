@@ -20,9 +20,11 @@ export class NewCertificationService {
     }
 
     private addNewCertification(certificationReceived: Certification): Observable<Certification> {
-        const url = `${this.apiRoot}/addnewemployeecertificate?skillId=${certificationReceived.skillId}&`+
-                    `certificationName=${certificationReceived.certificationName}&`+
-                    `institution=${certificationReceived.institution}`;
+        // const url = `${this.apiRoot}/addnewemployeecertificate?skillId=${certificationReceived.skillId}&`+
+        //             `certificationName=${certificationReceived.certificationName}&`+
+        //             `institution=${certificationReceived.institution}`;
+
+        const url = `${this.apiRoot}/addcertificate`;   
         const  certification = JSON.stringify(certificationReceived);
         return this.http.post(url, certification)
             .catch(this.handleError);

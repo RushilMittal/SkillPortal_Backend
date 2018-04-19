@@ -11,11 +11,11 @@
 
 
 
-  export const baseUrlSkill = 'http://10.188.27.112:8000/skill';
+  export const baseUrlSkill = 'http://localhost:8000/skill';
 
-  export const baseUrlCertification = 'http://10.188.27.112:8000/certifications';
+  export const baseUrlCertification = 'http://localhost:8000/certifications';
 
- export const baseUrlCertificationashwin = 'http://10.188.27.112:8000/certifications';
+ export const baseUrlCertificationashwin = 'http://localhost:8000/certifications';
 
 
 //   export const baseUrlSkill = 'http://localhost:8000/skill';

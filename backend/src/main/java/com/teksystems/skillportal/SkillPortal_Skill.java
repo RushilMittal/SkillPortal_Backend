@@ -89,6 +89,11 @@ SkillRepository skillRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SkillPortal_Skill.class, args);
+		Map<String, List<String>> skillGroupMap = GuavaCacheInit.loadSkillGroup();
+		GuavaCacheInit.skillGroupCache.putAll(skillGroupMap);
+
+		Map<String, List<SubSkill>> skillMap = GuavaCacheInit.loadSkill();
+		GuavaCacheInit.skillCache.putAll(skillMap);
 //		ApplicationContext ctx =
 //                new AnnotationConfigApplicationContext(MongoConfigNew.class);
 //		MongoOperations mongoOperation =

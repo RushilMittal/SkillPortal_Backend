@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping(value="/skill",method= {RequestMethod.GET,RequestMethod.POST})
-@CrossOrigin()
+@CrossOrigin("*")
 public class EmployeeSkillController {
 
 	private static Logger logger = Logger.getLogger(EmployeeSkillController.class);
