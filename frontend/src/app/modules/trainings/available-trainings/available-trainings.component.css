@@ -19,3 +19,20 @@ th {
     color: white;
     display: inline-flex;
 }
+
+#session
+{
+    background: linear-gradient(to right, #0697C3 , #4DBFE2);
+    color: white;
+    display: inline-flex;
+}
+
+#edit{
+    color: rgb(212, 217, 221);
+}
+
+#new-edit{
+   background-color: white;
+   border: none;
+   
+}

@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 // import { EventService } from '../../../services/event.service';
 import { Router } from '@angular/router';
 import { TrainingSession } from '../../../model/training-sessions';
-import { AvailableTrainingService } from '../../../services/availabletraining.service';
+
 import { TrainingDomain } from '../../../model/training-domain';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { AvailableTrainingService } from '../../../services/availabletraining.service';
 
 
 @Component({
@@ -19,10 +21,12 @@ export class AvailableTrainingsComponent implements OnInit {
   currYear : number;
   month : number;
   year : number;
+  closeResult: string;
   months: string[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", ];
-  constructor(private availableTrainingService:AvailableTrainingService, private router: Router) { }
+  constructor(private availableTrainingService:AvailableTrainingService, private router: Router,
+    private modalService: NgbModal) { }
   
-trainingDomain: TrainingDomain[];
+trainingDomainToSend: TrainingDomain;
 
   
   ngOnInit() {
@@ -68,27 +72,24 @@ trainingDomain: TrainingDomain[];
           () => console.log('Certification Passed to Certification API'));
       }
 
+      open(content , trainingdom: TrainingDomain) {
+        this.trainingDomainToSend= trainingdom;
+        this.modalService.open(content).result.then((result) => {
+          this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+
+      }
+    
+      private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+          return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+          return 'by clicking on a backdrop';
+        } else {
+          return  `with: ${reason}`;
+        }
+      }
 
 }
-
-
-
-
-
-
-
-// import { Component, OnInit } from '@angular/core';
-// import { EventService } from '../../../services/event.service';
-// import { Router } from '@angular/router';
-
-// @Component({
-//   selector: 'app-training-list',
-//   templateUrl: './training-list.component.html',
-//   styleUrls: ['./training-list.component.css']
-// })
-// export class TrainingListComponent implements OnInit {
-  
-
-
-
-// }
