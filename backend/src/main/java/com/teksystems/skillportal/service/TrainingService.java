@@ -19,7 +19,7 @@ public class TrainingService {
     @Autowired
     TrainingSessionRepository trainingSessionRepository;
 
-    public void saveTraining(Training training, List<TrainingSession> trainingSessions)
+    public void saveTraining(Training training, List<TrainingSession> trainingSessions) throws Exception
     {
         Training doesExist;
         String id;

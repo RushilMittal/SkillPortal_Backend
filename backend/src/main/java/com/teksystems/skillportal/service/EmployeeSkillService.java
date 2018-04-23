@@ -88,7 +88,7 @@ public class EmployeeSkillService {
 	}
 
 
-	public void addNew(String empId,String subSkillId,int rating)
+	public void addNew(String empId,String subSkillId,int rating) throws Exception
 	{
 	    empId = empId.trim();
 	    subSkillId = subSkillId.trim();
@@ -114,7 +114,7 @@ public class EmployeeSkillService {
 /*
  * Service to get count of subskills rated by users by subskill id
 */
-public int getSubSkillCount(String subSkillId) {
+public int getSubSkillCount(String subSkillId)  {
         subSkillId = subSkillId.trim();
 //finding all distinct employee skills records for one subskill
     List<String> empSkills = mongoOperation.getCollection("employeeskill").distinct("empId",
@@ -125,7 +125,7 @@ public int getSubSkillCount(String subSkillId) {
 }
 
 
-	public EmployeeSkillPlaceholderDomain getEmployeeSkillPlaceHolderDomain(String employeeId){
+	public EmployeeSkillPlaceholderDomain getEmployeeSkillPlaceHolderDomain(String employeeId) throws Exception{
 
         employeeId = employeeId.trim();
 		List<EmployeeSkillDomain> empSkills = getAll(employeeId);
@@ -206,7 +206,7 @@ public int getSubSkillCount(String subSkillId) {
 		return temp;
 	}
 
-	public List<EmployeeSkillDomain> getAll(String empId){
+	public List<EmployeeSkillDomain> getAll(String empId) throws Exception{
 		//retrieving all skills of a particular employee according to empId
         empId = empId.trim();
         List<EmployeeSkillDomain> empSkillDom =  new LinkedList<>();
@@ -266,7 +266,7 @@ public int getSubSkillCount(String subSkillId) {
 	 *Service to delete rating of a subskill of an employee
 	 *
 	 */
-	public void deleteSubSkill(String empId,String subSkillId)
+	public void deleteSubSkill(String empId,String subSkillId) throws Exception
 	{
 		// retrieving all subskill ratings of a particular subskill of an employee
         try {
