@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 public class SkillGroupService {
 
     public Map<String,List<String>> getAllSkillGroups() throws ExecutionException {
+
         LoadingCache<String, List<String>> skillGroupCache = GuavaCacheInit.getLoadingCache();
         System.out.println("Cache Size:" + skillGroupCache.size());
         return skillGroupCache.asMap();
@@ -34,7 +35,7 @@ public class SkillGroupService {
     }
 
 
-    public List<String> getAllSkillsBySkillGroup(String skillGroup){
+    public List<String> getAllSkillsBySkillGroup(String skillGroup) throws Exception {
         LoadingCache<String, List<String>> skillGroupCache = GuavaCacheInit.getLoadingCache();
         Map<String, List<String>> received =skillGroupCache.asMap();
 

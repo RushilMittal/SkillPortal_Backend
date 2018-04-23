@@ -23,8 +23,7 @@ public class CertificationService {
     }
 
     //Read all certifications of an employee
-    public List<CertificationDomain> getAllCertifications()
-    {
+    public List<CertificationDomain> getAllCertifications() {
         List<Certification> certifications = this.certificationRepository.findAll();
         List<CertificationDomain> certificationDomains = new LinkedList<>();
 
@@ -38,7 +37,7 @@ public class CertificationService {
         return certificationDomains;
     }
     
-    public CertificationDomain getCertificationByName(String certificationName)
+    public CertificationDomain getCertificationByName(String certificationName) throws Exception
     {	Certification certification=this.certificationRepository.findBycertificationName(certificationName);
     	CertificationDomain certificationDomains;
 
@@ -53,7 +52,7 @@ public class CertificationService {
 
 
     // Add new Certification, if not in list
-    public void postNewCertification(CertificationDomain certification)
+    public void postNewCertification(CertificationDomain certification) throws Exception
     {
         Certification certification1 = new Certification();
         certification1.setSkillId(certification.getSkillId());
