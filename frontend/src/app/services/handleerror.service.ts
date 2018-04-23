@@ -41,6 +41,8 @@ export class ErrorHandler{
             else if (error.status === 504) {
                 errors = new ErrorObservable(
                     'Make sure you are connected to the Internet');
+            }else{
+                errors = new ErrorObservable('Some Error Occured');
             }
 
         }
