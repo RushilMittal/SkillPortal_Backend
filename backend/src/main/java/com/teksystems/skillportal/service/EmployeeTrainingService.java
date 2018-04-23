@@ -29,7 +29,8 @@ public class EmployeeTrainingService {
     TrainingSessionRepository trainingSessionRepository;
 
 
-    public List<EmployeeTrainingDomain> getEmployeeTrainingByEmployeeId(String empId) {
+    public List<EmployeeTrainingDomain> getEmployeeTrainingByEmployeeId(String empId) throws Exception {
+
         List<EmployeeTrainingDomain> employeeTrainingDomains = new LinkedList<>();
         try {
             List<EmployeeTraining> employeeTraining = employeeTrainingRepository.findByempId(empId);
@@ -42,13 +43,15 @@ public class EmployeeTrainingService {
             }
         }
         catch(Exception e){
-         System.out.println(e);
+         e.printStackTrace();
         }
+
+
         return employeeTrainingDomains;
     }
 
 
-    public List<TrainingEventDomain> getTrainingEventByEmployeeId(String empId) {
+    public List<TrainingEventDomain> getTrainingEventByEmployeeId(String empId) throws Exception {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -70,22 +73,19 @@ public class EmployeeTrainingService {
 
         }
         catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
-
         return trainingEventDomains;
     }
 
-    public void cancelEnrollment(String empId,String trainingId){
-        //int count;
-        //Training training=new Training();
-        //count=training.getSeats();
+    public void cancelEnrollment(String empId,String trainingId) throws  Exception{
+        Training training=new Training();
         EmployeeTraining employeeTraining = this.employeeTrainingRepository.findByEmpIdAndTrainingId(empId,trainingId);
         this.employeeTrainingRepository.delete(employeeTraining);
-        //training.setSeats(++count);
+        training.setSeats(training.getSeats()+1);
     }
 
-    public List<TrainingListEventDomain> getTrainingListEventByEmployeeId(String empId){
+    public List<TrainingListEventDomain> getTrainingListEventByEmployeeId(String empId) throws Exception{
         List<TrainingListEventDomain> trainingListEventDomains=new LinkedList<>();
         try {
             List<EmployeeTraining> employeeTrainings = employeeTrainingRepository.findByempId(empId);
@@ -107,47 +107,55 @@ public class EmployeeTrainingService {
             }
         }
         catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
-
         return trainingListEventDomains;
     }
 
-    public List<EmployeeTrainingPlaceholderDomain> getUpcomingTraining() {
+    public List<EmployeeTrainingPlaceholderDomain> getUpcomingTraining() throws Exception {
         List<Training> training = trainingRepository.findAll();
         List<EmployeeTrainingPlaceholderDomain> empTrainList = new LinkedList<>();
 
-        for (Training iterable : training) {
-            List<TrainingSession> trainingSession = trainingSessionRepository.findBytrainingId(iterable.getId());
-            Collections.sort(trainingSession);
-            System.out.println(trainingSession);
-            EmployeeTrainingPlaceholderDomain empTrainingPlaceholderDomain = new EmployeeTrainingPlaceholderDomain();
-            empTrainingPlaceholderDomain.setTrainingId(iterable.getId());
-            empTrainingPlaceholderDomain.setName(iterable.getName());
-            empTrainingPlaceholderDomain.setTrainingDate(trainingSession.get(0).getTrainingDate());
-            empTrainList.add(empTrainingPlaceholderDomain);
 
+        try {
+            for (Training iterable : training) {
+                List<TrainingSession> trainingSession = trainingSessionRepository.findBytrainingId(iterable.getId());
+                Collections.sort(trainingSession);
+                System.out.println(trainingSession);
+                EmployeeTrainingPlaceholderDomain empTrainingPlaceholderDomain = new EmployeeTrainingPlaceholderDomain();
+                empTrainingPlaceholderDomain.setTrainingId(iterable.getId());
+                empTrainingPlaceholderDomain.setName(iterable.getName());
+                empTrainingPlaceholderDomain.setTrainingDate(trainingSession.get(0).getTrainingDate());
+                empTrainList.add(empTrainingPlaceholderDomain);
+
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
         }
         return empTrainList;
     }
 
-    public List<EmployeeTrainingPlaceholderDomain> getEnrolledTraining(String empId){
+    public List<EmployeeTrainingPlaceholderDomain> getEnrolledTraining(String empId) throws  Exception{
         List<EmployeeTraining> empTraining= employeeTrainingRepository.findByempId(empId);
         List<EmployeeTrainingPlaceholderDomain> empTrainList = new LinkedList<>();
-        for(EmployeeTraining iterable:empTraining) {
-            Training training=trainingRepository.findByid(iterable.getTrainingId());
-            List<TrainingSession> trainingSession=trainingSessionRepository.findBytrainingId(iterable.getTrainingId());
-            Collections.sort(trainingSession);
-            EmployeeTrainingPlaceholderDomain empTrainingPlaceholderDomain = new EmployeeTrainingPlaceholderDomain();
-            empTrainingPlaceholderDomain.setTrainingId(iterable.getTrainingId());
-            empTrainingPlaceholderDomain.setName(training.getName());
-            empTrainingPlaceholderDomain.setTrainingDate(trainingSession.get(0).getTrainingDate());
-            empTrainList.add(empTrainingPlaceholderDomain);
+        try {
+            for (EmployeeTraining iterable : empTraining) {
+                Training training = trainingRepository.findByid(iterable.getTrainingId());
+                List<TrainingSession> trainingSession = trainingSessionRepository.findBytrainingId(iterable.getTrainingId());
+                Collections.sort(trainingSession);
+                EmployeeTrainingPlaceholderDomain empTrainingPlaceholderDomain = new EmployeeTrainingPlaceholderDomain();
+                empTrainingPlaceholderDomain.setTrainingId(iterable.getTrainingId());
+                empTrainingPlaceholderDomain.setName(training.getName());
+                empTrainingPlaceholderDomain.setTrainingDate(trainingSession.get(0).getTrainingDate());
+                empTrainList.add(empTrainingPlaceholderDomain);
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
         return empTrainList;
     }
-
-
 }
 
 

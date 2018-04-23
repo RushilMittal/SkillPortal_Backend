@@ -156,8 +156,8 @@ SkillRepository skillRepository;
         trainingSessionRepository.deleteAll();
 
         employeeTrainingRepository.save(Arrays.asList(new EmployeeTraining("10125","25",new GregorianCalendar(2018,03,23).getTime()),
-                new EmployeeTraining("sahisingh@teksystems.com","26",new GregorianCalendar(2018,03,23).getTime()),
-                new EmployeeTraining("sahisingh@teksystems.com","27",new GregorianCalendar(2018,03,22).getTime()),
+                new EmployeeTraining("prachawla@teksystems.com","26",new GregorianCalendar(2018,03,23).getTime()),
+                new EmployeeTraining("prachawla@teksystems.com","27",new GregorianCalendar(2018,03,22).getTime()),
                 new EmployeeTraining("sahisingh@teksystems.com","25",new GregorianCalendar(2018,03,28).getTime()),
                 new EmployeeTraining("10126","27",new GregorianCalendar(2018,03,27).getTime()),
                 new EmployeeTraining("10127","26",new GregorianCalendar(2018,03,16).getTime())

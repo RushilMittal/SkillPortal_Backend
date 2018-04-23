@@ -51,7 +51,7 @@ public class EmployeeTrainingServiceTest {
     }
 
     @Test
-    public void getTrainingEventByEmployeeIdTest() {
+    public void getTrainingEventByEmployeeIdTest() throws Exception{
         List<EmployeeTraining> employeeTrainingList = new ArrayList<EmployeeTraining>();
 
         employeeTrainingList.add(new EmployeeTraining("105", "35", new GregorianCalendar(2018,03,23).getTime()));
@@ -73,7 +73,7 @@ public class EmployeeTrainingServiceTest {
     }
 
     @Test
-    public void cancelEnrollmentTest() {
+    public void cancelEnrollmentTest()throws Exception {
         EmployeeTraining employeeTraining = new EmployeeTraining("105", "35", new GregorianCalendar(2018,03,23).getTime());
         when(employeeTrainingRepository.findByEmpIdAndTrainingId(anyString(), anyString())).thenReturn(employeeTraining);
         employeeTrainingService.cancelEnrollment("105", "35");
@@ -82,7 +82,7 @@ public class EmployeeTrainingServiceTest {
     }
 
     @Test
-    public void getTrainingListEventByEmployeeIdTest(){
+    public void getTrainingListEventByEmployeeIdTest() throws Exception{
 
         List<EmployeeTraining> employeeTrainingList = new ArrayList<EmployeeTraining>();
 

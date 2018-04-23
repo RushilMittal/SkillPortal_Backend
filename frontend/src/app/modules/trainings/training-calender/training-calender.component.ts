@@ -14,7 +14,7 @@ export class TrainingCalenderComponent implements OnInit {
   @ViewChild(CalendarComponent) myCalendar: CalendarComponent;
   errorMessage: any;
   calendarOptions: Options = {
-    editable: true,
+    editable: false,
     eventLimit: true,
     height: 500,
     fixedWeekCount: false,
@@ -32,8 +32,10 @@ export class TrainingCalenderComponent implements OnInit {
 
   ngOnInit() {
     this.eventService.getEvents()
-      .subscribe(
-        () => console.log('Product Passed to savefunction'),
+      .subscribe( events=>{
+         
+         this.calendarOptions.events = events;
+        },
         (error: any) => {
           this.errorMessage = <any>error;
           this.toastService.showErrorToast("Unable to Save Some Error Occured");
