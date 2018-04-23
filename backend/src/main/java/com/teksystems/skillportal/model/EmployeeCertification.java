@@ -16,7 +16,9 @@ public class EmployeeCertification {
     Date certificationValidityDate;
     int certificationNumber;
     String certificationUrl;
+
     public EmployeeCertification() {}
+
     public EmployeeCertification(String employeeId, String certificationId, Date certificationDate, Date certificationValidityDate, int certificationNumber, String certificationUrl) {
         this.empId = employeeId;
         this.certificationId = certificationId;

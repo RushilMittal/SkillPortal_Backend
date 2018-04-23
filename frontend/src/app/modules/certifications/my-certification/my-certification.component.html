@@ -1,59 +1,59 @@
-
-  <div class="row">
-    <div class="col-md-8 mb-2" >
-        <h5>
-          Certifications you received
-        </h5>
-    </div>
+<div class="row">
+  <div class="col-md-8 mb-2">
+    <h5>
+      Certifications you received
+    </h5>
   </div>
+</div>
 
-  <div class="row">
-    <div class=" col-12 certificateTable table-responsive-md " >
-      <table class="table" id="certTable">
-        <thead>
-          <tr>
-            <th>Certification Name</th>
-            <th>Institution</th>
-            <th>Received on</th>
-            <th>Expires on</th>
-          </tr>
-        </thead>
-        <tbody *ngIf="showSpinner">
-          <tr>
-            <td colspan=3 id="spinner">
-              <span class="fa fa-spinner fa-spin" style="font-size: 60px;"></span>
-            </td>
-          </tr>
-        </tbody>
-        <tbody *ngFor="let empCert of empCertification ">
-            <tr>                     
-              <td  class="td1" id="certName">
-                {{empCert.certificationId?.certificationName}}
-              </td>
-              <td class="td2" id="certInst">
-                {{empCert.certificationId?.institution}}
-              </td>
-              <td  class="td2">
-                {{empCert.certificationDate | date}}
-              </td>
-              <td class="td2" >
-                <span *ngIf="!empCert?.certificationValidityDate">
-                  Lifetime
-                </span>
-                <span *ngIf="empCert?.certificationValidityDate">
-                {{empCert.certificationValidityDate | date}}
-              </span>
-              </td>
-              
-            </tr>
-            <tr>
-    
-                <td class="td2" *ngIf="empCert?.length==0"> 
-                    No Results Found
-                 </td>
-            </tr>
-        </tbody>
-      </table>
-    </div>
+<div class="row">
+  <div class=" col-12 certificateTable table-responsive-md ">
+    <table class="table" id="certTable">
+      <thead>
+        <tr>
+          <th>Certification Name</th>
+          <th>Institution</th>
+          <th>Received on</th>
+          <th>Expires on</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="showSpinner">
+        <tr>
+          <td colspan=3 id="spinner">
+            <span class="fa fa-spinner fa-spin" style="font-size: 60px;"></span>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="empCertification === undefined">
+        <tr>
+          <td>
+            <p>{{errorMessage}}</p>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngFor="let empCert of empCertification ">
+        <tr>
+          <td class="td1" id="certName">
+            {{empCert.certificationId?.certificationName}}
+          </td>
+          <td class="td2" id="certInst">
+            {{empCert.certificationId?.institution}}
+          </td>
+          <td class="td2">
+            {{empCert.certificationDate | date}}
+          </td>
+          <td class="td2">
+            <span *ngIf="!empCert?.certificationValidityDate">
+              Lifetime
+            </span>
+            <span *ngIf="empCert?.certificationValidityDate">
+              {{empCert.certificationValidityDate | date}}
+            </span>
+          </td>
+
+        </tr>
+        
+      </tbody>
+    </table>
   </div>
-
+</div>

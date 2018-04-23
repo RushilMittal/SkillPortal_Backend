@@ -7,24 +7,24 @@ import 'rxjs/add/operator/catch';
 import { Certification } from '../model/Certification';
 import { baseUrlCertification } from '../baseUrl';
 import { HttpClient } from '@angular/common/http';
-
+import { catchError } from 'rxjs/operators';
+import { ErrorHandler } from './handleerror.service';
 @Injectable()
 export class AllCertificationService {
 
     private apiRoot = baseUrlCertification;
-    constructor (private http: HttpClient) {}
+    constructor (private http: HttpClient,private handler:ErrorHandler) {}
 
     getAllCertificates(): Observable<Certification> {
 
         // console.log('These are Available Certifications:');
         const url = `${this.apiRoot}/all`;
-        // console.log(url);
+        console.log(url);
         return this.http.get(url)
-            .catch(this.handleError);
+        .pipe(
+            catchError(this.handler.handleError)
+        );
     }
 
-    private handleError(error: Response): Observable<any> {
-        console.error(error);
-        return Observable.throw(error.json().error || 'Server error');
-    }
+   
 }

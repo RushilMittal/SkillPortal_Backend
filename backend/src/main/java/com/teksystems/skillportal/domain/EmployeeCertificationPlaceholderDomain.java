@@ -24,12 +24,4 @@ public class EmployeeCertificationPlaceholderDomain {
     public void setYear(String year) {
         this.year = year;
     }
-
-    @Override
-    public String toString() {
-        return "EmployeeCertificationPlaceholderDomain{" +
-                "certificationName='" + certificationName + '\'' +
-                ", year='" + year + '\'' +
-                '}';
-    }
 }

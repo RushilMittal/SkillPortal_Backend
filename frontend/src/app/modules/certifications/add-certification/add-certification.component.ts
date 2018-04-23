@@ -3,6 +3,7 @@ import { Certification } from '../../../model/Certification';
 import { EmployeeCertificate } from '../../../model/EmployeeCertification';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AddNewCertificateService } from '../../../services/addnewcertificate.service';
+import { ToastService } from '../../../services/toast.service';
 
 
 @Component({
@@ -28,42 +29,8 @@ export class AddCertificationComponent implements OnInit {
 
   errorMessage: any;
 
-  constructor(private addNewCertificateService: AddNewCertificateService) { }
-
-
-
-
-  save() {
-    // console.log("Inside the add certification: " + this.certificationReceived.id);
-    // console.log("Inside the add certification: " + this.certificationReceived.institution);
-    // console.log("Inside the add certification: " + this.certificationReceived.skillId);
-    // Print whole data and call the service to save all the certificate data..
-    
-    this.certificationToAdd.certificationId.id = this.certificationReceived.id;
-    this.certificationToAdd.certificationId.certificationName = this.certificationReceived.certificationName;
-    this.certificationToAdd.certificationId.institution = this.certificationReceived.institution;
-    this.certificationToAdd.certificationId.skillId = this.certificationReceived.skillId;
-
-    
-    this.certificationToAdd.certificationValidityDate = this.certificateForm.get('certificationValidityDate').value;
-    this.certificationToAdd.certificationDate = this.certificateForm.get('certificationDate').value;
-    this.certificationToAdd.certificationNumber = this.certificateForm.get('certificationNumber').value;
-    this.certificationToAdd.certificationUrl = this.certificateForm.get('certificationUrl').value;
-
-    console.log('Data with temp id saved to Object');
-    // Calling serivce method and passing the info.
-      this.addNewCertificateService.saveNewCertification(this.certificationToAdd)
-      .subscribe(
-        () => console.log('Certification Passed to Certification API'),
-        (error: any) => this.errorMessage = <any>error);
-
-        this.cancel();
-  }
-
-  cancel() {
-    // this.cancelClicked.emit(this.certificationToAdd.);
-    this.cancelClicked.emit(this.certificationName);
-  }
+  constructor(private addNewCertificateService: AddNewCertificateService,
+    private toastService: ToastService) { }
 
   ngOnInit() {
 
@@ -79,7 +46,34 @@ export class AddCertificationComponent implements OnInit {
 
 
 
+  save() {
 
+    this.certificationToAdd.certificationId.id = this.certificationReceived.id;
+    this.certificationToAdd.certificationId.certificationName = this.certificationReceived.certificationName;
+    this.certificationToAdd.certificationId.institution = this.certificationReceived.institution;
+    this.certificationToAdd.certificationId.skillId = this.certificationReceived.skillId;
+    this.certificationToAdd.certificationValidityDate = this.certificateForm.get('certificationValidityDate').value;
+    this.certificationToAdd.certificationDate = this.certificateForm.get('certificationDate').value;
+    this.certificationToAdd.certificationNumber = this.certificateForm.get('certificationNumber').value;
+    this.certificationToAdd.certificationUrl = this.certificateForm.get('certificationUrl').value;
+
+    this.addNewCertificateService.saveNewCertification(this.certificationToAdd)
+      .subscribe(
+        ()=>{},
+        (error: any) => {
+          this.errorMessage = <any>error;
+          this.toastService.showErrorToast("Unable to Save Some Error Occured");
+        },
+        () => {
+          this.toastService.showSuccessToast("Certification Saved SuccessFully");
+        }
+      );
+    this.cancel();
+  }
+
+  cancel() {
+    this.cancelClicked.emit(this.certificationName);
+  }
 
   setValidity(validity: string): void {
     const validPeriod = this.certificateForm.get('certificationValidityDate');
@@ -91,15 +85,7 @@ export class AddCertificationComponent implements OnInit {
       validPeriod.clearValidators();
       validPeriod.disable();
       this.showValid = false;
-
     }
-
     validPeriod.updateValueAndValidity();
-
   }
-
-
-
-
-
 }

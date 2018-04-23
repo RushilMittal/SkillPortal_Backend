@@ -1,15 +1,11 @@
-
 <div class="row">
   <div class="col-md-9">
     <h5>
       Choose Your Certification
     </h5>
   </div>
- 
-  <div class="col-md-3">
-    
 
-    
+  <div class="col-md-3">
     <!-- Button trigger modal -->
     <button id="not-in-list" type="button" class="btn right" (click)="open(certificationNotInListModal)">
       Certification Not in List?
@@ -25,11 +21,6 @@
         <app-new-certification (saveClicked)="c('Cross click')"></app-new-certification>
       </div>
     </ng-template>
-
-
-    <!-- Modal -->
-   
-
   </div>
 </div>
 
@@ -50,26 +41,29 @@
           </td>
         </tr>
       </tbody>
+      <tbody *ngIf="certifications === undefined">
+        <tr>
+          <td>
+            <p>{{errorMessage}}</p>
+          </td>
+        </tr>
+      </tbody>
       <tbody *ngFor="let certification of certifications">
         <tr>
           <td>{{certification?.certificationName}}</td>
           <td>{{certification?.institution}}</td>
           <td>
-              <button id="{{addCertificate + certification?.certificationName}}" class="btn right"
-               (click)= Valid(certification?.certificationName)>
-                 Add
-              </button>
+            <button id="{{addCertificate + certification?.certificationName}}" class="btn right" (click)=Valid(certification?.certificationName)>
+              Add
+            </button>
           </td>
-         
+
         </tr>
         <tr id={{certification?.certificationName}} hidden=true>
           <td id="hidden-row" colspan="2">
-            <app-add-certification [certificationReceived]=certification
-              [certificationName] = certification?.certificationName 
-              (cancelClicked) = 'onCanceledClicked($event)'></app-add-certification>
-          </td>                   
-        </tr> 
+            <app-add-certification [certificationReceived]=certification [certificationName]=certification?.certificationName (cancelClicked)='onCanceledClicked($event)'></app-add-certification>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
-  

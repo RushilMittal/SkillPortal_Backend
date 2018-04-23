@@ -8,7 +8,7 @@
 }
 .nav{
     /* removing this property is making scrollbar go */
-    padding-left: 20%;
+    /* padding-left: 20%; */
     width: 100%;
 }
 .nav-item{

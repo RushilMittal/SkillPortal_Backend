@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SearchItem } from '../../../../model/search-item';
-import {Http} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import { Http } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { SearchService } from '../../../../services/search.service';
 import { Subject } from 'rxjs/Subject';
@@ -24,44 +24,33 @@ export class SearchListComponent implements OnInit {
   showSpinner = false;
 
 
-public items: SearchItem[] = [];
-public retvalues: SearchItem[] = [];
+  public items: SearchItem[] = [];
+  public retvalues: SearchItem[] = [];
 
-  constructor(private searchService: SearchService ) { }
+  constructor(private searchService: SearchService) { }
 
   ngOnInit() {
 
     this.skillitem = this.searchTerms.pipe(
-
       debounceTime(500),
-
       distinctUntilChanged(),
-
-      switchMap((term: string) => this.searchService.searchSkills(this.filter)
-
-    )
-
+      switchMap((term: string) => this.searchService.searchSkills(this.filter))
     );
-
   }
 
   search(term: string): void {
     this.searchTerms.next(term);
   }
 
-   keyeventfunc() {
+  keyeventfunc() {
     this.search(this.filter);
     this.showSpinner = true;
-    // console.log(this.showSpinner);
-    this.skillitem.subscribe(skills => {this.skills = skills;
-                                        console.log(this.skills);
-                                        this.showSpinner = false;
-                                       }
-
-                                      );
-    // console.log(this.skills);
-    // console.log("after" + this.showSpinner);
-   }
+    this.skillitem.subscribe(skills => {
+      this.skills = skills;
+      console.log(this.skills);
+      this.showSpinner = false;
+    });
+  }
 
 
 }

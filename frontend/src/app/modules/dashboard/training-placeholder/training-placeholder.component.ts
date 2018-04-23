@@ -21,20 +21,13 @@ export class TrainingPlaceholderComponent implements OnInit {
     this.trainingService.gettTrainingData().
         subscribe(traningData => {
             this.trainingPlaceholder = traningData;
-            this.enrolledTraining = this.trainingPlaceholder[0].enrolledTrainings,
-            this.enrolledTrainingDate = this.trainingPlaceholder[0].enrolledTrainingDate,
-            // tslint:disable-next-line:no-unused-expression
-            error => this.errorMessage = <any>error;
-        });
-        // console.log('Training Data received ' + this.trainingPlaceholder );
-
-        // for(let tp of this.trainingPlaceholder){
-        //  this.enrolledTraining = tp.enrolledTrainings;
-        //  this.enrolledTrainingDate = tp.enrolledTrainingDate;
-        // }
-
-
-
+            this.enrolledTraining = this.trainingPlaceholder[0].enrolledTrainings;
+            this.enrolledTrainingDate = this.trainingPlaceholder[0].enrolledTrainingDate;
+            
+        },
+        error => this.errorMessage = <any>error
+      );
+        
   }
 
 }

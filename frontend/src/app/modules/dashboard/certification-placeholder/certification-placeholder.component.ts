@@ -20,9 +20,9 @@ export class CertificationPlaceholderComponent implements OnInit {
     // console.log('In ngOnInit');
     this.certificationPlaceholderService.getCertificatePlaceholder(this.employeeId)
       .subscribe(employeecertificatevar => {
-        this.employeeCertificatePlaceholderModel = employeecertificatevar,
-          error => this.errorMessage = <any>error;
-      }, () => {console.log('hello '); }
+        this.employeeCertificatePlaceholderModel = employeecertificatevar},
+        error => this.errorMessage = <any>error,
+        () => {console.log('hello '); }
     );
 
 

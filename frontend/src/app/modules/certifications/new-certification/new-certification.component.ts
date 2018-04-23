@@ -8,6 +8,7 @@ import { AllSkillService } from '../../../services/allskillservice.service';
 import { NewCertificationService } from '../../../services/newcertification.service';
 import { Router } from '@angular/router';
 import { SubSkill } from '../../../model/SubSkill';
+import { ToastService } from '../../../services/toast.service';
 
 
 @Component({
@@ -30,7 +31,8 @@ export class NewCertificationComponent implements OnInit {
   keys;
   constructor(private allSkillService: AllSkillService,
     private newCertificationService: NewCertificationService,
-    private route: Router) { }
+    private route: Router,
+    private toastService: ToastService) { }
 
   ngOnInit() {
 
@@ -42,14 +44,13 @@ export class NewCertificationComponent implements OnInit {
     });
 
     this.allSkillService.getAllSkillsData()
-      .subscribe(
-        skillGroup => {
-          this.skills = skillGroup;
-          this.temp = new Map();
-          for (const key in this.skills) {
-            this.temp.set(key, this.skills[key]);
-          }
+      .subscribe(skillGroup => {
+        this.skills = skillGroup;
+        this.temp = new Map();
+        for (const key in this.skills) {
+          this.temp.set(key, this.skills[key]);
         }
+      }
         , (error: any) => this.errorMessage = <any>error,
         () => this.gettingKeys()
 
@@ -57,9 +58,6 @@ export class NewCertificationComponent implements OnInit {
   }
 
   save() {
-    // console.log(this.newCertificationForm);
-    // console.log(JSON.stringify(this.newCertificationForm.value));
-
     this.saveCertification((this.newCertificationForm.get('skillName').value));
     this.saveClicked.emit();
   }
@@ -67,27 +65,25 @@ export class NewCertificationComponent implements OnInit {
   // Helper method: uses forwarded skill to make post call
   saveCertification(skillForwarded: string) {
 
-    // console.log('Printing Skill Forwarded: ' + skillForwarded.id + ' ' + skillForwarded.name + ' ' + skillForwarded.ratedUsers) ;
-
-    // Providing value to data model Certification
     this.certification.skillId = skillForwarded;
     this.certification.certificationName = this.newCertificationForm.get('certificationName').value;
     this.certification.institution = this.newCertificationForm.get('institutionName').value;
 
-    // Calling the new_certification_service method
-
     this.newCertificationService.saveNewCertification(this.certification)
       .subscribe(
-        () => console.log('Certification Passed to Certification API'),
-        (error: any) => this.errorMessage = <any>error
+        () => console.log('Product Passed to savefunction'),
+        (error: any) => {
+          this.errorMessage = <any>error;
+          this.toastService.showErrorToast("Unable to Save Some Error Occured");
+        },
+        () => {
+          this.toastService.showSuccessToast("New Certification Added to the List");
+        }
       );
-
-    // window.location.reload(); // Page Refresh : new
   }
 
 
   gettingKeys() {
-
     this.keys = this.temp.keys();
     console.log(this.keys);
   }

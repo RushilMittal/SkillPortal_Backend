@@ -1,0 +1,31 @@
+<div class="row p-3" *ngIf="showSpinner">
+  <span class="fa fa-spinner fa-spin" style="font-size: 60px;"></span>
+</div>
+
+<div class="row p-3">
+  <button class="btn btn-right" *ngIf="(year>currYear)||(year==currYear && month>=currMonth)" (click)="previous()">&lt;</button>
+  <button class="btn btn-right" (click)="next()">></button>
+  <h2>{{months[month]}}{{year}}</h2>
+</div>
+
+
+<div id="test" class="table-responsive">
+  <table style="margin-top:10px" class="table border" *ngFor="let event of eventsList | monthfilter:month:year">
+    <tr id="{{event.id}}1">
+      <th colspan="3">{{event?.start|date}}</th>
+    </tr>
+    <tr id="{{event.id}}2">
+      <td width="30%">{{event?.startTime}} - {{event?.endTime}}</td>
+      <td width="30%">
+        <p>{{event?.name}}</p>
+        <p>
+          <span>{{event?.trainer}}</span>
+        </p>
+        <span>{{event?.location}}</span>
+      </td>
+      <td width="30%" class="button">
+        <button id="cancel-enrollment" type="button" (click)="deleteTraining(event?.id)" class="btn btn-right">Cancel Enrollment</button>
+      </td>
+    </tr>
+  </table>
+</div>

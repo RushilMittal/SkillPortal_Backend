@@ -43,8 +43,7 @@ public class EmployeeSkillService {
 			new AnnotationConfigApplicationContext(MongoConfigNew.class);
 	static MongoOperations mongoOperation =
 			(MongoOperations) ctx.getBean("mongoTemplate");
-
-	private static Logger logger = Logger.getLogger(EmployeeSkillService.class);
+	
 	@Autowired
 	 EmployeeSkillRepository empSkillRepository;
 	
@@ -107,13 +106,9 @@ public class EmployeeSkillService {
 		newSkill.setSubSkillId(subSkillId);
 		newSkill.setRating(rating);
 		newSkill.setLastModifiedDate(new Date());
-		try {
-			//saving the object into employee skill database
-			empSkillRepository.save(newSkill);
-		}catch(Exception e){
-			logger.error("Unable to Save the Rating");
-			e.printStackTrace();
-		}
+
+		//saving the object into employee skill database
+		empSkillRepository.save(newSkill);
 
 	}
 /*

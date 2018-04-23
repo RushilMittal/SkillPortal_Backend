@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { AllCertificationService } from '../../../services/allcertification.service';
 import { Certification } from '../../../model/Certification';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 
 @Component({
@@ -21,7 +21,7 @@ export class AvailableCertificationsComponent implements OnInit {
   closeResult: string;
   constructor(private allCertificationService: AllCertificationService,
     private modalService: NgbModal,
-    private router:Router) { }
+    private router: Router) { }
 
   ngOnInit() {
 
@@ -44,13 +44,13 @@ export class AvailableCertificationsComponent implements OnInit {
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       return 'by clicking on a backdrop';
     } else {
-      return  `with: ${reason}`;
+      return `with: ${reason}`;
     }
   }
 
-   // Can be used to refresh the component to same page
-   onRefresh() {
-    this.router.routeReuseStrategy.shouldReuseRoute = function() {return false; };
+  // Can be used to refresh the component to same page
+  onRefresh() {
+    this.router.routeReuseStrategy.shouldReuseRoute = function () { return false; };
 
     const currentUrl = this.router.url + '?';
 
@@ -59,8 +59,8 @@ export class AvailableCertificationsComponent implements OnInit {
         this.router.navigated = false;
         this.router.navigate([this.router.url]);
       });
-      this.getAllCertificate();
-    }
+    this.getAllCertificate();
+  }
 
   public Valid(isValid: string) {
     // console.log('is valid' + isValid);
@@ -86,12 +86,19 @@ export class AvailableCertificationsComponent implements OnInit {
 
     this.showSpinner = true;
     this.allCertificationService.getAllCertificates()
-    .subscribe(
-      certifications => this.certifications = certifications,
-      error => this.errorMessage = error,
-      () => this.showSpinner = false
-      );
-         }
+      .subscribe(
+        certifications => {
+          this.certifications = certifications;
+          this.errorMessage = 'Sorry, No New Certifications Available';
+        },
+        error => {
+          this.errorMessage = error;
+          this.showSpinner = false;
+        },
+        () => {
+          this.showSpinner = false
+        });
+  }
 
-  
+
 }

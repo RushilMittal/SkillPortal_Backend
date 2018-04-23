@@ -1,12 +1,12 @@
 package com.teksystems.skillportal;
 import com.teksystems.skillportal.controller.TokenFilter;
 import com.teksystems.skillportal.init.GuavaCacheInit;
+import com.teksystems.skillportal.model.*;
+import com.teksystems.skillportal.repository.*;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.ApplicationContext;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -18,27 +18,30 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.core.MongoOperations;
-import com.teksystems.skillportal.repository.EmployeeSkillRepository;
 //import com.teksystems.skillportal.init.MongoConfig;
 import com.teksystems.skillportal.init.MongoConfigNew;
-import com.teksystems.skillportal.model.EmployeeCertification;
-import com.teksystems.skillportal.model.EmployeeSkill;
-import com.teksystems.skillportal.model.Skill;
-import com.teksystems.skillportal.model.SubSkill;
-import com.teksystems.skillportal.repository.SkillRepository;
-import com.teksystems.skillportal.repository.SubSkillRepository;
 
 
 @SpringBootApplication @ComponentScan({"com.teksystems.skillportal.*"})
-public class SkillPortal_Skill   extends SpringBootServletInitializer{
+public class SkillPortal_Skill   extends SpringBootServletInitializer implements CommandLineRunner{
 	
 @Autowired
 EmployeeSkillRepository employeeSkillRepository;
 @Autowired
  SubSkillRepository subSkillRepository;
-    
+
 @Autowired
 SkillRepository skillRepository;
+
+
+    @Autowired
+    EmployeeTrainingRepository employeeTrainingRepository;
+
+    @Autowired
+    TrainingRepository trainingRepository;
+
+    @Autowired
+    TrainingSessionRepository trainingSessionRepository;
 /*
 	public void run(String... strings) throws Exception {
 
@@ -89,8 +92,12 @@ SkillRepository skillRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SkillPortal_Skill.class, args);
-
-//		ApplicationContext ctx =
+//
+//		ApplicationContext ctx =Map<String, List<String>> skillGroupMap = GuavaCacheInit.loadSkillGroup();
+////		GuavaCacheInit.skillGroupCache.putAll(skillGroupMap);
+////
+////		Map<String, List<SubSkill>> skillMap = GuavaCacheInit.loadSkill();
+////		GuavaCacheInit.skillCache.putAll(skillMap);
 //                new AnnotationConfigApplicationContext(MongoConfigNew.class);
 //		MongoOperations mongoOperation =
 //                (MongoOperations) ctx.getBean("mongoTemplate");
@@ -103,7 +110,7 @@ SkillRepository skillRepository;
 		mongoOperation.insert(new EmployeeSkill("102","6",3));
 		mongoOperation.insert(new EmployeeSkill("103","7",4));
 		mongoOperation.insert(new EmployeeSkill("103","4",5));
-
+		
 		mongoOperation.createCollection("skill");
 		mongoOperation.insertAll(Arrays.asList(
                 new Skill("1","Programming"),
@@ -140,4 +147,31 @@ SkillRepository skillRepository;
        */
 	}
 
+
+    @Override
+    public void run(String... strings) throws Exception {
+
+        employeeTrainingRepository.deleteAll();
+        trainingRepository.deleteAll();
+        trainingSessionRepository.deleteAll();
+
+        employeeTrainingRepository.save(Arrays.asList(new EmployeeTraining("10125","25",new GregorianCalendar(2018,03,23).getTime()),
+                new EmployeeTraining("sahisingh@teksystems.com","26",new GregorianCalendar(2018,03,23).getTime()),
+                new EmployeeTraining("sahisingh@teksystems.com","27",new GregorianCalendar(2018,03,22).getTime()),
+                new EmployeeTraining("sahisingh@teksystems.com","25",new GregorianCalendar(2018,03,28).getTime()),
+                new EmployeeTraining("10126","27",new GregorianCalendar(2018,03,27).getTime()),
+                new EmployeeTraining("10127","26",new GregorianCalendar(2018,03,16).getTime())
+        ));
+
+        trainingRepository.save(Arrays.asList(new Training("25","Redhat","IT Room",25,"Technical","RHCA","Jeff"),
+                new Training("26","Amazon","Meeting Room1",35,"Technical","AWS","Adam"),
+                new Training("27","UI","Meeting Room2",50,"Technical","Angular","Satyam")
+        ));
+
+        trainingSessionRepository.save(Arrays.asList(new TrainingSession("25",new GregorianCalendar(2018,03,12).getTime(),"16:00:00","17:00:00"),
+                new TrainingSession("26",new GregorianCalendar(2018,05,15).getTime(),"12:00:00","14:00:00"),
+                new TrainingSession("27",new GregorianCalendar(2018,05,17).getTime(),"08:00:00","11:00:00")
+        ));
+
+    }
 }

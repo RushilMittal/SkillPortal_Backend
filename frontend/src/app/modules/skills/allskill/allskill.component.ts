@@ -14,14 +14,7 @@ export class AllskillComponent implements OnInit {
   errorMessage: any;
   constructor(private allSkillService: AllSkillService) { }
   ngOnInit() {
-    // console.log("Printing " + this.skills);
-    // console.log("Skil group " + this.skillGroup);
-    // this.allSkillService.getAllSkill()
-    //     .subscribe( skill => {
-    //         this.skills = skill,
-    //         // tslint:disable-next-line:no-unused-expression
-    //         error => this.errorMessage = <any>error;
-    //       });
+ 
   }
 
 

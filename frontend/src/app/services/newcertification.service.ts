@@ -7,27 +7,31 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { baseUrlCertification } from '../baseUrl';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { ErrorHandler } from './handleerror.service';
+import { httpOptions } from '../httpheaders';
 
 @Injectable()
 export class NewCertificationService {
 
     private apiRoot = baseUrlCertification;
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient,private handler:ErrorHandler) { }
 
     saveNewCertification(certification: Certification): Observable<Certification> {
         return this.addNewCertification(certification);
     }
 
     private addNewCertification(certificationReceived: Certification): Observable<Certification> {
-        // const url = `${this.apiRoot}/addnewemployeecertificate?skillId=${certificationReceived.skillId}&`+
-        //             `certificationName=${certificationReceived.certificationName}&`+
-        //             `institution=${certificationReceived.institution}`;
-
-        const url = `${this.apiRoot}/addcertificate`;   
-        const  certification = JSON.stringify(certificationReceived);
-        return this.http.post(url, certification)
-            .catch(this.handleError);
+    //     const url = `${this.apiRoot}/addnewemployeecertificate?skillId=${certificationReceived.skillId}&`+
+    //                 `certificationName=${certificationReceived.certificationName}&`+
+    //                 `institution=${certificationReceived.institution}`;
+        const url = `${this.apiRoot}/add_new`;
+        
+        return this.http.post<Certification>(url, certificationReceived,httpOptions)
+            .pipe(
+                catchError(this.handler.handleError)
+            );
     }
 
     private extractData(response: Response) {
@@ -35,8 +39,5 @@ export class NewCertificationService {
         return body.data;
     }
 
-    private handleError(error: Response): Observable<any> {
-        console.error(error);
-        return Observable.throw(error.json().error || 'Server error');
-    }
+  
 }

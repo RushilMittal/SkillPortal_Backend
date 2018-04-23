@@ -3,15 +3,15 @@ import { Http, Response, Headers, RequestOptions, URLSearchParams} from '@angula
 import { Observable} from 'rxjs/Observable';
 import {EmployeeCertificate} from '../model/EmployeeCertification';
 import { Training } from '../model/Training';
-import { HttpClient } from '@angular/common/http';
 
 
 @Injectable()
 export class trainingService {
     url = 'http://localhost:4200/assets/training.json';
-    constructor(private http: HttpClient) {}
+    constructor(private http: Http) {}
     getTrainingData(): Observable<Training> {
         return this.http.get(this.url).map((response: Response) => <Training>response.json());
     }
+
 }
 

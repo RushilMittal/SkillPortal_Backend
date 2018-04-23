@@ -19,12 +19,16 @@ export class MyCertificationComponent implements OnInit {
     this.showSpinner = true;
     this.myCertificateService.getEmployeeCertification()
         .subscribe( empCertification => {
-
             this.empCertification = empCertification;
+            this.errorMessage = 'Hurry Up! Upload your First Certification';
         },
-        error => this.errorMessage = <any>error,
-        () => this.showSpinner = false
-        );
+        error => {
+          this.errorMessage = <any>error;
+          this.showSpinner = false;
+        },
+        () => { 
+          this.showSpinner = false
+        });
   }
 
 }

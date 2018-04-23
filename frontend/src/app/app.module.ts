@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Renderer2 } from '@angular/core';
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -41,7 +41,6 @@ import { MySkillService } from './services/myskillservice.service';
 import { SearchService } from './services/search.service';
 import { MySubSkillService } from './services/mysubskillservice.service';
 import { LoginComponent } from './modules/login/login.component';
-// import { EmployeeAuthorizationService } from './services/employee-authorization.service';
 import { AuthorizationGuard } from './services/authorization-guard.service';
 import { TrainingsNavigationComponent } from './modules/trainings/trainings-navigation/trainings-navigation.component';
 import { MyEnrolledTrainingsComponent } from './modules/trainings/my-enrolled-trainings/my-enrolled-trainings.component';
@@ -49,13 +48,29 @@ import { AvailableTrainingsComponent } from './modules/trainings/available-train
 import { SkillGroupComponent } from './modules/skills/skillgroup/skillgroup.component';
 import { SkillGroupService } from './services/SkillGroupService.service';
 import { SearchTransformPipe } from './modules/search-transform.pipe';
-import { SpinnerComponent } from './modules/shared/spinner/spinner.component';
+
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { AuthModule, OidcSecurityService, OpenIDImplicitFlowConfiguration, AuthWellKnownEndpoints } from 'angular-auth-oidc-client';
 import { TokenInterceptor } from './Token.interceptor';
 import { RedirectComponent } from './redirect/redirect.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-// import { AuthService } from './services/AuthToken.service';
+import { TrainingListPipe } from './modules/trainings/training-list/training-list-pipe.pipe';
+import { AddTrainingComponent } from './modules/trainings/add-training/add-training.component';
+import { CalendarModule } from 'angular-calendar';
+import {CalendarComponent} from "ap-angular2-fullcalendar";
+import { EventService } from './services/event.service';
+import { AddNewTrainingService } from './services/addnewtraining.service';
+import { TrainingListComponent } from './modules/trainings/training-list/training-list.component';
+import { TrainingCalenderComponent } from './modules/trainings/training-calender/training-calender.component';
+import {MatIconModule} from '@angular/material/icon';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { Ng2IziToastModule } from 'ng2-izitoast';
+import { ToastService } from './services/toast.service';
+import { query } from '@angular/animations';
+import { ErrorHandler } from './services/handleerror.service';
+
+
 
 
 
@@ -96,8 +111,13 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     TrainingsNavigationComponent,
     MyEnrolledTrainingsComponent,
     AvailableTrainingsComponent,
-    SpinnerComponent
-
+    
+    CalendarComponent,
+    TrainingListComponent,
+    TrainingCalenderComponent,
+    TrainingListPipe,
+    AddTrainingComponent
+    
   ],
   imports: [
     BrowserModule,
@@ -106,9 +126,13 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     AuthModule.forRoot(),
     NgbModule.forRoot(),
     AppRoutingModule,
+    ReactiveFormsModule,
+    CalendarModule,
+    MatIconModule,
     HttpModule,
-    ReactiveFormsModule
-
+    Ng2IziToastModule
+   
+    
 
   ],
   exports: [
@@ -139,13 +163,16 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     MySubSkillService,
     SearchService,
     EmployeeSkill,
-
+    EventService,
+    AddNewTrainingService,
     // for Authorization and login guard
     AuthorizationGuard,
    // EmployeeAuthorizationService,
     SkillGroupService,
-
+    // For displaying the toast
+    ToastService,
     // testing purpose
+    ErrorHandler
 
   ],
   bootstrap: [AppComponent]

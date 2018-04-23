@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.teksystems.skillportal.service.CertificationService;
-import sun.util.resources.de.CalendarData_de;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
@@ -53,7 +52,6 @@ public class EmployeeCertificationController {
             }
         } catch (Exception e) {
             logger.info("Some Error Occurred: " + e.toString());
-            e.printStackTrace();
         }
 
         return toReturn;
@@ -86,9 +84,8 @@ public class EmployeeCertificationController {
                 logger.info("Trying to Save the Certificate");
                 Calendar calendar = Calendar.getInstance();
                 Date certificationDate = employeeCertificationService.dateExtractor(certificationDateString, calendar);
-                System.out.println("Calling date");
+
                 Date certificationValidityDate =employeeCertificationService.dateExtractor(certificationValidityDateString, calendar);
-                System.out.println("Date called");
                 System.out.println(employeeId + ":" + certificationId + ":" + certificationDate + ":"+ certificationValidityDate
                         + certificationNumber + certificationUrl);
                 employeeCertificationService.addNew(employeeId,certificationId, certificationDate, certificationValidityDate,
@@ -102,14 +99,13 @@ public class EmployeeCertificationController {
 	 }
 
 
-
     /*
 	 * Controller for Adding the Certificate to Employee Profile.
 	 * UI:- Called on when new Certificate is added by the Employee
 	 * param:- HttpServletRequest(for validation of the EmployeeId)
 	 * param:- EmployeeCertificationDomain(Contains info about the certificate to Add)
 	 * Validation and fetching of the EmployeeId done:- 14-04-2018
-	 * (TODO SOLVE)Function not in use as, giving error due to inteceptor as its passed with type:- "text/plain",
+	 * (TODO SOLVED)Function not in use as, giving error due to inteceptor as its passed with type:- "text/plain",
 	 * and changing to "application/json" causing authentication fail of OPTIONS call and giving 415 ERROR
 	 */
     @PostMapping("/addcertificate")
@@ -126,12 +122,12 @@ public class EmployeeCertificationController {
                 logger.debug("Paramater received : employeeId " + employeeId);
                 employeeCertificationDomain.setEmpId(employeeId);
                 logger.info("Trying to save the Certificate");
-                System.out.println("certification date " + employeeCertificationDomain.getCertificationDate());
                 employeeCertificationService.addNewCertificate(employeeCertificationDomain);
             } else {
                 logger.info("Employee Id not Found in the Authorization");
             }
         } catch (Exception e) {
+            e.printStackTrace();
             logger.info("Some Error Occurred: " + e.toString());
         }
     }

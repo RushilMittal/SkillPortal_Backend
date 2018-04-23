@@ -1,42 +1,31 @@
-<div class="width100">
-    <ul class="dropdown-menu ">
-        <li class="list-group-item gray">Skills</li>
-
-        
-        <ul class="list-group scrollable-menu" id="skill-list">
-            <a *ngFor="let skill of skillitems" routerLink="/skills/skillgroup/explore/{{skill}}" class="list-group-item list-group-item-action">
-                {{skill|stringManipulation}}
-            </a>
-
-            <li *ngIf="skillitems?.length==0" class="list-group-item list-group-item-action">No Results Found</li>
-        </ul>
-
-        <ul class="list-group-item list-group-item-action scrollable-menu" id="spinner" *ngIf="showSpinnerSkills">
-            <li>
-                <span class="fa fa-spinner fa-spin"></span>
-            </li>
-        </ul>
-
-        <li class="list-group-item gray">Certificate</li>
-
-
-        <ul class="list-group scrollable-menu" id="cert-list">
-            <a *ngFor="let cert of certitems" routerLink="/certifications/availablecertifications" class="list-group-item list-group-item-action">
-                {{cert.certificationName}} by {{cert.institution}}
-            </a>
-            <li *ngIf="certitems?.length==0" class="list-group-item">No Results Found</li>
-        </ul>
-
-
-        <ul class="list-group-item list-group-item-action scrollable-menu" id="spinner" *ngIf="showSpinnerCertificate">
-            <li>
-                <span class="fa fa-spinner fa-spin"></span>
-            </li>
-        </ul>
-
-        <li class="list-group-item gray">Training</li>
-        <ul class="list-group" id="train-list">
-            <a class="list-group-item list-group-item-action">This is a placeholder for training</a>
-        </ul>
+<ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="search-box">
+    <li class="list-group-item gray">Skills</li>
+    
+    <ul class="list-group scrollable-menu" id="skill-list">
+        <a *ngFor="let skill of skillitems" routerLink="/skills/skillgroup/explore/{{skill}}" class="list-group-item list-group-item-action">
+            {{skill|stringManipulation}}
+        </a>
+        <li *ngIf="skillitems?.length==0" class="list-group-item list-group-item-action">No Results Found</li>
     </ul>
-</div>
+    <ul class="list-group-item list-group-item-action scrollable-menu" id="spinner" *ngIf="showSpinnerSkills">
+        <li>
+            <span class="fa fa-spinner fa-spin"></span>
+        </li>
+    </ul>
+    <li class="list-group-item gray">Certificate</li>
+    <ul class="list-group scrollable-menu" id="cert-list">
+        <a *ngFor="let cert of certitems" routerLink="/certifications/availablecertifications" class="list-group-item list-group-item-action">
+            {{cert.certificationName}} by {{cert.institution}}
+        </a>
+        <li *ngIf="certitems?.length==0" class="list-group-item">No Results Found</li>
+    </ul>
+    <ul class="list-group-item list-group-item-action scrollable-menu" id="spinner" *ngIf="showSpinnerCertificate">
+        <li>
+            <span class="fa fa-spinner fa-spin"></span>
+        </li>
+    </ul>
+    <li class="list-group-item gray">Training</li>
+    <ul class="list-group" id="train-list">
+        <a class="list-group-item list-group-item-action">No Results Found</a>
+    </ul>
+</ul>

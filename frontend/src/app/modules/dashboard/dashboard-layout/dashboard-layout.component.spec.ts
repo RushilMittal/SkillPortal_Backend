@@ -52,4 +52,8 @@ it('to check app-training-placeholder', () => {
    expect(app_training_placeholder).toBeTruthy();
 });
 
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> pranav

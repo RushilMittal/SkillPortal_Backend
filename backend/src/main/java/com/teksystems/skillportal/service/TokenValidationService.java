@@ -1,14 +1,11 @@
 package com.teksystems.skillportal.service;
 import javax.servlet.http.HttpServletRequest;
 
-
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.StringUtils;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 public class TokenValidationService {
-
 
     public static String ExtractEmployeeId(HttpServletRequest httpRequest) {
 

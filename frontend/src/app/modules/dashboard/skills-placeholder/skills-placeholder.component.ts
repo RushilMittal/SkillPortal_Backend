@@ -29,14 +29,14 @@ export class SkillsPlaceholderComponent implements OnInit {
     
     this.skillPlaceHolderService.getemployeeSkillPlaceholder()
         .subscribe(skillPlaceholder => {
-            this.skillPlaceholder = skillPlaceholder,
-            this.year = this.skillPlaceholder.lastUpdatedPeriod[0],
-            this.month = this.skillPlaceholder.lastUpdatedPeriod[1],
-            this.day = this.skillPlaceholder.lastUpdatedPeriod[2],
-            // tslint:disable-next-line:no-unused-expressionnpm start
-            // tslint:disable-next-line:no-unused-expression
-            error => this.errorMessage = <any>error;
-        });
+            this.skillPlaceholder = skillPlaceholder;
+            this.year = this.skillPlaceholder.lastUpdatedPeriod[0];
+            this.month = this.skillPlaceholder.lastUpdatedPeriod[1];
+            this.day = this.skillPlaceholder.lastUpdatedPeriod[2];
+                       
+        },
+        error => this.errorMessage = <any>error
+      );
 
 
   }

@@ -54,6 +54,7 @@ public class CertificationController {
         } catch (Exception e) {
             logger.info("Some Error Occurred: " + e.toString());
         }
+        System.out.println(certifications);
         return certifications;
     }
 
@@ -77,7 +78,7 @@ public class CertificationController {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug("Paramater received : employeeId " + employeeId);
                 CertificationDomain certification=new CertificationDomain(id,skillId,certificationName,institution);
-                this.certificationService.postNewCertification(certification);
+                certificationService.postNewCertification(certification);
 
             } else {
                 logger.info("Employee Id not Found in the Authorization");

@@ -19,6 +19,8 @@ import { MyEnrolledTrainingsComponent } from './modules/trainings/my-enrolled-tr
 import { AvailableTrainingsComponent } from './modules/trainings/available-trainings/available-trainings.component';
 import { SkillGroupComponent } from './modules/skills/skillgroup/skillgroup.component';
 import { RedirectComponent } from './redirect/redirect.component';
+import { TrainingListComponent } from './modules/trainings/training-list/training-list.component';
+import { TrainingCalenderComponent } from './modules/trainings/training-calender/training-calender.component';
 
 const ROUTES: Routes = [
   // will need this later
@@ -103,7 +105,25 @@ const ROUTES: Routes = [
           },
           {
             path: 'myenrolledtrainings',
-            component: MyEnrolledTrainingsComponent
+            component: MyEnrolledTrainingsComponent,
+            children: [
+              {
+                path: '',
+                redirectTo: 'traininglist',
+                pathMatch: 'full'
+    
+              },
+              {
+                path: 'traininglist',
+                component: TrainingListComponent
+    
+              },
+              {
+                path: 'trainingcalender',
+                component: TrainingCalenderComponent
+              }
+            ]
+          
           },
           {
             path: 'availabletrainings',

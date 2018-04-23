@@ -16,14 +16,12 @@ import { SubSkill } from '../../../model/SubSkill';
   styleUrls: ['./skilldetail.component.css']
 })
 export class SkilldetailComponent implements OnInit {
-
   activeTags = [];
   buttonNotClicked = true;
   skillName: string;
   skill: string;
   subSkillList: SubSkill[];
   employeeSkillList = [];
-  
   errorMessage: any;
   showSpinner = true;
   constructor(private mySubSkillService: MySubSkillService,
@@ -91,9 +89,10 @@ console.log("onrating updated inn parent");
         this.mySkillService.saveEmployeeSkill(newEmployeeSkillRated)
             .subscribe(
                 () => console.log('Product Passed to savefunction'),
-                (error: any) => this.errorMessage = <any>error
+                (error: any) => this.errorMessage = <any>error,
+                ()=> this.onRefresh()
             );
-            this.onRefresh();
+            
    
       } else {
             this.errorMessage = 'Invalid Rating';

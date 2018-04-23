@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 
 import { MySkillService } from '../../../services/myskillservice.service';
 
 import { EmployeeSkill } from '../../../model/EmployeeSkill';
 import { SubSkill } from '../../../model/SubSkill';
+
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
   selector: 'app-myskill',
@@ -20,8 +22,10 @@ export class MyskillComponent implements OnInit {
   activeTags = [];
   showSpinner = false;
 
-  constructor(private dataService: MySkillService) {
+  constructor(private dataService: MySkillService, private toastService: ToastService) { }
 
+  ngOnInit() {
+    this.getEmployeeSkill();
   }
 
   toggle(param: string) {
@@ -35,9 +39,15 @@ export class MyskillComponent implements OnInit {
       this.activeTags.push(param);
     }
 
-    // console.log(this.activeTags);
   }
 
+  onCanceledClicked(toHideId: string): void {
+    // console.log(this.updateButton.concat(toHideId));
+    const y = document.getElementById(this.updateButton.concat(toHideId));
+    y.hidden = !(y.hidden);
+    const x = document.getElementById(toHideId);
+    x.hidden = !(x.hidden);
+  }
   public Valid(isValid: string) {
 
     const x = document.getElementById(isValid);
@@ -50,59 +60,42 @@ export class MyskillComponent implements OnInit {
   }
 
   OnRatingUpdated(newEmployeeSkillRated: EmployeeSkill): void {
-
-
-    console.log('Run the post query to the Server with the data recieved' +
-      'call the service again with the updated data');
-    console.log('Data recieved' + JSON.stringify(newEmployeeSkillRated));
-    console.log('Emnployee ID' + newEmployeeSkillRated.employeeId);
     newEmployeeSkillRated.lastModified = new Date();
     if (newEmployeeSkillRated.employeeId) {
-        this.dataService.saveEmployeeSkill(newEmployeeSkillRated)
-            .subscribe(
-                () => console.log('Product Passed to savefunction'),
-                (error: any) => this.errorMessage = <any>error
-            );
-            // this.getEmployeeSkill();
-            // console.log('NO Error in ifss');
-      } else {
-            this.errorMessage = 'Invalid Id';
-            // console.log('Employee Id missing cannot run query');
-      }
+      this.dataService.saveEmployeeSkill(newEmployeeSkillRated)
+        .subscribe(
+          () => console.log('Product Passed to savefunction'),
+          (error: any) => {
+            this.errorMessage = <any>error;
+            this.toastService.showErrorToast("Unable to Save Some Error Occured");
+          },
+          () => {
+            this.toastService.showSuccessToast("Skill Updated SuccessFully");
+          }
+        );
 
-    // this.onCanceledClicked(ne);
-    // // console.log(this.updateButton.concat(newEmployeeSkillRated.subSkill.name.toString()));
-    // const y = document.getElementById(this.updateButton.concat(newEmployeeSkillRated.subSkill.name.toString()));
-    // y.hidden = !(y.hidden);
-    // const x = document.getElementById(newEmployeeSkillRated.subSkill.name.toString());
-    // x.hidden = !(x.hidden);
+    } else {
+      this.errorMessage = 'Invalid Id';
+    }
   }
 
-  onCanceledClicked(toHideId: string): void {
-    // console.log(this.updateButton.concat(toHideId));
-    const y = document.getElementById(this.updateButton.concat(toHideId));
-    y.hidden = !(y.hidden);
-    const x = document.getElementById(toHideId);
-    x.hidden = !(x.hidden);
-  }
 
- getEmployeeSkill() {
-   this.showSpinner = true;
-  this.dataService.getEmployeeSkills()
-  .subscribe(employeeSkill => {
-        this.employeeSkill = employeeSkill;
 
+  getEmployeeSkill() {
+    this.showSpinner = true;
+    this.dataService.getEmployeeSkills()
+      .subscribe(employeeSkillResponse => {
+        this.employeeSkill = employeeSkillResponse.body;
+        this.errorMessage = 'Hurry Up! Rate your First Skill';
       },
-              error => this.errorMessage = <any>error,
-              () => this.showSpinner = false
-
-          );
+        error => {
+          this.errorMessage = <any>error,
+            this.showSpinner = false;
+        },
+        () => {
+          this.showSpinner = false
         }
-
-
-
-  ngOnInit() {
-      this.getEmployeeSkill();
+      );
 
   }
 }

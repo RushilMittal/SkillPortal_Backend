@@ -7,40 +7,27 @@ import 'rxjs/add/operator/map';
 import { Observable} from 'rxjs/Observable';
 import { EmployeeCertificate } from '../model/EmployeeCertification';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { ErrorHandler } from './handleerror.service';
+import { httpOptions } from '../httpheaders';
 
 
 
 @Injectable()
 export class AddNewCertificateService {
     private apiRoot = baseUrlCertification;
-    constructor(private http: HttpClient) {}
+  
+    constructor(private http: HttpClient, private handler:ErrorHandler) {}
 
     saveNewCertification(employeeCertification: EmployeeCertificate): Observable<EmployeeCertificate> {
         console.log('In the add certification component');
-        const url = `${this.apiRoot}/addCertification?certificationId=${employeeCertification.certificationId.id}`+
-                    `&certificationDateString=${employeeCertification.certificationDate}`+
-                    `&certificationValidityDateString=${employeeCertification.certificationValidityDate}`+
-                    `&certificationNumber=${employeeCertification.certificationNumber}`+
-                    `&certificationUrl=${employeeCertification.certificationUrl}`;
-
+        const url = `${this.apiRoot}/addcertificate`;
+        console.log(url);
         const employeeCertificationDomain = JSON.stringify(employeeCertification);
 
-        return this.http.post(url, employeeCertificationDomain)
-            .catch(this.handleError);
-    }
-
-
-    private extractData(response: Response) {
-        const body = response.text() ? response.json() : {};
-        return body.data;
-
-        // below mentioned snippet generates Unexpected end of JSON error
-        // let body = response.json();
-        // return body.data || {};
-    }
-
-    private handleError(error: Response): Observable<any> {
-        console.error(error);
-        return Observable.throw(error.json().error || 'Server error');
+        return this.http.post<EmployeeCertificate>(url, employeeCertification,httpOptions)
+            .pipe(
+                catchError(this.handler.handleError)
+            );
     }
 }

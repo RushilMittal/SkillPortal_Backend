@@ -10,7 +10,7 @@ import { SkillGroup } from '../../../model/SkillGroup';
 })
 export class SkillGroupComponent implements OnInit {
   skills: Skill;
-  uparrow = 'fas fa-angle-up';
+  uparrow = 'fa fa-angle-up';
   errorMessage: any;
   activeTags = '';
   skillGroup: SkillGroup;

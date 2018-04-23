@@ -1,6 +1,7 @@
 package com.teksystems.skillportal.controller;
 
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -17,11 +18,12 @@ import com.teksystems.skillportal.domain.SubSkillDomain;
 import com.teksystems.skillportal.service.EmployeeSkillService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 @RestController
 @RequestMapping(value="/skill",method= {RequestMethod.GET,RequestMethod.POST})
-@CrossOrigin("*")
+@CrossOrigin()
 public class EmployeeSkillController {
 
 	private static Logger logger = Logger.getLogger(EmployeeSkillController.class);
@@ -140,10 +142,11 @@ public class EmployeeSkillController {
      * EmployeeId from Authorization token Done :- 13-04-2018
      */
 	@GetMapping("/getEmployeeSkills")
-	public List<EmployeeSkillDomain> getEmployeeSkills(HttpServletRequest request) {
+	public List<EmployeeSkillDomain> getEmployeeSkills(HttpServletRequest request,HttpServletResponse res) {
         logger.info("/api/getEmployeeSkills accessed");
         String employeeId =null;
         List<EmployeeSkillDomain> toReturn = null;
+
         try {
             logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
             if(!( ((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
@@ -160,6 +163,7 @@ public class EmployeeSkillController {
         }
 
 		return toReturn;
+
 	}
 
 
