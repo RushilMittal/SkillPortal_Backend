@@ -44,7 +44,7 @@ public class TrainingController {
         }
     }
 
-    @GetMapping("/gettraining")
+    @GetMapping("/getalltraining")
     public List<TrainingDomain> getTraining(HttpServletRequest request)
     {
         logger.info("/gettraining API called");

@@ -29,3 +29,11 @@
     </tr>
   </table>
 </div>
+
+<div *ngIf="(eventsList | monthfilter:month:year)?.length === 0">
+  <table style="margin-top:10px" class="table border table-reponsive">
+    <tr>
+      <td colspan="3">No Trainings in this month</td>
+    </tr>
+  </table>
+</div>

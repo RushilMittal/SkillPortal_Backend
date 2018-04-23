@@ -32,7 +32,7 @@ public class SearchServiceAtul {
     			searchRes.add(key);
     		List<SubSkill> searchSub = searchup.get(key);
     		for (SubSkill value : searchSub) {
-    			Pattern p1 = Pattern.compile(search); 
+    			Pattern p1 = Pattern.compile(search.toLowerCase());
         		Matcher m1 = p1.matcher(value.getSubSkill().toLowerCase());
         		if( m1.find() )
         			searchRes.add(key+"_"+value.getSubSkill());	

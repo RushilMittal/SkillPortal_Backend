@@ -79,10 +79,15 @@ public class EmployeeTrainingService {
     }
 
     public void cancelEnrollment(String empId,String trainingId) throws  Exception{
-        Training training=new Training();
+        Training training = trainingRepository.findByid(trainingId);
         EmployeeTraining employeeTraining = this.employeeTrainingRepository.findByEmpIdAndTrainingId(empId,trainingId);
         this.employeeTrainingRepository.delete(employeeTraining);
+        System.out.println(training.getSeats());
         training.setSeats(training.getSeats()+1);
+        trainingRepository.save(training);
+
+        System.out.println(training.getSeats());
+
     }
 
     public List<TrainingListEventDomain> getTrainingListEventByEmployeeId(String empId) throws Exception{

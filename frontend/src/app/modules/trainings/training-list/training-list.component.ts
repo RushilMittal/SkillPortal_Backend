@@ -17,7 +17,6 @@ export class TrainingListComponent implements OnInit {
   year: number;
   months: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',];
   showSpinner = false;
-  events: Event[];
   eventsList: Event[] = [];
 
   constructor(private eventService: EventService, private router: Router,
@@ -25,19 +24,6 @@ export class TrainingListComponent implements OnInit {
 
   ngOnInit() {
     this.showSpinner =true;
-    this.eventService.getEvents()
-      .subscribe(events => {
-        this.events = events;
-        this.errorMessage = 'No training this Month';
-      },
-      error => {
-        this.errorMessage = <any>error,
-          this.showSpinner = false;
-      },
-      () => {
-        this.showSpinner = false
-      }
-    );
 
     this.eventService.getEventsList()
       .subscribe(eventsList =>{

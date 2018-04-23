@@ -71,7 +71,7 @@ public class EmployeeSkillServiceTest
         assertEquals(2, result.size());
   }
     @Test
-    public void testGetEmployeeSkillPlaceHolderDomain(){
+    public void testGetEmployeeSkillPlaceHolderDomain() throws Exception{
 
         List<EmployeeSkill> employeeSkillList = new ArrayList<EmployeeSkill>();
         EmployeeSkill employeeSkill = new EmployeeSkill();

@@ -12,7 +12,7 @@ import { TrainingDomain } from '../../../model/training-domain';
   styleUrls: ['./available-trainings.component.css']
 })
 export class AvailableTrainingsComponent implements OnInit {
-  trainingAvailable:TrainingDomain[];
+  trainingAvailable:TrainingDomain[]=[];
   errorMessage: any;
   date: Date;
   currMonth : number;
@@ -50,7 +50,7 @@ trainingDomain: TrainingDomain[];
            this.month=11;
            this.year--;
          }
-         console.log(this.trainingAvailable)
+         
       }
        
       next(){
