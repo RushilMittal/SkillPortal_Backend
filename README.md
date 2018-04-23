@@ -1,9 +1,7 @@
-README, some chnages are made by sahib
-some more changes by sahib
-some more more changes
+// First time Git user
 git init
 
-git config --global http.sslVerify false
+git config --global http.sslVerify false 
 
 git remote add origin https://gitlab.blr.teksystems.com/interns2018/skill-portal
 
@@ -18,13 +16,19 @@ git commit -m "test"
 git push origin dev
 
 
+// if existing git, dont forget to pull code daily and resolve the conflicts if any.
+
+git pull origin dev
+
+// if there are conflicts then resolve them 
+// do your changes..
+
+git add .
+
+git commit -m "Your Message"
+
+git push origin dev
 
 -b = branch
 -m = commit message
 . = all
-
-Careful with the changes bro
-Doing changes
-doing chnages again
-Todo wala kam
-TODO again
