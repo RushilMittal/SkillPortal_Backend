@@ -34,7 +34,7 @@ describe('DashboardSkillPlaceholderService', () => {
         httpMock: HttpTestingController,
         dashboardService: DashBoardSkillPlaceHolderService
       ) => {
-        dashboardService.getemployeeSkillPlaceholder('101').subscribe((data: EmployeeSkillPlaceholder) => {
+        dashboardService.getemployeeSkillPlaceholder().subscribe((data: EmployeeSkillPlaceholder) => {
         expect(data).toBeDefined();
         expect(data.numberOfSkillRated).toEqual(20);
         expect(data.higestRatedSkill).toEqual('EC2');

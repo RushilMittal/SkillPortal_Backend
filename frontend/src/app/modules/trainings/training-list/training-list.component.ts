@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EventService } from '../../../services/event.service';
 import { Router } from '@angular/router';
 import { ToastService } from '../../../services/toast.service';
+import { Event } from '../../../model/Event';
 
 @Component({
   selector: 'app-training-list',
@@ -27,7 +28,7 @@ export class TrainingListComponent implements OnInit {
 
     this.eventService.getEventsList()
       .subscribe(eventsList =>{
-        this.eventsList =eventsList;
+        this.eventsList = eventsList;
         this.errorMessage = 'No training this Month';
       },
       error => {

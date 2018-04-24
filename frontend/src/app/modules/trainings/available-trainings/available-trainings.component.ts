@@ -70,6 +70,7 @@ trainingDomainToSend: TrainingDomain;
       {
         this.availableTrainingService.postEnroll(trainingId).subscribe(
           () => console.log('Certification Passed to Certification API'));
+          
       }
 
       open(content , trainingdom: TrainingDomain) {

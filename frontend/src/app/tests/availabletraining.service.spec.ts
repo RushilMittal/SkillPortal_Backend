@@ -3,7 +3,6 @@ import { HttpClientTestingModule, HttpTestingController } from "@angular/common/
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { AvailableTrainingService } from "../services/availabletraining.service";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { AvailableTrainingPipe } from "../modules/trainings/available-trainings/training-list-pipe.pipe";
 
 describe('AvailableTrainingService', () => {
     beforeEach(() => {

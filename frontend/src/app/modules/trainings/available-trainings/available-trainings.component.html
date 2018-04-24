@@ -1,8 +1,7 @@
-<div class="row">
-
-  <button class="btn btn-right" *ngIf="(year>currYear)||(year==currYear && month>=currMonth)" (click)="previous()">&lt;</button>
-  <button class="btn btn-right" (click)="next()">></button>
-  <h2>{{months[month]}}{{year}}</h2>
+<div class="row p-3">
+  <button id="left" *ngIf="(year>currYear)||(year==currYear && month>=currMonth)" (click)="previous()"><b>&lt;</b></button>
+  <button id="right" (click)="next()"><b>></b></button>
+  <h2>{{months[month]}} {{year}}</h2>
 </div>
 
 <div id="test" class="table-responsive">
@@ -49,7 +48,7 @@
       </td>
       <td width="20%" >
           <button id="new-edit" class="btn btn-default" (click)="open(content,trainingDomain)">                
-          <i id="edit" class="far fa-edit " ></i>         
+          <i id="edit" class="fa fa-edit " ></i>         
           </button>
       </td>
     </tr>

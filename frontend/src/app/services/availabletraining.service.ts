@@ -11,7 +11,7 @@ import { baseUrlTraining } from '../baseUrl';
 export class AvailableTrainingService {
   // private apiRoot = 'http://localhost:8000/api';
   apiRoot = baseUrlTraining;
-  constructor(private http: Http, private httpClient: HttpClient) { }
+  constructor( private httpClient: HttpClient) { }
 
 
 

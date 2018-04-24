@@ -77,7 +77,6 @@ public class SearchController {
             logger.info("Some Error Occured: " + e.toString());
         }
         return toReturn;
-
-
+        
     }
 }

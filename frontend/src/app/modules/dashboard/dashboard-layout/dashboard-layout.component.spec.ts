@@ -51,9 +51,5 @@ it('to check app-training-placeholder', () => {
    app_training_placeholder = fixture.nativeElement.querySelector('app-training-placeholder');
    expect(app_training_placeholder).toBeTruthy();
 });
+});
 
-<<<<<<< HEAD
-});
-=======
-});
->>>>>>> pranav

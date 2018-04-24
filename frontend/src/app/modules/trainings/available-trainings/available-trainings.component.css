@@ -36,3 +36,24 @@ th {
    border: none;
    
 }
+
+#left {
+    padding-right:15px;
+    padding-left: 15px;
+    height: 35px;
+    background-color: #f0f5f5;
+    border-radius: 5px;
+   
+}
+
+#right{
+   padding-right:15px;
+   padding-left: 15px;
+   height: 35px;
+   background-color: #f0f5f5;
+   border-radius: 5px;
+} 
+
+h2 {
+    padding-left: 16px;
+}

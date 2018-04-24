@@ -9,13 +9,38 @@ th {
     margin-top:0px;
     margin-bottom:0px;
  }
-.button {
+ 
+ /* .button {
    text-align:center;
-   /* padding-top: 30px; */
-}
+}  */
 #cancel-enrollment
 {
     background: linear-gradient(to right, #0697C3 , #4DBFE2);
     color: white;
     display: inline-flex;
+}
+
+#left {
+    padding-right:15px;
+    padding-left: 15px;
+    height: 35px;
+    background-color: #f0f5f5;
+    border-radius: 5px;
+   
+}
+
+#right{
+   padding-right:15px;
+   padding-left: 15px;
+   height: 35px;
+   background-color: #f0f5f5;
+   border-radius: 5px;
+}   
+#button {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 10px;
+}
+h2 {
+    padding-left: 16px;
 }

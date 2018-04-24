@@ -18,19 +18,26 @@
 .margin-49{
     margin-bottom:4.9%;
 }
+
 #request-a-training
 {
-    background: linear-gradient(to right, #0697C3 , #4DBFE2);
-    color: white;
-    display: inline-flex;
+  background: linear-gradient(to right, #0697C3 , #4DBFE2);
+  color: white;
+  display: flex;
+  /* align-self: auto; */
+  /* margin-right: auto; */
+  margin-right:0.18rem; 
 }
 
 #offer-a-training
 {
-    background: linear-gradient(to right, #0697C3 , #4DBFE2);
-    color: white;
-    display: inline-flex;
-    margin-left:1rem; 
+  background: linear-gradient(to right, #0697C3 , #4DBFE2);
+  color: white;
+  display: flex;
+  /* margin-left:0.8%;  */
+  /* align-self: auto; */
+  /* margin-left: auto; */
+ 
 }
 
 .h2, h2 {

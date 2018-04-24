@@ -8,6 +8,7 @@ import { baseUrlTraining } from '../baseUrl';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { ErrorHandler } from './handleerror.service';
+import { Event } from '../model/Event';
 
 @Injectable()
 export class EventService {
