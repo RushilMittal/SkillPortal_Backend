@@ -15,7 +15,7 @@ git commit -m "test"
 
 git push origin dev
 
-
+//EXISTING USER
 // if existing git, dont forget to pull code daily and resolve the conflicts if any.
 
 git pull origin dev
@@ -33,4 +33,5 @@ git push origin dev
 -m = commit message
 . = all
 
-ajhsdjashdjasdhajdj
+hello everyone
+Don't forget to commit Before merging(pulling)
