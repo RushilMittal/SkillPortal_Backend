@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchItem } from '../../../model/search-item';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
 
 @Component({
   selector: 'app-dash-layout',
@@ -9,7 +10,7 @@ import { SearchItem } from '../../../model/search-item';
 export class DashLayoutComponent {
   filter: string;
   toShow = false;
-  constructor() { }
+  constructor(public oidcSecurityService: OidcSecurityService) { }
   called() {
     // console.log("I am called ");
     this.toShow = true;
@@ -18,6 +19,8 @@ export class DashLayoutComponent {
     // console.log("gone");
     this.toShow = false;
   }
-
+  logout() {
+    this.oidcSecurityService.logoff();
+ }
 
 }

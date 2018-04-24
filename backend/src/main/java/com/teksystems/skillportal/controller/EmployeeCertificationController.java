@@ -150,7 +150,7 @@ public class EmployeeCertificationController {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug("Paramater received : employeeId " + employeeId);
                 logger.info("Trying to fetch Certification Placeholder");
-                toReturn = employeeCertificationService.getTopTwoEmployeeCertificationPlaceholderById(employeeId);
+                toReturn = employeeCertificationService.getEmployeeCertificationPlaceholderById(employeeId);
             } else {
                 logger.info("Employee Id not Found in the Authorization");
             }

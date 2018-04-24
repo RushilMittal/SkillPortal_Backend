@@ -15,11 +15,11 @@ export class DashboardCertificationPlaceholderService {
   apiRoot = baseUrlCertification;
   constructor(private http: HttpClient,private handler:ErrorHandler) { }
 
-  getCertificatePlaceholder(empId: string): Observable<EmployeeCertificatePlaceholderModel> {
+  getCertificatePlaceholder(empId: string): Observable<EmployeeCertificatePlaceholderModel[]> {
     // console.log('inside GetCertificatePlaceholder');
     const url = `${this.apiRoot}/getcertificationplaceholder?employeeId=${empId}`;
     // console.log(url);
-    return this.http.get(url)
+    return this.http.get<EmployeeCertificatePlaceholderModel[]>(url)
       .pipe(
         catchError(this.handler.handleError)
       );

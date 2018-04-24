@@ -18,8 +18,8 @@ export class MyCertificationService {
     constructor(private http: HttpClient,
         private handler:ErrorHandler) {}
 
-    getEmployeeCertification(): Observable<EmployeeCertificate> {
-        return this.http.get(this.url)
+    getEmployeeCertification(): Observable<EmployeeCertificate[]> {
+        return this.http.get<EmployeeCertificate[]>(this.url)
         .pipe(
             catchError(this.handler.handleError)
         );

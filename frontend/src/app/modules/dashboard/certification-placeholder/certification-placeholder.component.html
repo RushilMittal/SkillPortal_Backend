@@ -1,26 +1,28 @@
-<div class="card certifications">
-  <div class="card-block">
+<div class="card certifications h-100">
+  <div class="card-block h-100">
     <h4>Certifications</h4>
-    <p class="card-text font13">
-       {{subtitle1}}
-      
-    </p>
-    <ul *ngFor="let emplcert of employeeCertificatePlaceholderModel" class="grey">
+   
+   
+      <p class="card-text font13">
+        {{subtitle1}}
 
-      <li *ngIf="emplcert?.certificationName">{{emplcert?.certificationName}}</li>
-      {{emplcert?.year}}
+      </p>
+      <p *ngIf="employeeCertificatePlaceholderModel?.length ===0">-- </p>
+      <ul *ngFor="let emplcert of employeeCertificatePlaceholderModel" class="grey">
 
-    </ul>
+        <li *ngIf="emplcert?.certificationName">{{emplcert?.certificationName}}</li>
+        {{emplcert?.year}}
 
-    <p class="card-text font13">
-      {{subtitle2}}
-      
-    </p>
+      </ul>
 
-    <ul class="grey">
-      <li>Under development</li>
-    </ul>
-    <a routerLink="/certifications/mycertifications" id="viewDetails" class="btn btn-primary">View Details</a>
+      <p class="card-text font13">
+        {{subtitle2}}
+      </p>
+
+      <ul class="grey">
+        <li>Under development</li>
+      </ul>
+      <a routerLink="/certifications/mycertifications" id="viewDetails" class="btn btn-primary">View Details</a>
 
   </div>
 
