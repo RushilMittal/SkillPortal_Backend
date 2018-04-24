@@ -32,3 +32,5 @@ git push origin dev
 -b = branch
 -m = commit message
 . = all
+
+hello everyone
