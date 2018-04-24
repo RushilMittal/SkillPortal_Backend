@@ -65,6 +65,15 @@ public class TrainingService {
 
     }
 
+    public void updateTraining(Training training,List<TrainingSession> trainingSessionNew)
+    {
+        List<TrainingSession> trainingSession = this.trainingSessionRepository.findBytrainingId(training.getId());
+        trainingRepository.save(training);
+        trainingSessionRepository.delete(trainingSession);
+        trainingSessionRepository.save(trainingSessionNew);
+
+    }
+
     public List<TrainingDomain> getAllTrainings(String employeeId)
     {
 

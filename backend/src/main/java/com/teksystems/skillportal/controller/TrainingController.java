@@ -26,7 +26,7 @@ public class TrainingController {
     @PostMapping("/add")
     public void add(HttpServletRequest request, @RequestBody TrainingDomain training)
     {
-        logger.info("/add API called");
+        logger.info("/add Training API called");
         String empId = null;
 
         try {
@@ -71,7 +71,7 @@ public class TrainingController {
     @PostMapping("/enroll")
     public void enrollTraining(HttpServletRequest request,@RequestParam String trainingId)
     {
-        logger.info("/enroll API called");
+        logger.info("/enroll Training API called");
         String empId = null;
 
         try {
@@ -81,6 +81,28 @@ public class TrainingController {
                 logger.debug("Paramater received : employeeId " + empId);
                 logger.info("Trying to enroll a New Training for a particular employee");
                 trainingService.enrollTraining(empId, trainingId);
+            } else {
+                logger.info("Employee Id not Found in the Authorization");
+            }
+        } catch (Exception e) {
+            logger.info("Some Error Occurred: " + e.toString());
+        }
+
+    }
+
+    @PostMapping("/update")
+    public void update(HttpServletRequest request,@RequestBody TrainingDomain training)
+    {
+        logger.info("/update Training API called");
+        String empId = null;
+
+        try {
+            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
+            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+                empId = tokenValidator.ExtractEmployeeId(request);
+                logger.debug("Paramater received : employeeId " + empId);
+                logger.info("Trying to update Training details ");
+                trainingService.updateTraining(training.getTraining(), training.getTrainingSessions());
             } else {
                 logger.info("Employee Id not Found in the Authorization");
             }
