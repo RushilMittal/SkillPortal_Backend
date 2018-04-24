@@ -8,11 +8,11 @@ import { EmployeeCertificatePlaceholderModel } from '../../../model/EmployeeCert
   styleUrls: ['./certification-placeholder.component.css']
 })
 export class CertificationPlaceholderComponent implements OnInit {
-  employeeCertificatePlaceholderModel: EmployeeCertificatePlaceholderModel;
+  employeeCertificatePlaceholderModel: EmployeeCertificatePlaceholderModel[];
   employeeId = '101';
   title = 'app';
-  subtitle1 = 'Certifications received';
-  subtitle2 = 'Certifications required';
+  subtitle1 = 'Certifications Received';
+  subtitle2 = 'Certifications Requested';
 
   errorMessage: any;
   constructor(private certificationPlaceholderService: DashboardCertificationPlaceholderService) { }
@@ -20,9 +20,13 @@ export class CertificationPlaceholderComponent implements OnInit {
     // console.log('In ngOnInit');
     this.certificationPlaceholderService.getCertificatePlaceholder(this.employeeId)
       .subscribe(employeecertificatevar => {
-        this.employeeCertificatePlaceholderModel = employeecertificatevar},
-        error => this.errorMessage = <any>error,
-        () => {console.log('hello '); }
+        this.employeeCertificatePlaceholderModel = employeecertificatevar
+        this.errorMessage = 'Hurry Up! Upload your First Certification';
+      },
+        (error: any) => {
+          this.errorMessage = <any>error;
+        },
+        () => { }
     );
 
 

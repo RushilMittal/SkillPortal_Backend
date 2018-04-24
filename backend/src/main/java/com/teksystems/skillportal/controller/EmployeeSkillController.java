@@ -125,6 +125,7 @@ public class EmployeeSkillController {
                 logger.debug("Paramater received : employeeId " + employeeId);
                 logger.debug("Getting detail for the Skill Placeholder, using employeeId " + employeeId);
                 toReturn = employeeSkillService.getEmployeeSkillPlaceHolderDomain(employeeId);
+
             } else {
                 logger.info("Employee Id not Found in the Authorization");
             }

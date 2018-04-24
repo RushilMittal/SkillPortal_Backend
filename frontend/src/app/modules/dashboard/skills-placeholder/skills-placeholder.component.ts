@@ -10,32 +10,37 @@ import { DashBoardSkillPlaceHolderService } from '../../../services/dashboardski
   styleUrls: ['./skills-placeholder.component.css']
 })
 export class SkillsPlaceholderComponent implements OnInit {
-//    highestRatedSkill: String;
-//    totalRated: number;
-//    highestRating:number;
-//    period: number[];
-   year: number ;
-   month: number;
-   day: number;
+  //    highestRatedSkill: String;
+  //    totalRated: number;
+  //    highestRating:number;
+  //    period: number[];
+  year: number;
+  month: number;
+  day: number;
 
-   skillPlaceholder: EmployeeSkillPlaceholder = new EmployeeSkillPlaceholder();
+  skillPlaceholder: EmployeeSkillPlaceholder = new EmployeeSkillPlaceholder();
 
-   errorMessage: any;
+  errorMessage: any;
   constructor(private skillPlaceHolderService: DashBoardSkillPlaceHolderService) {
 
   }
 
   ngOnInit() {
-    
+
     this.skillPlaceHolderService.getemployeeSkillPlaceholder()
-        .subscribe(skillPlaceholder => {
-            this.skillPlaceholder = skillPlaceholder;
-            this.year = this.skillPlaceholder.lastUpdatedPeriod[0];
-            this.month = this.skillPlaceholder.lastUpdatedPeriod[1];
-            this.day = this.skillPlaceholder.lastUpdatedPeriod[2];
-                       
-        },
-        error => this.errorMessage = <any>error
+      .subscribe(skillPlaceholder => {
+        this.skillPlaceholder = skillPlaceholder;
+        if (this.skillPlaceholder) {
+          this.year = this.skillPlaceholder.lastUpdatedPeriod[0];
+          this.month = this.skillPlaceholder.lastUpdatedPeriod[1];
+          this.day = this.skillPlaceholder.lastUpdatedPeriod[2];
+        }
+        this.errorMessage = 'Hurry Up! Rate your first skill';
+      },
+      (error: any) => {
+        this.errorMessage = <any>error;
+      },
+      () => { }
       );
 
 

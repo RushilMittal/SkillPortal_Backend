@@ -25,25 +25,28 @@ export class SkillGroupComponent implements OnInit {
     } else {
       this.activeTags = this.activeTags.concat(param);
     }
-    // console.log(this.activeTags);
+
   }
 
   ngOnInit() {
     this.showSpinner = true;
-      this.skillGroupService.getData()
+    this.skillGroupService.getData()
       .subscribe(
-        skillGroup => {
-          this.skillGroup = skillGroup;
-          this.temp = new Map();
-          // tslint:disable-next-line:forin
-          for (const key in this.skillGroup) {
-            this.temp.set(key, this.skillGroup[key]);
-          }
+      skillGroup => {
+        this.skillGroup = skillGroup;
+        this.temp = new Map();
+        console.log("Skill group recieved" +this.skillGroup);
+        for (const key in this.skillGroup) {
+          this.temp.set(key, this.skillGroup[key]);
         }
-        , (error: any) => this.errorMessage = <any>error,
-        () => this.gettingKeys()
-
-
+      
+      }
+      , error => {
+        this.temp  = new Map();
+        this.errorMessage = <any>error;
+        this.showSpinner = false;
+      },
+      () => this.gettingKeys()
       );
 
   }

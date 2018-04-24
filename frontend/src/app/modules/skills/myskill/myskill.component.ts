@@ -64,14 +64,14 @@ export class MyskillComponent implements OnInit {
     if (newEmployeeSkillRated.employeeId) {
       this.dataService.saveEmployeeSkill(newEmployeeSkillRated)
         .subscribe(
-          () => console.log('Product Passed to savefunction'),
-          (error: any) => {
-            this.errorMessage = <any>error;
-            this.toastService.showErrorToast("Unable to Save Some Error Occured");
-          },
-          () => {
-            this.toastService.showSuccessToast("Skill Updated SuccessFully");
-          }
+        () => console.log('Product Passed to savefunction'),
+        (error: any) => {
+          this.errorMessage = <any>error;
+          this.toastService.showErrorToast("Unable to Save Some Error Occured");
+        },
+        () => {
+          this.toastService.showSuccessToast("Skill Updated SuccessFully");
+        }
         );
 
     } else {
@@ -88,13 +88,13 @@ export class MyskillComponent implements OnInit {
         this.employeeSkill = employeeSkillResponse.body;
         this.errorMessage = 'Hurry Up! Rate your First Skill';
       },
-        error => {
-          this.errorMessage = <any>error,
-            this.showSpinner = false;
-        },
-        () => {
-          this.showSpinner = false
-        }
+      error => {
+        this.errorMessage = <any>error;
+        this.showSpinner = false;
+      },
+      () => {
+        this.showSpinner = false
+      }
       );
 
   }
