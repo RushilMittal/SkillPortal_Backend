@@ -15,7 +15,7 @@
 
   export const baseUrlCertification = 'http://localhost:8000/certifications';
 
- export const baseUrlCertificationashwin = 'http://localhost:8000/certifications';
+ //export const baseUrlCertificationashwin = 'http://localhost:8000/certifications';
   export const baseUrlTraining = 'http://localhost:8000/training';
 
  // SERVER ADDRESS

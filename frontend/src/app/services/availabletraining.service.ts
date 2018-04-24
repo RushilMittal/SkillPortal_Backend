@@ -6,12 +6,14 @@ import 'rxjs/add/operator/catch';
 import { HttpClient } from '@angular/common/http';
 import { TrainingDomain } from '../model/training-domain';
 import { baseUrlTraining } from '../baseUrl';
+import { catchError } from 'rxjs/operators';
+import { ErrorHandler } from './handleerror.service';
 
 @Injectable()
 export class AvailableTrainingService {
   // private apiRoot = 'http://localhost:8000/api';
   apiRoot = baseUrlTraining;
-  constructor( private httpClient: HttpClient) { }
+  constructor( private httpClient: HttpClient,private handler:ErrorHandler) { }
 
 
 
@@ -19,7 +21,11 @@ export class AvailableTrainingService {
     console.log(this.apiRoot);
     const url = this.apiRoot+"/getalltraining";
     // console.log(url);
-    return this.httpClient.get<TrainingDomain[]>(url);
+    return this.httpClient.get<TrainingDomain[]>(url)
+    .pipe(
+      catchError(this.handler.handleError)
+  );
+    
   }
 
   postEnroll(trainingId:string) {
@@ -29,7 +35,9 @@ export class AvailableTrainingService {
      console.log(url)
      console.log(trainingId)
     //console.log(this.httpClient.pos<TrainingDomain[]>(this.apiRoot));
-    return this.httpClient.post(url, options);
+    return this.httpClient.post(url, options).pipe(
+      catchError(this.handler.handleError)
+  );
     
   }
 

@@ -65,12 +65,11 @@ import { TrainingCalenderComponent } from './modules/trainings/training-calender
 import {MatIconModule} from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AvailableTrainingService } from './services/availabletraining.service';
-import { AvailableTrainingPipe } from './modules/trainings/available-trainings/training-list-pipe.pipe';
-
 import { Ng2IziToastModule } from 'ng2-izitoast';
 import { ToastService } from './services/toast.service';
 import { query } from '@angular/animations';
 import { ErrorHandler } from './services/handleerror.service';
+import { AvailableTrainingPipe } from './modules/trainings/available-trainings/available-trainings-pipe.pipe';
 
 
 

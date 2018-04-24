@@ -4,10 +4,13 @@
   <h2>{{months[month]}} {{year}}</h2>
 </div>
 
-<div class="row p-3" *ngIf="showSpinner">
-  <span class="fa fa-spinner fa-spin" style="font-size: 60px;"></span>
-</div>
 
+<div class="row p-3 justify-content-center"  *ngIf="showSpinner">
+  <span class="fa fa-spinner fa-spin spinner" style="font-size: 60px;"></span>
+</div>
+<div class ="row justify-content-center" *ngIf="(eventsList|monthfilter:month:year)?.length == 0">
+      <h5>{{errorMessage}}</h5>
+</div>
 
 <div id="test" class="table-responsive">
   <table style="margin-top:10px" class="table border" *ngFor="let event of eventsList | monthfilter:month:year">
@@ -26,14 +29,6 @@
       <td width="30%" class="button">
         <button id="cancel-enrollment" type="button" (click)="deleteTraining(event?.id)" class="btn btn-right">Cancel Enrollment</button>
       </td>
-    </tr>
-  </table>
-</div>
-
-<div *ngIf="(eventsList | monthfilter:month:year)?.length === 0">
-  <table style="margin-top:10px" class="table border table-reponsive">
-    <tr>
-      <td colspan="3">No Trainings in this month</td>
     </tr>
   </table>
 </div>
