@@ -14,7 +14,7 @@
 </div>
 
 
-<div class ="row justify-content-center" *ngIf="(trainingAvailable|monthfilter2:month:year)?.length == 0">
+<div class ="row justify-content-center" *ngIf="(trainingAvailable|monthfilter2:month:year)?.length === 0">
   <h5 >{{errorMessage}}</h5>
 </div>
   
@@ -81,7 +81,7 @@
       </button>
     </div>
     <div class="modal-body">
-      <app-add-training #form [trainingDomain]=trainingDomainToSend></app-add-training>
+      <app-add-training #form (saveClicked)="c('Cross click')" [trainingDomain]=trainingDomainToSend></app-add-training>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-dark" (click)="('Close click')">Close</button>

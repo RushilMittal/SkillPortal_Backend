@@ -7,7 +7,12 @@ import { HttpModule } from '@angular/http';
 import {SearchItem} from '../model/search-item';
 import { Response } from '@angular/http/src/static_response';
 import { of } from 'rxjs/observable/of';
-import { catchError, map, tap } from 'rxjs/operators';
+
+import { catchError } from 'rxjs/operators';
+import { ErrorHandler } from './handleerror.service';
+
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/catch';
 
 import {Certification} from '../../app/model/Certification';
 import { baseUrlSkill } from '../baseUrl';
@@ -19,7 +24,7 @@ export class SearchService {
   trainingurl = baseUrlSkill + '/searchtraining?searchTerm';
 res: Response;
 
-constructor(private http: HttpClient) { }
+constructor(private http: HttpClient,private handler:ErrorHandler) { }
 
 searchCert(term: string): Observable<Certification[]> {
   if (!term.trim()) {
@@ -27,8 +32,7 @@ searchCert(term: string): Observable<Certification[]> {
     return of([]);
   }
   return this.http.get<Certification[]>(`${this.certurl}=${term}`).pipe(
-    tap(_ => console.log(`found certificates matching "${term}"`))
-  );
+    catchError(this.handler.handleError));
 }
 
 searchTraining(term: string): Observable<NewTraining[]> {
@@ -37,8 +41,7 @@ searchTraining(term: string): Observable<NewTraining[]> {
     return of([]);
   }
   return this.http.get<NewTraining[]>(`${this.trainingurl}=${term}`).pipe(
-    tap(_ => console.log(`found trainings matching "${term}"`))
-  );
+    catchError(this.handler.handleError));
 }
 
 searchSkills(term: string): Observable<string[]> {
@@ -48,8 +51,7 @@ searchSkills(term: string): Observable<string[]> {
     return of([]);
   }
   return this.http.get<string[]>(`${this.url}=${term}`).pipe(
-    tap(_ => console.log(`found skills matching "${term}"`))
-  );
+    catchError(this.handler.handleError));
 }
 
 

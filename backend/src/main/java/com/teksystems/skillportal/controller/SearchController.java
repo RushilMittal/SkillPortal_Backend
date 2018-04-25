@@ -20,12 +20,18 @@ import com.teksystems.skillportal.helper.SearchHelper;
 import com.teksystems.skillportal.model.Skill;
 import com.teksystems.skillportal.model.SubSkill;
 
+import com.teksystems.skillportal.service.TrainingService;
+import com.teksystems.skillportal.model.Training;
+
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/skill")
 @CrossOrigin("*")
 public class SearchController {
+
+    @Autowired
+	TrainingService trainingService;
 
     @Autowired
     SearchServiceAtul searchServiceAtul;
@@ -79,4 +85,27 @@ public class SearchController {
         return toReturn;
 
     }
+	
+	 @GetMapping("/searchtraining")
+    public List<Training> searchTraining(HttpServletRequest request, @RequestParam String searchTerm){
+        logger.info("/searchtraining API called");
+        String employeeId = null;
+        List<Training> toReturn = null;
+        try {
+            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
+            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+                employeeId = tokenValidator.ExtractEmployeeId(request);
+                logger.debug("Paramater received : employeeId " + employeeId);
+                toReturn = trainingService.searchTraining(searchTerm);
+
+            } else {
+                logger.info("Employee Id not Found in the Authorization");
+            }
+        } catch (Exception e) {
+            logger.info("Some Error Occured: " + e.toString());
+        }
+        return toReturn;
+
+    }
+
 }

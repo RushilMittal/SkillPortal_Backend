@@ -31,10 +31,10 @@
           </td>
         </tr>
       </tbody>
-      <tbody *ngIf="employeeSkill?.length === 0">
+      <tbody *ngIf="(!employeeSkill) || employeeSkill?.length ===0">
         <tr>
           <td >
-            <p>{{errorMessage}}</p>
+            <h5>{{errorMessage}}</h5>
           </td>
         </tr>
       </tbody>

@@ -48,7 +48,6 @@ export class MySkillService {
 
         const url = `${this.apiRoot}/add?subSkillId=${employeeSkill.subSkill.id}&rating=${employeeSkill.rating}`;
         console.log(url);
-        const employeeSkilltemp = JSON.stringify(employeeSkill);
         return this.http.post<EmployeeSkill>(url, employeeSkill,httpOptions)
             .pipe(
                 catchError(this.handler.handleError)

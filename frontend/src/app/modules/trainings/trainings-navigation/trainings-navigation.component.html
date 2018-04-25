@@ -40,11 +40,9 @@
               </button>
             </div>
             <div class="modal-body">                 
-              <app-add-training #form></app-add-training>
+              <app-add-training #form (saveClicked)="c('Cross click')"></app-add-training>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
-            </div>
+            
           </ng-template>
 
         </div>
