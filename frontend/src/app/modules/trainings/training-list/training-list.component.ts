@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EventService } from '../../../services/event.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap, Params } from '@angular/router';
 import { ToastService } from '../../../services/toast.service';
 import { Event } from '../../../model/Event';
 
@@ -14,16 +14,28 @@ export class TrainingListComponent implements OnInit {
   date: Date;
   currMonth: number;
   currYear: number;
+  routerMonth:number;
+  routerYear:number;
   month: number;
   year: number;
   months: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',];
   showSpinner = false;
   eventsList: Event[] = [];
 
-  constructor(private eventService: EventService, private router: Router,
+  constructor(private eventService: EventService, private router: ActivatedRoute,
     private toastService: ToastService) { }
 
   ngOnInit () {
+
+    this.router.paramMap
+    .subscribe((params: Params) =>{ 
+      this.routerMonth = +params.get('month'),
+      this.routerYear = +params.get('year')
+  });
+
+  console.log("ABDBDHBDHBF"+this.routerMonth);
+  console.log("SDHJUDSBFJDF"+this.routerYear);
+
     this.showSpinner =true;
     
     this.eventService.getEventsList()
@@ -45,6 +57,13 @@ export class TrainingListComponent implements OnInit {
     this.year = this.date.getFullYear();
     this.currMonth = this.date.getMonth();
     this.currYear = this.date.getFullYear();
+
+    if(this.routerYear!=0)
+    {
+      this.month=this.routerMonth;
+      this.year=this.routerYear;
+      
+    }
   }
 
   deleteTraining(trainingId): void {
@@ -58,7 +77,7 @@ export class TrainingListComponent implements OnInit {
       () => {
         let newEvents = this.eventsList.filter((event: any) => event.id !== trainingId);
         this.eventsList = newEvents
-        this.toastService.showSuccessToast('Unrolled Successfully');
+        this.toastService.showSuccessToast('Disenrolled Successfully');
       });
 
   }
