@@ -41,10 +41,10 @@
           </td>
         </tr>
       </tbody>
-      <tbody *ngIf="certifications === undefined">
+      <tbody *ngIf="(!certifications) ||(certifications?.length ===0)">
         <tr>
           <td>
-            <p>{{errorMessage}}</p>
+            <h5>{{errorMessage}}</h5>
           </td>
         </tr>
       </tbody>
