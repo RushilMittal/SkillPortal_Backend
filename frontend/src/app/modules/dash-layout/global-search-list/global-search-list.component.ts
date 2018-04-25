@@ -14,6 +14,7 @@ import {
 } from 'rxjs/operators';
 import { Certification } from '../../../model/Certification';
 import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
+import { NewTraining } from '../../../model/New-Training';
 
 
 @Component({
@@ -30,11 +31,13 @@ export class GlobalSearchListComponent implements OnInit {
 
   public skillitems: string[] = [];
   public certitems: Certification[] = [];
+  public trainingitems: NewTraining[] = [];
 
   skillitem: Observable<string[]>;
   private searchTerms = new Subject<string>();
 
   certitem: Observable<Certification[]>;
+  trainingitem: Observable<NewTraining[]>;
 
   constructor(private searchService: SearchService, private router: Router, private _idService: IdService) { }
 
@@ -61,6 +64,14 @@ export class GlobalSearchListComponent implements OnInit {
       switchMap((term: string) => this.searchService.searchCert(this.filter)),
     );
 
+    this.trainingitem = this.searchTerms.pipe(
+      debounceTime(500),
+  
+        distinctUntilChanged(),
+  
+        switchMap((term: string) => this.searchService.searchTraining(this.filter)),
+      );
+
   }
 
   search(term: string): void {
@@ -81,9 +92,16 @@ export class GlobalSearchListComponent implements OnInit {
         }
 
     );
-    this.certitem.subscribe(skills => {
+    this.certitem.subscribe(certificates => {
 
-        this.certitems = skills,
+        this.certitems = certificates,
+        this.showSpinnerCertificate = false;
+      }
+
+      );
+    this.trainingitem.subscribe(trainings => {
+
+        this.trainingitems = trainings,
         this.showSpinnerCertificate = false;
       }
 

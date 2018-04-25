@@ -8,6 +8,7 @@ import {
 
 import { MySkillService } from '../services/myskillservice.service';
 import { EmployeeSkill } from '../model/EmployeeSkill';
+import { HttpResponse } from '@angular/common/http/src/response';
 
 
 describe('MySkillService', () => {
@@ -39,7 +40,7 @@ describe('MySkillService', () => {
         httpMock: HttpTestingController,
         eventService: MySkillService
       ) => {
-      eventService.getEmployeeSkills('101').subscribe((data: EmployeeSkill[]) => {
+      eventService.getEmployeeSkills().subscribe((data:HttpResponse<EmployeeSkill[]>) => {
         expect(data).toBeDefined();
         expect(data[2].subSkill.subSkill).toEqual('VPC');
       });

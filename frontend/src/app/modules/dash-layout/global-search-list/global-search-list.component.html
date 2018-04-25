@@ -26,6 +26,9 @@
     </ul>
     <li class="list-group-item gray">Training</li>
     <ul class="list-group" id="train-list">
-        <a class="list-group-item list-group-item-action">No Results Found</a>
+            <a *ngFor="let training of trainingitems" routerLink="/trainings/availabletrainings" class="list-group-item list-group-item-action">
+                {{training.name}} by {{training.trainer}}
+            </a>
+            <li *ngIf="trainingitems?.length==0" class="list-group-item">No Results Found</li>
     </ul>
 </ul>
