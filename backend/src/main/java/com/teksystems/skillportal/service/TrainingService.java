@@ -112,7 +112,7 @@ public class TrainingService {
 	{
 		EmployeeTraining empTraining = new EmployeeTraining(empId,trainingId,new Date());
 		employeeTrainingRepository.save(empTraining);
-		Training training = trainingRepository.findById(trainingId);
+		Training training = trainingRepository.findByid(trainingId);
 		training.setSeats(training.getSeats()-1);
 		trainingRepository.save(training);
 	}

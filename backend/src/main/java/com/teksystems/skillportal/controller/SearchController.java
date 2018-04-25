@@ -31,6 +31,9 @@ import javax.servlet.http.HttpServletRequest;
 public class SearchController {
 
     @Autowired
+	TrainingService trainingService;
+
+    @Autowired
     SearchServiceAtul searchServiceAtul;
 
     @Autowired
