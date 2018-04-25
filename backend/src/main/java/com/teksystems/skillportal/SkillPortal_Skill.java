@@ -150,28 +150,33 @@ SkillRepository skillRepository;
 
     @Override
     public void run(String... strings) throws Exception {
-//
-//        employeeTrainingRepository.deleteAll();
-//        trainingRepository.deleteAll();
-//        trainingSessionRepository.deleteAll();
-//
-//        employeeTrainingRepository.save(Arrays.asList(new EmployeeTraining("10125","25",new GregorianCalendar(2018,03,23).getTime()),
-//                new EmployeeTraining("prachawla@teksystems.com","26",new GregorianCalendar(2018,03,23).getTime()),
-//                new EmployeeTraining("prachawla@teksystems.com","27",new GregorianCalendar(2018,03,22).getTime()),
-//                new EmployeeTraining("sahisingh@teksystems.com","25",new GregorianCalendar(2018,03,28).getTime()),
-//                new EmployeeTraining("10126","27",new GregorianCalendar(2018,03,27).getTime()),
-//                new EmployeeTraining("10127","26",new GregorianCalendar(2018,03,16).getTime())
-//        ));
-//
-//        trainingRepository.save(Arrays.asList(new Training("25","Redhat","IT Room",25,"Technical","RHCA","Jeff"),
-//                new Training("26","Amazon","Meeting Room1",35,"Technical","AWS","Adam"),
-//                new Training("27","UI","Meeting Room2",50,"Technical","Angular","Satyam")
-//        ));
-//
-//        trainingSessionRepository.save(Arrays.asList(new TrainingSession("25",new GregorianCalendar(2018,03,12).getTime(),"16:00:00","17:00:00"),
-//                new TrainingSession("26",new GregorianCalendar(2018,05,15).getTime(),"12:00:00","14:00:00"),
-//                new TrainingSession("27",new GregorianCalendar(2018,05,17).getTime(),"08:00:00","11:00:00")
-//        ));
 
+        employeeTrainingRepository.deleteAll();
+        trainingRepository.deleteAll();
+        trainingSessionRepository.deleteAll();
+
+        employeeTrainingRepository.save(Arrays.asList(new EmployeeTraining("10125","25",new GregorianCalendar(2018,03,23).getTime()),
+                new EmployeeTraining("prachawla@teksystems.com","26",new GregorianCalendar(2018,03,23).getTime()),
+                new EmployeeTraining("prachawla@teksystems.com","27",new GregorianCalendar(2018,03,22).getTime()),
+                new EmployeeTraining("sahisingh@teksystems.com","25",new GregorianCalendar(2018,03,28).getTime()),
+                new EmployeeTraining("10126","27",new GregorianCalendar(2018,03,27).getTime()),
+                new EmployeeTraining("10127","26",new GregorianCalendar(2018,03,16).getTime())
+        ));
+
+        trainingRepository.save(Arrays.asList(new Training("25","Redhat","IT Room",25,"Technical","RHCA","Jeff"),
+                new Training("26","Amazon","Meeting Room1",35,"Technical","AWS","Adam"),
+                new Training("27","UI","Meeting Room2",50,"Technical","Angular","Satyam"),
+                new Training("28","UI Advanced","Meeting Room3",40,"Technical","ReactJS","Shiva"),
+                new Training("29","Full Stack","Meeting Room4",100,"Technical","Full Stack Developer","Jacob")
+        ));
+
+        trainingSessionRepository.save(Arrays.asList(new TrainingSession("25",new GregorianCalendar(2018,03,12).getTime(),"16:00:00","17:00:00"),
+                new TrainingSession("26",new GregorianCalendar(2018,05,15).getTime(),"12:00:00","14:00:00"),
+                new TrainingSession("27",new GregorianCalendar(2018,05,17).getTime(),"08:00:00","11:00:00"),
+                new TrainingSession("28",new GregorianCalendar(2018,03,17).getTime(),"10:00:00","12:00:00"),
+                new TrainingSession("29",new GregorianCalendar(2018,06,21).getTime(),"16:00:00","17:00:00")
+
+
+        ));
     }
 }

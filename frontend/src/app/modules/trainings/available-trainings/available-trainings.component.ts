@@ -6,6 +6,7 @@ import { TrainingSession } from '../../../model/training-sessions';
 import { TrainingDomain } from '../../../model/training-domain';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { AvailableTrainingService } from '../../../services/availabletraining.service';
+import { ToastService } from '../../../services/toast.service';
 
 
 @Component({
@@ -25,7 +26,7 @@ export class AvailableTrainingsComponent implements OnInit {
   showSpinner = false;
   months: string[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", ];
   constructor(private availableTrainingService:AvailableTrainingService, private router: Router,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal, private toastService: ToastService) { }
   
 trainingDomainToSend: TrainingDomain;
 
@@ -81,8 +82,12 @@ trainingDomainToSend: TrainingDomain;
       enrollTraining(trainingId:string)
       {
         this.availableTrainingService.postEnroll(trainingId).subscribe(
-          () => console.log('Certification Passed to Certification API'));
-          
+          () => console.log('Certification Passed to Certification API')),
+          (error: any) => {
+            this.errorMessage = <any>error;
+            this.toastService.showErrorToast("Unable to Delete");
+          },
+          this.toastService.showSuccessToast('Enrolled Successfully');
       }
 
       open(content , trainingdom: TrainingDomain) {

@@ -65,7 +65,7 @@ public class EmployeeTrainingService {
 
                 for (TrainingSession inner_iterable : trainingSessions) {
                     String strDate = dateFormat.format(inner_iterable.getTrainingDate());
-                    TrainingEventDomain trainingEventDomain = new TrainingEventDomain(iterable.getTrainingId(), training.getName(), strDate + "T" + inner_iterable.getStartTime(), strDate + "T" + inner_iterable.getEndTime());
+                    TrainingEventDomain trainingEventDomain = new TrainingEventDomain(iterable.getTrainingId(), training.getName(), strDate + "T" + inner_iterable.getStartTime(), strDate + "T" + inner_iterable.getEndTime(),"http://localhost:4200/trainings/myenrolledtrainings/traininglist");
                     trainingEventDomains.add(trainingEventDomain);
 
                 }

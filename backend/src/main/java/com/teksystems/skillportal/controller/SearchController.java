@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutionException;
 
 import com.teksystems.skillportal.service.CertificationService;
 import com.teksystems.skillportal.service.SearchServiceAtul;
+import com.teksystems.skillportal.service.TrainingService;
 import com.teksystems.skillportal.service.TokenValidationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import com.teksystems.skillportal.domain.SearchSkill;
 import com.teksystems.skillportal.helper.SearchHelper;
 import com.teksystems.skillportal.model.Skill;
 import com.teksystems.skillportal.model.SubSkill;
+import com.teksystems.skillportal.model.Training;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,6 +34,9 @@ public class SearchController {
 
     @Autowired
     CertificationService certificationService;
+
+    @Autowired
+    TrainingService trainingService;
 
     private TokenValidationService tokenValidator;
 
@@ -69,6 +74,28 @@ public class SearchController {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug("Paramater received : employeeId " + employeeId);
                 toReturn = certificationService.searchCertItems(searchTerm);
+
+            } else {
+                logger.info("Employee Id not Found in the Authorization");
+            }
+        } catch (Exception e) {
+            logger.info("Some Error Occured: " + e.toString());
+        }
+        return toReturn;
+
+    }
+
+   @GetMapping("/searchtraining")
+    public List<Training> searchTraining(@RequestParam String searchTerm){
+        logger.info("/searchtraining API called");
+        String employeeId = null;
+        List<Training> toReturn = null;
+        try {
+            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
+            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+                employeeId = tokenValidator.ExtractEmployeeId(request);
+                logger.debug("Paramater received : employeeId " + employeeId);
+                toReturn = trainingService.searchTraining(searchTerm);
 
             } else {
                 logger.info("Employee Id not Found in the Authorization");

@@ -6,12 +6,14 @@ public class TrainingEventDomain {
     String title;
     String start;
     String end;
+    String url;
 
-    public TrainingEventDomain(String id, String title, String start, String end) {
+    public TrainingEventDomain(String id, String title, String start, String end,String url) {
         this.id = id;
         this.title = title;
         this.start = start;
         this.end = end;
+        this.url=url;
     }
 
     public String getId() {
@@ -46,6 +48,14 @@ public class TrainingEventDomain {
         this.end = end;
     }
 
+    public void setUrl(String url) {
+    this.url = url;
+  }
+
+  public String getUrl() {
+    return url;
+
+  }
 }
 
 

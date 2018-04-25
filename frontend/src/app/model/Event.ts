@@ -8,4 +8,5 @@ export class Event {
     endtime: string;
     trainerName: string;
     location: string;
+    url:string;
    }

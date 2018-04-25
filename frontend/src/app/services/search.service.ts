@@ -11,10 +11,12 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import {Certification} from '../../app/model/Certification';
 import { baseUrlSkill } from '../baseUrl';
+import { NewTraining } from '../model/New-Training';
 @Injectable()
 export class SearchService {
   url = baseUrlSkill + '/searchskill?searchTerm';
   certurl = baseUrlSkill + '/searchcertitems?searchTerm';
+  trainingurl = baseUrlSkill + '/searchtraining?searchTerm';
 res: Response;
 
 constructor(private http: HttpClient) { }
@@ -25,7 +27,17 @@ searchCert(term: string): Observable<Certification[]> {
     return of([]);
   }
   return this.http.get<Certification[]>(`${this.certurl}=${term}`).pipe(
-    tap(_ => console.log(`found heroes matching "${term}"`))
+    tap(_ => console.log(`found certificates matching "${term}"`))
+  );
+}
+
+searchTraining(term: string): Observable<NewTraining[]> {
+  if (!term.trim()) {
+    // if not search term, return empty hero array.
+    return of([]);
+  }
+  return this.http.get<NewTraining[]>(`${this.trainingurl}=${term}`).pipe(
+    tap(_ => console.log(`found trainings matching "${term}"`))
   );
 }
 
@@ -36,7 +48,7 @@ searchSkills(term: string): Observable<string[]> {
     return of([]);
   }
   return this.http.get<string[]>(`${this.url}=${term}`).pipe(
-    tap(_ => console.log(`found heroes matching "${term}"`))
+    tap(_ => console.log(`found skills matching "${term}"`))
   );
 }
 
