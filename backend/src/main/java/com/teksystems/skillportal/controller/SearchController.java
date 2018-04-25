@@ -5,7 +5,6 @@ import java.util.concurrent.ExecutionException;
 
 import com.teksystems.skillportal.service.CertificationService;
 import com.teksystems.skillportal.service.SearchServiceAtul;
-import com.teksystems.skillportal.service.TrainingService;
 import com.teksystems.skillportal.service.TokenValidationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,8 @@ import com.teksystems.skillportal.domain.SearchSkill;
 import com.teksystems.skillportal.helper.SearchHelper;
 import com.teksystems.skillportal.model.Skill;
 import com.teksystems.skillportal.model.SubSkill;
+
+import com.teksystems.skillportal.service.TrainingService;
 import com.teksystems.skillportal.model.Training;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,9 +35,6 @@ public class SearchController {
 
     @Autowired
     CertificationService certificationService;
-
-    @Autowired
-    TrainingService trainingService;
 
     private TokenValidationService tokenValidator;
 
@@ -84,9 +82,9 @@ public class SearchController {
         return toReturn;
 
     }
-
-   @GetMapping("/searchtraining")
-    public List<Training> searchTraining(@RequestParam String searchTerm){
+	
+	 @GetMapping("/searchtraining")
+    public List<Training> searchTraining(HttpServletRequest request, @RequestParam String searchTerm){
         logger.info("/searchtraining API called");
         String employeeId = null;
         List<Training> toReturn = null;
@@ -106,4 +104,5 @@ public class SearchController {
         return toReturn;
 
     }
+
 }
