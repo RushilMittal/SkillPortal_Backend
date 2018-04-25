@@ -4,5 +4,4 @@ export class Training {
     upcomingTrainings: string;
     enrolledTrainingDate: string;
     upcomingTrainingDate: string;
-
    }

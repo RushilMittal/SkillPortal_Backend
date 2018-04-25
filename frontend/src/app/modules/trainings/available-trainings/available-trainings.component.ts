@@ -14,7 +14,7 @@ import { AvailableTrainingService } from '../../../services/availabletraining.se
   styleUrls: ['./available-trainings.component.css']
 })
 export class AvailableTrainingsComponent implements OnInit {
-  trainingAvailable:TrainingDomain[]=[];
+  trainingAvailable : TrainingDomain[]=[];
   errorMessage: any;
   date: Date;
   currMonth : number;
@@ -22,6 +22,7 @@ export class AvailableTrainingsComponent implements OnInit {
   month : number;
   year : number;
   closeResult: string;
+  showSpinner = false;
   months: string[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", ];
   constructor(private availableTrainingService:AvailableTrainingService, private router: Router,
     private modalService: NgbModal) { }
@@ -30,13 +31,24 @@ trainingDomainToSend: TrainingDomain;
 
   
   ngOnInit() {
+    this.showSpinner =true;
+
     console.log('initialized')
     this.availableTrainingService.getAvailableTraining()
       .subscribe(trainingAvailable => {
-        this.trainingAvailable= trainingAvailable;
+        this.trainingAvailable = trainingAvailable;
+        this.errorMessage = "No Trainings in this month";
       },
-        error => this.errorMessage = <any>error,
-      ()=>console.log(this.trainingAvailable));
+        error => {
+          this.errorMessage = <any>error,
+          this.showSpinner = false;
+        },
+
+        ()=>{
+        this.showSpinner = false;
+
+        }
+      );
         
 
         this.date = new Date();

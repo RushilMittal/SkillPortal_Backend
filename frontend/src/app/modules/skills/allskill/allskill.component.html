@@ -9,9 +9,7 @@
         <tr *ngFor="let skill of skills">
           <td id="tdname">{{skill}}</td>
 
-          <td id="tdbutton">
-            <!-- to be placed inside button later   routerLinkActive="active" -->
-            
+          <td id="tdbutton">            
             <button id="explore-button" type="button" class="btn" [routerLink]="['explore',skillGroup +'_' + skill]" >Explore</button>
           </td>
         </tr>

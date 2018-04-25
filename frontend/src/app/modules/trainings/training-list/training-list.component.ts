@@ -23,20 +23,20 @@ export class TrainingListComponent implements OnInit {
   constructor(private eventService: EventService, private router: Router,
     private toastService: ToastService) { }
 
-  ngOnInit() {
+  ngOnInit () {
     this.showSpinner =true;
-
+    
     this.eventService.getEventsList()
       .subscribe(eventsList =>{
         this.eventsList = eventsList;
-        this.errorMessage = 'No training this Month';
+        this.errorMessage = 'No Enrolled Training in this month';
       },
       error => {
         this.errorMessage = <any>error,
           this.showSpinner = false;
       },
       () => {
-        this.showSpinner = false
+        this.showSpinner = false;
       }
     );
 

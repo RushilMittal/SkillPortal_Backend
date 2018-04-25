@@ -56,7 +56,7 @@ public class EmployeeCertificationService {
     	employeeCertificationRepository.save(newCert);
     }
 
-    public List<EmployeeCertificationPlaceholderDomain>  getTopTwoEmployeeCertificationPlaceholderById(String employeeId) {
+    public List<EmployeeCertificationPlaceholderDomain>  getEmployeeCertificationPlaceholderById(String employeeId) {
 
         String[] names = new String[2];
         names[0] = names[1] = null;
@@ -82,10 +82,8 @@ public class EmployeeCertificationService {
                 Calendar calendar = new GregorianCalendar();
                 calendar.setTime(employeeCertificationDomain.get(0).getCertificationDate());
                 EmployeeCertificationPlaceholderDomain temp1 = new EmployeeCertificationPlaceholderDomain(employeeCertificationDomain.get(0).getCertificationId().getCertificationName(),String.valueOf(calendar.get(Calendar.YEAR)));
-                calendar.setTime(employeeCertificationDomain.get(1).getCertificationDate());
-                EmployeeCertificationPlaceholderDomain temp2 = new EmployeeCertificationPlaceholderDomain(null,null);
                 employeeCertificationPlaceholderDomainsList.add(temp1);
-                employeeCertificationPlaceholderDomainsList.add(temp2);
+
 
             } else {
                 System.out.println("No data Present");

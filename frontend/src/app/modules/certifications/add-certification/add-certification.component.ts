@@ -73,6 +73,7 @@ export class AddCertificationComponent implements OnInit {
 
   cancel() {
     this.cancelClicked.emit(this.certificationName);
+	this.certificateForm.reset();
   }
 
   setValidity(validity: string): void {

@@ -19,7 +19,7 @@ export class EventService {
 
     getEvents(): Observable<Event[]> {
         const url = `${this.apiRoot}/gettrainingevent`;
-        return this.httpClient.get(url)
+        return this.httpClient.get<Event[]>(url)
             .pipe(
                 catchError(this.handler.handleError)
             );
@@ -28,14 +28,14 @@ export class EventService {
     getEventsList(): Observable<Event[]> {
         const url = `${this.apiRoot}/gettrainingeventlist`;
 
-        return this.httpClient.get(url)
+        return this.httpClient.get<Event[]>(url)
             .pipe(
                 catchError(this.handler.handleError)
             );
     }
 
 
-    deleteTraining(trainingId: string): Observable<void> {
+    deleteTraining(trainingId: string): Observable<Event[]> {
         const url = `${this.apiRoot}/delete?trainingId=${trainingId}`;
         //console.log(url);
         return this.httpClient.delete(url)

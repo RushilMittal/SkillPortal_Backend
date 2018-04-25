@@ -28,11 +28,15 @@
               <label class="col control-label" for="certificateNumberId">Your Certificate Number:</label>
 
               <div class="col-md-8">
-                  <input class="form-control" id="certificateNumberId" type="text" placeholder="Certificate Number" required formControlName="certificationNumber"
+                  <input class="form-control" id="certificateNumberId" type="text" placeholder="Certificate Number" required pattern="[-+]?[0-9]+" formControlName="certificationNumber"
                   />
                   <span class="help-block" *ngIf="(certificateForm.get('certificationNumber').touched || certificateForm.get('certificationNumber').dirty) && certificateForm.get('certificationNumber').errors">
                       <span *ngIf="certificateForm.get('certificationNumber').errors.required" style="color:rgba(255, 0, 0, 0.80)">
                           Please enter certification number.
+                      </span>
+					  
+					  <span *ngIf="certificateForm.get('certificationNumber').errors.pattern" style="color:rgba(255, 0, 0, 0.80)">
+                          Please enter valid number.
                       </span>
 
                   </span>
@@ -45,12 +49,15 @@
               <label class="col control-label" for="certificationUrlId">Your Certificate Url:</label>
 
               <div class="col-md-8">
-                  <input class="form-control" id="certificationUrlId" type="text" placeholder="Certificate Number" required 
+                  <input class="form-control" id="certificationUrlId" type="text" placeholder="Certificate Number" required pattern="www?.+" 
                           formControlName="certificationUrl" />
 
                   <span class="help-block" *ngIf="(certificateForm.get('certificationUrl').touched || certificateForm.get('certificationUrl').dirty) && certificateForm.get('certificationUrl').errors">
                       <span *ngIf="certificateForm.get('certificationUrl').errors.required" >
                           Please enter certification Url.
+                      </span>
+					  <span *ngIf="certificateForm.get('certificationUrl').errors.pattern" >
+                          Please enter valid Url.
                       </span>
 
                   </span>

@@ -31,9 +31,9 @@
           </td>
         </tr>
       </tbody>
-      <tbody *ngIf="employeeSkill === undefined">
+      <tbody *ngIf="employeeSkill?.length === 0">
         <tr>
-          <td>
+          <td >
             <p>{{errorMessage}}</p>
           </td>
         </tr>

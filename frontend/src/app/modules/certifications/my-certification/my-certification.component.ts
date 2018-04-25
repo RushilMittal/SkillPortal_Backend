@@ -12,7 +12,7 @@ import { MyCertificationService } from '../../../services/mycertification.servic
 export class MyCertificationComponent implements OnInit {
   errorMessage: any;
   certification: Certification;
-  empCertification: EmployeeCertificate;
+  empCertification: EmployeeCertificate[];
   constructor(private myCertificateService: MyCertificationService) { }
   showSpinner = false;
   ngOnInit() {
