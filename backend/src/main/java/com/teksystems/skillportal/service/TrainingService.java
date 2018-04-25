@@ -108,9 +108,18 @@ public class TrainingService {
         return trainingDomains;
     }
 
-    public void enrollTraining(String empId, String trainingId)
-    {
-        EmployeeTraining empTraining = new EmployeeTraining(empId,trainingId,new Date());
-        employeeTrainingRepository.save(empTraining);
-    }
+   public void enrollTraining(String empId, String trainingId)
+	{
+		EmployeeTraining empTraining = new EmployeeTraining(empId,trainingId,new Date());
+		employeeTrainingRepository.save(empTraining);
+		Training training = trainingRepository.findById(trainingId);
+		training.setSeats(training.getSeats()-1);
+		trainingRepository.save(training);
+	}
+	
+	public List<Training> searchTraining(String search)
+	{
+		 Query query = new Query( Criteria.where("name").regex(search,"i"));
+		 return mongoOperation.find(query,Training.class);
+	}
 }
