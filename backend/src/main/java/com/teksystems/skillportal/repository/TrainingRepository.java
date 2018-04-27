@@ -16,3 +16,5 @@ public interface TrainingRepository extends MongoRepository<Training,String> {
 }
 
 
+
+

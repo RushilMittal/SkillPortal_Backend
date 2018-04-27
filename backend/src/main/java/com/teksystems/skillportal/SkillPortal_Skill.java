@@ -18,7 +18,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.core.MongoOperations;
-//import com.teksystems.skillportal.init.MongoConfig;
 import com.teksystems.skillportal.init.MongoConfigNew;
 
 
@@ -42,6 +41,7 @@ SkillRepository skillRepository;
 
     @Autowired
     TrainingSessionRepository trainingSessionRepository;
+
 /*
 	public void run(String... strings) throws Exception {
 
@@ -178,5 +178,6 @@ SkillRepository skillRepository;
 
 
         ));
+
     }
 }

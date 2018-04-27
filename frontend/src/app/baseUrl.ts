@@ -26,4 +26,6 @@
 
 //  export const baseUrlCertification = 'http://10.188.27.105:8745/skillportal-0.0.1/certifications';
 
+//  export const baseUrlTraining = 'http://10.188.27.105:8745/skillportal-0.0.1/training';
+
 // export const baseUrlCertificationashwin = 'http://10.188.27.105:8745/skillportal-0.0.1/certifications';

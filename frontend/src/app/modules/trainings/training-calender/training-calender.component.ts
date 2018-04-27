@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { CalendarComponent } from 'ap-angular2-fullcalendar/src/calendar/calendar';
 import { Options } from 'fullcalendar';
 import { EventService } from '../../../services/event.service';
@@ -15,6 +15,7 @@ export class TrainingCalenderComponent implements OnInit {
   
   @ViewChild(CalendarComponent) myCalendar: CalendarComponent;
   errorMessage: any;
+  // @Input() iconName: string;
   calendarOptions: Options = {
     editable: false,
     eventLimit: true,
@@ -39,7 +40,11 @@ export class TrainingCalenderComponent implements OnInit {
   
 
   onRefresh(url :string ,month?:number, year?:number){
-    
+    // console.log("before: ")
+    // console.log(this.iconName);
+    // this.iconName = 'date_range';
+    // console.log("after : ")
+    // console.log(this.iconName);
     this.router.navigate(['./trainings/myenrolledtrainings/traininglist',{ month :month, year: year }]);
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { EventService } from '../../../services/event.service';
 import { Router, ActivatedRoute, ParamMap, Params } from '@angular/router';
 import { ToastService } from '../../../services/toast.service';
@@ -10,6 +10,7 @@ import { Event } from '../../../model/Event';
   styleUrls: ['./training-list.component.css']
 })
 export class TrainingListComponent implements OnInit {
+  iconName:string;
   errorMessage: any;
   date: Date;
   currMonth: number;
@@ -33,8 +34,6 @@ export class TrainingListComponent implements OnInit {
       this.routerYear = +params.get('year')
   });
 
-  console.log("ABDBDHBDHBF"+this.routerMonth);
-  console.log("SDHJUDSBFJDF"+this.routerYear);
 
     this.showSpinner =true;
     
@@ -62,7 +61,6 @@ export class TrainingListComponent implements OnInit {
     {
       this.month=this.routerMonth;
       this.year=this.routerYear;
-      
     }
   }
 

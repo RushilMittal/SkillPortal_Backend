@@ -38,7 +38,7 @@ public class CertificationController {
     @GetMapping("/all")
     List<CertificationDomain> getAvailableCertifications(HttpServletRequest request)
     {
-        logger.info("/al  API called,under the Certification Controller");
+        logger.info("/all  API called,under the Certification Controller");
         String employeeId = null;
         List<CertificationDomain> certifications =null;
         try {
