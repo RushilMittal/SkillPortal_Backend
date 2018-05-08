@@ -25,6 +25,7 @@ import { TrainingCalenderComponent } from './modules/trainings/training-calender
 const ROUTES: Routes = [
   // will need this later
   // will create an route for dashboard and the app will be redirected to it
+
   {
     path: 'login',
     component: LoginComponent
@@ -35,65 +36,66 @@ const ROUTES: Routes = [
     component: DashLayoutComponent,
     canActivate: [AuthorizationGuard],
     children: [
-    {
-      path: 'dashboard',
-      component: DashboardLayoutComponent
-    },
-    {
-      path: 'skills',
-      component: SkillnavigationComponent,
-      children: [
-        {
-          path: '',
-          redirectTo: 'myskill',
-          pathMatch: 'full'
-        },
-        {
-          path: 'skillgroup',
-          component: SkillGroupComponent
-        },
-        {
-          path: 'myskill',
-          component : MyskillComponent
-        },
+      {
+        path: 'dashboard',
+        component: DashboardLayoutComponent
+      },
+      {
+        path: 'skills',
+        component: SkillnavigationComponent,
+        children: [
+          {
+            path: '',
+            redirectTo: 'myskill',
+            pathMatch: 'full'
+          },
+          {
+            path: 'skillgroup',
+            component: SkillGroupComponent
+          },
+          {
+            path: 'myskill',
+            component: MyskillComponent
+          },
 
-        {
-          path: 'allskill',
-          component: AllskillComponent
-        },
-        {
-          path: 'searchskill',
-          component: SearchPageComponent
-        },
-        {
-          path: 'skillgroup/explore/:id',
-          component: SkilldetailComponent
-        }
+          {
+            path: 'allskill',
+            component: AllskillComponent
+          },
+          {
+            path: 'searchskill',
+            component: SearchPageComponent
+          },
+          {
+            path: 'skillgroup/explore/:id',
+            component: SkilldetailComponent
+          }
 
-      ]
-    },
-    {
-      path: 'certifications',
-      component: CertificationNavigationComponent,
-      children: [
-        {
-          path: '',
-          redirectTo: 'mycertifications',
-          pathMatch: 'full'
-        },
-        {
-          path: 'mycertifications',
-          component: MyCertificationComponent
-        },
-        {
-          path: 'availablecertifications',
-          component: AvailableCertificationsComponent
-        },
-        {
-          path: 'availablecertifications/add',
-          component: AddCertificationComponent
-        }
-      ]},
+        ]
+      },
+      {
+        path: 'certifications',
+        component: CertificationNavigationComponent,
+        children: [
+          {
+            path: '',
+            redirectTo: 'mycertifications',
+            pathMatch: 'full'
+          },
+          {
+            path: 'mycertifications',
+            component: MyCertificationComponent
+          },
+          {
+            path: 'availablecertifications',
+            component: AvailableCertificationsComponent
+          },
+          {
+            path: 'availablecertifications/add',
+            component: AddCertificationComponent
+          }
+        ]
+      },
       {
         path: 'trainings',
         component: TrainingsNavigationComponent,
@@ -111,30 +113,31 @@ const ROUTES: Routes = [
                 path: '',
                 redirectTo: 'traininglist',
                 pathMatch: 'full'
-    
+
               },
               {
                 path: 'traininglist',
                 component: TrainingListComponent
-    
+
               },
               {
                 path: 'trainingcalender',
                 component: TrainingCalenderComponent
               }
             ]
-          
+
           },
           {
             path: 'availabletrainings',
             component: AvailableTrainingsComponent
           }
         ]
-      },
-    {path: '', redirectTo: 'login', pathMatch: 'full'},
-    {path: '**', component: PageNotFoundComponent}
+      }
+
     ]
-  }
+  },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({

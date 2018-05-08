@@ -3,43 +3,37 @@ import { Component, OnInit, OnDestroy, Output } from '@angular/core';
 import { Router } from '@angular/router';
 // tslint:disable-next-line:import-blacklist
 import { Subscription, Observable } from 'rxjs';
-import { OidcSecurityService, AuthorizationResult } from 'angular-auth-oidc-client';
+
 import { HttpClient } from '@angular/common/http';
+import { AuthHelper } from '../../services/authHelper.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit, OnDestroy {
-  isAuthorized: boolean;
-  isAuthorizedSubscription: Subscription;
-  apiResult: string;
+export class LoginComponent implements OnInit{
+  
 
-  constructor(
-    private oidcSecurityService: OidcSecurityService,
-    private http: HttpClient, private router: Router) {
-    this.isAuthorized = false;
+  constructor(private authHelperService: AuthHelper, private router: Router) {
+    
   }
 
   ngOnInit() {
-    this.isAuthorizedSubscription = this.oidcSecurityService
-      .getIsAuthorized()
-      .subscribe(isAuthorized => {
-        this.isAuthorized = isAuthorized;
-        if (!isAuthorized) {
-          this.oidcSecurityService.authorize();
-        } else {
-          return this.router.navigate(['dashboard']);
-        }
-      });
+    //Call authhelper, determine if user is logged in, if not redirect to login
+    if (this.authHelperService.isOnline()) {
+      console.log("Inside the login true");
+      this.router.navigate(['/dashboard']);
+    } else {
+      console.log("Inside the login false");
+      this.login();
+    }
   }
-  ngOnDestroy() {
-    this.isAuthorizedSubscription.unsubscribe();
+  
+  login() {
+    this.authHelperService.login();
   }
 
-  signOut() {
-    this.oidcSecurityService.logoff();
-  }
+
 }
 

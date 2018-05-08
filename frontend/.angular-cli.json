@@ -21,9 +21,12 @@
       "styles": [
         "styles.css",
         "../node_modules/izitoast/dist/css/iziToast.min.css"
+        
+        
       ],
       "scripts": [
-        "../node_modules/izitoast/dist/js/iziToast.min.js"
+        "../node_modules/izitoast/dist/js/iziToast.min.js",
+        "../node_modules/msal/dist/msal.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

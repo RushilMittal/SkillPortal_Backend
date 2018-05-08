@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
+
 
 @Component({
   selector: 'app-redirect',
@@ -8,12 +8,10 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 })
 export class RedirectComponent implements OnInit {
 
-  constructor(private oidcSecurityService: OidcSecurityService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.oidcSecurityService.authorizedCallback();
     console.log('Inside Redirect');
-
   }
 
 }

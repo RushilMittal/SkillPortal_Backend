@@ -50,8 +50,8 @@ import { SkillGroupService } from './services/SkillGroupService.service';
 import { SearchTransformPipe } from './modules/search-transform.pipe';
 
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-import { AuthModule, OidcSecurityService, OpenIDImplicitFlowConfiguration, AuthWellKnownEndpoints } from 'angular-auth-oidc-client';
-import { TokenInterceptor } from './Token.interceptor';
+
+// import { TokenInterceptor } from './Token.interceptor';
 import { RedirectComponent } from './redirect/redirect.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { TrainingListPipe } from './modules/trainings/training-list/training-list-pipe.pipe';
@@ -70,6 +70,8 @@ import { ToastService } from './services/toast.service';
 import { query } from '@angular/animations';
 import { ErrorHandler } from './services/handleerror.service';
 import { AvailableTrainingPipe } from './modules/trainings/available-trainings/available-trainings-pipe.pipe';
+import { AuthHelper } from './services/authHelper.service';
+
 
 
 
@@ -125,7 +127,6 @@ import { AvailableTrainingPipe } from './modules/trainings/available-trainings/a
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    AuthModule.forRoot(),
     NgbModule.forRoot(),
     AppRoutingModule,
     ReactiveFormsModule,
@@ -142,12 +143,13 @@ import { AvailableTrainingPipe } from './modules/trainings/available-trainings/a
     MyskillComponent
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true
-    },
-    OidcSecurityService,
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: TokenInterceptor,
+    //   multi: true
+    // },
+    
+    AuthHelper,
     // Providers for certification Services
     MyCertificationService,
     AllCertificationService,
@@ -182,50 +184,5 @@ import { AvailableTrainingPipe } from './modules/trainings/available-trainings/a
 })
 export class AppModule {
 
-  constructor(public oidcSecurityService: OidcSecurityService) {
-
-    const openIDImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
-    openIDImplicitFlowConfiguration.response_type = 'query';
-    openIDImplicitFlowConfiguration.stsServer =
-      'https://login.microsoftonline.com/371cb917-b098-4303-b878-c182ec8403ac/oauth2/authorize';
-    openIDImplicitFlowConfiguration.redirect_url =
-      'http://localhost:4200/redirect';
-    openIDImplicitFlowConfiguration.client_id =
-      'edb31c7a-1273-44e8-b0d0-50830aaede35';
-    openIDImplicitFlowConfiguration.response_type = 'id_token';
-    openIDImplicitFlowConfiguration.storage = localStorage;
-    openIDImplicitFlowConfiguration.resource =
-      '00000002-0000-0000-c000-000000000000';
-    openIDImplicitFlowConfiguration.scope = 'openid';
-    openIDImplicitFlowConfiguration.post_logout_redirect_uri =
-      'http://localhost:4200';
-    openIDImplicitFlowConfiguration.post_login_route = '/dashboard';
-    openIDImplicitFlowConfiguration.forbidden_route = '/dashboard';
-    openIDImplicitFlowConfiguration.unauthorized_route = '/dashboard';
-    openIDImplicitFlowConfiguration.auto_userinfo = false;
-    openIDImplicitFlowConfiguration.log_console_warning_active = true;
-    openIDImplicitFlowConfiguration.log_console_debug_active = true;
-    openIDImplicitFlowConfiguration.max_id_token_iat_offset_allowed_in_seconds = 1200;
-
-    const authWellKnownEndpoints = new AuthWellKnownEndpoints();
-    authWellKnownEndpoints.issuer =
-      'https://sts.windows.net/371cb917-b098-4303-b878-c182ec8403ac/';
-    authWellKnownEndpoints.jwks_uri = 'http://localhost:4200/assets/jwks_uri.json';
-    authWellKnownEndpoints.authorization_endpoint =
-      'https://login.microsoftonline.com/371cb917-b098-4303-b878-c182ec8403ac/oauth2/authorize';
-    authWellKnownEndpoints.token_endpoint =
-      'https://login.microsoftonline.com/371cb917-b098-4303-b878-c182ec8403ac/oauth2/token';
-    authWellKnownEndpoints.userinfo_endpoint =
-      'https://login.microsoftonline.com/371cb917-b098-4303-b878-c182ec8403ac/openid/userinfo';
-    authWellKnownEndpoints.end_session_endpoint =
-      'https://login.microsoftonline.com/371cb917-b098-4303-b878-c182ec8403ac/oauth2/logout';
-    authWellKnownEndpoints.check_session_iframe =
-      'https://login.microsoftonline.com/371cb917-b098-4303-b878-c182ec8403ac/oauth2/checksession';
-
-    this.oidcSecurityService.setupModule(
-      openIDImplicitFlowConfiguration,
-      authWellKnownEndpoints
-    );
-    console.log('APP STARTING');
-  }
+  constructor() {}
 }
