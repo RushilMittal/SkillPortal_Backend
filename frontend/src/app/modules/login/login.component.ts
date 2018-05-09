@@ -6,34 +6,34 @@ import { Subscription, Observable } from 'rxjs';
 
 import { HttpClient } from '@angular/common/http';
 import { AuthHelper } from '../../services/authHelper.service';
+import { EmployeeService } from '../../services/employee.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit{
-  
+export class LoginComponent implements OnInit {
 
-  constructor(private authHelperService: AuthHelper, private router: Router) {
-    
+
+  constructor(private authHelperService: AuthHelper,
+    private router: Router,
+    private employeeDetailService: EmployeeService) {
+
   }
 
   ngOnInit() {
     //Call authhelper, determine if user is logged in, if not redirect to login
     if (this.authHelperService.isOnline()) {
-      console.log("Inside the login true");
       this.router.navigate(['/dashboard']);
     } else {
-      console.log("Inside the login false");
       this.login();
+      
     }
   }
-  
+
   login() {
     this.authHelperService.login();
   }
-
-
 }
 

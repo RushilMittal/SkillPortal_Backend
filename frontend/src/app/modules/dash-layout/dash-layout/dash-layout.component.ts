@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchItem } from '../../../model/search-item';
+import { AuthHelper } from '../../../services/authHelper.service';
 
 
 @Component({
@@ -10,7 +11,7 @@ import { SearchItem } from '../../../model/search-item';
 export class DashLayoutComponent {
   filter: string;
   toShow = false;
-  constructor() { }
+  constructor(private authHelperService: AuthHelper) { }
   called() {
     // console.log("I am called ");
     this.toShow = true;
@@ -20,7 +21,7 @@ export class DashLayoutComponent {
     this.toShow = false;
   }
   logout() {
-    
+    this.authHelperService.logout();
  }
 
 }

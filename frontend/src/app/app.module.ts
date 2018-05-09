@@ -51,7 +51,7 @@ import { SearchTransformPipe } from './modules/search-transform.pipe';
 
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
-// import { TokenInterceptor } from './Token.interceptor';
+import { TokenInterceptor } from './Token.interceptor';
 import { RedirectComponent } from './redirect/redirect.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { TrainingListPipe } from './modules/trainings/training-list/training-list-pipe.pipe';
@@ -71,6 +71,8 @@ import { query } from '@angular/animations';
 import { ErrorHandler } from './services/handleerror.service';
 import { AvailableTrainingPipe } from './modules/trainings/available-trainings/available-trainings-pipe.pipe';
 import { AuthHelper } from './services/authHelper.service';
+import { EmployeeService } from './services/employee.service';
+
 
 
 
@@ -143,13 +145,14 @@ import { AuthHelper } from './services/authHelper.service';
     MyskillComponent
   ],
   providers: [
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: TokenInterceptor,
-    //   multi: true
-    // },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
     
     AuthHelper,
+    EmployeeService,
     // Providers for certification Services
     MyCertificationService,
     AllCertificationService,

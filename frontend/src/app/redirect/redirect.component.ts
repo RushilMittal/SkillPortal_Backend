@@ -11,7 +11,7 @@ export class RedirectComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log('Inside Redirect');
+    
   }
 
 }

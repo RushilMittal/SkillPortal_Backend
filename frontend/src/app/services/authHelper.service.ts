@@ -35,12 +35,12 @@ export class AuthHelper {
 
   public login() {
     console.log("Login called");
+    
     return this.app.loginRedirect(CONFIGS.SCOPES).then(
       idToken => {
         this.app.acquireTokenSilent(CONFIGS.SCOPES).then(
           accessToken => {
             this.access_token = accessToken;
-            console.log('ACCESS TOKEN: \n ' + this.access_token);
             this.user = this.app.getUser(); // AZURE AD
             this.isAuthenticated = true;
           },
@@ -70,7 +70,19 @@ export class AuthHelper {
     const user = this.app.getUser();
     return user;
   }
-
+ 
+  // public getIDtoken(){
+  //   /* If this project is upgraded at any point (npm update) then below line can give error
+  //   * kindly add these lines in index.d.ts in lib-commonjs
+  //   * export {Storage} from "./Storage";
+  //   * export { Constants} from "./Constants";
+  //   */ 
+  //   console.log("getIDtoken");
+  //   let storage = new Msal.Storage("sessionStorage");
+  //   console.log("sahib singh");
+  //   const idToken = storage.getItem("msal.idtoken");
+  //   console.log("sahib"+ idToken);
+  // }
   public getMSGraphAccessToken() {
     return this.app.acquireTokenSilent(CONFIGS.SCOPES).then(
       accessToken => {

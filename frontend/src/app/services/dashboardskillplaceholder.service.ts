@@ -18,6 +18,7 @@ export class DashBoardSkillPlaceHolderService {
 
     getemployeeSkillPlaceholder(): Observable<EmployeeSkillPlaceholder> {
         const url = `${this.apiRoot}/getEmployeeSkillPlaceholder`;
+        console.log("going to call get" + url);
         return this.http.get(url)
             .pipe(
                 catchError(this.handler.handleError)
