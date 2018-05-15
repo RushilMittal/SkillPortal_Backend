@@ -12,7 +12,7 @@ export class AuthHelper {
   public access_token = null;
 
   private app: any;
-  public user;
+  public user = null;
   public isAuthenticated = false;
   constructor() {
     this.app = new Msal.UserAgentApplication(
@@ -27,7 +27,8 @@ export class AuthHelper {
         console.log('Callback for login');
         this.access_token = token;
       },{
-        redirectUri:CONFIG.Settings.REDIRECT_URI
+        redirectUri:CONFIG.Settings.REDIRECT_URI,
+        cacheLocation: 'localStorage'
       }
     );
     
@@ -50,11 +51,21 @@ export class AuthHelper {
             });
           }
         );
+        console.log("user token " + this.user.idToken);
       },
       error => {
         console.log('Error during login:\n' + error);
       }
     );
+  }
+  public getUser():string{
+    let toReturn = null;
+    
+      console.log("Access token:"+this.access_token);
+    
+    if(this.isOnline())
+      toReturn = localStorage.getItem('msal.idtoken');
+    return toReturn;
   }
   public logout() {
     this.app.logout();

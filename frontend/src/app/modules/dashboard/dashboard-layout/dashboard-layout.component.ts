@@ -11,10 +11,12 @@ import { EmployeeDetails } from '../../../model/EmployeeDetail';
 export class DashboardLayoutComponent implements OnInit {
 
   constructor(private employeeDetailService: EmployeeService,
-    private authHelperService:AuthHelper) { }
+    private authHelperService:AuthHelper) { 
+      this.employeeDetailService.initializeEmployeeDetails();
+    }
 
   ngOnInit() {
-     this.employeeDetailService.initializeEmployeeDetails();
+     
     
   }
 }

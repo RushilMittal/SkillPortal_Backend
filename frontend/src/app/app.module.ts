@@ -72,6 +72,7 @@ import { ErrorHandler } from './services/handleerror.service';
 import { AvailableTrainingPipe } from './modules/trainings/available-trainings/available-trainings-pipe.pipe';
 import { AuthHelper } from './services/authHelper.service';
 import { EmployeeService } from './services/employee.service';
+import { EncrptionService } from './services/encryption.service';
 
 
 
@@ -153,6 +154,7 @@ import { EmployeeService } from './services/employee.service';
     
     AuthHelper,
     EmployeeService,
+    EncrptionService,
     // Providers for certification Services
     MyCertificationService,
     AllCertificationService,

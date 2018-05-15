@@ -30,7 +30,7 @@ public class EmployeeSkillController {
 
 	@Autowired
 	 private EmployeeSkillService employeeSkillService;
-
+    @Autowired
     private TokenValidationService tokenValidator;
 
 	/*
@@ -118,9 +118,16 @@ public class EmployeeSkillController {
 
         EmployeeSkillPlaceholderDomain toReturn = null;
         String employeeId = null;
+//        try {
+//            tokenValidator.validateAdminRole(request);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+
 		try {
             logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
             if(!( ((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug("Paramater received : employeeId " + employeeId);
                 logger.debug("Getting detail for the Skill Placeholder, using employeeId " + employeeId);
@@ -150,13 +157,19 @@ public class EmployeeSkillController {
 
         try {
             logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if(!( ((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            if(!((HttpServletRequest) request).getHeader("Authorization").equals(null)) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : EmployeeId " + employeeId);
-                logger.info("Fetching Employee Skills");
-                toReturn = employeeSkillService.getAll(employeeId);
+                if(employeeId!=null) {
+
+                    logger.debug("Paramater received : EmployeeId " + employeeId);
+                    logger.info("Fetching Employee Skills");
+                    toReturn = employeeSkillService.getAll(employeeId);
+                }else{
+                    logger.info("Employee Id not present in the id token");
+                }
+
             }else{
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info("No Authorization Present");
             }
         }catch(Exception e ) {
             logger.info("Some Error Occured" + e.toString());
