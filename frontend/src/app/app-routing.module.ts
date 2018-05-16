@@ -134,16 +134,17 @@ const ROUTES: Routes = [
           }
         ]
       },
+      {
+        path: 'reports',
+        component: ReportsComponent
+        },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: '**', component: PageNotFoundComponent },
 
     ]
 
   },
-  {
-    path: 'reports',
-    component: ReportsComponent
-    },
+  
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent },
 ];
