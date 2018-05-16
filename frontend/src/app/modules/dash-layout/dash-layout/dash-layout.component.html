@@ -6,7 +6,7 @@
           <img id="logo-img" src="./assets/images/logo.png" class="img-fluid">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-          aria-expanded="false" aria-label="Toggle navigation">
+          aria-expanded="false" aria-label="Toggle navigation" >
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -27,7 +27,7 @@
           <ul class="navbar-nav">
             <li ngbDropdown [placement]="['bottom-right', 'top-right']" class="d-inline-block">
               <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
-                <img src="./assets/images/profile.png" class="width35">
+                <img [src]="imageToShow" class="width35">
               </button>
               <div ngbDropdownMenu aria-labelledby="dropdownManual">
                   <button class="dropdown-item">View Profile</button>

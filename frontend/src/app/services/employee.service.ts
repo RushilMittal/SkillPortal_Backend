@@ -43,7 +43,7 @@ export class EmployeeService {
         }
         return this.httpClient.get(GRAPH_V1_API + 'me', { headers: this._headers })
             .pipe(
-            catchError(this.handler.handleError)
+                catchError(this.handler.handleError)
             );
 
     }
@@ -59,8 +59,8 @@ export class EmployeeService {
                     this.employeeDetails = data;
                     console.log(this.employeeDetails.jobTitle);
                 },
-                err => console.log(err),
-                () => console.log(this.checkRole())
+                    err => console.log(err),
+                    () => console.log(this.checkRole())
                 );
         }, error => {
             console.log(error);
@@ -93,5 +93,22 @@ export class EmployeeService {
                 return true
         }
         return false;
+    }
+    /**
+    * Function used to fetch the image of the user from the graph. 
+    */
+    getImage(token: string): Observable<Blob> {
+        if (!this._headers.has('Authorization')) {
+            const graphToken = token;
+            this._headers = this._headers.set('Authorization', 'bearer ' + graphToken);
+        }
+        return this.httpClient.get(GRAPH_V1_API + 'me/photos/48x48/$value',
+            {
+                headers: this._headers,
+                responseType: "blob"
+            })
+            .pipe(
+                catchError(this.handler.handleError)
+            );
     }
 }

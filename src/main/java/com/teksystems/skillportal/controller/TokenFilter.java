@@ -50,11 +50,11 @@ public class TokenFilter extends GenericFilterBean {
                     }
 
                     if (isTokenValid) {
-                       Map<String,String[]> extraParams = new TreeMap<String, String[]>();
-                       extraParams.put("Content-Type", new String[]{"application/json"});
+//                       Map<String,String[]> extraParams = new TreeMap<String, String[]>();
+//                       extraParams.put("Content-Type", new String[]{"application/json"});
                        // HttpServletRequest modifiedRequest = new RequestWrapper((HttpServletRequest)req,extraParams);
 
-                        //System.out.println("modified:" + modifiedRequest.getHeader("Content-Type"));
+                        System.out.println("isvalid called");
                         chain.doFilter(req, res);
 
                     } else {

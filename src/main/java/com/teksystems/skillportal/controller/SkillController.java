@@ -48,14 +48,14 @@ public class SkillController {
     @GetMapping("/getallskillgroups")
     public  Map<String,List<String>> getAllSkillGroups(HttpServletRequest request) throws ExecutionException
     {
-        logger.info("/getallskillgroups API called");
+        System.out.println("/getallskillgroups API called");
         String employeeId = null;
         Map<String,List<String>> toReturn = null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            System.out.println("Trying to Fetch the Employee Id from the HTTP HEADERS");
+            if(!((HttpServletRequest) request).getHeader("Authorization").equals(null)) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + employeeId);
+                System.out.println("Paramater received : employeeId " + employeeId);
                 toReturn = skillGroupService.getAllSkillGroups();
             } else {
                 logger.info("Employee Id not Found in the Authorization");
@@ -63,6 +63,7 @@ public class SkillController {
         } catch (Exception e) {
             logger.info("Some Error Occured: " + e.toString());
         }
+        System.out.println(toReturn);
         return toReturn;
     }
 

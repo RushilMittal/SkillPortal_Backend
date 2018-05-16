@@ -118,13 +118,7 @@ public class EmployeeSkillController {
 
         EmployeeSkillPlaceholderDomain toReturn = null;
         String employeeId = null;
-//        try {
-//            tokenValidator.validateAdminRole(request);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-
-		try {
+      	try {
             logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
             if(!( ((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
 
@@ -140,6 +134,8 @@ public class EmployeeSkillController {
 		    logger.info("Some error occured" + e.toString());
 		    e.printStackTrace();
         }
+
+
 		return toReturn;
 	}
 

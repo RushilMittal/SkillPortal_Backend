@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PageNotFoundComponent } from './page-not-found.component';
+
 import { SkillnavigationComponent } from './modules/skills/skillnavigation/skillnavigation.component';
 import { MyskillComponent } from './modules/skills/myskill/myskill.component';
 import { CertificationNavigationComponent } from './modules/certifications/certification-navigation/certification-navigation.component';
@@ -18,14 +18,13 @@ import { TrainingsNavigationComponent } from './modules/trainings/trainings-navi
 import { MyEnrolledTrainingsComponent } from './modules/trainings/my-enrolled-trainings/my-enrolled-trainings.component';
 import { AvailableTrainingsComponent } from './modules/trainings/available-trainings/available-trainings.component';
 import { SkillGroupComponent } from './modules/skills/skillgroup/skillgroup.component';
+import { AppComponent } from './app.component';
 import { RedirectComponent } from './redirect/redirect.component';
-import { TrainingListComponent } from './modules/trainings/training-list/training-list.component';
-import { TrainingCalenderComponent } from './modules/trainings/training-calender/training-calender.component';
+import { PageNotFoundComponent } from './page-not-found.component';
 
 const ROUTES: Routes = [
   // will need this later
   // will create an route for dashboard and the app will be redirected to it
-
   {
     path: 'login',
     component: LoginComponent
@@ -107,25 +106,7 @@ const ROUTES: Routes = [
           },
           {
             path: 'myenrolledtrainings',
-            component: MyEnrolledTrainingsComponent,
-            children: [
-              {
-                path: '',
-                redirectTo: 'traininglist',
-                pathMatch: 'full'
-
-              },
-              {
-                path: 'traininglist',
-                component: TrainingListComponent
-
-              },
-              {
-                path: 'trainingcalender',
-                component: TrainingCalenderComponent
-              }
-            ]
-
+            component: MyEnrolledTrainingsComponent
           },
           {
             path: 'availabletrainings',
@@ -133,14 +114,10 @@ const ROUTES: Routes = [
           }
         ]
       },
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: '**', component: PageNotFoundComponent },
-
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
+      { path: '**', component: PageNotFoundComponent }
     ]
-
-  },
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', component: PageNotFoundComponent },
+  }
 ];
 
 @NgModule({
