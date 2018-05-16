@@ -72,11 +72,10 @@ import { ErrorHandler } from './services/handleerror.service';
 import { AvailableTrainingPipe } from './modules/trainings/available-trainings/available-trainings-pipe.pipe';
 import { AuthHelper } from './services/authHelper.service';
 import { EmployeeService } from './services/employee.service';
-
-
-
-
-
+import { ReportsComponent } from './modules/reports/reports.component';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { ReportService } from './services/report.service';
 
 
 @NgModule({
@@ -122,7 +121,8 @@ import { EmployeeService } from './services/employee.service';
     TrainingCalenderComponent,
     TrainingListPipe,
     AddTrainingComponent,
-    AvailableTrainingPipe
+    AvailableTrainingPipe,
+    ReportsComponent
     
   ],
   imports: [
@@ -135,9 +135,10 @@ import { EmployeeService } from './services/employee.service';
     CalendarModule,
     MatIconModule,
     HttpModule,
-    Ng2IziToastModule
-   
-    
+    Ng2IziToastModule,
+    ChartsModule,
+    Ng2SmartTableModule,
+    BrowserAnimationsModule
 
   ],
   exports: [
@@ -173,6 +174,7 @@ import { EmployeeService } from './services/employee.service';
     EventService,
     AddNewTrainingService,
     AvailableTrainingService,
+    ReportService,
     // for Authorization and login guard
     AuthorizationGuard,
    // EmployeeAuthorizationService,
