@@ -78,6 +78,10 @@ import { EncrptionService } from './services/encryption.service';
 
 
 
+import { ReportsComponent } from './modules/reports/reports.component';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { ReportService } from './services/report.service';
 
 
 @NgModule({
@@ -123,7 +127,8 @@ import { EncrptionService } from './services/encryption.service';
     TrainingCalenderComponent,
     TrainingListPipe,
     AddTrainingComponent,
-    AvailableTrainingPipe
+    AvailableTrainingPipe,
+    ReportsComponent
     
   ],
   imports: [
@@ -136,9 +141,10 @@ import { EncrptionService } from './services/encryption.service';
     CalendarModule,
     MatIconModule,
     HttpModule,
-    Ng2IziToastModule
-   
-    
+    Ng2IziToastModule,
+    ChartsModule,
+    Ng2SmartTableModule,
+    BrowserAnimationsModule
 
   ],
   exports: [
@@ -175,6 +181,7 @@ import { EncrptionService } from './services/encryption.service';
     EventService,
     AddNewTrainingService,
     AvailableTrainingService,
+    ReportService,
     // for Authorization and login guard
     AuthorizationGuard,
    // EmployeeAuthorizationService,

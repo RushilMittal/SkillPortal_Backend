@@ -21,6 +21,7 @@ import { SkillGroupComponent } from './modules/skills/skillgroup/skillgroup.comp
 import { RedirectComponent } from './redirect/redirect.component';
 import { TrainingListComponent } from './modules/trainings/training-list/training-list.component';
 import { TrainingCalenderComponent } from './modules/trainings/training-calender/training-calender.component';
+import { ReportsComponent } from './modules/reports/reports.component';
 
 const ROUTES: Routes = [
   // will need this later
@@ -139,6 +140,10 @@ const ROUTES: Routes = [
     ]
 
   },
+  {
+    path: 'reports',
+    component: ReportsComponent
+    },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent },
 ];

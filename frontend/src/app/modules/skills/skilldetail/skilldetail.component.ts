@@ -59,7 +59,7 @@ export class SkilldetailComponent implements OnInit {
 
       employeeSkill.subSkill = subskill;
       employeeSkill.rating = 0;
-      employeeSkill.lastModified = new Date();
+      employeeSkill.lastModifiedDate = new Date();
 
       this.employeeSkillList.push(employeeSkill);
 
@@ -86,7 +86,7 @@ export class SkilldetailComponent implements OnInit {
 
     console.log("onrating updated inn parent");
 
-    newEmployeeSkillRated.lastModified = new Date();
+    newEmployeeSkillRated.lastModifiedDate = new Date();
     if (newEmployeeSkillRated.rating) {
       this.mySkillService.saveEmployeeSkill(newEmployeeSkillRated)
         .subscribe(

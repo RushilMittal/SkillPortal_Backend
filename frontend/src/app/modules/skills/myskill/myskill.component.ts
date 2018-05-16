@@ -11,7 +11,7 @@ import { ToastService } from '../../../services/toast.service';
   selector: 'app-myskill',
   templateUrl: './myskill.component.html',
   styleUrls: ['./myskill.component.css']
-})
+
 
 export class MyskillComponent implements OnInit {
   errorMessage: any;
@@ -60,7 +60,7 @@ export class MyskillComponent implements OnInit {
   }
 
   OnRatingUpdated(newEmployeeSkillRated: EmployeeSkill): void {
-    newEmployeeSkillRated.lastModified = new Date();
+    newEmployeeSkillRated.lastModifiedDate = new Date();
     if (newEmployeeSkillRated.employeeId) {
       this.dataService.saveEmployeeSkill(newEmployeeSkillRated)
         .subscribe(

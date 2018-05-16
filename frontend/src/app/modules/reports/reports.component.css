@@ -1,0 +1,75 @@
+.padding{
+    padding-top:2%;
+     padding-bottom:2%;
+}
+
+input {
+    outline: 0;
+    width: 5%;
+    background: transparent;
+    border: 1px solid black;
+  }
+
+
+  .scrollable-menu {
+    height: auto;
+    width:auto;
+    max-width: 100%;
+    max-height: 60vh;
+    overflow-x: auto;
+    overflow-y: auto;
+ }
+
+ option{
+     height: 30px;
+ }
+
+ #abc{
+     font-size: 1vw;
+ }
+
+ .custom-select {
+    position: relative;
+    font-family: Arial;
+    text-align: center;
+  }
+  
+  /*style the arrow inside the select element:*/
+  .select-selected:after {
+    position: absolute;
+    content: "";
+    top: 14px;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-color: #fff transparent transparent transparent;
+  }
+  /*point the arrow upwards when the select box is open (active):*/
+  .select-selected.select-arrow-active:after {
+    border-color: transparent transparent #fff transparent;
+    top: 7px;
+  }
+
+  /*style items (options):*/
+  .select-items {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+  }
+  
+
+  :host>>>table tr:nth-child(even) {
+    background-color: lightskyblue;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.16); 
+  }
+  
+  
+  :host /deep/ table{
+        color: #606c71;
+        border: 1px solid #3593c2;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        text-align: center;
+      }  
