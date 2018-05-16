@@ -22,7 +22,7 @@ public class EmployeeTrainingController {
 
     @Autowired
     EmployeeTrainingService employeeTrainingService;
-
+    @Autowired
     private TokenValidationService tokenValidator;
 
     @GetMapping("/gettraining")

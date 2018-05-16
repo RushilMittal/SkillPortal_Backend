@@ -36,6 +36,7 @@ public class SkillController {
     SubSkillService subSkillService;
     @Autowired
     SkillService skillService;
+    @Autowired
     private TokenValidationService tokenValidator;
 
     /*
@@ -54,11 +55,12 @@ public class SkillController {
         try {
             System.out.println("Trying to Fetch the Employee Id from the HTTP HEADERS");
             if(!((HttpServletRequest) request).getHeader("Authorization").equals(null)) {
+                System.out.println("inside the if");
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 System.out.println("Paramater received : employeeId " + employeeId);
                 toReturn = skillGroupService.getAllSkillGroups();
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                System.out.println("Employee Id not Found in the Authorization");
             }
         } catch (Exception e) {
             logger.info("Some Error Occured: " + e.toString());

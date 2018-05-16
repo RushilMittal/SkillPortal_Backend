@@ -24,6 +24,7 @@ public class SubSkillController {
 	@Autowired
     SubSkillService subSkillService;
 
+    @Autowired
     private TokenValidationService tokenValidator;
 
     /*

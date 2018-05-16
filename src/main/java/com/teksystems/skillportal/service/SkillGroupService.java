@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutionException;
 public class SkillGroupService {
 
     public Map<String,List<String>> getAllSkillGroups() throws ExecutionException {
-
+        System.out.println("INside the getallservices");
         LoadingCache<String, List<String>> skillGroupCache = GuavaCacheInit.getLoadingCache();
         System.out.println("Cache Size:" + skillGroupCache.size());
         return skillGroupCache.asMap();

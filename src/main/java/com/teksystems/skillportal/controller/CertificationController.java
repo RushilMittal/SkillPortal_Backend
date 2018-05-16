@@ -21,6 +21,7 @@ public class CertificationController {
     private static Logger logger = Logger.getLogger(CertificationController.class);
 
     private CertificationService certificationService;
+    @Autowired
     private TokenValidationService tokenValidator;
 
     @Autowired

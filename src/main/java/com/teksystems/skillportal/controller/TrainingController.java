@@ -20,7 +20,7 @@ public class TrainingController {
 
     @Autowired
     TrainingService trainingService;
-
+    @Autowired
     private TokenValidationService tokenValidator;
 
     @PostMapping("/add")

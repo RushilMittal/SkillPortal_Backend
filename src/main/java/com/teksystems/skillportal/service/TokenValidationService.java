@@ -206,12 +206,15 @@ public class TokenValidationService {
     public String ExtractEmployeeId(HttpServletRequest req) {
         String email =null;
         try {
+            System.out.println("Extract employee id");
             String authorizationHeader = ((HttpServletRequest) req).getHeader("Authorization");
             final String token = authorizationHeader.substring(7); // The part after "Bearer "
+
             String[] parts = token.split("\\.");
             // Body Part of the token
             String bodystr = new String(Base64.getUrlDecoder().decode((parts[1])));
             JSONObject payload = new JSONObject(bodystr);
+
             email = payload.getString("preferred_username");
         }catch(Exception e){
             e.printStackTrace();

@@ -39,6 +39,7 @@ public class SearchController {
     @Autowired
     CertificationService certificationService;
 
+    @Autowired
     private TokenValidationService tokenValidator;
 
     private static Logger logger = Logger.getLogger(SearchController.class);

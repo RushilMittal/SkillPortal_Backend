@@ -23,6 +23,7 @@ import java.util.List;
 @CrossOrigin()
 public class EmployeeCertificationController {
     private static Logger logger = Logger.getLogger(EmployeeCertificationController.class);
+    @Autowired
     private TokenValidationService tokenValidator;
     @Autowired
     EmployeeCertificationService employeeCertificationService;
