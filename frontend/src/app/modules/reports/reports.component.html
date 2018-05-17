@@ -7,12 +7,12 @@
 </div>
 
 <div class="col-12 padding">
-  <select class="custom-select" style="width:100%">
-    <option (click)=reportSetter(0)>Report Top N Skills of All time</option>
-    <option (click)=reportSetter(1)>Report Top N Skills within a time period</option>
-    <option (click)=reportSetter(2)>Report All Added/Updated Skills in Last N Months</option>
-    <option (click)=reportSetter(3)>Report Skills Rated by an Employee</option>
-    <option (click)=reportSetter(4)>Report All Expiring Certificates in Next N Months</option>
+  <select (change)="onChange($event.target.value)" class="custom-select" style="width:100%">
+    <option [value]=0>Report Top N Skills of All time</option>
+    <option [value]=1>Report Top N Skills within a time period</option>
+    <option [value]=2>Report All Added/Updated Skills in Last N Months</option>
+    <option [value]=3>Report Skills Rated by an Employee</option>
+    <option [value]=4>Report All Expiring Certificates in Next N Months</option>
   </select>
 </div>
 

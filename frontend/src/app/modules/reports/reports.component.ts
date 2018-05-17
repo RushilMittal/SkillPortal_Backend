@@ -80,6 +80,10 @@ export class ReportsComponent implements OnInit {
      };
   }
 
+  onChange(deviceValue) {
+    this.reportSetter(deviceValue);
+  }
+
   reportSetter(n:number)
   {
     let i;  
