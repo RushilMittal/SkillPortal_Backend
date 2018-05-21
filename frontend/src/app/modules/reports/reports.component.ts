@@ -91,6 +91,10 @@ export class ReportsComponent implements OnInit {
     this.employeeId=employeeId;
   }
 
+  onChange(deviceValue) {
+    this.reportSetter(deviceValue);
+  }
+
   reportSetter(n:number)
   {
     let i;  

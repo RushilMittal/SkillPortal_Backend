@@ -82,12 +82,15 @@ trainingDomainToSend: TrainingDomain;
       enrollTraining(trainingId:string)
       {
         this.availableTrainingService.postEnroll(trainingId).subscribe(
-          () => console.log('Certification Passed to Certification API')),
+          () => {console.log('Training Enrollment API');
+                this.toastService.showSuccessToast('Enrolled Successfully');
+                let newTrainingAvail = this.trainingAvailable.filter((trainingAvail: any) => trainingAvail.training.id !== trainingId);
+                this.trainingAvailable = newTrainingAvail;
+                },
           (error: any) => {
             this.errorMessage = <any>error;
             this.toastService.showErrorToast("Unable to Delete");
-          },
-          this.toastService.showSuccessToast('Enrolled Successfully');
+          });
       }
 
       open(content , trainingdom: TrainingDomain) {
