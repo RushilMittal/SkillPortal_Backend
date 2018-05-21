@@ -13,6 +13,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { RequestOptions } from '@angular/http/src/base_request_options';
 import { HttpHeaderResponse } from '@angular/common/http/src/response';
 import { ADMINROLES } from '../config/adminRoles';
+import { Router } from '@angular/router';
 
 
 const GRAPH_V1_API = CONFIG.Settings.MSGRAPH_v1_API;
@@ -26,7 +27,8 @@ export class EmployeeService {
 
     constructor(private httpClient: HttpClient,
         private authHelper: AuthHelper,
-        private handler: ErrorHandler
+        private handler: ErrorHandler,
+        private router: Router
     ) {
         this.authHelperService = authHelper;
         this._headers = this._headers.append('Content-Type', 'application/x-www-form-  urlencoded');
@@ -60,7 +62,7 @@ export class EmployeeService {
                     console.log(this.employeeDetails.jobTitle);
                 },
                     err => console.log(err),
-                    () => console.log(this.checkRole())
+                    () => console.log(this.checkRoleAdmin())
                 );
         }, error => {
             console.log(error);
@@ -71,16 +73,22 @@ export class EmployeeService {
     * Function to determie whether the user is allowed to access the admin resources.
     * returns true for admin roles and viceversa
     */
-    checkRole(): boolean {
-        if (this.checkUser(this.employeeDetails.jobTitle)) {
-            this.isAdmin = true;
-            return true;
-        } else {
-            this.isAdmin = false;
-            return false;
+    checkRoleAdmin(): boolean {
+        if (this.employeeDetails) {
+            if (this.checkUser(this.employeeDetails.jobTitle)) {
+                this.isAdmin = true;
+                return true;
+            } else {
+                this.isAdmin = false;
+                return false;
+            }
+        }else{
+            this.initializeEmployeeDetails();
+            this.router.navigate(['/dashboard']);
         }
 
     }
+    
 
     /*
     * Helper function used in determine the admin role for the particular user.
@@ -110,5 +118,8 @@ export class EmployeeService {
             .pipe(
                 catchError(this.handler.handleError)
             );
+    }
+    adminToken(): string {
+        return this.authHelperService.getMSGraphAccessToken();
     }
 }

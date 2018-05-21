@@ -18,11 +18,13 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -50,6 +52,9 @@ public class TokenValidationService {
     private final String aud;
     protected final String name;
     private final String uniqueName;
+
+    @Autowired
+    AdminRoleService adminRoleService;
 
     public TokenValidationService() {
         token = null;
@@ -92,7 +97,9 @@ public class TokenValidationService {
         issuer = payload.getString("iss");
         aud = payload.getString("aud");
         name = payload.getString("name");
+
         uniqueName = payload.getString("preferred_username");
+
 
     }
     private PublicKey loadPublicKey() throws IOException, CertificateException {
@@ -214,8 +221,9 @@ public class TokenValidationService {
             // Body Part of the token
             String bodystr = new String(Base64.getUrlDecoder().decode((parts[1])));
             JSONObject payload = new JSONObject(bodystr);
-
             email = payload.getString("preferred_username");
+
+
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -290,115 +298,34 @@ public class TokenValidationService {
         return isValid;
     }
 
-    public String getAccessToken(String idToken){
-        String accessToken = null;
-        System.out.println("INside the getAccessToken");
-        try {
-            URL url = new URL("https://login.microsoftonline.com/371cb917-b098-4303-b878-c182ec8403ac/oauth2/v2.0/token");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            String charset = "UTF-8";
-            conn.setRequestMethod("POST");
-
-            conn.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
-            String query = String.format("Authorization=%s&client_id=%s&scope=%s&client_secret=%s&grant_type=%s",
-                    URLEncoder.encode("Bearer " + token,charset),
-                    URLEncoder.encode("edb31c7a-1273-44e8-b0d0-50830aaede35",charset),
-                    URLEncoder.encode("user.read",charset),
-                    URLEncoder.encode("hKkmEJc01R5klrfXUnsJpeuehv2UJ9AwX8pb9qlqRGU=",charset),
-                    URLEncoder.encode("client_credentials",charset)
-            );
-            byte[] queryBytes = query.getBytes("UTF-8");
-            String length = String.valueOf((url + query).getBytes("UTF-8").length);
-            conn.setDoOutput(true);
-            conn.setRequestProperty("Content-Length",length);
-            OutputStream os = conn.getOutputStream();
-            os.write(queryBytes);
-            os.flush();
-            conn.connect();
-            System.out.println("Responce Code:    " + conn.getResponseCode());
-            System.out.println("Responce Message: " + conn.getResponseMessage());
-
-//            conn.setRequestProperty("Authorization","Bearer " + token);
-//            conn.setRequestProperty("client_id","edb31c7a-1273-44e8-b0d0-50830aaede35");
-//            conn.setRequestProperty("scope","https%3A%2F%2Fgraph.microsoft.com%2F.default");
-//            conn.setRequestProperty("client_secret","hKkmEJc01R5klrfXUnsJpeuehv2UJ9AwX8pb9qlqRGU=");
-//            conn.setRequestProperty("grant_type","client_credentials");
-//            String goodRespStr = HttpClientHelper.getResponseStringFromConn(conn, true);
-//            System.out.println(goodRespStr);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-
-        return null;
-    }
-
-    public String getAccess(String tokens){
-
-        HttpClient client = new DefaultHttpClient();
-        HttpPost post = new HttpPost("https://login.microsoftonline.com/371cb917-b098-4303-b878-c182ec8403ac/oauth2/v2.0/token");
-
-
-        List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
-        urlParameters.add(new BasicNameValuePair("Authorization", "Bearer " + tokens));
-        urlParameters.add(new BasicNameValuePair("client_id", "edb31c7a-1273-44e8-b0d0-50830aaede35"));
-        urlParameters.add(new BasicNameValuePair("scope", "user.read"));
-        urlParameters.add(new BasicNameValuePair("client_secret", "hKkmEJc01R5klrfXUnsJpeuehv2UJ9AwX8pb9qlqRGU="));
-        urlParameters.add(new BasicNameValuePair("grant_type", "client_credentials"));
-        try {
-            post.setEntity(new UrlEncodedFormEntity(urlParameters));
-            HttpResponse response = client.execute(post);
-            System.out.println("\nSending 'POST' request to URL : " );
-            System.out.println("Post parameters : " + post.getEntity());
-            System.out.println("Response Code : " +
-                    response.getStatusLine().getStatusCode());
-
-
-            BufferedReader rd = new BufferedReader(
-                    new InputStreamReader(response.getEntity().getContent()));
-
-            StringBuffer result = new StringBuffer();
-            String line = "";
-            while ((line = rd.readLine()) != null) {
-                result.append(line);
-            }
-
-            System.out.println(result.toString());
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-
-
-
-        return null;
-    }
-    public boolean validateAdminRole(HttpServletRequest request){
+    public boolean validateAdminRole(HttpServletRequest request, HttpServletResponse response){
         System.out.println("inside the validateAdminrole");
         boolean isAdmin = false;
 //        getAccess(token);
         try{
-            String authorizationHeader =((HttpServletRequest)request).getHeader("Authorization");
-            final String token = authorizationHeader.substring(7);
+            String token =((HttpServletRequest)request).getHeader("Token");
             System.out.println("token is" + token);
-            URL url = new URL("https://graph.microsoft.com/v1.0/users");
+            URL url = new URL("https://graph.microsoft.com/v1.0/me");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
             conn.setRequestProperty("Accept","application/json");
-
             String goodRespStr = HttpClientHelper.getResponseStringFromConn(conn, true);
-
-
             int responseCode = conn.getResponseCode();
             System.out.println(responseCode);
-            JSONObject response = HttpClientHelper.processGoodRespStr(responseCode, goodRespStr);
-            System.out.println("response string contains" + response);
+            if(responseCode==200) {
+                JSONObject responseRecieved = HttpClientHelper.processGoodRespStr(responseCode, goodRespStr);
+
+                return adminRoleService.IsAdmin(responseRecieved.getJSONObject("responseMsg").getString("jobTitle"));
+
+            }else{
+                ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
+            }
         }catch(Exception e){
             e.printStackTrace();
         }
         return false;
     }
+
 }

@@ -1,9 +1,6 @@
 package com.teksystems.skillportal.controller;
 
-import com.google.common.cache.LoadingCache;
-import com.teksystems.skillportal.domain.SkillGroupDomain;
 import com.teksystems.skillportal.helper.SkillHelper;
-import com.teksystems.skillportal.init.GuavaCacheInit;
 import com.teksystems.skillportal.model.SubSkill;
 import com.teksystems.skillportal.service.SkillGroupService;
 import com.teksystems.skillportal.service.SkillService;
@@ -14,12 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.LinkedList;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @RestController
 
@@ -119,6 +115,35 @@ public class SkillController {
                 logger.debug("Paramater received : employeeId " + employeeId);
                 toReturn = skillService.getSkillGroup(skillGroup);
 
+            } else {
+                logger.info("Employee Id not Found in the Authorization");
+            }
+        } catch (Exception e) {
+            logger.info("Some Error Occured: " + e.toString());
+        }
+        return toReturn;
+    }
+
+    /*
+    * Method returning the List of the Skills in Skill Collection
+    * Role Method need to verify Role Roles, calls for admin rest API should have Access Token.
+    * And verify the Role role by calling the method
+    */
+    @GetMapping("/getAllAdminSkills")
+    public List<SubSkill> getAllAdminSkill(HttpServletRequest request, HttpServletResponse response){
+        logger.info("getskillgroup API Called");
+        String employeeId = null;
+        List<SubSkill> toReturn = null;
+        try {
+            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
+            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+                if(tokenValidator.validateAdminRole(request,response)) {
+                    employeeId = tokenValidator.ExtractEmployeeId(request);
+                    logger.debug("Paramater received : employeeId " + employeeId);
+                    toReturn = skillService.getAllAdminSkills();
+                }else{
+                    logger.debug("Not a Valid Role User");
+                }
             } else {
                 logger.info("Employee Id not Found in the Authorization");
             }

@@ -38,4 +38,9 @@ export class ReportService {
     return this.http.get<SkillReport[]>(url);
   }
 
+  getEmployeesWithASkill():Observable<String[]>{
+    const url = this.apiRoot + '/getemployees';
+    return this.http.get<String[]>(url);
+  }
+
 }

@@ -26,10 +26,10 @@
           </a>
           <ul class="navbar-nav">
             <li ngbDropdown [placement]="['bottom-right', 'top-right']" class="d-inline-block">
-              <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+              <button class="btn btn-outline-primary" id="dropdownProfile" ngbDropdownToggle>
                 <img [src]="imageToShow" class="width35">
               </button>
-              <div ngbDropdownMenu aria-labelledby="dropdownManual">
+              <div ngbDropdownMenu aria-labelledby="dropdownProfile">
                   <button class="dropdown-item">View Profile</button>
                   <button class="dropdown-item">Help</button>
                   <button class="dropdown-item" (click) = "logout()">Logout</button>
@@ -72,6 +72,10 @@
            title="Reports">
           <img src="./assets/images/reports.png">
           <span class="d-none d-md-inline">Reports</span>
+        </a>
+        <a [routerLink]="['/admin']" routerLinkActive="active" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"
+          title="Admin">
+          <span class="d-none d-md-inline">Admin</span>
         </a>
       </div>
     </div>

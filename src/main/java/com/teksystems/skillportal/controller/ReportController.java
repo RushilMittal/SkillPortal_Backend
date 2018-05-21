@@ -53,5 +53,10 @@ public class ReportController {
 	{
 		return reportService.CertificatesExipringInNextNmonths(n);
 	}
+	@GetMapping("/getemployees")
+	public List<String> EmployeesWithASkill()
+	{
+		return reportService.EmployeesWithASkill();
+	}
 
 }

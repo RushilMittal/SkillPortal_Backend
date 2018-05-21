@@ -10,7 +10,7 @@
   // export const baseUrlCertificationashwin = 'http://10.188.27.82:8000/certifications';
 
 
-
+  export const baseURLAPP = 'http://10.188.27.222:4200';
   export const baseUrlSkill = 'http://localhost:8000/skill';
 
   export const baseUrlCertification = 'http://localhost:8000/certifications';

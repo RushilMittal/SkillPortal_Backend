@@ -3,6 +3,7 @@ import com.teksystems.skillportal.controller.TokenFilter;
 import com.teksystems.skillportal.init.GuavaCacheInit;
 import com.teksystems.skillportal.model.*;
 import com.teksystems.skillportal.repository.*;
+import com.teksystems.skillportal.service.SkillService;
 import com.teksystems.skillportal.service.TokenValidationService;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.ApplicationContext;
@@ -10,6 +11,7 @@ import org.springframework.context.ApplicationContext;
 import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -95,13 +97,8 @@ SkillRepository skillRepository;
 
 	public static void main(String[] args)  {
 		SpringApplication.run(SkillPortal_Skill.class, args);
-//        String token1="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImlCakwxUmNxemhpeTRmcHhJeGRacW9oTTJZayJ9.eyJhdWQiOiJlZGIzMWM3YS0xMjczLTQ0ZTgtYjBkMC01MDgzMGFhZWRlMzUiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vMzcxY2I5MTctYjA5OC00MzAzLWI4NzgtYzE4MmVjODQwM2FjL3YyLjAiLCJpYXQiOjE1MjYyOTc1MTMsIm5iZiI6MTUyNjI5NzUxMywiZXhwIjoxNTI2MzAxNDEzLCJhaW8iOiJZMmNBQWcvam5hOVA4aVl6M1pvWDZialVhcHNPNzg3RXFQNU5DVzExVzY3NWlpZE0zQjE5OFlEUlpyL2t1RHNUb2l3M2xYVURBQT09IiwibmFtZSI6IlNpbmdoLCBTYWhpYiIsIm5vbmNlIjoiNzRlY2ZiZmYtNDI2MS00ZDQ5LTg1N2QtOTIxYzNjNTAwZGE2Iiwib2lkIjoiYTk1M2YzYWQtMTMxYy00YTk2LWFlNTYtNDA1MTM5Y2U1MGNkIiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2FoaXNpbmdoQHRla3N5c3RlbXMuY29tIiwic3ViIjoiRmVZamFQRTNtbFR2TlNkSFBuX2RGczFrdWtrMjl3NWtYN1hEMXRLd1VyVSIsInRpZCI6IjM3MWNiOTE3LWIwOTgtNDMwMy1iODc4LWMxODJlYzg0MDNhYyIsInV0aSI6IlBMa1pSQjgzVkV1ZkZqUE1UVGNIQUEiLCJ2ZXIiOiIyLjAifQ.hBzKbzHj9gXpbR5CwdQDjjfzqjAiPbDOpQLdM1k1G85CgdiVb8j4WO2A4jB4q4ATQr0CygD4B_rFNVT4HtMf2JEzW132sPgMfOhobdKf68Z7o_n41V9L9I0icrloStr7pmNgEvGqoE3YQvd9hIBhm4Rhpcc8pyjhwNYVpPO0oqiRazP7yokOm01pMEp0xKGYJvk0FMp6UpDgPKaCjjBd9hjoLM_Y5PIetUVBRrfIhFjvpq3t2dWrXLOCzsGo8u9bJsRtZFuw6SN10qjmKL1uKrc0tSMeIQBqIgjjUKELxbSLURAJvS5uNQJ5F17ej7wHh7lf5yCS1lh-wq47tqSIYA";
-//        TokenValidationService token = new TokenValidationService(token1);
-//        try{
-//            System.out.println(token.tokenValidate());
-//        }catch(Exception e){
-//            e.printStackTrace();
-//        }
+
+
 
 //
 //		ApplicationContext ctx =Map<String, List<String>> skillGroupMap = GuavaCacheInit.loadSkillGroup();

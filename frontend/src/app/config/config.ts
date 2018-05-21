@@ -1,3 +1,5 @@
+import { baseURLAPP } from "../baseUrl";
+
 export let CONFIG = {
     Settings: {
       BASEAPI: 'https://localhost:44356/api', // .NetCore2.0 WebAPI
@@ -11,7 +13,7 @@ export let CONFIG = {
       STATE: '',
       MS_GRAPH_URI: 'https://graph.microsoft.com/',
       REDIRECT_URI : 'http://localhost:4200/dashboard',
-      POST_LOGOUT_REDIRECT : 'https://localhost:4200',
+      POST_LOGOUT_REDIRECT : 'http://localhost:4200',
       MSGRAPH_BETA_API: 'https://graph.microsoft.com/beta/',
       MSGRAPH_v1_API: 'https://graph.microsoft.com/v1.0/',
       SCOPES: ['user.read' ],

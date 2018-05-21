@@ -184,5 +184,11 @@ public class ReportService {
 		return employeeCertDomains;
 	}
 
+	public List<String> EmployeesWithASkill()
+	{
+		List<String> empIds = mongoOperation.getCollection("employeeskill").distinct("empId");
+		return empIds;
+	}
+
 	
 }

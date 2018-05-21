@@ -27,6 +27,7 @@ export class ReportsComponent implements OnInit {
   employeeSkills: EmployeeSkill[];
   employeeCerts: EmployeeCertificate[];
   skillUpdated: SkillReport[];
+  employeeIds: String[];
   employeeId:string="101";
 
   public chartColors: any[] = [
@@ -78,6 +79,16 @@ export class ReportsComponent implements OnInit {
       vin: {title: 'ID' },
       year: {title: 'Full Name' }}
      };
+
+     this.reportService.getEmployeesWithASkill().subscribe(employeeIds => this.employeeIds=employeeIds);
+  }
+
+  onChange(deviceValue) {
+    this.reportSetter(deviceValue);
+  }
+
+  onChangeSetEmployee(employeeId) {
+    this.employeeId=employeeId;
   }
 
   reportSetter(n:number)
@@ -196,7 +207,7 @@ export class ReportsComponent implements OnInit {
         
     }
 
-    if(skillReportType==3)
+    if(skillReportType==5)
     {
         this.showGraph=false;
         this.showTable=true;
@@ -225,7 +236,7 @@ export class ReportsComponent implements OnInit {
                }
             );
     }
-    if(skillReportType==5)
+    if(skillReportType==3)
     {
         this.showGraph=false;
         this.showTable=true;

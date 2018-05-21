@@ -23,7 +23,14 @@
     padding-right:  36px;
     
 }
-
+#request-for-skill{
+    background: linear-gradient(to right, #0697C3 , #4DBFE2);
+    color: white;
+    width:200px;
+    height:40px;
+    margin-top:5px;
+    margin-left:65px;
+}
 #skill-nav .active{
     color: #0697C3;
     background-color: rgba(0,0,0,0.02);

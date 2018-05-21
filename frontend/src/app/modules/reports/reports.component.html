@@ -1,102 +1,102 @@
 <div class="col-12">
-    <div class="row padding">
-        <div class="col-8">
-            <h2>Reports</h2>
-        </div>
-    </div>
+  <div class="row padding">
+      <div class="col-8">
+          <h2>Reports</h2>
+      </div>
+  </div>
 </div>
 
 <div class="col-12 padding">
-  <select class="custom-select" style="width:100%">
-    <option (click)=reportSetter(0)>Report Top N Skills of All time</option>
-    <option (click)=reportSetter(1)>Report Top N Skills within a time period</option>
-    <option (click)=reportSetter(2)>Report All Added/Updated Skills in Last N Months</option>
-    <option (click)=reportSetter(3)>Report Skills Rated by an Employee</option>
-    <option (click)=reportSetter(4)>Report All Expiring Certificates in Next N Months</option>
-  </select>
+<select (change)="onChange($event.target.value)" class="custom-select" style="width:100%">
+  <option [value]=0>Report Top N Skills of All time</option>
+  <option [value]=1>Report Top N Skills within a time period</option>
+  <option [value]=2>Report All Added/Updated Skills in Last N Months</option>
+  <option [value]=3>Report Skills Rated by an Employee</option>
+  <option [value]=4>Report All Expiring Certificates in Next N Months</option>
+</select>
 </div>
 
 <div *ngIf="reportType[0]">
-  <div class="col-12 padding">
-    Show Top
-    <span>
-      <input [(ngModel)]="numberOfSkills" placeholder="0">
-    </span> Skills of All Time
-    <button class="btn btn-info" (click)=generateReport(1)>Generate Report</button>
-  </div>
+<div class="col-12 padding">
+  Show Top
+  <span>
+    <input [(ngModel)]="numberOfSkills" placeholder="0">
+  </span> Skills of All Time
+  <button class="btn btn-info" (click)=generateReport(1)>Generate Report</button>
+</div>
 </div>
 
 <div *ngIf="reportType[1]">
-  <div class="col-12 padding">
-      Show Top
-      <span>
-        <input [(ngModel)]="numberOfSkills" placeholder="0">
-      </span> Skills
-      in Last
-      <span>
-        <input [(ngModel)]="numberOfMonths" placeholder="0">
-      </span> Months
-      <button class="btn btn-info" (click)=generateReport(2)>Generate Report</button>
-  </div>
+<div class="col-12 padding">
+    Show Top
+    <span>
+      <input [(ngModel)]="numberOfSkills" placeholder="0">
+    </span> Skills
+    in Last
+    <span>
+      <input [(ngModel)]="numberOfMonths" placeholder="0">
+    </span> Months
+    <button class="btn btn-info" (click)=generateReport(2)>Generate Report</button>
+</div>
 </div>
 
 <div *ngIf="reportType[2]">
-  <div class="col-12 padding">
-      Show All Updated/Added Skills in Last
-      <span>
-        <input [(ngModel)]="numberOfMonths" placeholder="0">
-      </span> Months
-      <button class="btn btn-info" (click)=generateReport(3)>Generate Report</button>
-  </div>
+<div class="col-12 padding">
+    Show All Updated/Added Skills in Last
+    <span>
+      <input [(ngModel)]="numberOfMonths" placeholder="0">
+    </span> Months
+    <button class="btn btn-info" (click)=generateReport(3)>Generate Report</button>
+</div>
 </div>
 
 <div *ngIf="reportType[3]">
-  <div class="col-12 padding">
-      Show All Skills of Employee
-      <span>
-        <select>
-          <option>Options Come Here</option>
-        </select>
-      </span>
-      <button class="btn btn-info" (click)=generateReport(4)>Generate Report</button>
-  </div>
+<div class="col-12 padding">
+    Show All Skills of Employee
+    <span>
+      <select (change)="onChangeSetEmployee($event.target.value)">
+        <option *ngFor="let employeeId of employeeIds">{{employeeId}}</option>
+      </select>
+    </span>
+    <button class="btn btn-info" (click)=generateReport(4)>Generate Report</button>
+</div>
 </div>
 
 <div *ngIf="reportType[4]">
-  <div class="col-12 padding">
-      Show All Expiring Certificates in Next
-      <span>
-        <input [(ngModel)]="numberOfMonths" placeholder="0">
-      </span> Months
-      <button class="btn btn-info" (click)=generateReport(5)>Generate Report</button>
-  </div>
+<div class="col-12 padding">
+    Show All Expiring Certificates in Next
+    <span>
+      <input [(ngModel)]="numberOfMonths" placeholder="0">
+    </span> Months
+    <button class="btn btn-info" (click)=generateReport(5)>Generate Report</button>
+</div>
 </div>
 
 <div class="col-12">
 <div class="row p-2 border border-bottom-0 border-dark" >
-  <div class="offset-8 col-2">
-  <a type="button" a href="#" (click)="downloadCanvas($event)" id="abc" style="width: 100%;" class="btn btn-info btn-right">Export Graph to PNG</a></div>
-  <div class="col-2">
-  <button type="button" id="abc" style="width: 100%;" (click)=downloadCSV() class="btn btn-info btn-right">Export Table to CSV</button></div>
+<div class="offset-8 col-2">
+<a type="button" a href="#" (click)="downloadCanvas($event)" id="abc" style="width: 100%;" class="btn btn-info btn-right">Export Graph to PNG</a></div>
+<div class="col-2">
+<button type="button" id="abc" style="width: 100%;" (click)=downloadCSV() class="btn btn-info btn-right">Export Table to CSV</button></div>
 </div>
 </div>
 
 <div class="col-12">
 <div class="row">
-    <div *ngIf=showGraph class="col-12 col-md-6 padding border border-dark scrollable-menu">
-      <div *ngIf=showGraph>
-        <div class="chart" style="width: 50vw;">
-          <canvas id='canvas' baseChart [chartType]="'bar'" [datasets]="chartData2" [labels]="chartLabels" [options]="chartOptions"
-            [legend]="true" [colors]="chartColors" (chartClick)="onChartClick($event)">
-          </canvas>
-          <!-- <a href="#" (click)="downloadCanvas($event)"> DOWNLOAD THIS</a> -->
-        </div>
-      </div>
-    </div>
-    <div *ngIf=showTable class="col-12 padding border border-dark scrollable-menu" [ngClass]="{ 'col-md-6':showGraph}">
-      <div *ngIf=showTable>
-        <ng2-smart-table #dt2 [settings]="settings" [source]="rows"></ng2-smart-table>
+  <div *ngIf=showGraph class="col-12 col-md-6 padding border border-dark scrollable-menu">
+    <div *ngIf=showGraph>
+      <div class="chart" style="width: 50vw;">
+        <canvas id='canvas' baseChart [chartType]="'bar'" [datasets]="chartData2" [labels]="chartLabels" [options]="chartOptions"
+          [legend]="true" [colors]="chartColors" (chartClick)="onChartClick($event)">
+        </canvas>
+        <!-- <a href="#" (click)="downloadCanvas($event)"> DOWNLOAD THIS</a> -->
       </div>
     </div>
   </div>
+  <div *ngIf=showTable class="col-12 padding border border-dark scrollable-menu" [ngClass]="{ 'col-md-6':showGraph}">
+    <div *ngIf=showTable>
+      <ng2-smart-table #dt2 [settings]="settings" [source]="rows"></ng2-smart-table>
+    </div>
   </div>
+</div>
+</div>

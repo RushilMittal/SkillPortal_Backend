@@ -82,6 +82,9 @@ import { ReportsComponent } from './modules/reports/reports.component';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ReportService } from './services/report.service';
+import { AdminskillComponent } from './modules/admin/adminskill/adminskill.component';
+import { IsAdminGuard } from './services/isadminguard';
+import { AdminServices } from './services/adminService';
 
 
 @NgModule({
@@ -121,15 +124,16 @@ import { ReportService } from './services/report.service';
     TrainingsNavigationComponent,
     MyEnrolledTrainingsComponent,
     AvailableTrainingsComponent,
-    
+
     CalendarComponent,
     TrainingListComponent,
     TrainingCalenderComponent,
     TrainingListPipe,
     AddTrainingComponent,
     AvailableTrainingPipe,
-    ReportsComponent
-    
+    ReportsComponent,
+    AdminskillComponent
+
   ],
   imports: [
     BrowserModule,
@@ -157,7 +161,7 @@ import { ReportService } from './services/report.service';
       useClass: TokenInterceptor,
       multi: true
     },
-    
+
     AuthHelper,
     EmployeeService,
     EncrptionService,
@@ -184,12 +188,16 @@ import { ReportService } from './services/report.service';
     ReportService,
     // for Authorization and login guard
     AuthorizationGuard,
+    //is Role Guard
+    IsAdminGuard,
    // EmployeeAuthorizationService,
     SkillGroupService,
     // For displaying the toast
     ToastService,
     // testing purpose
-    ErrorHandler
+    ErrorHandler,
+    AdminServices
+
 
   ],
   bootstrap: [AppComponent]

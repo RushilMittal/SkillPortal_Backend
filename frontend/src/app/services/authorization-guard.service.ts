@@ -1,13 +1,13 @@
 import { Injectable, state } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 // import { EmployeeAuthorizationService } from './employee-authorization.service';
-
+/*  */
 // tslint:disable-next-line:import-blacklist
 import { Subscription, Observable } from 'rxjs';
 import { AuthHelper } from './authHelper.service';
 
 
-@Injectable()
+@Injectable() 
 export class AuthorizationGuard implements CanActivate {
     token: String = null;
     constructor(private router: Router, private authHelperService: AuthHelper) {

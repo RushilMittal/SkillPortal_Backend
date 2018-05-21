@@ -1,33 +1,33 @@
+<div class="col-12">
+  <div class="row ">
+    <div class="col-sm-6 col-md-8 mt-2">
+      <h2 class="pt-3">Skills</h2>
+    </div>
+    <div class="col-sm-6 col-md-4 mt-2">
+      <button id="request-for-skill" type="button" class="btn right" (click)="open(requestForCertification)">
+        Request for Skill
+      </button>
+    </div>
+  </div>
 
-  
+  <div class="row mb-xl-4 mb-lg-4 mb-md-3 mb-sm-2 mb-1">
     <div class="col-12">
+      <ul id="skill-nav" class="nav nav-tabs justify-content-center" style="cursor:pointer">
+        <li class="nav-item">
 
-      <h2 class="pt-3" >Skills</h2>
-    
+          <a id="myskill" class="nav-link" [routerLink]="['myskill']" routerLinkActive="active">
+            My Skills
+          </a>
+        </li>
+        <li class="nav-item">
 
-    <div class="row mb-xl-4 mb-lg-4 mb-md-3 mb-sm-2 mb-1">
-      <div class="col-12">
-        <ul id="skill-nav" class="nav nav-tabs justify-content-center" style="cursor:pointer">
-          <li class="nav-item">
-          
-            <a id="myskill"  class="nav-link"  [routerLink]="['myskill']" routerLinkActive="active">
-              My Skills
-            </a>
-          </li>
-          <li class="nav-item">
-        
-            <a id="allskill" class="nav-link"  [routerLink]="['skillgroup']" routerLinkActive="active">
-              All Skills
-            </a>
-          </li>
-        </ul>
-      </div>
+          <a id="allskill" class="nav-link" [routerLink]="['skillgroup']" routerLinkActive="active">
+            All Skills
+          </a>
+        </li>
+      </ul>
     </div>
-    
-    <router-outlet></router-outlet>
-    </div>
-  
+  </div>
 
-  
-  
-  
+  <router-outlet></router-outlet>
+</div>
