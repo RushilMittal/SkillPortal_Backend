@@ -24,6 +24,8 @@ import { TrainingCalenderComponent } from './modules/trainings/training-calender
 import { ReportsComponent } from './modules/reports/reports.component';
 import { AdminskillComponent } from './modules/admin/adminskill/adminskill.component';
 import { IsAdminGuard } from './services/isadminguard';
+import { AdmincertificateComponent } from './modules/admin/admincertificate/admincertificate.component';
+import { AdminmanagerComponent } from './modules/admin/adminmanager/adminmanager.component';
 
 const ROUTES: Routes = [
   // will need this later
@@ -141,8 +143,18 @@ const ROUTES: Routes = [
         component: ReportsComponent
       },
       {
-        path:'admin',
-        component:AdminskillComponent,
+        path: 'adminskill',
+        component: AdminskillComponent,
+        canActivate:[IsAdminGuard]
+      },
+      {
+        path: 'admincertificate',
+        component: AdmincertificateComponent,
+        canActivate:[IsAdminGuard]
+      },
+      {
+        path: 'adminmanager',
+        component: AdminmanagerComponent,
         canActivate:[IsAdminGuard]
       },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -151,7 +163,7 @@ const ROUTES: Routes = [
     ]
 
   },
-  
+
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent },
 ];

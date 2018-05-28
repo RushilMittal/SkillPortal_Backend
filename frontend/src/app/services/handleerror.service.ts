@@ -1,11 +1,15 @@
 import { Injectable } from "@angular/core";
 import { ErrorObservable } from "rxjs/observable/ErrorObservable";
 import { HttpErrorResponse } from "@angular/common/http";
+import { AuthHelper } from "./authHelper.service";
 
 @Injectable()
 export class ErrorHandler{
-    
+    constructor(private authHelper: AuthHelper){
+    }
+
     public handleError(error: HttpErrorResponse) {
+        
         let errors: ErrorObservable;
         if (error.error instanceof ErrorEvent) {
             // A client-side or network error occurred. Handle it accordingly.
@@ -24,6 +28,7 @@ export class ErrorHandler{
                     'Client Error:- Bad Request');
             }
             else if (error.status === 401) {
+                this.authHelper.login();
                 errors = new ErrorObservable(
                     'Session Expired, Login Again');
             }

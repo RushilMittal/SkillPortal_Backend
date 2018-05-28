@@ -13,8 +13,8 @@ export class ReportService {
 
   private apiRoot = 'http://localhost:8000/report';
 
-  getSkillTrend(skill:number,months:number): Observable<SubSkill[]>{
-    const url =  this.apiRoot + '/reportskilltrend?n='+skill+'&x='+months;
+  getSkillTrend(skill:number,date:number): Observable<SubSkill[]>{
+    const url =  this.apiRoot + '/reportskilltrend?n='+skill+'&x='+date;
     return this.http.get<SubSkill[]>(url);
   }
   
@@ -28,13 +28,13 @@ export class ReportService {
     return this.http.get<EmployeeSkill[]>(url);
   }
   
-  getExpiringCertificates(months:number): Observable<EmployeeCertificate[]>{
-    const url =  this.apiRoot + '/reportcertificateexpiry?n='+months;
+  getExpiringCertificates(from:number,to:number): Observable<EmployeeCertificate[]>{
+    const url =  this.apiRoot + '/reportcertificateexpiry?from='+from+'&to='+to;
     return this.http.get<EmployeeCertificate[]>(url);
   }
   
-  getUpdatedSkills(months:number): Observable<SkillReport[]>{
-    const url =  this.apiRoot + '/reportemployeeupdation?x='+months;
+  getUpdatedSkills(from:number,to:number): Observable<SkillReport[]>{
+    const url =  this.apiRoot + '/reportemployeeupdation?from='+from+'&to='+to;
     return this.http.get<SkillReport[]>(url);
   }
 

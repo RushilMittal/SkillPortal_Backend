@@ -11,17 +11,19 @@
     </div>
   </div>
 
+  <!-- Modal -->
   <ng-template #requestForCertification let-c="close" let-d="dismiss">
     <div class="modal-header">
-      <h4 class="modal-title">Certification not in list?</h4>
+      <h4 class="modal-title">Enter requesting Certification Detail</h4>
       <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <p>Under Progress</p>
+      <app-send-email [subject]="subject" (saveClicked)="c('Cross click')" ></app-send-email>
     </div>
   </ng-template>
+
 
   <div class="row mb-xl-4 mb-lg-4 mb-md-3 mb-sm-2 mb-1">
     <div class="col-12">

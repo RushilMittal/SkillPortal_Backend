@@ -6,7 +6,7 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./certification-navigation.component.css']
 })
 export class CertificationNavigationComponent implements OnInit {
-
+  subject = 'Skill Portal:- Kindly Add the new certificate in the Skill Portal';
   constructor( private modalService: NgbModal) { }
 
   ngOnInit() {

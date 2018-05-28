@@ -63,8 +63,8 @@ public class EmployeeTrainingServiceTest {
         trainingSessionList2.add(new TrainingSession("36", new GregorianCalendar(2018, 05, 20).getTime(), "10:00:00", "12:00:00"));
 
         when(trainingSessionRepository.findBytrainingId(anyString())).thenReturn(trainingSessionList1).thenReturn(trainingSessionList2);
-        Training training1 = new Training("35", "Redhat", "IT Room", 25, "Technical", "RHCA", "Jeff");
-        Training training2 = new Training("36", "Amazon", "Meeting Room1", 35, "Technical", "AWS", "Adam");
+        Training training1 = new Training("35", "Redhat", "IT Room", 25, "Technical", "RHCA", "Jeff","sam@teksystems.com");
+        Training training2 = new Training("36", "Amazon", "Meeting Room1", 35, "Technical", "AWS", "Adam","sam@teksystems.com");
 
         when(trainingRepository.findByid(anyString())).thenReturn(training1).thenReturn(training2);
         List<TrainingEventDomain> result = employeeTrainingService.getTrainingEventByEmployeeId("105");
@@ -96,8 +96,8 @@ public class EmployeeTrainingServiceTest {
         trainingSessionList2.add(new TrainingSession("36", new GregorianCalendar(2018, 05, 20).getTime(), "10:00:00", "12:00:00"));
 
         when(trainingSessionRepository.findBytrainingId(anyString())).thenReturn(trainingSessionList1).thenReturn(trainingSessionList2);
-        Training training1 = new Training("35", "Redhat", "IT Room", 25, "Technical", "RHCA", "Jeff");
-        Training training2 = new Training("36", "Amazon", "Meeting Room1", 35, "Technical", "AWS", "Adam");
+        Training training1 = new Training("35", "Redhat", "IT Room", 25, "Technical", "RHCA", "Jeff","sam@teksystems.com");
+        Training training2 = new Training("36", "Amazon", "Meeting Room1", 35, "Technical", "AWS", "Adam","sam@teksystems.com");
 
         when(trainingRepository.findByid(anyString())).thenReturn(training1).thenReturn(training2);
         List<TrainingListEventDomain> result = employeeTrainingService.getTrainingListEventByEmployeeId("105");

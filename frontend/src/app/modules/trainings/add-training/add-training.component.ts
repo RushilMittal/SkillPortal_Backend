@@ -7,6 +7,7 @@ import { AddNewTrainingService } from '../../../services/addnewtraining.service'
 import { Training } from '../../../model/Training';
 import { TrainingSession } from '../../../model/training-sessions';
 import { ToastService } from '../../../services/toast.service';
+import { EmployeeService } from '../../../services/employee.service';
 
 @Component({
   selector: 'app-add-training',
@@ -24,7 +25,8 @@ export class AddTrainingComponent implements OnInit {
   @Output() saveClicked: EventEmitter<void> = new EventEmitter<void>();
   constructor(private newTrainingService: AddNewTrainingService,
     private fb: FormBuilder,
-    private toastService: ToastService) { }
+    private toastService: ToastService,
+    private employeeService:EmployeeService) { }
 
 
   ngOnInit() {
@@ -148,22 +150,23 @@ export class AddTrainingComponent implements OnInit {
 
 
   saveTraining(trainingForwarded: FormGroup) {
-    const training = new NewTraining('', trainingForwarded.value.name, trainingForwarded.value.description, trainingForwarded.value.location, trainingForwarded.value.trainer, trainingForwarded.value.seats, trainingForwarded.value.type);
+    let email = this.employeeService.employeeDetails.mail;
+    const training = new NewTraining('', trainingForwarded.value.name, trainingForwarded.value.description, trainingForwarded.value.location, trainingForwarded.value.trainer, trainingForwarded.value.seats, trainingForwarded.value.type,email);
     const newTraining = new TrainingDomain();
     newTraining.training = training;
     newTraining.trainingSessions = trainingForwarded.value.trainingSession;
 
     this.newTrainingService.saveNewTraining(newTraining)
       .subscribe(
-      () => console.log('Product Passed to savefunction'),
-      (error: any) => {
-        this.errorMessage = <any>error;
-        this.toastService.showErrorToast("Unable to Save, Some Error Occured");
-      },
+        () => console.log('Product Passed to savefunction'),
+        (error: any) => {
+          this.errorMessage = <any>error;
+          this.toastService.showErrorToast("Unable to Save, Some Error Occured");
+        },
 
-      () => {
-        this.toastService.showSuccessToast("Training Saved Successfully");
-      }
+        () => {
+          this.toastService.showSuccessToast("Training Saved Successfully");
+        }
       );
 
     // window.location.reload();
@@ -171,7 +174,8 @@ export class AddTrainingComponent implements OnInit {
 
   updateTraining(trainingForwarded: FormGroup) {
     //console.log(trainingForwarded.value.trainingId)
-    const training = new NewTraining(this.trainingDomain.training.id, trainingForwarded.value.name, trainingForwarded.value.description, trainingForwarded.value.location, trainingForwarded.value.trainer, trainingForwarded.value.seats, trainingForwarded.value.type);
+    let email = this.employeeService.employeeDetails.mail;
+    const training = new NewTraining(this.trainingDomain.training.id, trainingForwarded.value.name, trainingForwarded.value.description, trainingForwarded.value.location, trainingForwarded.value.trainer, trainingForwarded.value.seats, trainingForwarded.value.type,email);
     // console.log("hwerthfehu"+JSON.stringify(training));
     const newTraining = new TrainingDomain();
     newTraining.training = training;
@@ -180,15 +184,15 @@ export class AddTrainingComponent implements OnInit {
 
     this.newTrainingService.updateNewTraining(newTraining)
       .subscribe(
-      () => console.log('Product Passed to savefunction'),
-      (error: any) => {
-        this.errorMessage = <any>error;
-        this.toastService.showErrorToast("Unable to Save, Some Error Occured");
-      },
+        () => console.log('Product Passed to savefunction'),
+        (error: any) => {
+          this.errorMessage = <any>error;
+          this.toastService.showErrorToast("Unable to Save, Some Error Occured");
+        },
 
-      () => {
-        this.toastService.showSuccessToast("Training Updated SuccessFfully");
-      }
+        () => {
+          this.toastService.showSuccessToast("Training Updated SuccessFfully");
+        }
       );
   }
 

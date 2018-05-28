@@ -14,9 +14,7 @@ export class AllCertificationService {
     private apiRoot = baseUrlCertification;
     constructor (private http: HttpClient,private handler:ErrorHandler) {}
 
-    getAllCertificates(): Observable<Certification> {
-
-        // console.log('These are Available Certifications:');
+    getAllCertificates(): Observable<Certification[]> {
         const url = `${this.apiRoot}/all`;
         console.log(url);
         return this.http.get(url)

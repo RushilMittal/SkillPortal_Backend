@@ -6,9 +6,10 @@ export class NewTraining {
     trainer: string;
     seats: number;
     type: string;
+    email: string;
 
 
-    constructor(id, name, description, location, trainer, seats, type) {
+    constructor(id, name, description, location, trainer, seats, type,email) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -16,6 +17,7 @@ export class NewTraining {
         this.trainer = trainer;
         this.seats = seats;
         this.type = type;
+        this.email = email;
     }
 
 }

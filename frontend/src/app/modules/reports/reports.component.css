@@ -5,12 +5,14 @@
 
 input {
     outline: 0;
-    width: 5%;
-    background: transparent;
-    border: 1px solid black;
+    
+    /* background: transparent;
+    border: 1px solid black; */
   }
 
-
+  .input-group-append{
+    z-index:0;
+  }
   .scrollable-menu {
     height: auto;
     width:auto;

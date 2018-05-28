@@ -1,4 +1,2 @@
-export let ADMINROLES = ["HR", 
-    "Internship",
-    ""
-];
+export let ADMINROLES = ["HR",
+"Internship"];

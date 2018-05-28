@@ -85,7 +85,11 @@ import { ReportService } from './services/report.service';
 import { AdminskillComponent } from './modules/admin/adminskill/adminskill.component';
 import { IsAdminGuard } from './services/isadminguard';
 import { AdminServices } from './services/adminService';
+import { AdminmanagerComponent } from './modules/admin/adminmanager/adminmanager.component';
+import { AdmincertificateComponent } from './modules/admin/admincertificate/admincertificate.component';
 
+import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome';
+import { SendEmailComponent } from './modules/shared/send-email/send-email.component'
 
 @NgModule({
   declarations: [
@@ -132,7 +136,10 @@ import { AdminServices } from './services/adminService';
     AddTrainingComponent,
     AvailableTrainingPipe,
     ReportsComponent,
-    AdminskillComponent
+    AdminskillComponent,
+    AdminmanagerComponent,
+    AdmincertificateComponent,
+    SendEmailComponent
 
   ],
   imports: [
@@ -148,6 +155,7 @@ import { AdminServices } from './services/adminService';
     Ng2IziToastModule,
     ChartsModule,
     Ng2SmartTableModule,
+    Angular2FontawesomeModule,
     BrowserAnimationsModule
 
   ],

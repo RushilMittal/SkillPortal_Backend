@@ -14,6 +14,9 @@ import { RequestOptions } from '@angular/http/src/base_request_options';
 import { HttpHeaderResponse } from '@angular/common/http/src/response';
 import { ADMINROLES } from '../config/adminRoles';
 import { Router } from '@angular/router';
+import { Role } from '../model/Role';
+import { AdminServices } from './adminService';
+
 
 
 const GRAPH_V1_API = CONFIG.Settings.MSGRAPH_v1_API;
@@ -24,14 +27,15 @@ export class EmployeeService {
     private _headers = new HttpHeaders();
     private adminRoles = ADMINROLES;
     public isAdmin = false;
+    source: Role[];
 
     constructor(private httpClient: HttpClient,
         private authHelper: AuthHelper,
         private handler: ErrorHandler,
-        private router: Router
+        private router: Router,
+        private adminService: AdminServices
     ) {
         this.authHelperService = authHelper;
-        this._headers = this._headers.append('Content-Type', 'application/x-www-form-  urlencoded');
     }
 
     /* 
@@ -55,6 +59,7 @@ export class EmployeeService {
     * Called at login time.
     */
     initializeEmployeeDetails() {
+
         this.authHelperService.getMSGraphAccessToken().then(token => {
             this.getUserprofile(token).
                 subscribe(data => {
@@ -67,6 +72,23 @@ export class EmployeeService {
         }, error => {
             console.log(error);
         });
+
+        this.loadSource();
+    }
+
+    /*
+    * Function to fetch all the roles present in the Collection
+    * fills the source Roles array with data
+    */
+    loadSource() {
+        this.adminService.getAllAdminRoles().subscribe(
+            data => {
+                this.source = data;
+
+            }, error => {
+                console.log("error error" + error);
+            }
+        );
     }
 
     /*
@@ -75,32 +97,39 @@ export class EmployeeService {
     */
     checkRoleAdmin(): boolean {
         if (this.employeeDetails) {
-            if (this.checkUser(this.employeeDetails.jobTitle)) {
+            let check = this.checkUser(this.employeeDetails.jobTitle) || this.checkUser(this.employeeDetails.mail);
+            console.log("mail id" + this.employeeDetails.mail);
+            if (check) {
                 this.isAdmin = true;
                 return true;
             } else {
                 this.isAdmin = false;
                 return false;
             }
-        }else{
+        } else {
             this.initializeEmployeeDetails();
             this.router.navigate(['/dashboard']);
         }
 
     }
-    
+
 
     /*
     * Helper function used in determine the admin role for the particular user.
     * param : role (jobtitle of the user) from graph.
     */
     checkUser(role: string): boolean {
-        let i = 0;
-        for (i = 0; i < this.adminRoles.length; i++) {
-            if (role === this.adminRoles[i])
-                return true
+        if (this.source) {
+            let i = 0;
+            for (i = 0; i < this.source.length; i++) {
+                if (role === this.source[i].userRole)
+                    return true;
+            }
+        } else {
+            this.loadSource();
+            return false;
         }
-        return false;
+
     }
     /**
     * Function used to fetch the image of the user from the graph. 
@@ -119,7 +148,71 @@ export class EmployeeService {
                 catchError(this.handler.handleError)
             );
     }
-    adminToken(): string {
-        return this.authHelperService.getMSGraphAccessToken();
+
+    /*
+    * Function used to send the email to the admins
+    */
+    sendEmail(token: string, data: string, subjectRecieved: string) {
+        if (!this._headers.has('Authorization')) {
+            const graphToken = token;
+            this._headers = this._headers.set('Authorization', 'bearer ' + graphToken);
+            this._headers = this._headers.set('Content-Type', 'application/json');
+
+        }
+        // emails are hardcoded yet, later if allowed 
+        // we can fetch the list of emails from the getGroupEmails() functin defined in this file.
+        // Function is incomplete need permission for implementation as many emails will flow in the inbox ;-)
+        let eobj = {
+            message: {
+                subject: subjectRecieved as string,
+                body: {
+                    contentType: "Text" as string,
+                    content: data as string
+                },
+                toRecipients: [
+                    {
+                        emailAddress: {
+                            address:
+                                "sdsahib95@gmail.com" as string
+                        }
+                    },
+                    {
+                        emailAddress: {
+                            address:
+                                "sdsahib_singh@yahoo.co.in" as string
+                        }
+                    }
+                ]
+            }
+        };
+
+
+        return this.httpClient.post(GRAPH_V1_API + 'me/sendMail', eobj,
+            {
+                headers: this._headers
+
+            })
+            .pipe(
+                catchError(this.handler.handleError)
+            );
     }
+
+    /*
+    * Function used to fetch all the email ids of the admin.
+    * Require to read the users from group
+    * Complete it after confirmation from sir.
+    * PENDING
+    * Return array should contain items like below for proper working.
+    * {
+    *      emailAddress: {
+    *           address: 
+    *               "sdsahib_singh@yahoo.co.in" as string
+    *       }
+    *  }
+    */
+    getGroupEmails(): string[] {
+        return null;
+
+    }
+
 }

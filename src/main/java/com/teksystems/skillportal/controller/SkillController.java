@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutionException;
 
 @RestController
 
-@RequestMapping(value="/skill",method= {RequestMethod.GET,RequestMethod.POST})
+@RequestMapping(value="/skill",method= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT})
 @CrossOrigin("*")
 public class SkillController {
     private static Logger logger = Logger.getLogger(SkillController.class);
@@ -124,33 +124,10 @@ public class SkillController {
         return toReturn;
     }
 
-    /*
-    * Method returning the List of the Skills in Skill Collection
-    * Role Method need to verify Role Roles, calls for admin rest API should have Access Token.
-    * And verify the Role role by calling the method
-    */
-    @GetMapping("/getAllAdminSkills")
-    public List<SubSkill> getAllAdminSkill(HttpServletRequest request, HttpServletResponse response){
-        logger.info("getskillgroup API Called");
-        String employeeId = null;
-        List<SubSkill> toReturn = null;
-        try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
-                if(tokenValidator.validateAdminRole(request,response)) {
-                    employeeId = tokenValidator.ExtractEmployeeId(request);
-                    logger.debug("Paramater received : employeeId " + employeeId);
-                    toReturn = skillService.getAllAdminSkills();
-                }else{
-                    logger.debug("Not a Valid Role User");
-                }
-            } else {
-                logger.info("Employee Id not Found in the Authorization");
-            }
-        } catch (Exception e) {
-            logger.info("Some Error Occured: " + e.toString());
-        }
-        return toReturn;
-    }
+
+
+
+
+
 
 }

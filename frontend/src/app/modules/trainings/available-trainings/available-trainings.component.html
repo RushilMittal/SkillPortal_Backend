@@ -64,7 +64,7 @@
           <button id="enrollment" type="button" (click)="enrollTraining(trainingDomain.training?.id)" class="btn btn-right">Enroll</button>
         </td>
         <td width="20%">
-          <button id="new-edit" class="btn btn-default" (click)="open(content,trainingDomain)">
+          <button id="new-edit" class="btn btn-default" *ngIf="canEditFunction(trainingDomain.training?.email)" (click)="open(content,trainingDomain)">
             <i id="edit" class="fa fa-edit fa-2x"></i>
           </button>
         </td>

@@ -9,27 +9,45 @@ import { EmployeeService } from '../../../services/employee.service';
   templateUrl: './dash-layout.component.html',
   styleUrls: ['./dash-layout.component.css']
 })
-export class DashLayoutComponent {
+export class DashLayoutComponent implements OnInit {
   filter: string;
-  toShow = false;
+  toShow: boolean = false;
+  show: boolean = false;
+  admin: boolean = false;
   imageToShow: any;
   constructor(private authHelperService: AuthHelper,
     private employeeDetailService: EmployeeService) {
     this.employeeDetailService.initializeEmployeeDetails();
+    // this.isadmin();
     this.getUserImage();
+      
   }
-  called() {
-    // console.log("I am called ");
-    this.toShow = true;
+
+  ngOnInit() {
+    
+
   }
-  decalled() {
-    // console.log("gone");
-    this.toShow = false;
-  }
+
   logout() {
     this.authHelperService.logout();
   }
 
+  toggle() {
+    this.toShow =!this.toShow;
+    console.log("Show " + this.toShow);
+  }
+
+  isadmin():boolean {
+    console.log("isadmin called");
+    if (this.employeeDetailService.checkRoleAdmin()) {
+      console.log("INside the isadmin true");
+      this.admin = true;
+      return true;
+    } else {
+      this.admin = false;
+      return false;
+    }
+  }
 
   createImageFromBlob(image: Blob) {
     let reader = new FileReader();

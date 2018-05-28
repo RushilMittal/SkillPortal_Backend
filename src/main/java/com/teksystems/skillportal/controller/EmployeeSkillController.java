@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import com.teksystems.skillportal.model.EmployeeSkill;
+import com.teksystems.skillportal.model.SubSkill;
 import com.teksystems.skillportal.service.TokenValidationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

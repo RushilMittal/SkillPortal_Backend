@@ -1,0 +1,13 @@
+<div class="form-group">
+  <div class="row">
+    <div class="col">
+      <textarea class="p-2 form-control" rows="5" id="email" [placeholder] = "placeholder" [(ngModel)]="emailContent"></textarea>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col ">
+      <button type="button" class="m-2 btn btn-primary float-right" (click)="sendEmail()" >Send Email</button>
+    </div>
+  </div>
+</div>

@@ -37,12 +37,6 @@ public class SkillService {
         System.out.println("Cache Size:" + skillCache.size());
         return skillCache.asMap();
     }
-    public List<SubSkill> getAllAdminSkills() throws ExecutionException{
-        List<SubSkill> toReturn = subSkillRepository.findAll();
-        System.out.println(toReturn);
-        return toReturn;
-
-	}
 
 
 }

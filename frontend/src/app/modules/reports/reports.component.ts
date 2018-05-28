@@ -6,6 +6,7 @@ import { SkillReport } from '../../model/skillreport';
 import { ReportService } from '../../services/report.service';
 import { BaseChartDirective } from 'ng2-charts';
 import { Ng2SmartTableComponent } from 'ng2-smart-table/ng2-smart-table.component';
+import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 
 @Component({
@@ -14,7 +15,8 @@ import { Angular2Csv } from 'angular2-csv/Angular2-csv';
   styleUrls: ['./reports.component.css']
 })
 export class ReportsComponent implements OnInit {
-
+  from;
+  to;
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
   @ViewChild(Ng2SmartTableComponent) table: Ng2SmartTableComponent;
 
@@ -32,7 +34,12 @@ export class ReportsComponent implements OnInit {
 
   public chartColors: any[] = [
     { 
-      backgroundColor:["#FF7360", "#6FC8CE", "#FAFFF2", "#FFFCC4", "#B9E8E0"] 
+      backgroundColor:"#FF7360",
+      borderColor: 'rgba(148,159,177,1)',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
     }];
 
   chartOptions = {
@@ -83,9 +90,7 @@ export class ReportsComponent implements OnInit {
      this.reportService.getEmployeesWithASkill().subscribe(employeeIds => this.employeeIds=employeeIds);
   }
 
-  onChange(deviceValue) {
-    this.reportSetter(deviceValue);
-  }
+
 
   onChangeSetEmployee(employeeId) {
     this.employeeId=employeeId;
@@ -111,7 +116,9 @@ export class ReportsComponent implements OnInit {
     {
         this.showGraph=true;
         this.showTable=true;
-        this.reportService.getSkillTrend(this.numberOfSkills,this.numberOfMonths)
+        let a: Date = new Date(this.from.year,this.from.month-1,this.from.day);
+        console.log("date is"+a.getTime()+ " skills " + this.numberOfSkills);
+        this.reportService.getSkillTrend(this.numberOfSkills,a.getTime())
         .map(res => res)
         .subscribe(
         subskills => this.topSubSkills=subskills,
@@ -122,6 +129,7 @@ export class ReportsComponent implements OnInit {
           this.chartData2 = [{ data: arr ,label: "Number of Users who have Rated or Updated Skills"}];
           this.chart.chart.config.data.labels=this.chartLabels;
           this.chart.chart.config.data.datasets=this.chartData2;
+          this.chart.colors = this.chartColors;
           this.chart.chart.update();
 
           this.settings ={actions: false, 
@@ -215,7 +223,9 @@ export class ReportsComponent implements OnInit {
     {
         this.showGraph=false;
         this.showTable=true;
-        this.reportService.getExpiringCertificates(this.numberOfMonths)
+        let fromDate: Date = new Date(this.from.year,this.from.month-1,this.from.day);
+        let toDate: Date = new Date(this.to.year,this.to.month-1,this.to.day);
+        this.reportService.getExpiringCertificates(fromDate.getTime(),toDate.getTime())
         .map(res => res)
         .subscribe(
         empcerts => this.employeeCerts=empcerts,
@@ -244,7 +254,9 @@ export class ReportsComponent implements OnInit {
     {
         this.showGraph=false;
         this.showTable=true;
-        this.reportService.getUpdatedSkills(this.numberOfMonths)
+        let fromDate: Date = new Date(this.from.year,this.from.month-1,this.from.day);
+        let toDate: Date = new Date(this.to.year,this.to.month-1,this.to.day);
+        this.reportService.getUpdatedSkills(fromDate.getTime(),toDate.getTime())
         .map(res => res)
         .subscribe(
         skillupdated => this.skillUpdated=skillupdated,

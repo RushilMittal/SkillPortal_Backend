@@ -80,13 +80,13 @@ public class ReportService {
 		return results;
 	}
 	
-	public List<SubSkillDomain> topNSubSkillsinLastXMonths(int n,int x)
+	public List<SubSkillDomain> topNSubSkillsinLastXMonths(int n,long x)
 	{
-		Calendar cal = Calendar.getInstance();  //Get current date/month i.e 27 Feb, 2012
-		cal.add(Calendar.MONTH, -x);   //Go to date, 6 months ago 27 July, 2011
-		cal.set(Calendar.DAY_OF_MONTH, 1);
+//		Calendar cal = Calendar.getInstance();  //Get current date/month i.e 27 Feb, 2012
+//		cal.add(Calendar.MILLISECOND, -x);   //Go to date, 6 months ago 27 July, 2011
+//		cal.set(Calendar.DAY_OF_MONTH, 1);
 		
-		Date dt = cal.getTime();
+		Date dt =new Date(x);
 		
 		Aggregation agg = newAggregation(match(Criteria.where("lastModifiedDate").gt(dt)),
 				                         group("subSkillId","empId"),
@@ -137,15 +137,16 @@ public class ReportService {
  		return subSkills;
 	}
 	
-	public List<SkillReport> EmployeesWhoUpdatedSubSkillsinLastXMonths(int x)
+	public List<SkillReport> EmployeesWhoUpdatedSubSkillsinLastXMonths(long from,long to)
 	{
-		Calendar cal = Calendar.getInstance();  //Get current date/month i.e 27 Feb, 2012
-		cal.add(Calendar.MONTH, -x);   //Go to date, 6 months ago 27 July, 2011
-		cal.set(Calendar.DAY_OF_MONTH, 1);
-		
-		Date dt = cal.getTime();
-		
-		Aggregation agg = newAggregation(match(Criteria.where("lastModifiedDate").gt(dt)),
+
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(from);
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTimeInMillis(to);
+        Query query = new Query(Criteria.where("certificationValidityDate").gt(cal.getTime()).lt(cal2.getTime()));
+		Aggregation agg = newAggregation(match(Criteria.where("lastModifiedDate").gt(cal.getTime()).lt(cal2.getTime())),
 				                         group("empId","subSkillId").max("lastModifiedDate").as("maxDate").last("rating").as("lastRating").
 				                         min("lastModifiedDate").as("minDate").first("rating").as("firstRating"),
 				                         sort(Sort.Direction.ASC, "empId"));
@@ -167,11 +168,12 @@ public class ReportService {
 		return result;
 	}
 	
-	public List<EmployeeCertificationDomain> CertificatesExipringInNextNmonths(int n)
+	public List<EmployeeCertificationDomain> CertificatesExipringInNextNmonths(long from,long to)
 	{
 		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(from);
 		Calendar cal2 = Calendar.getInstance();
-		cal2.add(Calendar.MONTH, n);
+		cal2.setTimeInMillis(to);
 		Query query = new Query(Criteria.where("certificationValidityDate").gt(cal.getTime()).lt(cal2.getTime()));
 		List<EmployeeCertification> employeeCertifications = mongoOperation.find(query, EmployeeCertification.class);
 		List<EmployeeCertificationDomain> employeeCertDomains = new LinkedList<>();

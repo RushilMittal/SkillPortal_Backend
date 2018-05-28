@@ -4,6 +4,7 @@ import { AllCertificationService } from '../../../services/allcertification.serv
 import { Certification } from '../../../model/Certification';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { EmployeeService } from '../../../services/employee.service';
 
 @Component({
   selector: 'app-available-certifications',
@@ -13,21 +14,34 @@ import { Router } from '@angular/router';
 
 export class AvailableCertificationsComponent implements OnInit {
 
-  certifications: Certification;
+  certifications: Certification[];
   errorMessage: any;
   addCertificate: String = 'add-certificate';
   showSpinner = false;
   activeId: string;
   closeResult: string;
+  
   constructor(private allCertificationService: AllCertificationService,
     private modalService: NgbModal,
-    private router: Router) { }
+    private router: Router,
+    private employeeDetailService:EmployeeService) { 
+      this.getAllCertificate();
+
+    }
 
   ngOnInit() {
 
-    this.getAllCertificate();
+   
 
   }
+
+  isadmin():boolean {
+    if (this.employeeDetailService.checkRoleAdmin()){
+      return true;
+    }
+    return false;
+  }
+  
   open(content) {
     this.modalService.open(content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;

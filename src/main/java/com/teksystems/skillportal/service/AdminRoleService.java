@@ -19,8 +19,6 @@ public class AdminRoleService {
     }
     public void addRoles(){
         AdminRoles admin = new AdminRoles();
-        admin.setUserRole("Internship");
-        adminRoleRepository.save(admin);
         admin.setUserRole("HR");
         adminRoleRepository.save(admin);
     }

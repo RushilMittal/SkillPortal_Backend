@@ -7,7 +7,7 @@
 
   <div class="col-md-3">
     <!-- Button trigger modal -->
-    <button id="not-in-list" type="button" class="btn right" (click)="open(certificationNotInListModal)">
+    <button id="not-in-list" type="button" *ngIf="isadmin()" class="btn right" (click)="open(certificationNotInListModal)">
       Certification Not in List?
     </button>
     <ng-template #certificationNotInListModal let-c="close" let-d="dismiss">

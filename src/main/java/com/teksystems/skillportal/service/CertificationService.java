@@ -18,9 +18,6 @@ public class CertificationService {
     @Autowired
     private CertificationRepository certificationRepository;
 
-    public CertificationService(CertificationRepository certificationRepository) {
-        this.certificationRepository = certificationRepository;
-    }
 
     //Read all certifications of an employee
     public List<CertificationDomain> getAllCertifications() {
@@ -50,54 +47,6 @@ public class CertificationService {
     	
     }
 
-
-    // Add new Certification, if not in list
-    public void postNewCertification(CertificationDomain certification) throws Exception
-    {
-        Certification certification1 = new Certification();
-        certification1.setSkillId(certification.getSkillId());
-        certification1.setCertificationName(certification.getCertificationName());
-        certification1.setInstitution(certification.getInstitution());
-        int flag=0;
-        List<Certification> certifications = this.certificationRepository.findAll();
-
-        for(Certification iterable: certifications)
-        {
-            if(iterable.getInstitution().equalsIgnoreCase(certification1.getInstitution())
-                    && iterable.getCertificationName().equalsIgnoreCase(certification1.getCertificationName()))
-            {
-                flag = 1;
-            }
-        }
-
-        if(flag == 0)         {
-            //Generating random Id for Certification Model
-            Certification temp = new Certification();
-            String certification_id="";
-            Random rand = new Random();
-
-            //Exception Handling: NullPointerException
-            try
-            {
-                do
-                {
-                    certification_id = Integer.toString(rand.nextInt(1000000));
-                    temp = this.certificationRepository.findOne(certification_id);
-                }
-                while(temp.getId() == certification_id);
-            }
-            catch (NullPointerException e)
-            {
-                System.out.println(e);
-            }
-
-            certification1.setId(certification_id);
-
-            //To save a new entry
-            System.out.println("saved");
-            this.certificationRepository.save(certification1);
-        }
-    }
 
     public List<CertificationDomain> searchCertItems(String searchTerm){
 

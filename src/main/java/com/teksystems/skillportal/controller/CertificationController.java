@@ -4,6 +4,7 @@ package com.teksystems.skillportal.controller;
 
 import com.teksystems.skillportal.domain.CertificationDomain;
 import com.teksystems.skillportal.model.Certification;
+import com.teksystems.skillportal.service.AdminService;
 import com.teksystems.skillportal.service.CertificationService;
 import com.teksystems.skillportal.service.TokenValidationService;
 import org.apache.log4j.Logger;
@@ -19,16 +20,13 @@ import java.util.List;
 @CrossOrigin()
 public class CertificationController {
     private static Logger logger = Logger.getLogger(CertificationController.class);
-
+    @Autowired
     private CertificationService certificationService;
     @Autowired
     private TokenValidationService tokenValidator;
-
     @Autowired
-    public CertificationController(CertificationService certificationService) {
+    private AdminService adminService;
 
-        this.certificationService = certificationService;
-    }
 
     /*
     * Controller for fetching all the Certificate Available
@@ -79,7 +77,7 @@ public class CertificationController {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug("Paramater received : employeeId " + employeeId);
                 CertificationDomain certification=new CertificationDomain(id,skillId,certificationName,institution);
-                certificationService.postNewCertification(certification);
+                adminService.postNewCertification(certification);
 
             } else {
                 logger.info("Employee Id not Found in the Authorization");
@@ -89,32 +87,7 @@ public class CertificationController {
         }
     }
 
-    /*
-    * Controller for Adding New Certification(For adding in the "Available Certification")
-    * UI:- For adding the certification in the list "Available Certification List".
-    * Param:- HttpServletRequest(for verifying the Authorization token),certificationdomain (contains info about the new certification )
-    * EmployeeID validation done :- 14-04-2018
-    */
-    @PostMapping("/add_new")
-    void postNewUniqueEntry(HttpServletRequest request,@RequestBody CertificationDomain certification)
-    {
-        logger.info("/add_new API called");
-        String employeeId =  null;
-        try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
-                employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + employeeId);
-                this.certificationService.postNewCertification(certification);
 
-            } else {
-                logger.info("Employee Id not Found in the Authorization");
-            }
-        } catch (Exception e) {
-            logger.info("Some Error Occurred: " + e.toString());
-        }
-
-    }
 
     @PostMapping("/addnewemployeecertificate")
     void addNewEmployeeCertificate(HttpServletRequest request,
@@ -130,7 +103,7 @@ public class CertificationController {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug("Paramater received : employeeId " + employeeId);
                 CertificationDomain certification = new CertificationDomain(skillId,certificationName,institution);
-                this.certificationService.postNewCertification(certification);
+                adminService.postNewCertification(certification);
 
             } else {
                 logger.info("Employee Id not Found in the Authorization");

@@ -94,9 +94,6 @@ public class EmployeeSkillService {
 	    subSkillId = subSkillId.trim();
 
 
-		System.out.println(empId);
-		System.out.println(rating);
-		System.out.println(subSkillId);
 		//created a new object to insert into database
 		EmployeeSkill newSkill = new EmployeeSkill();
 
@@ -151,16 +148,14 @@ public int getSubSkillCount(String subSkillId)  {
 		EmployeeSkill employeeSkill = empSkillRepository.findTopByEmpIdOrderByLastModifiedDateDesc(employeeId);
 
 		Date today = new Date();
-		System.out.println("Todays Date" + today);
 		Date recieved;
 
 
 		recieved = employeeSkill.getLastModifiedDate();
-		System.out.println(recieved);
+
 
 		//Calculating the diffrence in time and then will divide by respective to get in years and days
 		long diffrence =  today.getTime() - recieved.getTime();
-		System.out.println("Diffrence is: "+ diffrence);
 
 		Calendar recievedDate = Calendar.getInstance();
 		Calendar todayDate = Calendar.getInstance();
@@ -169,12 +164,10 @@ public int getSubSkillCount(String subSkillId)  {
 		todayDate.setTime(today);
 		int day,month,year,increment =0;
 
-		System.out.println(recievedDate.getActualMaximum(Calendar.DAY_OF_MONTH));
-		System.out.println("recieved " + recievedDate.get(Calendar.DAY_OF_MONTH) + " today: " + todayDate.get(Calendar.DAY_OF_MONTH) );
 		if (recievedDate.get(Calendar.DAY_OF_MONTH) > todayDate.get(Calendar.DAY_OF_MONTH)) {
 			increment =recievedDate.getActualMaximum(Calendar.DAY_OF_MONTH);
 		}
-		System.out.println("increment"+increment);
+
 		// DAY CALCULATION
 		if (increment != 0) {
 			day = (todayDate.get(Calendar.DAY_OF_MONTH) + increment) - recievedDate.get(Calendar.DAY_OF_MONTH);
@@ -194,7 +187,7 @@ public int getSubSkillCount(String subSkillId)  {
 
 		// YEAR CALCULATION
 		year = todayDate.get(Calendar.YEAR) - (recievedDate.get(Calendar.YEAR) + increment);
-		System.out.println(year+"\tYears\t\t"+month+"\tMonths\t\t"+day+"\tDays");
+
 
 		lastUpdated[0] = year;
 		lastUpdated[1] = month;
@@ -202,7 +195,7 @@ public int getSubSkillCount(String subSkillId)  {
 
 		EmployeeSkillPlaceholderDomain temp = new EmployeeSkillPlaceholderDomain(numberofSkillRated,highestRatedSkill,highestRating,lastUpdated);
 
-		System.out.println(temp.toString());
+
 		return temp;
 	}
 
@@ -213,7 +206,7 @@ public int getSubSkillCount(String subSkillId)  {
 		try {
             List<EmployeeSkill> empSkills = empSkillRepository.findByEmpId(empId);
 
-            System.out.println("Data fetched : "+ empId +" " + empSkills.toString() );
+
             //grouping together objects which are ratings of the same subskill over time
             Map<String, List<EmployeeSkill>> employeeSkillGrouped =
                     empSkills.stream().collect(Collectors.groupingBy(EmployeeSkill::getSubSkillId));
@@ -249,7 +242,7 @@ public int getSubSkillCount(String subSkillId)  {
                 SubSkillDomain subskilldomain = new SubSkillDomain(subskill.getId(),subskill.getSubSkill(),subskill.getSubSkillDesc(),subskill.getSkill(),subskill.getSkillGroup(),subskill.getPractice(),getSubSkillCount(subskill.getId()));
 
                 EmployeeSkillDomain temp = new EmployeeSkillDomain(iterable.getEmpId(),subskilldomain,iterable.getRating(),iterable.getLastModifiedDate());
-                System.out.println(temp.toString());
+
                 empSkillDom.add(temp);
             }
 
@@ -281,6 +274,9 @@ public int getSubSkillCount(String subSkillId)  {
         }
 
 	}
+
+
+
 
 
 

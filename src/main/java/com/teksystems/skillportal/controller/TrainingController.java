@@ -35,7 +35,7 @@ public class TrainingController {
                 empId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug("Paramater received : employeeId " + empId);
                 logger.info("Trying to add new Training");
-                trainingService.saveTraining(training.getTraining(), training.getTrainingSessions());
+                    trainingService.saveTraining(training.getTraining(), training.getTrainingSessions());
             } else {
                 logger.info("Employee Id not Found in the Authorization");
             }

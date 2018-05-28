@@ -16,7 +16,7 @@ export let CONFIG = {
       POST_LOGOUT_REDIRECT : 'http://localhost:4200',
       MSGRAPH_BETA_API: 'https://graph.microsoft.com/beta/',
       MSGRAPH_v1_API: 'https://graph.microsoft.com/v1.0/',
-      SCOPES: ['user.read' ],
+      SCOPES: ['user.read','Mail.Send' ],
       ADMIN_CONSENT: true
     }
   };

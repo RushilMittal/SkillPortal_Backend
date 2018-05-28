@@ -1,0 +1,10 @@
+<div class="col-12">
+  <div class="row ">
+    <div class="col-sm-6 col-md-8 mt-2">
+      <h2 class="pt-3">Admin Manager</h2>
+    </div>
+  </div>
+  <ng2-smart-table [settings]="settings" [source]="source" (createConfirm)="onCreateConfirm($event)" (deleteConfirm)="onDeleteConfirm($event)"></ng2-smart-table>
+  <!-- [source]="source" (deleteConfirm)="onSaveConfirm($event)"  
+     (createConfirm)="onCreateConfirm($event)" -->
+</div>

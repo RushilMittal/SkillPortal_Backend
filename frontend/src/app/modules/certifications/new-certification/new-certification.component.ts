@@ -85,6 +85,5 @@ export class NewCertificationComponent implements OnInit {
 
   gettingKeys() {
     this.keys = this.temp.keys();
-    console.log(this.keys);
   }
 }

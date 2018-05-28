@@ -11,6 +11,9 @@ export class TrainingsNavigationComponent implements OnInit {
   offerTraningModal =false;
   styles = 'none';
   closeResult: string;
+  subject = 'Skill Portal:- Kindly Arrange the training';
+  
+
   constructor(private modalService: NgbModal) { }
 
   ngOnInit() {

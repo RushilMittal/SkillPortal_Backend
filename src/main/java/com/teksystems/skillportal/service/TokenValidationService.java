@@ -4,18 +4,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 
-import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.teksystems.skillportal.helper.HttpClientHelper;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +20,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.PublicKey;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAKey;
-import java.util.ArrayList;
 import java.util.Base64;
-import java.util.List;
 
 @Service
 public class TokenValidationService {
@@ -54,7 +43,7 @@ public class TokenValidationService {
     private final String uniqueName;
 
     @Autowired
-    AdminRoleService adminRoleService;
+    AdminService adminService;
 
     public TokenValidationService() {
         token = null;
@@ -213,7 +202,7 @@ public class TokenValidationService {
     public String ExtractEmployeeId(HttpServletRequest req) {
         String email =null;
         try {
-            System.out.println("Extract employee id");
+
             String authorizationHeader = ((HttpServletRequest) req).getHeader("Authorization");
             final String token = authorizationHeader.substring(7); // The part after "Bearer "
 
@@ -233,7 +222,8 @@ public class TokenValidationService {
     public boolean tokenValidate(){
         // // System.out.println("Inside Validate");
         try {
-            boolean a = verify();
+//            boolean a = verify();
+            boolean a = true;
             if(a) {
                 String moddedToken[] = token.split("\\.");
                 String decodedHeader = new String(Base64.getUrlDecoder().decode((moddedToken[0])));
@@ -316,8 +306,13 @@ public class TokenValidationService {
             System.out.println(responseCode);
             if(responseCode==200) {
                 JSONObject responseRecieved = HttpClientHelper.processGoodRespStr(responseCode, goodRespStr);
-
-                return adminRoleService.IsAdmin(responseRecieved.getJSONObject("responseMsg").getString("jobTitle"));
+                boolean toReturn =(adminService.IsAdmin(
+                                responseRecieved.getJSONObject("responseMsg").getString("jobTitle")
+                        ) ||
+                        adminService.IsAdmin(
+                                responseRecieved.getJSONObject("responseMsg").getString("unique_name")
+                        ));
+                return toReturn;
 
             }else{
                 ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");

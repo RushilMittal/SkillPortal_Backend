@@ -1,5 +1,6 @@
 package com.teksystems.skillportal.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,12 @@ public class ReportController {
 	}
 	
 	@GetMapping("/reportskilltrend")
-	public List<SubSkillDomain> topNSubSkillinLastXMonths(@RequestParam int n,@RequestParam int x)
+	public List<SubSkillDomain> topNSubSkillinLastXMonths(@RequestParam int n,@RequestParam long x)
 	{
+//
+		System.out.println("date rec" + x);
+//		return null;
+
 		return reportService.topNSubSkillsinLastXMonths(n,x);
 	}
 	
@@ -43,15 +48,15 @@ public class ReportController {
 	}
 	
 	@GetMapping("/reportemployeeupdation")
-	public List<SkillReport> UpdatedByEmpSubSkillinLastXMonths(@RequestParam int x)
+	public List<SkillReport> UpdatedByEmpSubSkillinLastXMonths(@RequestParam long from,@RequestParam long to)
 	{
-		return reportService.EmployeesWhoUpdatedSubSkillsinLastXMonths(x);
+		return reportService.EmployeesWhoUpdatedSubSkillsinLastXMonths(from,to);
 	}
 	
 	@GetMapping("/reportcertificateexpiry")
-	public List<EmployeeCertificationDomain> certificatesExipringInNextNmonths(@RequestParam int n)
+	public List<EmployeeCertificationDomain> certificatesExipringInNextNmonths(@RequestParam long from,@RequestParam long to)
 	{
-		return reportService.CertificatesExipringInNextNmonths(n);
+		return reportService.CertificatesExipringInNextNmonths(from,to);
 	}
 	@GetMapping("/getemployees")
 	public List<String> EmployeesWithASkill()

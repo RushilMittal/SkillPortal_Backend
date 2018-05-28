@@ -3,6 +3,7 @@ export class Certification {
    skillId: string;
    certificationName: string;
    institution: string;
+  
    constructor(id, skillId, certificationName, institution) {
        this.id = id;
        this.skillId = skillId;

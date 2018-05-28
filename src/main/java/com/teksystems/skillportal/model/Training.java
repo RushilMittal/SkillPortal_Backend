@@ -14,13 +14,14 @@ public class Training {
 	String type;
 	String description;
 	String trainer;
+	String email;
 
 	public Training()
     {
 
     }
 
-    public Training(String id, String name, String location, int seats, String type, String description, String trainer) {
+    public Training(String id, String name, String location, int seats, String type, String description, String trainer, String email) {
         this.id = id;
         this.name = name;
         this.location = location;
@@ -28,6 +29,7 @@ public class Training {
         this.type = type;
         this.description = description;
         this.trainer = trainer;
+        this.email = email;
     }
 
     public String getId() {
@@ -84,5 +86,13 @@ public class Training {
 
 	public void setTrainer(String trainer) {
 		this.trainer = trainer;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }
