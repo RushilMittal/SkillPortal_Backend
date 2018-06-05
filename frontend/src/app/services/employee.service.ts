@@ -81,6 +81,7 @@ export class EmployeeService {
     * fills the source Roles array with data
     */
     loadSource() {
+        this.source = null;
         this.adminService.getAllAdminRoles().subscribe(
             data => {
                 this.source = data;

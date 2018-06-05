@@ -39,6 +39,7 @@ export class AdminmanagerComponent implements OnInit {
   }
 
   loadSource() {
+    this.source = null;
     this.adminService.getAllAdminRoles().subscribe(
       data => {
         this.source = data;
@@ -73,21 +74,18 @@ export class AdminmanagerComponent implements OnInit {
 
   //method called on the addition of new row.
   onDeleteConfirm(event) {
-    console.log(event.data.id + ":::" + event.newData);
+    
     if (this.validateDeleteData(event)) {
       let a = this.source.length + 1;
-      console.log("on create" + a.toString());
-
       this.adminService.deleteRole(this.convertToRoleObject(event.data)).subscribe(
-        () => console.log('Product Passed to savefunction'),
+        () => console.log('Role Passed to Delete Function'),
         (error: any) => {
-          this.toastService.showErrorToast("Unable to Save Some Error Occured");
+          this.toastService.showErrorToast("Unable to Delete Role,Some Error Occured");
           event.confirm.reject();
         },
         () => {
           this.toastService.showSuccessToast("User Role/ email id deleted");
           event.confirm.resolve(event.newData);
-          
           this.loadSource();
         });
     }

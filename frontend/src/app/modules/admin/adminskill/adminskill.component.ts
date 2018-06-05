@@ -4,6 +4,7 @@ import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 import { SubSkill } from '../../../model/SubSkill';
 import { AllSkillService } from '../../../services/allskillservice.service';
 import { ToastService } from '../../../services/toast.service';
+import { NgbActiveModal, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-adminskill',
@@ -23,7 +24,7 @@ export class AdminskillComponent implements OnInit {
       confirmSave: true,
     },
     columns: {
-      
+
       subSkill: {
         title: 'Sub Skill'
       },
@@ -43,14 +44,34 @@ export class AdminskillComponent implements OnInit {
       perPage: 10
     }
   };
-
+  closeResult: string;
+  value = "1";
   constructor(private adminService: AdminServices,
-    private toastService: ToastService) { }
+    private toastService: ToastService, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.loadSource();
 
   }
+
+  open(content) {
+    this.modalService.open(content).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
   loadSource() {
     this.adminService.getAllAdminSkill().subscribe(
       data => {
@@ -99,7 +120,7 @@ export class AdminskillComponent implements OnInit {
         () => {
           this.toastService.showSuccessToast("New Skill Added to the List");
           event.confirm.resolve(event.newData);
-          
+
           this.loadSource();
         });
     }
@@ -123,6 +144,7 @@ export class AdminskillComponent implements OnInit {
     toReturn.practice = event['practice'];
     return toReturn;
   }
+
 
 
 }

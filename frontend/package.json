@@ -5,7 +5,7 @@
   "scripts": {
     "mock:server": "json-server --watch jwks_uri.json --port 4000 --no-cors",
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve  --host 10.188.27.137 --ssl 1 --ssl-key ssl/domain.key --ssl-cert ssl/domain.crt",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
@@ -43,6 +43,7 @@
     "material-icons": "^0.2.1",
     "msal": "^0.1.5",
     "ng2-charts": "^1.6.0",
+    "ng2-file-upload": "^1.3.0",
     "ng2-izitoast": "^2.0.0",
     "ng2-smart-table": "^1.2.2",
     "ngx-toastr": "^8.4.0",

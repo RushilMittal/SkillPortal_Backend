@@ -70,7 +70,7 @@ export class AdminServices {
             this._headers = this._headers.set('Authorization', 'Bearer ' + idToken)
         }
 
-        return this.http.put<SubSkill>(url, subSkill, httpOptions)
+        return this.http.put<SubSkill>(url, subSkill,  { headers: this._headers })
             .pipe(
                 catchError(this.handler.handleError)
             );
@@ -87,7 +87,7 @@ export class AdminServices {
             this._headers = this._headers.set('Token', graphToken);
             this._headers = this._headers.set('Authorization', 'Bearer ' + idToken)
         }
-        return this.http.post<SubSkill>(url, role, httpOptions)
+        return this.http.post<SubSkill>(url, role,  { headers: this._headers })
             .pipe(
                 catchError(this.handler.handleError)
             );
@@ -104,7 +104,7 @@ export class AdminServices {
             this._headers = this._headers.set('Token', graphToken);
             this._headers = this._headers.set('Authorization', 'Bearer ' + idToken)
         }
-        return this.http.post<SubSkill>(url, subSkill, httpOptions)
+        return this.http.post<SubSkill>(url, subSkill,  { headers: this._headers })
             .pipe(
                 catchError(this.handler.handleError)
             );
@@ -122,18 +122,15 @@ export class AdminServices {
             this._headers = this._headers.set('Authorization', 'Bearer ' + idToken)
         }
 
-        return this.http.put<Certification>(url, certification, httpOptions)
+        return this.http.put<Certification>(url, certification,  { headers: this._headers })
             .pipe(
                 catchError(this.handler.handleError)
             );
     }
     deleteRole(role:Role):Observable<Role>{
         const url = `${this.apiRole}/deleteRole?id=${role.id}`;
-        console.log("delete" + url);
         let token = this.authHelper.getAccessToken();
         let idToken = this.authHelper.getUser();
-
-        console.log("inside the admin calls " + token);
         if (!this._headers.has('Authorization')) {
             const graphToken = token;
             this._headers = this._headers.set('Token', graphToken);
@@ -141,7 +138,7 @@ export class AdminServices {
         }
         
         
-        return this.http.delete(url,httpOptions)
+        return this.http.delete(url, { headers: this._headers })
             .pipe(
                 catchError(this.handler.handleError)
             );

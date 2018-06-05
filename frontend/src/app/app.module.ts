@@ -89,7 +89,9 @@ import { AdminmanagerComponent } from './modules/admin/adminmanager/adminmanager
 import { AdmincertificateComponent } from './modules/admin/admincertificate/admincertificate.component';
 
 import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome';
-import { SendEmailComponent } from './modules/shared/send-email/send-email.component'
+import { SendEmailComponent } from './modules/shared/send-email/send-email.component';
+import { FileUploadComponent } from './modules/shared/file-upload/file-upload.component'
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
   declarations: [
@@ -139,7 +141,8 @@ import { SendEmailComponent } from './modules/shared/send-email/send-email.compo
     AdminskillComponent,
     AdminmanagerComponent,
     AdmincertificateComponent,
-    SendEmailComponent
+    SendEmailComponent,
+    FileUploadComponent
 
   ],
   imports: [
@@ -156,7 +159,8 @@ import { SendEmailComponent } from './modules/shared/send-email/send-email.compo
     ChartsModule,
     Ng2SmartTableModule,
     Angular2FontawesomeModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FileUploadModule
 
   ],
   exports: [

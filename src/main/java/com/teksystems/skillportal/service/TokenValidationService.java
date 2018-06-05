@@ -291,34 +291,43 @@ public class TokenValidationService {
     public boolean validateAdminRole(HttpServletRequest request, HttpServletResponse response){
         System.out.println("inside the validateAdminrole");
         boolean isAdmin = false;
-//        getAccess(token);
+        String token = null;
         try{
-            String token =((HttpServletRequest)request).getHeader("Token");
-            System.out.println("token is" + token);
-            URL url = new URL("https://graph.microsoft.com/v1.0/me");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Authorization", "Bearer " + token);
-            conn.setRequestProperty("Accept","application/json");
-            String goodRespStr = HttpClientHelper.getResponseStringFromConn(conn, true);
-            int responseCode = conn.getResponseCode();
-            System.out.println(responseCode);
-            if(responseCode==200) {
-                JSONObject responseRecieved = HttpClientHelper.processGoodRespStr(responseCode, goodRespStr);
-                boolean toReturn =(adminService.IsAdmin(
-                                responseRecieved.getJSONObject("responseMsg").getString("jobTitle")
-                        ) ||
-                        adminService.IsAdmin(
-                                responseRecieved.getJSONObject("responseMsg").getString("unique_name")
-                        ));
-                return toReturn;
-
-            }else{
-                ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
-            }
+            token =((HttpServletRequest)request).getHeader("Token");
         }catch(Exception e){
+            //token not present in the admin call, fake call;
             e.printStackTrace();
+        }
+        System.out.println("token in admin"+token);
+        if(token!=null) {
+            try {
+
+                System.out.println("token is" + token);
+                URL url = new URL("https://graph.microsoft.com/v1.0/me");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                conn.setRequestMethod("GET");
+                conn.setRequestProperty("Authorization", "Bearer " + token);
+                conn.setRequestProperty("Accept", "application/json");
+                String goodRespStr = HttpClientHelper.getResponseStringFromConn(conn, true);
+                int responseCode = conn.getResponseCode();
+                System.out.println(responseCode);
+                if (responseCode == 200) {
+                    JSONObject responseRecieved = HttpClientHelper.processGoodRespStr(responseCode, goodRespStr);
+                    boolean toReturn = (adminService.IsAdmin(
+                            responseRecieved.getJSONObject("responseMsg").getString("jobTitle")
+                    ) ||
+                            adminService.IsAdmin(
+                                    responseRecieved.getJSONObject("responseMsg").getString("mail")
+                            ));
+                    return toReturn;
+
+                } else {
+                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return false;
     }

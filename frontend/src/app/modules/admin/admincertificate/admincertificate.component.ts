@@ -4,6 +4,7 @@ import { AllCertificationService } from '../../../services/allcertification.serv
 import { ToastService } from '../../../services/toast.service';
 import { NewCertificationService } from '../../../services/newcertification.service';
 import { AdminServices } from '../../../services/adminService';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-admincertificate',
@@ -41,14 +42,33 @@ export class AdmincertificateComponent implements OnInit {
       perPage: 10
     }
   };
-
+  closeResult: string;
   constructor(private allCertificationService: AllCertificationService,
     private toastService: ToastService,
     private newCertificationService: NewCertificationService,
-    private adminService: AdminServices) { }
+    private adminService: AdminServices,
+    private modalService: NgbModal) { }
 
   ngOnInit() {
     this.getAllCertificate();
+  }
+
+  open(content) {
+    this.modalService.open(content).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 
   getAllCertificate() {

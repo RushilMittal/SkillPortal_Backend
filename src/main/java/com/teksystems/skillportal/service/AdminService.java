@@ -11,6 +11,8 @@ import com.teksystems.skillportal.repository.SubSkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -26,9 +28,9 @@ public class AdminService {
     private CertificationRepository certificationRepository;
 
     //method to validate whether the role is present or not in the list
-    public boolean IsAdmin(String role){
+    public boolean IsAdmin(String role) {
         AdminRoles adminRoles = adminRoleRepository.findByUserRole(role);
-        if(!((adminRoles == null) || (adminRoles.getUserRole().isEmpty())))
+        if (!((adminRoles == null) || (adminRoles.getUserRole().isEmpty())))
             return true;
         return false;
     }
@@ -45,7 +47,7 @@ public class AdminService {
     public void updateNewSkill(SubSkill subSkillReceived) {
         SubSkill inCollection = subSkillRepository.findById(subSkillReceived.getId());
 
-        if(inCollection!=null){
+        if (inCollection != null) {
             inCollection.setSubSkill(subSkillReceived.getSubSkill());
             inCollection.setSkill(subSkillReceived.getSkill());
             inCollection.setSkillGroup(subSkillReceived.getSkillGroup());
@@ -62,26 +64,28 @@ public class AdminService {
         this.reloadCache();
         this.reloadSkillCache();
     }
-    public void reloadCache(){
+
+    public void reloadCache() {
         GuavaCacheInit.getLoadingCache().invalidateAll();
-        Map<String,List<String>> skillGroupMap = GuavaCacheInit.loadSkillGroup();
+        Map<String, List<String>> skillGroupMap = GuavaCacheInit.loadSkillGroup();
         GuavaCacheInit.skillGroupCache.putAll(skillGroupMap);
     }
-    public void reloadSkillCache(){
+
+    public void reloadSkillCache() {
         GuavaCacheInit.getSkillLoadingCache().invalidateAll();
-        Map<String,List<SubSkill>> skillMap = GuavaCacheInit.loadSkill();
+        Map<String, List<SubSkill>> skillMap = GuavaCacheInit.loadSkill();
         GuavaCacheInit.skillCache.putAll(skillMap);
 
     }
 
     /*
-    * Admin Method
-    * method for updating the current certification in the collection
-    */
+     * Admin Method
+     * method for updating the current certification in the collection
+     */
 
-    public void updateCertificate(CertificationDomain certificate){
+    public void updateCertificate(CertificationDomain certificate) {
         Certification inCollectionCertification = certificationRepository.findById(certificate.getId());
-        if(inCollectionCertification!=null){
+        if (inCollectionCertification != null) {
             inCollectionCertification.setSkillId(certificate.getSkillId());
             inCollectionCertification.setCertificationName(certificate.getCertificationName());
             inCollectionCertification.setInstitution(certificate.getInstitution());
@@ -92,42 +96,35 @@ public class AdminService {
 
 
     // Add new Certification, if not in list
-    public void postNewCertification(CertificationDomain certification) throws Exception
-    {
+    public void postNewCertification(CertificationDomain certification) throws Exception {
         Certification certification1 = new Certification();
         certification1.setSkillId(certification.getSkillId());
         certification1.setCertificationName(certification.getCertificationName());
         certification1.setInstitution(certification.getInstitution());
-        int flag=0;
+        int flag = 0;
         List<Certification> certifications = this.certificationRepository.findAll();
 
-        for(Certification iterable: certifications)
-        {
-            if(iterable.getInstitution().equalsIgnoreCase(certification1.getInstitution())
-                    && iterable.getCertificationName().equalsIgnoreCase(certification1.getCertificationName()))
-            {
+        for (Certification iterable : certifications) {
+            if (iterable.getInstitution().equalsIgnoreCase(certification1.getInstitution())
+                    && iterable.getCertificationName().equalsIgnoreCase(certification1.getCertificationName())) {
                 flag = 1;
             }
         }
 
-        if(flag == 0)         {
+        if (flag == 0) {
             //Generating random Id for Certification Model
             Certification temp = new Certification();
-            String certification_id="";
+            String certification_id = "";
             Random rand = new Random();
 
             //Exception Handling: NullPointerException
-            try
-            {
-                do
-                {
+            try {
+                do {
                     certification_id = Integer.toString(rand.nextInt(1000000));
                     temp = this.certificationRepository.findOne(certification_id);
                 }
-                while(temp.getId() == certification_id);
-            }
-            catch (NullPointerException e)
-            {
+                while (temp.getId() == certification_id);
+            } catch (NullPointerException e) {
                 System.out.println(e);
             }
 
@@ -139,5 +136,103 @@ public class AdminService {
         }
     }
 
+    /**
+     * Method used to create the objects of "subskill" type and save it in the collection
+     *
+     * @param br is of buffered reader type received from the multipart form
+     */
+    public boolean skilluploadcsv(BufferedReader br) {
+        boolean toReturn = true;
+        int i = (int) subSkillRepository.count() + 1;
+        System.out.println("inside the admin service count is" + i);
+        String line = "";
+        SubSkill checker = null;
+        List<SubSkill> subskills = new LinkedList<>();
+        try {
+            while ((line = br.readLine()) != null) {
+
+                String[] skillstring = line.split(",");
+                checker = null;
+                checker = subSkillRepository.findBySubSkill(skillstring[3]);
+
+                if (checker == null) {
+                    SubSkill subskill = new SubSkill();
+                    subskill.setId("" + i);
+                    subskill.setPractice(skillstring[0]);
+                    subskill.setSkillGroup(skillstring[1]);
+                    subskill.setSkill(skillstring[2]);
+                    subskill.setSubSkill(skillstring[3]);
+                    StringBuilder temp = new StringBuilder("");
+                    for (int j = 4; j < skillstring.length; j++) {
+                        if (skillstring[j].charAt(0) == '"')
+                            skillstring[j] = skillstring[j].substring(1);
+                        if (skillstring[j].charAt((skillstring[j].length()) - 1) == '"')
+                            skillstring[j] = skillstring[j].substring(0, (skillstring[j].length()) - 1);
+                        temp = temp.append(new StringBuilder(skillstring[j]));
+                    }
+                    subskill.setSubSkillDesc(temp.toString());
+
+                    subskills.add(subskill);
+                    i++;
+                }
+            }
+
+        } catch (Exception e) {
+            toReturn = false;
+            e.printStackTrace();
+
+        }
+
+        subSkillRepository.save(subskills);
+        this.reloadCache();
+        this.reloadSkillCache();
+
+        return toReturn;
+
+    }
+
+    /**
+     * method used to save the certificates from the mulitpart received.
+     *
+     * @param br
+     * @return
+     */
+    public boolean certificateuploadcsv(BufferedReader br) {
+        boolean toReturn = true;
+        int i = (int) certificationRepository.count() + 1;
+        //System.out.println("inside the admin service count is" + i);
+        String line = "";
+        Certification checker = null;
+        List<Certification> certifications = new LinkedList<>();
+        try {
+            while ((line = br.readLine()) != null) {
+
+                String[] certificateString = line.split(",");
+                checker = null;
+                checker = certificationRepository.findBycertificationName(certificateString[1]);
+
+                if (checker == null) {
+                    Certification certification = new Certification();
+                    certification.setId("" + i);
+                    certification.setSkillId(certificateString[0]);
+                    certification.setCertificationName(certificateString[1]);
+                    certification.setInstitution(certificateString[2]);
+                    certifications.add(certification);
+                    i++;
+                }
+            }
+
+        } catch (Exception e) {
+            toReturn = false;
+            e.printStackTrace();
+
+        }
+
+        certificationRepository.save(certifications);
+
+
+        return toReturn;
+
+    }
 }
 
