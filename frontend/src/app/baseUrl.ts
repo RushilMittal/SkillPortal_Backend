@@ -11,14 +11,14 @@
 
 
   export const baseURLAPP = 'https://10.188.27.222:4200';
-  export const baseUrlSkill = 'http://10.188.27.137:8000/skill';
+  const basePORT = '8000';
+  const baseIP= 'http://10.188.27.137:' + basePORT;
+  
+  export const baseUrlSkill = baseIP + '/skill';
 
-  export const baseUrlCertification = 'http://10.188.27.137:8000/certifications';
-
- //export const baseUrlCertificationashwin = 'http://localhost:8000/certifications';
-  export const baseUrlTraining = 'http://10.188.27.137:8000/training';
-  export const baseUrlAdmin = 'http://10.188.27.137:8000/admin';
-  export const baseUrlRole = 'http://10.188.27.137:8000/role';
-
+  export const baseUrlCertification = baseIP +'/certifications';
+  export const baseUrlTraining = baseIP + '/training';
+  export const baseUrlAdmin = baseIP + '/admin';
+  export const baseUrlRole = baseIP + '/role';
 
   
