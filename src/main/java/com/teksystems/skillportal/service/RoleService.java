@@ -5,6 +5,7 @@ import com.teksystems.skillportal.repository.AdminRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
 
 @Service
@@ -22,7 +23,7 @@ public class RoleService {
         return toReturn;
     }
     public void deleteRole(String id){
-        System.out.println(adminRoleRepository.findOne(id));
+        
         adminRoleRepository.delete(id);
     }
 }

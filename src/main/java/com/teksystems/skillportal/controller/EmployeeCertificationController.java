@@ -1,11 +1,7 @@
 //comments,logger and validation added ; sahib 14-04-2018
 package com.teksystems.skillportal.controller;
-
-import com.teksystems.skillportal.domain.CertificationDomain;
 import com.teksystems.skillportal.domain.EmployeeCertificationDomain;
 import com.teksystems.skillportal.domain.EmployeeCertificationPlaceholderDomain;
-import com.teksystems.skillportal.model.Certification;
-import com.teksystems.skillportal.model.EmployeeCertification;
 import com.teksystems.skillportal.service.EmployeeCertificationService;
 import com.teksystems.skillportal.service.TokenValidationService;
 import org.apache.log4j.Logger;
@@ -128,7 +124,7 @@ public class EmployeeCertificationController {
                 logger.info("Employee Id not Found in the Authorization");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
             logger.info("Some Error Occurred: " + e.toString());
         }
     }

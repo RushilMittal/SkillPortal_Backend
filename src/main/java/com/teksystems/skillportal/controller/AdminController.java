@@ -167,7 +167,7 @@ public class AdminController {
     /*
      * Controller for uploading the skill csv
      */
-    @PostMapping("uploadskillcsv")
+    @PostMapping("/uploadskillcsv")
     void uploadSkillCsv(HttpServletRequest request, HttpServletResponse response, @RequestParam("file") MultipartFile[] files) {
         logger.info("/uploadskillcsv Certificate API called");
         String employeeId = null;
@@ -191,7 +191,7 @@ public class AdminController {
                             ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Unknow Format");
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        logger.error(e.getMessage());
                     }
                 } else {
                     logger.debug("Employee doesn't have Admin Role");
@@ -207,7 +207,7 @@ public class AdminController {
 
     }
 
-    @PostMapping("uploadcertificatecsv")
+    @PostMapping("/uploadcertificatecsv")
     void uploadCertificateCsv(HttpServletRequest request, HttpServletResponse response, @RequestParam("file") MultipartFile[] files) {
         logger.info("/uploadskillcsv Certificate API called");
         String employeeId = null;
@@ -231,7 +231,7 @@ public class AdminController {
                             ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Unknow Format");
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        logger.error(e.getMessage());
                     }
                 } else {
                     logger.debug("Employee doesn't have Admin Role");

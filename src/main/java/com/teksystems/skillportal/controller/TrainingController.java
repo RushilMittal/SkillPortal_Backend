@@ -1,8 +1,7 @@
 package com.teksystems.skillportal.controller;
 
-import com.teksystems.skillportal.domain.EmployeeTrainingDomain;
+
 import com.teksystems.skillportal.domain.TrainingDomain;
-import com.teksystems.skillportal.domain.TrainingEventDomain;
 import com.teksystems.skillportal.service.TokenValidationService;
 import com.teksystems.skillportal.service.TrainingService;
 import org.apache.log4j.Logger;

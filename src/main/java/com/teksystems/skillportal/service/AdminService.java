@@ -8,6 +8,7 @@ import com.teksystems.skillportal.model.SubSkill;
 import com.teksystems.skillportal.repository.AdminRoleRepository;
 import com.teksystems.skillportal.repository.CertificationRepository;
 import com.teksystems.skillportal.repository.SubSkillRepository;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,10 @@ public class AdminService {
     SubSkillRepository subSkillRepository;
     @Autowired
     private CertificationRepository certificationRepository;
+
+    @Autowired
+    GuavaCacheInit guavaCacheInit;
+    private static Logger logger = Logger.getLogger(AdminService.class);
 
     //method to validate whether the role is present or not in the list
     public boolean IsAdmin(String role) {
@@ -66,15 +71,15 @@ public class AdminService {
     }
 
     public void reloadCache() {
-        GuavaCacheInit.getLoadingCache().invalidateAll();
-        Map<String, List<String>> skillGroupMap = GuavaCacheInit.loadSkillGroup();
-        GuavaCacheInit.skillGroupCache.putAll(skillGroupMap);
+        guavaCacheInit.getLoadingCache().invalidateAll();
+        Map<String, List<String>> skillGroupMap = new GuavaCacheInit().loadSkillGroup();
+        guavaCacheInit.skillGroupCache.putAll(skillGroupMap);
     }
 
     public void reloadSkillCache() {
-        GuavaCacheInit.getSkillLoadingCache().invalidateAll();
-        Map<String, List<SubSkill>> skillMap = GuavaCacheInit.loadSkill();
-        GuavaCacheInit.skillCache.putAll(skillMap);
+        guavaCacheInit.getSkillLoadingCache().invalidateAll();
+        Map<String, List<SubSkill>> skillMap = new GuavaCacheInit().loadSkill();
+        guavaCacheInit.skillCache.putAll(skillMap);
 
     }
 
@@ -179,7 +184,7 @@ public class AdminService {
 
         } catch (Exception e) {
             toReturn = false;
-            e.printStackTrace();
+            logger.error(e.getMessage());
 
         }
 
@@ -224,7 +229,7 @@ public class AdminService {
 
         } catch (Exception e) {
             toReturn = false;
-            e.printStackTrace();
+            logger.error(e.getMessage());
 
         }
 

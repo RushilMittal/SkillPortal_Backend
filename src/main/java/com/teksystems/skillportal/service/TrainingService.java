@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.teksystems.skillportal.init.MongoConfigNew;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -25,6 +26,7 @@ import com.teksystems.skillportal.repository.TrainingSessionRepository;
 
 @Service
 public class TrainingService {
+    private static Logger logger = Logger.getLogger(TrainingService.class);
 
     @Autowired
     TrainingRepository trainingRepository;
@@ -60,7 +62,7 @@ public class TrainingService {
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
     }
@@ -103,7 +105,7 @@ public class TrainingService {
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return trainingDomains;
     }

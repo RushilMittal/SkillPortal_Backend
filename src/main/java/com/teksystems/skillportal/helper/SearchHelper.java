@@ -1,15 +1,9 @@
 package com.teksystems.skillportal.helper;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.teksystems.skillportal.domain.*;
-import com.teksystems.skillportal.model.Skill;
-import com.teksystems.skillportal.model.SubSkill;
+
 import com.teksystems.skillportal.service.CertificationService;
 import com.teksystems.skillportal.service.SubSkillService;
 @Service

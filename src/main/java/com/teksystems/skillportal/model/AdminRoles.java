@@ -10,6 +10,11 @@ public class AdminRoles {
     public AdminRoles() {
     }
 
+    public AdminRoles(String id, String userRole) {
+        this.id = id;
+        this.userRole = userRole;
+    }
+
     public String getId() {
         return id;
     }
@@ -20,5 +25,9 @@ public class AdminRoles {
 
     public void setUserRole(String userRole) {
         this.userRole = userRole;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

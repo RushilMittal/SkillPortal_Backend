@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.teksystems.skillportal.domain.CertificationDomain;
-import com.teksystems.skillportal.domain.SearchSkill;
-import com.teksystems.skillportal.helper.SearchHelper;
-import com.teksystems.skillportal.model.Skill;
-import com.teksystems.skillportal.model.SubSkill;
+
 
 import com.teksystems.skillportal.service.TrainingService;
 import com.teksystems.skillportal.model.Training;

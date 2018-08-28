@@ -8,6 +8,7 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.teksystems.skillportal.helper.HttpClientHelper;
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import java.util.Base64;
 
 @Service
 public class TokenValidationService {
+    private static Logger logger = Logger.getLogger(TokenValidationService.class);
 
     private final String token;
     // Header
@@ -186,13 +188,13 @@ public class TokenValidationService {
             // System.out.println("Verified");
         }catch(SignatureVerificationException e) {
             verified = false;
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }catch(TokenExpiredException e){
             verified = false;
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }catch(Exception e){
             verified = false;
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
 
@@ -214,7 +216,7 @@ public class TokenValidationService {
 
 
         }catch(Exception e){
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return email;
     }
@@ -243,7 +245,7 @@ public class TokenValidationService {
             }
             return false;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
             return false;
         }
 
@@ -296,7 +298,7 @@ public class TokenValidationService {
             token =((HttpServletRequest)request).getHeader("Token");
         }catch(Exception e){
             //token not present in the admin call, fake call;
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         System.out.println("token in admin"+token);
         if(token!=null) {
@@ -326,7 +328,7 @@ public class TokenValidationService {
                     ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
         }
         return false;

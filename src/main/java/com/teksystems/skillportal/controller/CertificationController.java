@@ -3,7 +3,6 @@
 package com.teksystems.skillportal.controller;
 
 import com.teksystems.skillportal.domain.CertificationDomain;
-import com.teksystems.skillportal.model.Certification;
 import com.teksystems.skillportal.service.AdminService;
 import com.teksystems.skillportal.service.CertificationService;
 import com.teksystems.skillportal.service.TokenValidationService;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.ws.http.HTTPBinding;
 import java.util.List;
 
 @RestController

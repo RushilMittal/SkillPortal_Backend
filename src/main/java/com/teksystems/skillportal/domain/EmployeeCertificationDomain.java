@@ -1,5 +1,4 @@
 package com.teksystems.skillportal.domain;
-import com.teksystems.skillportal.model.Certification;
 import java.util.Date;
 
 public class EmployeeCertificationDomain {

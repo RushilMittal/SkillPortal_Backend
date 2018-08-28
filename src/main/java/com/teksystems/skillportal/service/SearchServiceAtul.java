@@ -6,8 +6,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.teksystems.skillportal.domain.CertificationDomain;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,11 +17,12 @@ import com.teksystems.skillportal.model.SubSkill;
 @Service
 public class SearchServiceAtul {
 
-
+	@Autowired
+	GuavaCacheInit guavaCacheInit;
 	
 	public List<String> searchSkill(@RequestParam String search) throws ExecutionException
 	{
-		LoadingCache<String, List<SubSkill>> skillCache = GuavaCacheInit.getSkillLoadingCache();
+		LoadingCache<String, List<SubSkill>> skillCache = guavaCacheInit.getSkillLoadingCache();
 		List<String> searchRes = new LinkedList<>();
 		Map<String,List<SubSkill>> searchup = skillCache.asMap();
 		for (String key : searchup.keySet()) {

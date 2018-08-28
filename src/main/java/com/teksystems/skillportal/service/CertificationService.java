@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,7 +54,7 @@ public class CertificationService {
 
         for(CertificationDomain iterable: certDomain)
         {
-            Pattern p = Pattern.compile(searchTerm);
+            Pattern p = Pattern.compile(searchTerm.toLowerCase());
             Matcher m1 = p.matcher((iterable.getCertificationName()).toLowerCase());
             Matcher m2 = p.matcher((iterable.getInstitution()).toLowerCase());
             if(m1.find()||m2.find())

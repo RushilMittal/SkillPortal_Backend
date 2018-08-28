@@ -8,7 +8,7 @@ import com.teksystems.skillportal.service.TokenValidationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.teksystems.skillportal.domain.SubSkillDomain;
+
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

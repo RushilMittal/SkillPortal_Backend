@@ -13,8 +13,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
-import java.util.TreeMap;
+
 import org.apache.log4j.Logger;
 
 
@@ -46,7 +45,7 @@ public class TokenFilter extends GenericFilterBean {
 
                     }catch(Exception e){
                         logger.info("Invalid Authorization,Unable to Validate Authorization");
-                        e.printStackTrace();
+                        logger.error(e.getMessage());
                     }
 
                     if (isTokenValid) {
@@ -63,13 +62,13 @@ public class TokenFilter extends GenericFilterBean {
 
                 }catch (Exception e){
                     logger.info("Authorization Header Not Present");
-                    e.printStackTrace();
+                   logger.error(e.getMessage());
                 }
             }
 
         }catch(Exception e) {
             logger.info("Some Error Occurred in Request");
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 

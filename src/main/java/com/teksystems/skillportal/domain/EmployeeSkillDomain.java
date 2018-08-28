@@ -1,6 +1,5 @@
 package com.teksystems.skillportal.domain;
 
-import com.teksystems.skillportal.model.SubSkill;
 
 import java.util.Date;
 

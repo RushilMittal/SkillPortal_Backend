@@ -3,7 +3,7 @@ package com.teksystems.skillportal.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+
 
 @Document(collection = "Certification")
 public class Certification {

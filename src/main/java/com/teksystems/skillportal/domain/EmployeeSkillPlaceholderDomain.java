@@ -1,5 +1,4 @@
 package com.teksystems.skillportal.domain;
-import java.util.Arrays;
 
 public class EmployeeSkillPlaceholderDomain {
 

@@ -10,6 +10,7 @@ import com.teksystems.skillportal.model.TrainingSession;
 import com.teksystems.skillportal.repository.EmployeeTrainingRepository;
 import com.teksystems.skillportal.repository.TrainingRepository;
 import com.teksystems.skillportal.repository.TrainingSessionRepository;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.text.DateFormat;
@@ -18,6 +19,7 @@ import java.util.*;
 
 @Service
 public class EmployeeTrainingService {
+    private static Logger logger = Logger.getLogger(EmployeeTrainingService.class);
 
     @Autowired
     EmployeeTrainingRepository employeeTrainingRepository;
@@ -43,7 +45,7 @@ public class EmployeeTrainingService {
             }
         }
         catch(Exception e){
-         e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
 
@@ -73,7 +75,7 @@ public class EmployeeTrainingService {
 
         }
         catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return trainingEventDomains;
     }
@@ -112,7 +114,7 @@ public class EmployeeTrainingService {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return trainingListEventDomains;
     }
@@ -136,7 +138,7 @@ public class EmployeeTrainingService {
             }
         }
         catch(Exception e){
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return empTrainList;
     }
@@ -157,7 +159,7 @@ public class EmployeeTrainingService {
             }
         }
         catch (Exception e){
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return empTrainList;
     }

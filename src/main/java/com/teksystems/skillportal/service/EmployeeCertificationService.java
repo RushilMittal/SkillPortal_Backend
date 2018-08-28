@@ -1,5 +1,6 @@
 package com.teksystems.skillportal.service;
 import com.teksystems.skillportal.domain.EmployeeCertificationPlaceholderDomain;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,7 +8,6 @@ import com.teksystems.skillportal.domain.CertificationDomain;
 import com.teksystems.skillportal.domain.EmployeeCertificationDomain;
 import com.teksystems.skillportal.model.Certification;
 import com.teksystems.skillportal.model.EmployeeCertification;
-import com.teksystems.skillportal.model.EmployeeSkill;
 import com.teksystems.skillportal.repository.CertificationRepository;
 import com.teksystems.skillportal.repository.EmployeeCertificationRepository;
 
@@ -18,6 +18,7 @@ public class EmployeeCertificationService {
 
     @Autowired
     EmployeeCertificationRepository employeeCertificationRepository;
+    private static Logger logger = Logger.getLogger(EmployeeCertificationService.class);
 
     @Autowired
     CertificationRepository certificationRepository;
@@ -89,7 +90,7 @@ public class EmployeeCertificationService {
                 System.out.println("No data Present");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
         return employeeCertificationPlaceholderDomainsList;

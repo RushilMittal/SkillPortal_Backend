@@ -1,10 +1,7 @@
 package com.teksystems.skillportal.init;
-
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import com.teksystems.skillportal.model.SubSkill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -17,19 +14,21 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.mongodb.BasicDBObject;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class GuavaCacheInit {
 	
-	static ApplicationContext ctx =
+    ApplicationContext ctx =
             new AnnotationConfigApplicationContext(MongoConfigNew.class);
-	static MongoOperations mongoOperation =
+    MongoOperations mongoOperation =
             (MongoOperations) ctx.getBean("mongoTemplate");
 	
-	public static LoadingCache<String, List<String>> skillGroupCache;
-	public static LoadingCache<String, List<SubSkill>> skillCache;
-	
-	static 
+    public LoadingCache<String, List<String>> skillGroupCache;
+    public LoadingCache<String, List<SubSkill>> skillCache;
+
+    @Autowired
+	public GuavaCacheInit()
 	  {
 	    	skillGroupCache = CacheBuilder.newBuilder()
 		       .build(
@@ -55,24 +54,26 @@ public class GuavaCacheInit {
 	   }
 	
 	 
-	public static LoadingCache<String, List<String>> getLoadingCache() 
+	public LoadingCache<String, List<String>> getLoadingCache()
 	   {
 			return skillGroupCache;
 	   }
 	 
-	public static LoadingCache<String, List<SubSkill>> getSkillLoadingCache() 
+	public LoadingCache<String, List<SubSkill>> getSkillLoadingCache()
 	   {
 			return skillCache;
 	   }
 	
 	
-	public static List<String> getSkillGroup(String key) {
+	public  List<String> getSkillGroup(String key) {
 		 System.out.println("Method Executes");
-		 return  mongoOperation.getCollection("subskill").distinct("skill",new BasicDBObject("skillGroup",key));
+
+
+		 return mongoOperation.getCollection("subskill").distinct("skill",new BasicDBObject("skillGroup",key));
 	 }
 	
 	
-	public static List<SubSkill> getSkill(String key) {
+	public List<SubSkill> getSkill(String key) {
 		 System.out.println("Method Executes");
 		 String[] splitKey = key.split("_");
 		 Criteria criteria = new Criteria();
@@ -83,7 +84,7 @@ public class GuavaCacheInit {
 	 
 	
 	
-	public static Map<String,List<String>> loadSkillGroup() 
+	public  Map<String,List<String>> loadSkillGroup()
 		{
 			System.out.println("Executing SkillGroup Method");
 				
@@ -101,7 +102,7 @@ public class GuavaCacheInit {
 		}
 	
 	
-	public static Map<String,List<SubSkill>> loadSkill() 
+	public  Map<String,List<SubSkill>> loadSkill()
 	{
 		
 		Map<String,List<String>> skillGroupMap = loadSkillGroup();

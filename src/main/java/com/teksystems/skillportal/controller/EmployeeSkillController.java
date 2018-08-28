@@ -1,12 +1,9 @@
 package com.teksystems.skillportal.controller;
 
 
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import com.teksystems.skillportal.model.EmployeeSkill;
-import com.teksystems.skillportal.model.SubSkill;
 import com.teksystems.skillportal.service.TokenValidationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +57,7 @@ public class EmployeeSkillController {
             }
         }catch(Exception e){
             logger.info("Some error occured" + e.toString());
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return toReturn;
 	}
@@ -99,7 +96,7 @@ public class EmployeeSkillController {
 
         }catch(Exception e){
             logger.info("Some error occured" + e.toString());
-		    e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
 
@@ -133,7 +130,7 @@ public class EmployeeSkillController {
             }
         }catch(Exception e){
 		    logger.info("Some error occured" + e.toString());
-		    e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
 
@@ -170,7 +167,7 @@ public class EmployeeSkillController {
             }
         }catch(Exception e ) {
             logger.info("Some Error Occured" + e.toString());
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
 		return toReturn;

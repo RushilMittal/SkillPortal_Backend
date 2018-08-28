@@ -5,16 +5,13 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
-
 import com.google.common.cache.LoadingCache;
 import com.mongodb.BasicDBObject;
-import com.teksystems.skillportal.controller.EmployeeSkillController;
 import com.teksystems.skillportal.init.GuavaCacheInit;
 import com.teksystems.skillportal.init.MongoConfigNew;
 import org.apache.log4j.Logger;
@@ -22,19 +19,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.teksystems.skillportal.domain.*;
 import com.teksystems.skillportal.model.*;
 import com.teksystems.skillportal.repository.*;
 
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
 
 @Service
 public class EmployeeSkillService {
@@ -43,19 +33,21 @@ public class EmployeeSkillService {
 			new AnnotationConfigApplicationContext(MongoConfigNew.class);
 	static MongoOperations mongoOperation =
 			(MongoOperations) ctx.getBean("mongoTemplate");
-	
+	private static Logger logger = Logger.getLogger(EmployeeSkillService.class);
 	@Autowired
 	 EmployeeSkillRepository empSkillRepository;
 	
 	@Autowired
 	 SubSkillRepository subSkillRepository;
 
+	@Autowired
+	GuavaCacheInit guavaCacheInit;
 
 	public List<SubSkillDomain> getAllUnassignedSubSkills(String empId, String skill) throws ExecutionException
 
 	{   empId = empId.trim();
         skill = skill.trim();
-		LoadingCache<String, List<SubSkill>> skillCache = GuavaCacheInit.getSkillLoadingCache();
+		LoadingCache<String, List<SubSkill>> skillCache = guavaCacheInit.getSkillLoadingCache();
 		List<SubSkill> allSkills = skillCache.get(skill);
 
 		List<String> assignedSkillIds = mongoOperation.getCollection("employeeskill").distinct("subSkillId",new BasicDBObject("empId",empId));
@@ -247,7 +239,7 @@ public int getSubSkillCount(String subSkillId)  {
             }
 
         }catch(Exception e){
-            e.printStackTrace();
+			logger.error(e.getMessage());
         }
 
 		//return
@@ -270,7 +262,7 @@ public int getSubSkillCount(String subSkillId)  {
                 this.empSkillRepository.delete(iterable);
             }
         }catch(Exception e){
-            e.printStackTrace();
+			logger.error(e.getMessage());
         }
 
 	}
