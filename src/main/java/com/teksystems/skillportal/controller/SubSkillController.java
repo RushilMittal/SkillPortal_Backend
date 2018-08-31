@@ -2,6 +2,7 @@ package com.teksystems.skillportal.controller;
 
 
 
+import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.model.SubSkill;
 import com.teksystems.skillportal.service.SubSkillService;
 import com.teksystems.skillportal.service.TokenValidationService;
@@ -40,17 +41,17 @@ public class SubSkillController {
         String employeeId = null;
         Map<String,List<SubSkill>> toReturn = null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + employeeId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 toReturn = subSkillService.getAllSubSkillsOfEmployee(skillName);
 
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occurred: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
         return toReturn;
     }

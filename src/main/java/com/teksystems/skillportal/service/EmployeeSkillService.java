@@ -12,6 +12,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import com.google.common.cache.LoadingCache;
 import com.mongodb.BasicDBObject;
+import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.init.GuavaCacheInit;
 import com.teksystems.skillportal.init.MongoConfigNew;
 import org.apache.log4j.Logger;
@@ -50,7 +51,7 @@ public class EmployeeSkillService {
 		LoadingCache<String, List<SubSkill>> skillCache = guavaCacheInit.getSkillLoadingCache();
 		List<SubSkill> allSkills = skillCache.get(skill);
 
-		List<String> assignedSkillIds = mongoOperation.getCollection("employeeskill").distinct("subSkillId",new BasicDBObject("empId",empId));
+		List<String> assignedSkillIds = mongoOperation.getCollection("employeeskill").distinct(ConfigurationStrings.SUBSKILLID,new BasicDBObject(ConfigurationStrings.EMPID,empId));
 
 		List<SubSkill> unassignedSkills = new LinkedList<>();
 		List<SubSkillDomain> toReturn = new LinkedList<>();
@@ -75,7 +76,7 @@ public class EmployeeSkillService {
         }
 
 		// convert it into the domain before returning
-//		return null;
+
 		return toReturn;
 	}
 
@@ -106,8 +107,8 @@ public class EmployeeSkillService {
 public int getSubSkillCount(String subSkillId)  {
         subSkillId = subSkillId.trim();
 //finding all distinct employee skills records for one subskill
-    List<String> empSkills = mongoOperation.getCollection("employeeskill").distinct("empId",
-                            new BasicDBObject("subSkillId",subSkillId));
+    List<String> empSkills = mongoOperation.getCollection("employeeskill").distinct(ConfigurationStrings.EMPID,
+                            new BasicDBObject(ConfigurationStrings.SUBSKILLID,subSkillId));
     //returning the size of list, i.e.,
     //the number of employees who have rated a particular subskill
     return empSkills.size();

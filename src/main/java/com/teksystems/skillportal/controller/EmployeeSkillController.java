@@ -4,6 +4,7 @@ package com.teksystems.skillportal.controller;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.service.TokenValidationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,14 +47,14 @@ public class EmployeeSkillController {
         List<SubSkillDomain> toReturn = null;
         String employeeId = null;
         try{
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if(!( ((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if(!( ((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + employeeId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 toReturn = employeeSkillService.getAllUnassignedSubSkills(employeeId,skillName);
 
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         }catch(Exception e){
             logger.info("Some error occured" + e.toString());
@@ -77,10 +78,10 @@ public class EmployeeSkillController {
 
 		try{
 
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if(!( ((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if(!( ((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + employeeId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.info("Trying to Add the Employee Rating of " + employeeId);
                 if (rating <= 0 || rating > 5) {
                     throw new Exception("Rating Invalid"+ rating);
@@ -91,7 +92,7 @@ public class EmployeeSkillController {
                 logger.debug("Saved Rating of Employee "+employeeId +", subSkillid "+subSkillId+",with rating "+rating);
             } else {
 
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
 
         }catch(Exception e){
@@ -117,16 +118,16 @@ public class EmployeeSkillController {
         EmployeeSkillPlaceholderDomain toReturn = null;
         String employeeId = null;
       	try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if(!( ((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if(!( ((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
 
                 employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + employeeId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.debug("Getting detail for the Skill Placeholder, using employeeId " + employeeId);
                 toReturn = employeeSkillService.getEmployeeSkillPlaceHolderDomain(employeeId);
 
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         }catch(Exception e){
 		    logger.info("Some error occured" + e.toString());
@@ -150,12 +151,12 @@ public class EmployeeSkillController {
         List<EmployeeSkillDomain> toReturn = null;
 
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if(!((HttpServletRequest) request).getHeader("Authorization").equals(null)) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if(!((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).equals(null)) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 if(employeeId!=null) {
 
-                    logger.debug("Paramater received : EmployeeId " + employeeId);
+                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                     logger.info("Fetching Employee Skills");
                     toReturn = employeeSkillService.getAll(employeeId);
                 }else{

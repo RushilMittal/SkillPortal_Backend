@@ -3,8 +3,7 @@ package com.teksystems.skillportal.service;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
+
 import com.teksystems.skillportal.init.GuavaCacheInit;
 import com.teksystems.skillportal.init.MongoConfigNew;
 import com.teksystems.skillportal.model.SubSkill;
@@ -26,8 +25,7 @@ import java.util.concurrent.ExecutionException;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
+
 import static org.mockito.Mockito.when;
 
 public class SkillServiceTest {

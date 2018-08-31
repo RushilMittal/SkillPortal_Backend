@@ -115,7 +115,7 @@ public class HttpClientHelper {
      */
     public static JSONObject processResponse(int responseCode, String errorCode, String errorMsg) throws JSONException {
         JSONObject response = new JSONObject();
-        response.put("responseCode", responseCode);
+        response.put(ConfigurationStrings.RESPONSECODE, responseCode);
         response.put("errorCode", errorCode);
         response.put("errorMsg", errorMsg);
 
@@ -131,11 +131,11 @@ public class HttpClientHelper {
      */
     public static JSONObject processGoodRespStr(int responseCode, String goodRespStr) throws JSONException {
         JSONObject response = new JSONObject();
-        response.put("responseCode", responseCode);
+        response.put(ConfigurationStrings.RESPONSECODE, responseCode);
         if (goodRespStr.equalsIgnoreCase("")) {
-            response.put("responseMsg", "");
+            response.put(ConfigurationStrings.RESPONSEMSG, "");
         } else {
-            response.put("responseMsg", new JSONObject(goodRespStr));
+            response.put(ConfigurationStrings.RESPONSEMSG, new JSONObject(goodRespStr));
         }
 
         return response;
@@ -152,15 +152,15 @@ public class HttpClientHelper {
     public static JSONObject processBadRespStr(int responseCode, String responseMsg) throws JSONException {
 
         JSONObject response = new JSONObject();
-        response.put("responseCode", responseCode);
+        response.put(ConfigurationStrings.RESPONSECODE, responseCode);
         if (responseMsg.equalsIgnoreCase("")) { // good response is empty string
-            response.put("responseMsg", "");
+            response.put(ConfigurationStrings.RESPONSEMSG, "");
         } else { // bad response is json string
             JSONObject errorObject = new JSONObject(responseMsg).optJSONObject("odata.error");
 
             String errorCode = errorObject.optString("code");
             String errorMsg = errorObject.optJSONObject("message").optString("value");
-            response.put("responseCode", responseCode);
+            response.put(ConfigurationStrings.RESPONSECODE, responseCode);
             response.put("errorCode", errorCode);
             response.put("errorMsg", errorMsg);
         }

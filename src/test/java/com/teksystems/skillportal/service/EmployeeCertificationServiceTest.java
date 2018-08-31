@@ -16,7 +16,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.*;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyString;
 
 import static org.hamcrest.MatcherAssert.assertThat;

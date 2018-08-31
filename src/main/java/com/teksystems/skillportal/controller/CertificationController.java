@@ -3,6 +3,7 @@
 package com.teksystems.skillportal.controller;
 
 import com.teksystems.skillportal.domain.CertificationDomain;
+import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.service.AdminService;
 import com.teksystems.skillportal.service.CertificationService;
 import com.teksystems.skillportal.service.TokenValidationService;
@@ -39,17 +40,17 @@ public class CertificationController {
         String employeeId = null;
         List<CertificationDomain> certifications =null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + employeeId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.info("Trying to fetch all the Certificates");
                 certifications = this.certificationService.getAllCertifications();
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occurred: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
         System.out.println(certifications);
         return certifications;
@@ -70,18 +71,18 @@ public class CertificationController {
         logger.info("/addnewCert API called");
         String employeeId = null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + employeeId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 CertificationDomain certification=new CertificationDomain(id,skillId,certificationName,institution);
                 adminService.postNewCertification(certification);
 
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occurred: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
     }
 
@@ -96,18 +97,18 @@ public class CertificationController {
         logger.info("/add_new API called");
         String employeeId =  null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + employeeId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 CertificationDomain certification = new CertificationDomain(skillId,certificationName,institution);
                 adminService.postNewCertification(certification);
 
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occurred: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
     }
 

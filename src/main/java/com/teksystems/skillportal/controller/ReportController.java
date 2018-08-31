@@ -4,6 +4,7 @@ import com.teksystems.skillportal.domain.EmployeeCertificationDomain;
 import com.teksystems.skillportal.domain.EmployeeSkillDomain;
 import com.teksystems.skillportal.domain.SkillReport;
 import com.teksystems.skillportal.domain.SubSkillDomain;
+import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.service.AdminService;
 import com.teksystems.skillportal.service.ReportService;
 import com.teksystems.skillportal.service.TokenValidationService;
@@ -33,18 +34,18 @@ public class ReportController {
         logger.info("/reportskill API Called");
         String employeeId = null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 if (tokenValidator.validateAdminRole(request, response)) {
                     employeeId = tokenValidator.ExtractEmployeeId(request);
-                    logger.debug("Paramater received : employeeId " + employeeId);
+                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                     toReturn = reportService.topNSubSkills(n);
                 } else {
-                    logger.debug("Employee doesn't have Admin Role");
-                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
+                    logger.debug(ConfigurationStrings.NOADMIN);
+                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
                 }
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
             logger.info("Some Error Occured: " + e.toString());
@@ -58,18 +59,18 @@ public class ReportController {
         logger.info("/reportskilltrend API Called");
         String employeeId = null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 if (tokenValidator.validateAdminRole(request, response)) {
                     employeeId = tokenValidator.ExtractEmployeeId(request);
-                    logger.debug("Paramater received : employeeId " + employeeId);
+                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                     toReturn = reportService.topNSubSkillsinLastXMonths(n, x);
                 } else {
-                    logger.debug("Employee doesn't have Admin Role");
-                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
+                    logger.debug(ConfigurationStrings.NOADMIN);
+                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
                 }
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
             logger.info("Some Error Occured: " + e.toString());
@@ -83,18 +84,18 @@ public class ReportController {
         logger.info("/reportskillofemployee API Called");
         String employeeId = null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 if (tokenValidator.validateAdminRole(request, response)) {
                     employeeId = tokenValidator.ExtractEmployeeId(request);
-                    logger.debug("Paramater received : employeeId " + employeeId);
+                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                     toReturn = reportService.skillsOfEmployee(empId);
                 } else {
-                    logger.debug("Employee doesn't have Admin Role");
-                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
+                    logger.debug(ConfigurationStrings.NOADMIN);
+                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
                 }
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
             logger.info("Some Error Occured: " + e.toString());
@@ -106,21 +107,21 @@ public class ReportController {
     @GetMapping("/reportemployeeupdation")
     public List<SkillReport> UpdatedByEmpSubSkillinLastXMonths(@RequestParam long from, @RequestParam long to, HttpServletRequest request, HttpServletResponse response) {
         List<SkillReport> toReturn = null;
-        logger.info("/reportskillofemployee API Called");
+        logger.info("/reportemployeeupdation API Called");
         String employeeId = null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 if (tokenValidator.validateAdminRole(request, response)) {
                     employeeId = tokenValidator.ExtractEmployeeId(request);
-                    logger.debug("Paramater received : employeeId " + employeeId);
+                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                     toReturn = reportService.EmployeesWhoUpdatedSubSkillsinLastXMonths(from, to);
                 } else {
-                    logger.debug("Employee doesn't have Admin Role");
-                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
+                    logger.debug(ConfigurationStrings.NOADMIN);
+                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
                 }
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
             logger.info("Some Error Occured: " + e.toString());
@@ -131,21 +132,21 @@ public class ReportController {
     @GetMapping("/reportcertificateexpiry")
     public List<EmployeeCertificationDomain> certificatesExipringInNextNmonths(@RequestParam long from, @RequestParam long to, HttpServletRequest request, HttpServletResponse response) {
         List<EmployeeCertificationDomain> toReturn = null;
-        logger.info("/reportskillofemployee API Called");
+        logger.info("/reportcertificationexpiry API Called");
         String employeeId = null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 if (tokenValidator.validateAdminRole(request, response)) {
                     employeeId = tokenValidator.ExtractEmployeeId(request);
-                    logger.debug("Paramater received : employeeId " + employeeId);
+                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                     toReturn = reportService.CertificatesExipringInNextNmonths(from, to);
                 } else {
-                    logger.debug("Employee doesn't have Admin Role");
-                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
+                    logger.debug(ConfigurationStrings.NOADMIN);
+                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
                 }
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
             logger.info("Some Error Occured: " + e.toString());
@@ -157,21 +158,21 @@ public class ReportController {
     @GetMapping("/getemployees")
     public List<String> EmployeesWithASkill(HttpServletRequest request, HttpServletResponse response) {
         List<String> toReturn = null;
-        logger.info("/reportskillofemployee API Called");
+        logger.info("/getemployees API Called");
         String employeeId = null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 if (tokenValidator.validateAdminRole(request, response)) {
                     employeeId = tokenValidator.ExtractEmployeeId(request);
-                    logger.debug("Paramater received : employeeId " + employeeId);
+                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                     toReturn = reportService.EmployeesWithASkill();
                 } else {
-                    logger.debug("Employee doesn't have Admin Role");
-                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
+                    logger.debug(ConfigurationStrings.NOADMIN);
+                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
                 }
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
             logger.info("Some Error Occured: " + e.toString());

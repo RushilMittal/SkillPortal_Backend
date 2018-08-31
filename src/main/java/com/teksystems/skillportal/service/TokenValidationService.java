@@ -7,6 +7,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.helper.HttpClientHelper;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -63,10 +64,6 @@ public class TokenValidationService {
         String headerStr = new String(Base64.getUrlDecoder().decode((parts[0])));
 
         JSONObject header = new JSONObject(headerStr);
-        // System.out.println("typ = " + header.getString("typ"));
-        // System.out.println("alg = " + header.getString("alg"));
-        // System.out.println("kid = " + header.getString("kid"));
-        // System.out.println("---------------------------------");
 
 
         kid = header.getString("kid");
@@ -77,13 +74,7 @@ public class TokenValidationService {
         String payloadStr = new String(Base64.getUrlDecoder().decode((parts[1])));
 
         JSONObject payload = new JSONObject(payloadStr);
-        // System.out.println("aud = " + payload.getString("aud"));
-        // System.out.println("iss = " + payload.getString("iss"));
 
-        // System.out.println("name = " + payload.getString("name"));
-        // System.out.println("unique_name = " + payload.getString("preferred_username"));
-
-        // System.out.println("---------------------------------");
 
         issuer = payload.getString("iss");
         aud = payload.getString("aud");
@@ -96,23 +87,21 @@ public class TokenValidationService {
     private PublicKey loadPublicKey() throws IOException, CertificateException {
         String openIdConfigurationString = readUrl("https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration");
 
-        // System.out.println(openIdConfigurationString);
 
         JSONObject openidConfig = new JSONObject(openIdConfigurationString);
 
-        // System.out.println("---------------------------------");
+
 
         String jwksUri = openidConfig.getString("jwks_uri");
 
-        // System.out.println(jwksUri);
-        // System.out.println("---------------------------------");
+
 
         String jwkConfigStr = readUrl(jwksUri);
 
-        // System.out.println(jwkConfigStr);
+
 
         JSONObject jwkConfig = new JSONObject(jwkConfigStr);
-        // System.out.println("---------------------------------");
+
 
         JSONArray keys = jwkConfig.getJSONArray("keys");
 
@@ -125,11 +114,7 @@ public class TokenValidationService {
             String e = key.getString("e");
             String x5c = key.getJSONArray("x5c").getString(0);
 
-            // System.out.println("kid: " + kid);
-            // System.out.println("x5t: " + x5t);
-            // System.out.println("n: " + n);
-            // System.out.println("e: " + e);
-            // System.out.println("x5c: " + x5c);
+
 
             String keyStr = "-----BEGIN CERTIFICATE-----\r\n";
             String tmp = x5c;
@@ -144,15 +129,15 @@ public class TokenValidationService {
                 }
             }
             keyStr += "-----END CERTIFICATE-----\r\n";
-            // System.out.println(keyStr);
+
             CertificateFactory fact = CertificateFactory.getInstance("X.509");
             InputStream stream = new ByteArrayInputStream(keyStr.getBytes(StandardCharsets.US_ASCII));
             X509Certificate cer = (X509Certificate) fact.generateCertificate(stream);
-            // System.out.println(cer);
+
 
             // get public key from certification
             PublicKey publicKey = cer.getPublicKey();
-            // System.out.println(publicKey);
+
 
             if (this.kid.equals(kid)) {
                 return publicKey;
@@ -222,7 +207,7 @@ public class TokenValidationService {
     }
 
     public boolean tokenValidate(){
-        // // System.out.println("Inside Validate");
+
         try {
 //            boolean a = verify();
             boolean a = true;
@@ -235,10 +220,9 @@ public class TokenValidationService {
                 JSONObject jsonBody = null;
                 jsonHeader = new JSONObject(decodedHeader);
                 jsonBody = new JSONObject(decodedBody);
-//                boolean isValidHeader = validateHeader(jsonHeader);
+
                 boolean isValidBody = validateBody(jsonBody);
-//                // System.out.println("Header Valid:" + isValidHeader);
-                // System.out.println("Body Valid:" + isValidBody);
+
                 if (isValidBody == true) {
                     return true;
                 }
@@ -258,10 +242,10 @@ public class TokenValidationService {
         final String alg="RS256";
 
         if(jsonObj.get("typ").equals(typ))
-        {   // System.out.println("typ Valid");
+        {
             if(jsonObj.get("alg").equals(alg))
             {
-                // System.out.println("alg Valid");
+
             }
         }
         return isValid;
@@ -278,11 +262,11 @@ public class TokenValidationService {
         long exp= ( jsonObj.getLong("exp"));
         if(exp>currTime) {
             if (jsonObj.get("aud").equals(aud)) {
-                // System.out.println("aud Valid");
+
                 if (jsonObj.get("iss").equals(iss)) {
-                    // System.out.println("iss Valid");
+
                     if (jsonObj.get("tid").equals(tid))
-                        // System.out.println("exp Valid");
+
                         isValid = true;
                 }
             }
@@ -317,10 +301,10 @@ public class TokenValidationService {
                 if (responseCode == 200) {
                     JSONObject responseRecieved = HttpClientHelper.processGoodRespStr(responseCode, goodRespStr);
                     boolean toReturn = (adminService.IsAdmin(
-                            responseRecieved.getJSONObject("responseMsg").getString("jobTitle")
+                            responseRecieved.getJSONObject(ConfigurationStrings.RESPONSEMSG).getString("jobTitle")
                     ) ||
                             adminService.IsAdmin(
-                                    responseRecieved.getJSONObject("responseMsg").getString("mail")
+                                    responseRecieved.getJSONObject(ConfigurationStrings.RESPONSEMSG).getString("mail")
                             ));
                     return toReturn;
 

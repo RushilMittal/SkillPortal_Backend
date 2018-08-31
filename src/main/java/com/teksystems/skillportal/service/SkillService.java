@@ -26,20 +26,19 @@ public class SkillService {
 	public List<String> getSkillGroup(String skillGroup) throws ExecutionException
 	{
 		LoadingCache<String, List<String>> skillGroupCache = guavaCacheInit.getLoadingCache();
-		System.out.println("Cache Size:" + skillGroupCache.size());
 		return skillGroupCache.get(skillGroup);
 	}
 	
 	public Map<String,List<String>> getAllSkillGroups() throws ExecutionException
 	{
 		LoadingCache<String, List<String>> skillGroupCache = guavaCacheInit.getLoadingCache();
-		System.out.println("Cache Size:" + skillGroupCache.size());
+
 		return skillGroupCache.asMap();
 	}
 
     public Map<String,List<SubSkill>> getAllSkills() throws ExecutionException{
         LoadingCache<String, List<SubSkill>> skillCache = guavaCacheInit.getSkillLoadingCache();
-        System.out.println("Cache Size:" + skillCache.size());
+
         return skillCache.asMap();
     }
 

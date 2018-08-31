@@ -12,7 +12,7 @@
 
   export const baseURLAPP = 'https://10.188.27.222:4200';
   const basePORT = '8000';
-  const baseIP= 'http://10.188.27.137:' + basePORT;
+  const baseIP= 'http://localhost:' + basePORT;
   
   export const baseUrlSkill = baseIP + '/skill';
 

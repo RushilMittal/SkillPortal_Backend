@@ -1,9 +1,10 @@
 package com.teksystems.skillportal.model;
 
+import com.teksystems.skillportal.helper.ConfigurationStrings;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "skill")
+@Document(collection = ConfigurationStrings.SKILL)
 public class Skill {
 	
     @Id

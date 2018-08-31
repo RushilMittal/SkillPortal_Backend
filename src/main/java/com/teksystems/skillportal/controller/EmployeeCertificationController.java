@@ -2,6 +2,7 @@
 package com.teksystems.skillportal.controller;
 import com.teksystems.skillportal.domain.EmployeeCertificationDomain;
 import com.teksystems.skillportal.domain.EmployeeCertificationPlaceholderDomain;
+import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.service.EmployeeCertificationService;
 import com.teksystems.skillportal.service.TokenValidationService;
 import org.apache.log4j.Logger;
@@ -38,17 +39,17 @@ public class EmployeeCertificationController {
         String employeeId = null;
         List<EmployeeCertificationDomain> toReturn = null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + employeeId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.info("Trying to fetch employee's added Certificate");
                 toReturn = employeeCertificationService.getEmployeeCertificationByEmployeeId(employeeId);
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occurred: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
 
         return toReturn;
@@ -74,10 +75,10 @@ public class EmployeeCertificationController {
 
         String employeeId =null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + employeeId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.info("Trying to Save the Certificate");
                 Calendar calendar = Calendar.getInstance();
                 Date certificationDate = employeeCertificationService.dateExtractor(certificationDateString, calendar);
@@ -88,10 +89,10 @@ public class EmployeeCertificationController {
                 employeeCertificationService.addNew(employeeId,certificationId, certificationDate, certificationValidityDate,
                         certificationNumber, certificationUrl);
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occurred: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
 	 }
 
@@ -113,19 +114,19 @@ public class EmployeeCertificationController {
         System.out.println("Add certificate called");
         String employeeId =null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + employeeId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 employeeCertificationDomain.setEmpId(employeeId);
                 logger.info("Trying to save the Certificate");
                 employeeCertificationService.addNewCertificate(employeeCertificationDomain);
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
-            logger.info("Some Error Occurred: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
     }
 	
@@ -142,17 +143,17 @@ public class EmployeeCertificationController {
         String employeeId = null;
         List<EmployeeCertificationPlaceholderDomain> toReturn = null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + employeeId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.info("Trying to fetch Certification Placeholder");
                 toReturn = employeeCertificationService.getEmployeeCertificationPlaceholderById(employeeId);
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occurred: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
         return toReturn;
     }

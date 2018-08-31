@@ -10,11 +10,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
 import com.teksystems.skillportal.domain.EmployeeSkillPlaceholderDomain;
 import com.teksystems.skillportal.service.TokenValidationService;
 import org.junit.Before;
@@ -28,12 +26,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import com.teksystems.skillportal.controller.EmployeeSkillController;
 import com.teksystems.skillportal.domain.EmployeeSkillDomain;
 import com.teksystems.skillportal.domain.SubSkillDomain;
 import com.teksystems.skillportal.service.EmployeeSkillService;
-
 import javax.servlet.http.HttpServletRequest;
 
 

@@ -142,7 +142,7 @@ public class AdminService {
     }
 
     /**
-     * Method used to create the objects of "subskill" type and save it in the collection
+     * Method used to create the objects of ConfigurationStrings.SUBSKILL type and save it in the collection
      *
      * @param br is of buffered reader type received from the multipart form
      */

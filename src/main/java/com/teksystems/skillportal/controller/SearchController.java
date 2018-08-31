@@ -3,6 +3,7 @@ package com.teksystems.skillportal.controller;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.service.CertificationService;
 import com.teksystems.skillportal.service.SearchServiceAtul;
 import com.teksystems.skillportal.service.TokenValidationService;
@@ -47,14 +48,14 @@ public class SearchController {
         String employeeId = null;
         List<String> toReturn = null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + employeeId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 toReturn = searchServiceAtul.searchSkill(searchTerm);
 
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
             logger.info("Some Error Occured: " + e.toString());
@@ -68,14 +69,14 @@ public class SearchController {
         String employeeId = null;
         List<CertificationDomain> toReturn = null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + employeeId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 toReturn = certificationService.searchCertItems(searchTerm);
 
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
             logger.info("Some Error Occured: " + e.toString());
@@ -90,14 +91,14 @@ public class SearchController {
         String employeeId = null;
         List<Training> toReturn = null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + employeeId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 toReturn = trainingService.searchTraining(searchTerm);
 
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
             logger.info("Some Error Occured: " + e.toString());

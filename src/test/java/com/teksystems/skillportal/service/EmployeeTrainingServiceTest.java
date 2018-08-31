@@ -4,7 +4,6 @@ import com.teksystems.skillportal.domain.EmployeeTrainingDomain;
 import com.teksystems.skillportal.domain.EmployeeTrainingPlaceholderDomain;
 import com.teksystems.skillportal.domain.TrainingEventDomain;
 import com.teksystems.skillportal.domain.TrainingListEventDomain;
-import com.teksystems.skillportal.model.EmployeeCertification;
 import com.teksystems.skillportal.model.EmployeeTraining;
 import com.teksystems.skillportal.model.Training;
 import com.teksystems.skillportal.model.TrainingSession;
@@ -16,9 +15,8 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.web.client.ExpectedCount;
 
-import java.sql.SQLOutput;
+
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;

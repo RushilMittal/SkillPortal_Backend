@@ -1,6 +1,7 @@
 package com.teksystems.skillportal.controller;
 
 
+import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.service.TokenValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -34,7 +35,7 @@ public class TokenFilter extends GenericFilterBean {
                 chain.doFilter(req,res);
             }else{
                try {
-                    String authorizationHeader = ((HttpServletRequest) req).getHeader("Authorization");
+                    String authorizationHeader = ((HttpServletRequest) req).getHeader(ConfigurationStrings.AUTHORIZATION);
                     final String token = authorizationHeader.substring(7); // The part after "Bearer "
                     System.out.println(token);
                     boolean isTokenValid = false;
@@ -57,7 +58,7 @@ public class TokenFilter extends GenericFilterBean {
                         chain.doFilter(req, res);
 
                     } else {
-                        ((HttpServletResponse) res).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
+                        ((HttpServletResponse) res).sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
                     }
 
                 }catch (Exception e){

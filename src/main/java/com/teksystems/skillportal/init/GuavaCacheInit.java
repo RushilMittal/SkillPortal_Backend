@@ -2,6 +2,8 @@ package com.teksystems.skillportal.init;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.model.SubSkill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -66,18 +68,18 @@ public class GuavaCacheInit {
 	
 	
 	public  List<String> getSkillGroup(String key) {
-		 System.out.println("Method Executes");
 
 
-		 return mongoOperation.getCollection("subskill").distinct("skill",new BasicDBObject("skillGroup",key));
+
+		 return mongoOperation.getCollection(ConfigurationStrings.SUBSKILL).distinct(ConfigurationStrings.SKILL,new BasicDBObject(ConfigurationStrings.SKILLGROUP,key));
 	 }
 	
 	
 	public List<SubSkill> getSkill(String key) {
-		 System.out.println("Method Executes");
+
 		 String[] splitKey = key.split("_");
 		 Criteria criteria = new Criteria();
-	     criteria.andOperator(Criteria.where("skillGroup").is(splitKey[0]),Criteria.where("skill").is(splitKey[1]));
+	     criteria.andOperator(Criteria.where(ConfigurationStrings.SKILLGROUP).is(splitKey[0]),Criteria.where(ConfigurationStrings.SKILL).is(splitKey[1]));
 	     Query query = new Query(criteria);
 		 return mongoOperation.find(query, SubSkill.class);
 	 }
@@ -86,18 +88,17 @@ public class GuavaCacheInit {
 	
 	public  Map<String,List<String>> loadSkillGroup()
 		{
-			System.out.println("Executing SkillGroup Method");
 				
 			Map<String,List<String>> skillGroupMap = new HashMap<>();
 	     
-			List<String> skillGroups =  mongoOperation.getCollection("subskill").distinct("skillGroup");
+			List<String> skillGroups =  mongoOperation.getCollection(ConfigurationStrings.SUBSKILL).distinct(ConfigurationStrings.SKILLGROUP);
 			
 			for(String iterable : skillGroups)
 			{
-				List<String> skills =  mongoOperation.getCollection("subskill").distinct("skill",new BasicDBObject("skillGroup",iterable));
+				List<String> skills =  mongoOperation.getCollection(ConfigurationStrings.SUBSKILL).distinct(ConfigurationStrings.SKILL,new BasicDBObject(ConfigurationStrings.SKILLGROUP,iterable));
 				skillGroupMap.put(iterable,skills);
 			}
-			  System.out.println("Function Exits");   
+
 			return skillGroupMap;
 		}
 	
@@ -116,7 +117,7 @@ public class GuavaCacheInit {
 			for(String iterable : skillNames)
 			{
 			  Criteria criteria = new Criteria();
-			  criteria.andOperator(Criteria.where("skillGroup").is(key),Criteria.where("skill").is(iterable));
+			  criteria.andOperator(Criteria.where(ConfigurationStrings.SKILLGROUP).is(key),Criteria.where(ConfigurationStrings.SKILL).is(iterable));
 			  Query query = new Query(criteria);
 			  List<SubSkill> subSkills = mongoOperation.find(query, SubSkill.class);			
 			  skillMap.put(key+"_"+iterable,subSkills);

@@ -4,7 +4,6 @@ import com.teksystems.skillportal.model.Training;
 import com.teksystems.skillportal.model.TrainingSession;
 import com.teksystems.skillportal.repository.TrainingRepository;
 import com.teksystems.skillportal.repository.TrainingSessionRepository;
-import com.teksystems.skillportal.service.TrainingService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

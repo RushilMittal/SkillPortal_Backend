@@ -1,5 +1,6 @@
 package com.teksystems.skillportal.controller;
 
+import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.model.AdminRoles;
 import com.teksystems.skillportal.service.RoleService;
 import com.teksystems.skillportal.service.TokenValidationService;
@@ -30,18 +31,18 @@ public class RoleController {
         String employeeId = null;
         List<AdminRoles> toReturn = null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 if (employeeId != null) {
-                    logger.debug("Paramater received : employeeId " + employeeId);
+                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                     toReturn = roleService.getAdminRoles();
                 } else {
-                    logger.info("Employee Email id not Present");
+                    logger.info(ConfigurationStrings.NOEMAIL);
                 }
 
             } else {
-                logger.info("Authorization Header not found");
+                logger.info(ConfigurationStrings.AUTHORIZATIONHEADER);
             }
         } catch (Exception e) {
             logger.info("Some Error Occured: " + e.toString());
@@ -54,25 +55,25 @@ public class RoleController {
      */
     @PostMapping("/addAdminRole")
     private void addAdminRole(HttpServletRequest request, @RequestBody AdminRoles role, HttpServletResponse response) {
-        logger.info("adminRoles API Called");
+        logger.info("addadminRoles API Called");
         String employeeId = null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 if (tokenValidator.validateAdminRole(request, response)) {
                     employeeId = tokenValidator.ExtractEmployeeId(request);
                     if (employeeId != null) {
-                        logger.debug("Paramater received : employeeId " + employeeId);
+                        logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                         roleService.addRoles(role);
                     } else {
-                        logger.info("Employee Email id not Present");
+                        logger.info(ConfigurationStrings.NOEMAIL);
                     }
                 } else {
-                    logger.debug("Employee doesn't have Admin Role");
-                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
+                    logger.debug(ConfigurationStrings.NOADMIN);
+                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
                 }
             } else {
-                logger.info("Authorization Header not found");
+                logger.info(ConfigurationStrings.AUTHORIZATIONHEADER);
             }
         } catch (Exception e) {
             logger.info("Some Error Occured: " + e.toString());
@@ -81,25 +82,25 @@ public class RoleController {
 
     @DeleteMapping("/deleteRole")
     public void deleteRole(HttpServletRequest request, @RequestParam String id, HttpServletResponse response) {
-        logger.info("adminRoles API Called");
+        logger.info("deleteRoles API Called");
         String employeeId = null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 if (tokenValidator.validateAdminRole(request, response)) {
                     employeeId = tokenValidator.ExtractEmployeeId(request);
                     if (employeeId != null) {
-                        logger.debug("Paramater received : employeeId " + employeeId);
+                        logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                         roleService.deleteRole(id);
                     } else {
-                        logger.info("Employee Email id not Present");
+                        logger.info(ConfigurationStrings.NOEMAIL);
                     }
                 } else {
-                    logger.debug("Employee doesn't have Admin Role");
-                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
+                    logger.debug(ConfigurationStrings.NOADMIN);
+                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
                 }
             } else {
-                logger.info("Authorization Header not found");
+                logger.info(ConfigurationStrings.AUTHORIZATIONHEADER);
             }
         } catch (Exception e) {
             logger.info("Some Error Occured: " + e.toString());

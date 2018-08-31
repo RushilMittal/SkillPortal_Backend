@@ -5,7 +5,7 @@
   "scripts": {
     "mock:server": "json-server --watch jwks_uri.json --port 4000 --no-cors",
     "ng": "ng",
-    "start": "ng serve  --host 10.188.27.137 --ssl 1 --ssl-key ssl/domain.key --ssl-cert ssl/domain.crt",
+    "start": "ng serve",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",

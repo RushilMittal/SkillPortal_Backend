@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.teksystems.skillportal.helper.ConfigurationStrings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -57,9 +58,9 @@ public class ReportService {
 	
 	public List<SubSkillDomain> topNSubSkills(int n)
 	{
-		Aggregation agg = newAggregation(group("subSkillId","empId"),
-				                         group("subSkillId").count().as("ratedUsers"),
-				                         sort(Sort.Direction.DESC, "ratedUsers"),
+		Aggregation agg = newAggregation(group(ConfigurationStrings.SUBSKILLID,ConfigurationStrings.EMPID),
+				                         group(ConfigurationStrings.SUBSKILLID).count().as(ConfigurationStrings.RATEDUSERS),
+				                         sort(Sort.Direction.DESC, ConfigurationStrings.RATEDUSERS),
 				                         limit(n));
 		
 		AggregationResults<SkillDomain> groupResults 
@@ -88,10 +89,10 @@ public class ReportService {
 		
 		Date dt =new Date(x);
 		
-		Aggregation agg = newAggregation(match(Criteria.where("lastModifiedDate").gt(dt)),
-				                         group("subSkillId","empId"),
-				                         group("subSkillId").count().as("ratedUsers"),
-				                         sort(Sort.Direction.DESC, "ratedUsers"),
+		Aggregation agg = newAggregation(match(Criteria.where(ConfigurationStrings.LASTMODIFIED).gt(dt)),
+				                         group(ConfigurationStrings.SUBSKILLID,ConfigurationStrings.EMPID),
+				                         group(ConfigurationStrings.SUBSKILLID).count().as(ConfigurationStrings.RATEDUSERS),
+				                         sort(Sort.Direction.DESC, ConfigurationStrings.RATEDUSERS),
 				                         limit(n));
 		
 		AggregationResults<SkillDomain> groupResults 
@@ -114,9 +115,9 @@ public class ReportService {
 	
 	public List<EmployeeSkillDomain> skillsOfEmployee(String empId)
 	{
-		List<String> skills = mongoOperation.getCollection("employeeskill").distinct("subSkillId",new BasicDBObject("empId",empId));
-		Aggregation agg = newAggregation(match(Criteria.where("empId").is(empId)),
-				group("subSkillId").max("lastModifiedDate").as("lastModifiedDate").addToSet("rating").as("rating")
+		List<String> skills = mongoOperation.getCollection("employeeskill").distinct(ConfigurationStrings.SUBSKILLID,new BasicDBObject(ConfigurationStrings.EMPID,empId));
+		Aggregation agg = newAggregation(match(Criteria.where(ConfigurationStrings.EMPID).is(empId)),
+				group(ConfigurationStrings.SUBSKILLID).max(ConfigurationStrings.LASTMODIFIED).as(ConfigurationStrings.LASTMODIFIED).addToSet(ConfigurationStrings.RATING).as(ConfigurationStrings.RATING)
                 );
 		
 		System.out.println(agg.toString());
@@ -146,10 +147,10 @@ public class ReportService {
         Calendar cal2 = Calendar.getInstance();
         cal2.setTimeInMillis(to);
         Query query = new Query(Criteria.where("certificationValidityDate").gt(cal.getTime()).lt(cal2.getTime()));
-		Aggregation agg = newAggregation(match(Criteria.where("lastModifiedDate").gt(cal.getTime()).lt(cal2.getTime())),
-				                         group("empId","subSkillId").max("lastModifiedDate").as("maxDate").last("rating").as("lastRating").
-				                         min("lastModifiedDate").as("minDate").first("rating").as("firstRating"),
-				                         sort(Sort.Direction.ASC, "empId"));
+		Aggregation agg = newAggregation(match(Criteria.where(ConfigurationStrings.LASTMODIFIED).gt(cal.getTime()).lt(cal2.getTime())),
+				                         group(ConfigurationStrings.EMPID,ConfigurationStrings.SUBSKILLID).max(ConfigurationStrings.LASTMODIFIED).as("maxDate").last(ConfigurationStrings.RATING).as("lastRating").
+				                         min(ConfigurationStrings.LASTMODIFIED).as("minDate").first(ConfigurationStrings.RATING).as("firstRating"),
+				                         sort(Sort.Direction.ASC, ConfigurationStrings.EMPID));
 		
 		System.out.println(agg.toString());
 		
@@ -188,7 +189,7 @@ public class ReportService {
 
 	public List<String> EmployeesWithASkill()
 	{
-		List<String> empIds = mongoOperation.getCollection("employeeskill").distinct("empId");
+		List<String> empIds = mongoOperation.getCollection("employeeskill").distinct(ConfigurationStrings.EMPID);
 		return empIds;
 	}
 

@@ -4,6 +4,7 @@ import com.teksystems.skillportal.domain.EmployeeTrainingDomain;
 import com.teksystems.skillportal.domain.EmployeeTrainingPlaceholderDomain;
 import com.teksystems.skillportal.domain.TrainingEventDomain;
 import com.teksystems.skillportal.domain.TrainingListEventDomain;
+import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.service.EmployeeTrainingService;
 import com.teksystems.skillportal.service.TokenValidationService;
 import org.apache.log4j.Logger;
@@ -31,17 +32,17 @@ public class EmployeeTrainingController {
         String empId = null;
         List<EmployeeTrainingDomain> toReturn = null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 empId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + empId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to fetch employee's added Training");
                 toReturn = employeeTrainingService.getEmployeeTrainingByEmployeeId(empId);
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occurred: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
         System.out.println(toReturn);
         return toReturn;
@@ -54,17 +55,17 @@ public class EmployeeTrainingController {
         List<TrainingEventDomain> toReturn = null;
 
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 empId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + empId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to fetch employee's added Events for Calendar view");
                 toReturn = employeeTrainingService.getTrainingEventByEmployeeId(empId);
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occurred: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
         System.out.println(toReturn);
         return toReturn;
@@ -75,17 +76,17 @@ public class EmployeeTrainingController {
         logger.info("/delete API called");
         String empId = null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 empId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + empId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to delete employee's added Events");
                 employeeTrainingService.cancelEnrollment(empId,trainingId);
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occurred: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
     }
 
@@ -95,17 +96,17 @@ public class EmployeeTrainingController {
         String empId = null;
         List<TrainingListEventDomain> toReturn = null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 empId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + empId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to fetch employee's added Events for list view");
                 toReturn = employeeTrainingService.getTrainingListEventByEmployeeId(empId);
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occurred: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
         System.out.println(toReturn );
         return toReturn;
@@ -117,17 +118,17 @@ public class EmployeeTrainingController {
         String empId = null;
         List<EmployeeTrainingPlaceholderDomain> toReturn = null;
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 empId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + empId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to fetch employee's added Trainings for training placeholder");
                 toReturn = employeeTrainingService.getEnrolledTraining(empId);
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occurred: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
         return toReturn;
     }
@@ -139,17 +140,17 @@ public class EmployeeTrainingController {
         List<EmployeeTrainingPlaceholderDomain> toReturn = null;
 
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 empId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + empId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to fetch Upcoming Trainings for training placeholder");
                 toReturn = employeeTrainingService.getUpcomingTraining();
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occurred: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
         return toReturn;
     }

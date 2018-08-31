@@ -2,6 +2,7 @@ package com.teksystems.skillportal.controller;
 
 
 import com.teksystems.skillportal.domain.TrainingDomain;
+import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.service.TokenValidationService;
 import com.teksystems.skillportal.service.TrainingService;
 import org.apache.log4j.Logger;
@@ -29,17 +30,17 @@ public class TrainingController {
         String empId = null;
 
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 empId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + empId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to add new Training");
                     trainingService.saveTraining(training.getTraining(), training.getTrainingSessions());
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occurred: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
     }
 
@@ -51,17 +52,17 @@ public class TrainingController {
         List<TrainingDomain> toReturn = null;
 
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 empId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + empId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to fetch all the trainings available");
                 toReturn = trainingService.getAllTrainings(empId);
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occurred: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
         return toReturn;
     }
@@ -74,17 +75,17 @@ public class TrainingController {
         String empId = null;
 
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 empId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + empId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to enroll a New Training for a particular employee");
                 trainingService.enrollTraining(empId, trainingId);
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occurred: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
 
     }
@@ -96,17 +97,17 @@ public class TrainingController {
         String empId = null;
 
         try {
-            logger.info("Trying to Fetch the Employee Id from the HTTP HEADERS");
-            if (!(((HttpServletRequest) request).getHeader("Authorization").toString().equals(null))) {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 empId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug("Paramater received : employeeId " + empId);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to update Training details ");
                 trainingService.updateTraining(training.getTraining(), training.getTrainingSessions());
             } else {
-                logger.info("Employee Id not Found in the Authorization");
+                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occurred: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
 
     }

@@ -22,19 +22,7 @@ public class SkillGroupService {
         System.out.println("Cache Size:" + skillGroupCache.size());
         return skillGroupCache.asMap();
 
-        /* No need to create the domain
-        LoadingCache<String, List<String>> skillGroupCache = GuavaCacheInit.getLoadingCache();
-        Map<String, List<String>> received =skillGroupCache.asMap();
 
-        List<SkillGroupDomain> skillGroupDomains = new LinkedList<>();
-
-        for(Map.Entry<String, List<String>> entry : received.entrySet()) {
-            SkillGroupDomain temp = new SkillGroupDomain(entry.getKey(),entry.getValue());
-            skillGroupDomains.add(temp);
-        }
-
-        return skillGroupDomains;
-        */
     }
 
 
