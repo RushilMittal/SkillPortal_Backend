@@ -113,6 +113,7 @@ public class EmployeeTrainingServiceTest {
 
         List<TrainingListEventDomain> expected = employeeTrainingService.getTrainingListEventByEmployeeId("101");
 
+
         assertThat(3,is(expected.size()));
         assertThat("Java - Core",is(expected.get(0).getName()));
         assertThat("Training Room - 1",is(expected.get(1).getLocation()));

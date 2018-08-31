@@ -25,6 +25,29 @@ public class AdminController {
     @Autowired
     AdminService adminService;
 
+    private boolean checkAdmin(HttpServletRequest request, HttpServletResponse response) {
+        boolean adminStatus = false;
+        String employeeId = null;
+        try {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (!(request.getHeader(ConfigurationStrings.AUTHORIZATION).equals(null))) {
+                if (tokenValidator.validateAdminRole(request, response)) {
+                    employeeId = tokenValidator.ExtractEmployeeId(request);
+                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
+                    adminStatus = true;
+                } else {
+                    logger.debug(ConfigurationStrings.NOADMIN);
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
+                }
+            } else {
+                logger.info(ConfigurationStrings.NOTFOUND);
+            }
+        } catch (IOException e) {
+            logger.info("Some Error Occured: " + e.toString());
+        }
+
+        return adminStatus;
+    }
 
     /*
      * Method returning the List of the Skills in Skill Collection
@@ -37,22 +60,13 @@ public class AdminController {
         String employeeId = null;
         List<SubSkill> toReturn = null;
         try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
-                if (tokenValidator.validateAdminRole(request, response)) {
-                    employeeId = tokenValidator.ExtractEmployeeId(request);
-                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                    toReturn = adminService.getAllAdminSkills();
-                } else {
-                    logger.debug(ConfigurationStrings.NOADMIN);
-                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
-                }
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
+            if (checkAdmin(request, response)) {
+                toReturn = adminService.getAllAdminSkills();
             }
         } catch (Exception e) {
             logger.info("Some Error Occured: " + e.toString());
         }
+
         return toReturn;
     }
 
@@ -65,20 +79,11 @@ public class AdminController {
         logger.info("/updateNewSkill API called");
         String employeeId = null;
         try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
-                if (tokenValidator.validateAdminRole(request, response)) {
-                    employeeId = tokenValidator.ExtractEmployeeId(request);
-                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                    adminService.updateNewSkill(subSkillReceived);
-                } else {
-                    logger.debug(ConfigurationStrings.NOADMIN);
-                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
-                }
+            if (checkAdmin(request, response)) {
 
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
+                adminService.updateNewSkill(subSkillReceived);
             }
+
         } catch (Exception e) {
             logger.info(ConfigurationStrings.ERROR + e.toString());
         }
@@ -92,19 +97,10 @@ public class AdminController {
         logger.info("/addNewSkill API called");
         String employeeId = null;
         try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
-                if (tokenValidator.validateAdminRole(request, response)) {
-                    employeeId = tokenValidator.ExtractEmployeeId(request);
-                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                    adminService.addNewSkill(subSkillReceived);
-                } else {
-                    logger.debug(ConfigurationStrings.NOADMIN);
-                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
-                }
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
+            if (checkAdmin(request, response)) {
+                adminService.addNewSkill(subSkillReceived);
             }
+
         } catch (Exception e) {
             logger.info(ConfigurationStrings.ERROR + e.toString());
         }
@@ -121,19 +117,11 @@ public class AdminController {
         logger.info("/add_new Certificate API called");
         String employeeId = null;
         try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
-                if (tokenValidator.validateAdminRole(request, response)) {
-                    employeeId = tokenValidator.ExtractEmployeeId(request);
-                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                    adminService.postNewCertification(certification);
-                } else {
-                    logger.debug(ConfigurationStrings.NOADMIN);
-                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
-                }
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
+
+            if (checkAdmin(request, response)) {
+                adminService.postNewCertification(certification);
             }
+
         } catch (Exception e) {
             logger.info(ConfigurationStrings.ERROR + e.toString());
         }
@@ -148,19 +136,10 @@ public class AdminController {
         logger.info("/add_new Certificate API called");
         String employeeId = null;
         try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
-                if (tokenValidator.validateAdminRole(request, response)) {
-                    employeeId = tokenValidator.ExtractEmployeeId(request);
-                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                    adminService.updateCertificate(certification);
-                } else {
-                    logger.debug(ConfigurationStrings.NOADMIN);
-                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
-                }
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
+            if (checkAdmin(request, response)) {
+                adminService.updateCertificate(certification);
             }
+
         } catch (Exception e) {
             logger.info(ConfigurationStrings.ERROR + e.toString());
         }
@@ -175,31 +154,11 @@ public class AdminController {
         String employeeId = null;
 
         try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
-                if (tokenValidator.validateAdminRole(request, response)) {
-                    employeeId = tokenValidator.ExtractEmployeeId(request);
-                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                    MultipartFile file = files[0];
 
-
-                    String line = "";
-                    try {
-                        InputStream a = file.getInputStream();
-                        Reader targetReader = new InputStreamReader(a);
-                        BufferedReader br = new BufferedReader(targetReader);
-                        if (!adminService.skilluploadcsv(br)) {
-                            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Unknow Format");
-                        }
-                    } catch (IOException e) {
-                        logger.error(e.getMessage());
-                    }
-                } else {
-                    logger.debug(ConfigurationStrings.NOADMIN);
-                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
+            if (checkAdmin(request, response)) {
+                if (!adminService.skilluploadcsv(getFileData(files[0]))) {
+                    response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Unknow Format");
                 }
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
             logger.info(ConfigurationStrings.ERROR + e.toString());
@@ -214,35 +173,29 @@ public class AdminController {
         String employeeId = null;
 //        System.out.println("hello in skill csv upload");
         try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
-                if (tokenValidator.validateAdminRole(request, response)) {
-                    employeeId = tokenValidator.ExtractEmployeeId(request);
-                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                    MultipartFile file = files[0];
 
-
-                    String line = "";
-                    try {
-                        InputStream a = file.getInputStream();
-                        Reader targetReader = new InputStreamReader(a);
-                        BufferedReader br = new BufferedReader(targetReader);
-                        if (!adminService.certificateuploadcsv(br)) {
-                            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Unknow Format");
-                        }
-                    } catch (IOException e) {
-                        logger.error(e.getMessage());
-                    }
-                } else {
-                    logger.debug(ConfigurationStrings.NOADMIN);
-                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
+            if (checkAdmin(request, response)) {
+                if (!adminService.certificateuploadcsv(getFileData(files[0]))) {
+                    response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Unknow Format");
                 }
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
             logger.info(ConfigurationStrings.ERROR + e.toString());
         }
+    }
+
+    private BufferedReader getFileData(MultipartFile file) {
+        InputStream a = null;
+        BufferedReader toReturn = null;
+        try {
+            a = file.getInputStream();
+            Reader targetReader = new InputStreamReader(a);
+            toReturn = new BufferedReader(targetReader);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return toReturn;
     }
 
 
