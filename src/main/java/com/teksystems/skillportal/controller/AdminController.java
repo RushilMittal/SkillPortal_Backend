@@ -192,7 +192,7 @@ public class AdminController {
             Reader targetReader = new InputStreamReader(a);
             toReturn = new BufferedReader(targetReader);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
         return toReturn;
