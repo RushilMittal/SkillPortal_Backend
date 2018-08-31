@@ -275,7 +275,7 @@ public class TokenValidationService {
     }
 
     public boolean validateAdminRole(HttpServletRequest request, HttpServletResponse response){
-        System.out.println("inside the validateAdminrole");
+
         boolean isAdmin = false;
         String token = null;
         try{
@@ -284,11 +284,11 @@ public class TokenValidationService {
             //token not present in the admin call, fake call;
             logger.error(e.getMessage());
         }
-        System.out.println("token in admin"+token);
+
         if(token!=null) {
             try {
 
-                System.out.println("token is" + token);
+
                 URL url = new URL("https://graph.microsoft.com/v1.0/me");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
@@ -297,7 +297,7 @@ public class TokenValidationService {
                 conn.setRequestProperty("Accept", "application/json");
                 String goodRespStr = HttpClientHelper.getResponseStringFromConn(conn, true);
                 int responseCode = conn.getResponseCode();
-                System.out.println(responseCode);
+
                 if (responseCode == 200) {
                     JSONObject responseRecieved = HttpClientHelper.processGoodRespStr(responseCode, goodRespStr);
                     boolean toReturn = (adminService.IsAdmin(

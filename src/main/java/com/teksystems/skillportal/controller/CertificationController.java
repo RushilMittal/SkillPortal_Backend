@@ -52,7 +52,7 @@ public class CertificationController {
         } catch (Exception e) {
             logger.info(ConfigurationStrings.ERROR + e.toString());
         }
-        System.out.println(certifications);
+
         return certifications;
     }
 

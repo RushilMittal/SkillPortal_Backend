@@ -8,7 +8,6 @@ public class ConfigurationStrings {
     public final static String INVALIDTOKEN="Invalid Token";
     public final static String NOTFOUND="Employee Id not Found in the Authorization";
     public final static String ERROR="Some Error Occurred: ";
-  //  public final static String FETCHEMPLOYEEID="Trying to Fetch the Employee Id from the HTTP HEADERS";
     public final static String NOEMAIL="Employee Email id not Present";
     public final static String AUTHORIZATIONHEADER="Authorization Header not found";
     public final static String RESPONSECODE="responseCode";
@@ -21,16 +20,4 @@ public class ConfigurationStrings {
     public final static String RATEDUSERS="ratedUsers";
     public final static String LASTMODIFIED="lastModifiedDate";
     public final static String RATING="rating";
-
-
-
-
-
-
-
-
-
-
-
-
 }

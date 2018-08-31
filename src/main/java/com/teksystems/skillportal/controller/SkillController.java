@@ -1,11 +1,9 @@
 package com.teksystems.skillportal.controller;
 
 import com.teksystems.skillportal.helper.ConfigurationStrings;
-import com.teksystems.skillportal.helper.SkillHelper;
 import com.teksystems.skillportal.model.SubSkill;
 import com.teksystems.skillportal.service.SkillGroupService;
 import com.teksystems.skillportal.service.SkillService;
-import com.teksystems.skillportal.service.SubSkillService;
 import com.teksystems.skillportal.service.TokenValidationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +23,8 @@ public class SkillController {
     private static Logger logger = Logger.getLogger(SkillController.class);
 
     @Autowired
-    SkillHelper skillHelper;
-    @Autowired
     SkillGroupService skillGroupService;
-    @Autowired
-    SubSkillService subSkillService;
+
     @Autowired
     SkillService skillService;
     @Autowired
@@ -45,23 +40,21 @@ public class SkillController {
     @GetMapping("/getallskillgroups")
     public  Map<String,List<String>> getAllSkillGroups(HttpServletRequest request) throws ExecutionException
     {
-        System.out.println("/getallskillgroups API called");
+
         String employeeId = null;
         Map<String,List<String>> toReturn = null;
         try {
-            System.out.println(ConfigurationStrings.FETCHING);
             if(!((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).equals(null)) {
-                System.out.println("inside the if");
+
                 employeeId = tokenValidator.ExtractEmployeeId(request);
-                System.out.println(ConfigurationStrings.EMPLOYEEID + employeeId);
                 toReturn = skillGroupService.getAllSkillGroups();
             } else {
-                System.out.println(ConfigurationStrings.NOTFOUND);
+
             }
         } catch (Exception e) {
-            logger.info("Some Error Occured: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
-        System.out.println(toReturn);
+
         return toReturn;
     }
 
@@ -89,7 +82,7 @@ public class SkillController {
                 logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occured: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
         return toReturn;
     }
@@ -119,7 +112,7 @@ public class SkillController {
                 logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occured: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
         return toReturn;
     }

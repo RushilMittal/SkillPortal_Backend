@@ -45,7 +45,7 @@ public class RoleController {
                 logger.info(ConfigurationStrings.AUTHORIZATIONHEADER);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occured: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
         return toReturn;
     }
@@ -76,7 +76,7 @@ public class RoleController {
                 logger.info(ConfigurationStrings.AUTHORIZATIONHEADER);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occured: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
     }
 
@@ -103,7 +103,7 @@ public class RoleController {
                 logger.info(ConfigurationStrings.AUTHORIZATIONHEADER);
             }
         } catch (Exception e) {
-            logger.info("Some Error Occured: " + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
         }
     }
 

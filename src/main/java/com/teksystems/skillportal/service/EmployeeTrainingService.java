@@ -84,11 +84,11 @@ public class EmployeeTrainingService {
         Training training = trainingRepository.findByid(trainingId);
         EmployeeTraining employeeTraining = this.employeeTrainingRepository.findByEmpIdAndTrainingId(empId,trainingId);
         this.employeeTrainingRepository.delete(employeeTraining);
-        System.out.println(training.getSeats());
+
         training.setSeats(training.getSeats()+1);
         trainingRepository.save(training);
 
-        System.out.println(training.getSeats());
+
 
     }
 
@@ -128,7 +128,7 @@ public class EmployeeTrainingService {
             for (Training iterable : training) {
                 List<TrainingSession> trainingSession = trainingSessionRepository.findBytrainingId(iterable.getId());
                 Collections.sort(trainingSession);
-                System.out.println(trainingSession);
+
                 EmployeeTrainingPlaceholderDomain empTrainingPlaceholderDomain = new EmployeeTrainingPlaceholderDomain();
                 empTrainingPlaceholderDomain.setTrainingId(iterable.getId());
                 empTrainingPlaceholderDomain.setName(iterable.getName());

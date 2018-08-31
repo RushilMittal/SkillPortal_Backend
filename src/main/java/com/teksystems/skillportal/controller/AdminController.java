@@ -61,7 +61,7 @@ public class AdminController {
      */
     @PutMapping("/updateNewSkill")
     void updateSkill(HttpServletRequest request, @RequestBody SubSkill subSkillReceived, HttpServletResponse response) {
-        System.out.println(subSkillReceived.toString());
+
         logger.info("/updateNewSkill API called");
         String employeeId = null;
         try {
@@ -173,7 +173,7 @@ public class AdminController {
     void uploadSkillCsv(HttpServletRequest request, HttpServletResponse response, @RequestParam("file") MultipartFile[] files) {
         logger.info("/uploadskillcsv Certificate API called");
         String employeeId = null;
-//        System.out.println("hello in skill csv upload");
+
         try {
             logger.info(ConfigurationStrings.FETCHING);
             if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
@@ -182,8 +182,7 @@ public class AdminController {
                     logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                     MultipartFile file = files[0];
 
-//                    System.out.println(file.getName());
-//                    System.out.println(file.getOriginalFilename());
+
                     String line = "";
                     try {
                         InputStream a = file.getInputStream();
@@ -222,8 +221,7 @@ public class AdminController {
                     logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                     MultipartFile file = files[0];
 
-//                    System.out.println(file.getName());
-//                    System.out.println(file.getOriginalFilename());
+
                     String line = "";
                     try {
                         InputStream a = file.getInputStream();

@@ -3,7 +3,6 @@ package com.teksystems.skillportal.controller;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +14,6 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import com.teksystems.skillportal.model.SubSkill;
 import com.teksystems.skillportal.service.SkillGroupService;
 import com.teksystems.skillportal.service.SkillService;
-import com.teksystems.skillportal.service.SubSkillService;
 import com.teksystems.skillportal.service.TokenValidationService;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,10 +33,6 @@ import static org.hamcrest.core.Is.is;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-import com.teksystems.skillportal.controller.SkillController;
-import com.teksystems.skillportal.domain.SkillDomain;
-import com.teksystems.skillportal.helper.SkillHelper;
-
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -46,12 +40,9 @@ import javax.servlet.http.HttpServletRequest;
 
 public class SkillControllerTest {
  
-	@Mock
-    SkillHelper skillHelper;
+
 	@Mock
     SkillGroupService skillGroupService;
-	@Mock
-    SubSkillService subSkillService;
 	@Mock
     SkillService skillService;
     @Mock

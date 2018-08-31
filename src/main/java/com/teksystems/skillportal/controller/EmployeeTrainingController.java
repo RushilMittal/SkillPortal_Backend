@@ -44,7 +44,7 @@ public class EmployeeTrainingController {
         } catch (Exception e) {
             logger.info(ConfigurationStrings.ERROR + e.toString());
         }
-        System.out.println(toReturn);
+
         return toReturn;
     }
 
@@ -67,7 +67,7 @@ public class EmployeeTrainingController {
         } catch (Exception e) {
             logger.info(ConfigurationStrings.ERROR + e.toString());
         }
-        System.out.println(toReturn);
+
         return toReturn;
     }
 
@@ -108,7 +108,7 @@ public class EmployeeTrainingController {
         } catch (Exception e) {
             logger.info(ConfigurationStrings.ERROR + e.toString());
         }
-        System.out.println(toReturn );
+
         return toReturn;
     }
 

@@ -73,8 +73,7 @@ public class ReportService {
 		{
 			SubSkill temp = subSkillRepository.findOne(i.getId());
 		    SubSkillDomain temp2 = new SubSkillDomain(temp.getId(),temp.getSubSkill(),temp.getSubSkillDesc(),temp.getSkill(),temp.getSkillGroup(),temp.getPractice(),i.getRatedUsers());
-			System.out.println("\n"+i.getId());
-			System.out.println(i.getRatedUsers());
+
 			results.add(temp2);
 		}
 		
@@ -105,8 +104,7 @@ public class ReportService {
 		{
 		    SubSkill temp = subSkillRepository.findOne(i.getId());
 		    SubSkillDomain temp2 = new SubSkillDomain(temp.getId(),temp.getSubSkill(),temp.getSubSkillDesc(),temp.getSkill(),temp.getSkillGroup(),temp.getPractice(),i.getRatedUsers());
-			System.out.println("\n"+i.getId());
-			System.out.println(i.getRatedUsers());
+
 			results.add(temp2);
 		}
 		
@@ -120,7 +118,7 @@ public class ReportService {
 				group(ConfigurationStrings.SUBSKILLID).max(ConfigurationStrings.LASTMODIFIED).as(ConfigurationStrings.LASTMODIFIED).addToSet(ConfigurationStrings.RATING).as(ConfigurationStrings.RATING)
                 );
 		
-		System.out.println(agg.toString());
+
 		
 		AggregationResults<EmployeeSkill> groupResults 
 		= mongoOperation.aggregate(agg, EmployeeSkill.class, EmployeeSkill.class);
@@ -152,7 +150,7 @@ public class ReportService {
 				                         min(ConfigurationStrings.LASTMODIFIED).as("minDate").first(ConfigurationStrings.RATING).as("firstRating"),
 				                         sort(Sort.Direction.ASC, ConfigurationStrings.EMPID));
 		
-		System.out.println(agg.toString());
+
 		
 		AggregationResults<SkillReport> groupResults 
 		= mongoOperation.aggregate(agg, EmployeeSkill.class, SkillReport.class);
@@ -162,8 +160,7 @@ public class ReportService {
 		
 		for(SkillReport i:result)
 		{
-			System.out.println("\n"+i.getSubSkillId());
-			System.out.println(i.getEmpId());
+
 		}
 		
 		return result;

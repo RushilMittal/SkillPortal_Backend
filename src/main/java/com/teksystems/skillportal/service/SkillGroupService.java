@@ -17,9 +17,9 @@ public class SkillGroupService {
     GuavaCacheInit guavaCacheInit;
 
     public Map<String,List<String>> getAllSkillGroups() throws ExecutionException {
-        System.out.println("INside the getallservices");
+
         LoadingCache<String, List<String>> skillGroupCache = guavaCacheInit.getLoadingCache();
-        System.out.println("Cache Size:" + skillGroupCache.size());
+
         return skillGroupCache.asMap();
 
 

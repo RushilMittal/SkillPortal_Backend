@@ -17,7 +17,7 @@
 	</parent>
 
 	<properties>
-		 <start-class>com.teksystems.skillportal.SkillPortal_Skill</start-class>
+		 <start-class>com.teksystems.skillportal.SkillPortal</start-class>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>

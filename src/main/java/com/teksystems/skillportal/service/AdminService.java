@@ -43,7 +43,7 @@ public class AdminService {
 
     public List<SubSkill> getAllAdminSkills() throws ExecutionException {
         List<SubSkill> toReturn = subSkillRepository.findAll();
-        System.out.println(toReturn);
+
         return toReturn;
 
     }
@@ -130,13 +130,13 @@ public class AdminService {
                 }
                 while (temp.getId() == certification_id);
             } catch (NullPointerException e) {
-                System.out.println(e);
+
             }
 
             certification1.setId(certification_id);
 
             //To save a new entry
-            System.out.println("saved");
+
             this.certificationRepository.save(certification1);
         }
     }
@@ -149,7 +149,7 @@ public class AdminService {
     public boolean skilluploadcsv(BufferedReader br) {
         boolean toReturn = true;
         int i = (int) subSkillRepository.count() + 1;
-        System.out.println("inside the admin service count is" + i);
+
         String line = "";
         SubSkill checker = null;
         List<SubSkill> subskills = new LinkedList<>();

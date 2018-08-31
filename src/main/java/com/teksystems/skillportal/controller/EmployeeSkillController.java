@@ -57,7 +57,7 @@ public class EmployeeSkillController {
                 logger.info(ConfigurationStrings.NOTFOUND);
             }
         }catch(Exception e){
-            logger.info("Some error occured" + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
             logger.error(e.getMessage());
         }
         return toReturn;
@@ -96,7 +96,7 @@ public class EmployeeSkillController {
             }
 
         }catch(Exception e){
-            logger.info("Some error occured" + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
             logger.error(e.getMessage());
         }
 
@@ -167,7 +167,7 @@ public class EmployeeSkillController {
                 logger.info("No Authorization Present");
             }
         }catch(Exception e ) {
-            logger.info("Some Error Occured" + e.toString());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
             logger.error(e.getMessage());
         }
 

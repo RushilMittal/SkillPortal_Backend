@@ -87,7 +87,7 @@ public class EmployeeCertificationService {
 
 
             } else {
-                System.out.println("No data Present");
+
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -98,7 +98,7 @@ public class EmployeeCertificationService {
 
     public Date dateExtractor(String dateReceived, Calendar calendar) {
         Date toReturn = null;
-        System.out.println("Recived param" + dateReceived);
+
         if(!dateReceived.equals("null")) {
             calendar.set(Calendar.YEAR, Integer.parseInt(dateReceived.split("-")[0]));
             calendar.set(Calendar.MONTH, Integer.parseInt(dateReceived.split("-")[1]));
@@ -109,7 +109,7 @@ public class EmployeeCertificationService {
             toReturn = calendar.getTime();
 
         }
-        System.out.println("date:" + toReturn);
+
         return toReturn;
     }
 

@@ -84,8 +84,7 @@ public class EmployeeCertificationController {
                 Date certificationDate = employeeCertificationService.dateExtractor(certificationDateString, calendar);
 
                 Date certificationValidityDate =employeeCertificationService.dateExtractor(certificationValidityDateString, calendar);
-                System.out.println(employeeId + ":" + certificationId + ":" + certificationDate + ":"+ certificationValidityDate
-                        + certificationNumber + certificationUrl);
+
                 employeeCertificationService.addNew(employeeId,certificationId, certificationDate, certificationValidityDate,
                         certificationNumber, certificationUrl);
             } else {
@@ -111,7 +110,7 @@ public class EmployeeCertificationController {
             @RequestBody EmployeeCertificationDomain employeeCertificationDomain
     ){
         logger.info("/addcertificate API called");
-        System.out.println("Add certificate called");
+
         String employeeId =null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
