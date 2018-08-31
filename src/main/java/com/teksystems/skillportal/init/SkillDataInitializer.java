@@ -22,10 +22,10 @@ public class SkillDataInitializer {
 	@Bean
 	public Void loadCache() {
 		Map<String, List<String>> skillGroupMap =  new GuavaCacheInit().loadSkillGroup();
-		guavaCacheInit.skillGroupCache.putAll(skillGroupMap);
+		guavaCacheInit.putSkillGroupCache(skillGroupMap);
 
 		Map<String, List<SubSkill>> skillMap = new GuavaCacheInit().loadSkill();
-		guavaCacheInit.skillCache.putAll(skillMap);
+		guavaCacheInit.putSkillCache(skillMap);
 		return null;
 	}
 	

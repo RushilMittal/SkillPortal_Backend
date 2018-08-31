@@ -26,9 +26,16 @@ public class GuavaCacheInit {
     MongoOperations mongoOperation =
             (MongoOperations) ctx.getBean("mongoTemplate");
 	
-    public LoadingCache<String, List<String>> skillGroupCache;
-    public LoadingCache<String, List<SubSkill>> skillCache;
+    private LoadingCache<String, List<String>> skillGroupCache;
+    private LoadingCache<String, List<SubSkill>> skillCache;
 
+    public void putSkillCache(Map<String, List<SubSkill>> skillMap){
+        skillCache.putAll(skillMap);
+    }
+
+    public void putSkillGroupCache(Map<String, List<String>> skillGroupMap){
+        skillGroupCache.putAll(skillGroupMap);
+    }
     @Autowired
 	public GuavaCacheInit()
 	  {

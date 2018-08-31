@@ -102,7 +102,7 @@ public class EmployeeCertificationController {
 	 * param:- HttpServletRequest(for validation of the EmployeeId)
 	 * param:- EmployeeCertificationDomain(Contains info about the certificate to Add)
 	 * Validation and fetching of the EmployeeId done:- 14-04-2018
-	 * (TODO SOLVED)Function not in use as, giving error due to inteceptor as its passed with type:- "text/plain",
+	 * ( SOLVED)Function not in use as, giving error due to inteceptor as its passed with type:- "text/plain",
 	 * and changing to "application/json" causing authentication fail of OPTIONS call and giving 415 ERROR
 	 */
     @PostMapping("/addcertificate")

@@ -19,7 +19,7 @@ public class Skill {
 
 
 	public Skill() {
-		// TODO Auto-generated constructor stub
+		//  Auto-generated constructor stub
 	}
 
 

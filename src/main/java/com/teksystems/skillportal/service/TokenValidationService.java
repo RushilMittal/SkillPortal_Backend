@@ -148,7 +148,7 @@ public class TokenValidationService {
     }
 
 
-    //TODO: cache content to file to prevent access internet everytime.
+    //: cache content to file to prevent access internet everytime.
     private String readUrl(String url) throws IOException {
         URL addr = new URL(url);
         StringBuilder sb = new StringBuilder();

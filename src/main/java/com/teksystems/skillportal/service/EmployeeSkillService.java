@@ -91,7 +91,7 @@ public class EmployeeSkillService {
 		EmployeeSkill newSkill = new EmployeeSkill();
 
 		//setting properties of objected as received from front end
-		//TODO: Use builder pattern to build models
+		//: Use builder pattern to build models
 		newSkill.setEmpId(empId);
 		newSkill.setSubSkillId(subSkillId);
 		newSkill.setRating(rating);
