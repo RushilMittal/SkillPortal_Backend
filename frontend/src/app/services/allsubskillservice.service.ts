@@ -19,7 +19,7 @@ export class AllSubSkillService {
     // console.log(url);
 
 
-    // we need to fetch the skill of employee except the rated ones.
+    // we need to fetch the modelSkill of employee except the rated ones.
     return this.http.get(url)
 
             .catch(this.handleError);

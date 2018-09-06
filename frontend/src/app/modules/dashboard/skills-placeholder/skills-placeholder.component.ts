@@ -35,7 +35,7 @@ export class SkillsPlaceholderComponent implements OnInit {
           this.month = this.skillPlaceholder.lastUpdatedPeriod[1];
           this.day = this.skillPlaceholder.lastUpdatedPeriod[2];
         }
-        this.errorMessage = 'Hurry Up! Rate your first skill';
+        this.errorMessage = 'Hurry Up! Rate your first modelSkill';
       },
       (error: any) => {
         this.errorMessage = <any>error;

@@ -43,25 +43,25 @@ describe('allsubskillservice', () => {
         expect(data[1].totalNumberofRatedUsers).toEqual('6');
       });
 
-      const req = httpMock.expectOne(`http://10.188.27.105:8745/skillportal-0.0.1/skill/all`);
+      const req = httpMock.expectOne(`http://10.188.27.105:8745/skillportal-0.0.1/modelSkill/all`);
       expect(req.request.method).toBe('GET');
       req.flush([
         {
           'id': '1' ,
           'subSkill': 'Project/Program vision',
-          'subSkillDesc': 'Elicit or identify the vision as applicable',
-          'skill': 'Analysis',
-          'skillGroup': 'BPMG',
-          'practice': 'ADM',
+          'modelSubSkillDesc': 'Elicit or identify the vision as applicable',
+          'modelSkill': 'Analysis',
+          'modelSkillGroup': 'BPMG',
+          'modelPractice': 'ADM',
           'totalNumberofRatedUsers': '2'
         },
         {
           'id': '1' ,
           'subSkill': 'Project/Program vision',
-          'subSkillDesc': 'Derive the project scope',
-          'skill': 'Analysis',
-          'skillGroup': 'BPMG',
-          'practice': 'ADM',
+          'modelSubSkillDesc': 'Derive the project scope',
+          'modelSkill': 'Analysis',
+          'modelSkillGroup': 'BPMG',
+          'modelPractice': 'ADM',
           'totalNumberofRatedUsers': '6'
         }
     ]);

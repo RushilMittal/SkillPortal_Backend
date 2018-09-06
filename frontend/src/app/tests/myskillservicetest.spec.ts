@@ -45,7 +45,7 @@ describe('MySkillService', () => {
         expect(data[2].subSkill.subSkill).toEqual('VPC');
       });
 
-      const req = httpMock.expectOne(`http://10.188.27.105:8745/skillportal-0.0.1/skill/getEmployeeSkills?empId=101`);
+      const req = httpMock.expectOne(`http://10.188.27.105:8745/skillportal-0.0.1/modelSkill/getEmployeeSkills?empId=101`);
       expect(req.request.method).toBe('GET');
       req.flush([
         {
@@ -53,10 +53,10 @@ describe('MySkillService', () => {
             'subSkill': {
                 'id': '37',
                 'subSkill': 'Glacier',
-                'subSkillDesc': 'Glacier',
-                'skill': 'AWS',
-                'skillGroup': 'Cloud',
-                'practice': 'ADM',
+                'modelSubSkillDesc': 'Glacier',
+                'modelSkill': 'AWS',
+                'modelSkillGroup': 'Cloud',
+                'modelPractice': 'ADM',
                 'totalNumberofRatedUsers': 1
             },
             'rating': 2,
@@ -67,10 +67,10 @@ describe('MySkillService', () => {
             'subSkill': {
                 'id': '28',
                 'subSkill': 'EC2',
-                'subSkillDesc': 'EC2',
-                'skill': 'AWS',
-                'skillGroup': 'Cloud',
-                'practice': 'ADM',
+                'modelSubSkillDesc': 'EC2',
+                'modelSkill': 'AWS',
+                'modelSkillGroup': 'Cloud',
+                'modelPractice': 'ADM',
                 'totalNumberofRatedUsers': 1
             },
             'rating': 5,
@@ -81,10 +81,10 @@ describe('MySkillService', () => {
             'subSkill': {
                 'id': '29',
                 'subSkill': 'VPC',
-                'subSkillDesc': 'VPC',
-                'skill': 'AWS',
-                'skillGroup': 'Cloud',
-                'practice': 'ADM',
+                'modelSubSkillDesc': 'VPC',
+                'modelSkill': 'AWS',
+                'modelSkillGroup': 'Cloud',
+                'modelPractice': 'ADM',
                 'totalNumberofRatedUsers': 1
             },
             'rating': 2,

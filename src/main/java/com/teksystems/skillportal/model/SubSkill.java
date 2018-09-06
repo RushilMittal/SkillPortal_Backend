@@ -9,22 +9,22 @@ public class SubSkill {
 	
 	@Id
 	String id;
-	String subSkill1;
-	String subSkillDesc;
-	String skill;
-	String skillGroup;
-	String practice;
+	String modelSubSkill;
+	String modelSubSkillDesc;
+	String modelSkill;
+	String modelSkillGroup;
+	String modelPractice;
 
 	public SubSkill() {
 	}
 
-	public SubSkill(String id, String subSkill, String subSkillDesc, String skill, String skillGroup, String practice) {
+	public SubSkill(String id, String subSkill, String modelSubSkillDesc, String modelSkill, String modelSkillGroup, String modelPractice) {
 		this.id = id;
-		this.subSkill1 = subSkill;
-		this.subSkillDesc = subSkillDesc;
-		this.skill = skill;
-		this.skillGroup = skillGroup;
-		this.practice = practice;
+		this.modelSubSkill = subSkill;
+		this.modelSubSkillDesc = modelSubSkillDesc;
+		this.modelSkill = modelSkill;
+		this.modelSkillGroup = modelSkillGroup;
+		this.modelPractice = modelPractice;
 	}
 
 	public String getId() {
@@ -34,45 +34,45 @@ public class SubSkill {
 		this.id = id;
 	}
 	public String getSubSkill() {
-		return subSkill1;
+		return modelSubSkill;
 	}
 	public void setSubSkill(String subSkill) {
-		this.subSkill1 = subSkill;
+		this.modelSubSkill = subSkill;
 	}
-	public String getSubSkillDesc() {
-		return subSkillDesc;
+	public String getModelSubSkillDesc() {
+		return modelSubSkillDesc;
 	}
-	public void setSubSkillDesc(String subSkillDesc) {
-		this.subSkillDesc = subSkillDesc;
+	public void setModelSubSkillDesc(String modelSubSkillDesc) {
+		this.modelSubSkillDesc = modelSubSkillDesc;
 	}
-	public String getSkill() {
-		return skill;
+	public String getModelSkill() {
+		return modelSkill;
 	}
-	public void setSkill(String skill) {
-		this.skill = skill;
+	public void setModelSkill(String modelSkill) {
+		this.modelSkill = modelSkill;
 	}
-	public String getSkillGroup() {
-		return skillGroup;
+	public String getModelSkillGroup() {
+		return modelSkillGroup;
 	}
-	public void setSkillGroup(String skillGroup) {
-		this.skillGroup = skillGroup;
+	public void setModelSkillGroup(String modelSkillGroup) {
+		this.modelSkillGroup = modelSkillGroup;
 	}
-	public String getPractice() {
-		return practice;
+	public String getModelPractice() {
+		return modelPractice;
 	}
-	public void setPractice(String practice) {
-		this.practice = practice;
+	public void setModelPractice(String modelPractice) {
+		this.modelPractice = modelPractice;
 	}
 
 	@Override
 	public String toString() {
 		return "SubSkill{" +
 				"id='" + id + '\'' +
-				", subSkill='" + subSkill1 + '\'' +
-				", subSkillDesc='" + subSkillDesc + '\'' +
-				", skill='" + skill + '\'' +
-				", skillGroup='" + skillGroup + '\'' +
-				", practice='" + practice + '\'' +
+				", subSkill='" + modelSubSkill + '\'' +
+				", modelSubSkillDesc='" + modelSubSkillDesc + '\'' +
+				", modelSkill='" + modelSkill + '\'' +
+				", modelSkillGroup='" + modelSkillGroup + '\'' +
+				", modelPractice='" + modelPractice + '\'' +
 				'}';
 	}
 }

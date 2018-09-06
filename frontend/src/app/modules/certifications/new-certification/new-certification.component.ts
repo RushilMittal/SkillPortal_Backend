@@ -44,8 +44,8 @@ export class NewCertificationComponent implements OnInit {
     });
 
     this.allSkillService.getAllSkillsData()
-      .subscribe(skillGroup => {
-        this.skills = skillGroup;
+      .subscribe(modelSkillGroup => {
+        this.skills = modelSkillGroup;
         this.temp = new Map();
         for (const key in this.skills) {
           this.temp.set(key, this.skills[key]);
@@ -62,7 +62,7 @@ export class NewCertificationComponent implements OnInit {
     this.saveClicked.emit();
   }
 
-  // Helper method: uses forwarded skill to make post call
+  // Helper method: uses forwarded modelSkill to make post call
   saveCertification(skillForwarded: string) {
 
     this.certification.skillId = skillForwarded;

@@ -28,13 +28,13 @@ export class AdminskillComponent implements OnInit {
       subSkill: {
         title: 'Sub Skill'
       },
-      skill: {
+      modelSkill: {
         title: 'Skill'
       },
-      skillGroup: {
+      modelSkillGroup: {
         title: 'Skill Group'
       },
-      subSkillDesc: {
+      modelSubSkillDesc: {
         title: 'Sub Skill Description'
       }
 
@@ -128,7 +128,7 @@ export class AdminskillComponent implements OnInit {
 
   //method used to validate the data received on save or edit
   validateData(event): boolean {
-    if ((event.newData['subSkill']) || (event.newData['skill']) || (event.newData['skillGroup']) || (event.newData['subSkillDesc'])) {
+    if ((event.newData['subSkill']) || (event.newData['modelSkill']) || (event.newData['modelSkillGroup']) || (event.newData['modelSubSkillDesc'])) {
       return true;
     }
     return false;
@@ -137,11 +137,11 @@ export class AdminskillComponent implements OnInit {
   convertToSubskillObject(id: string, event): SubSkill {
     let toReturn = new SubSkill();
     toReturn.id = id;
-    toReturn.skill = event['skill'];
-    toReturn.skillGroup = event['skillGroup'];
+    toReturn.modelSkill = event['modelSkill'];
+    toReturn.modelSkillGroup = event['modelSkillGroup'];
     toReturn.subSkill = event['subSkill'];
-    toReturn.subSkillDesc = event['subSkillDesc'];
-    toReturn.practice = event['practice'];
+    toReturn.modelSubSkillDesc = event['modelSubSkillDesc'];
+    toReturn.modelPractice = event['modelPractice'];
     return toReturn;
   }
 

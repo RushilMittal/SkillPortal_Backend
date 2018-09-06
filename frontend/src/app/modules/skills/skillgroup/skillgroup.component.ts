@@ -13,7 +13,7 @@ export class SkillGroupComponent implements OnInit {
   uparrow = 'fa fa-angle-up';
   errorMessage: any;
   activeTags = '';
-  skillGroup: SkillGroup;
+  modelSkillGroup: SkillGroup;
   showSpinner = false;
   keys;
   temp;
@@ -32,12 +32,12 @@ export class SkillGroupComponent implements OnInit {
     this.showSpinner = true;
     this.skillGroupService.getData()
       .subscribe(
-      skillGroup => {
-        this.skillGroup = skillGroup;
+      modelSkillGroup => {
+        this.modelSkillGroup = modelSkillGroup;
         this.temp = new Map();
-        console.log("Skill group recieved" +this.skillGroup);
-        for (const key in this.skillGroup) {
-          this.temp.set(key, this.skillGroup[key]);
+        console.log("Skill group recieved" +this.modelSkillGroup);
+        for (const key in this.modelSkillGroup) {
+          this.temp.set(key, this.modelSkillGroup[key]);
         }
       
       }

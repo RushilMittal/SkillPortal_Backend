@@ -40,7 +40,7 @@ export class AllSkillService {
       );
   }
 
-  // Getting One skill by providing SkillId.
+  // Getting One modelSkill by providing SkillId.
   getSkillById(skillId: string): Observable<Skill> {
     // console.log('inside getSkillById');
     const url = `${this.apiRoot}/getBySkillId?skillId=${skillId}`;

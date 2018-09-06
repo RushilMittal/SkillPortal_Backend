@@ -6,11 +6,11 @@
       </thead>
 
       <tbody>
-        <tr *ngFor="let skill of skills">
-          <td id="tdname">{{skill}}</td>
+        <tr *ngFor="let modelSkill of skills">
+          <td id="tdname">{{modelSkill}}</td>
 
           <td id="tdbutton">            
-            <button id="explore-button" type="button" class="btn" [routerLink]="['explore',skillGroup +'_' + skill]" >Explore</button>
+            <button id="explore-button" type="button" class="btn" [routerLink]="['explore',modelSkillGroup +'_' + modelSkill]" >Explore</button>
           </td>
         </tr>
       </tbody>

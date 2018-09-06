@@ -18,7 +18,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.ExecutionException;
 
 @Service
 public class AdminService {
@@ -55,9 +54,9 @@ public class AdminService {
 
         if (inCollection != null) {
             inCollection.setSubSkill(subSkillReceived.getSubSkill());
-            inCollection.setSkill(subSkillReceived.getSkill());
-            inCollection.setSkillGroup(subSkillReceived.getSkillGroup());
-            inCollection.setSubSkillDesc(subSkillReceived.getSubSkillDesc());
+            inCollection.setModelSkill(subSkillReceived.getModelSkill());
+            inCollection.setModelSkillGroup(subSkillReceived.getModelSkillGroup());
+            inCollection.setModelSubSkillDesc(subSkillReceived.getModelSubSkillDesc());
             subSkillRepository.save(inCollection);
             this.reloadCache();
             this.reloadSkillCache();
@@ -164,9 +163,9 @@ public class AdminService {
                 if (checker == null) {
                     SubSkill subskill = new SubSkill();
                     subskill.setId("" + i);
-                    subskill.setPractice(skillstring[0]);
-                    subskill.setSkillGroup(skillstring[1]);
-                    subskill.setSkill(skillstring[2]);
+                    subskill.setModelPractice(skillstring[0]);
+                    subskill.setModelSkillGroup(skillstring[1]);
+                    subskill.setModelSkill(skillstring[2]);
                     subskill.setSubSkill(skillstring[3]);
                     StringBuilder temp = new StringBuilder("");
                     for (int j = 4; j < skillstring.length; j++) {
@@ -176,7 +175,7 @@ public class AdminService {
                             skillstring[j] = skillstring[j].substring(0, (skillstring[j].length()) - 1);
                         temp = temp.append(new StringBuilder(skillstring[j]));
                     }
-                    subskill.setSubSkillDesc(temp.toString());
+                    subskill.setModelSubSkillDesc(temp.toString());
 
                     subskills.add(subskill);
                     i++;

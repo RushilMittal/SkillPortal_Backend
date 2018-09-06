@@ -1,6 +1,5 @@
 package com.teksystems.skillportal.service;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.MongoException;
 import com.teksystems.skillportal.domain.*;
 import com.teksystems.skillportal.helper.ConfigurationStrings;
@@ -61,7 +60,7 @@ public class ReportService {
 
         for (SkillDomain i : result) {
             SubSkill temp = subSkillRepository.findOne(i.getId());
-            SubSkillDomain temp2 = new SubSkillDomain(temp.getId(), temp.getSubSkill(), temp.getSubSkillDesc(), temp.getSkill(), temp.getSkillGroup(), temp.getPractice(), i.getRatedUsers());
+            SubSkillDomain temp2 = new SubSkillDomain(temp.getId(), temp.getSubSkill(), temp.getModelSubSkillDesc(), temp.getModelSkill(), temp.getModelSkillGroup(), temp.getModelPractice(), i.getRatedUsers());
 
             results.add(temp2);
         }
@@ -87,7 +86,7 @@ public class ReportService {
 
         for (SkillDomain i : result) {
             SubSkill temp = subSkillRepository.findOne(i.getId());
-            SubSkillDomain temp2 = new SubSkillDomain(temp.getId(), temp.getSubSkill(), temp.getSubSkillDesc(), temp.getSkill(), temp.getSkillGroup(), temp.getPractice(), i.getRatedUsers());
+            SubSkillDomain temp2 = new SubSkillDomain(temp.getId(), temp.getSubSkill(), temp.getModelSubSkillDesc(), temp.getModelSkill(), temp.getModelSkillGroup(), temp.getModelPractice(), i.getRatedUsers());
 
             results.add(temp2);
         }
@@ -109,7 +108,7 @@ public class ReportService {
         List<EmployeeSkillDomain> subSkills = new LinkedList<>();
         for (EmployeeSkill i : result) {
             SubSkill temp = subSkillRepository.findOne(i.getId());
-            SubSkillDomain subSkill = new SubSkillDomain(temp.getId(), temp.getSubSkill(), temp.getSubSkillDesc(), temp.getSkill(), temp.getSkillGroup(), temp.getPractice(), 0);
+            SubSkillDomain subSkill = new SubSkillDomain(temp.getId(), temp.getSubSkill(), temp.getModelSubSkillDesc(), temp.getModelSkill(), temp.getModelSkillGroup(), temp.getModelPractice(), 0);
             EmployeeSkillDomain toAdd = new EmployeeSkillDomain(empId, subSkill, i.getRating(), i.getLastModifiedDate());
             subSkills.add(toAdd);
         }

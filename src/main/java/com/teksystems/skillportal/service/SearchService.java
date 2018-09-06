@@ -25,7 +25,8 @@ public class SearchService {
 		LoadingCache<String, List<SubSkill>> skillCache = guavaCacheInit.getSkillLoadingCache();
 		List<String> searchRes = new LinkedList<>();
 		Map<String,List<SubSkill>> searchup = skillCache.asMap();
-		for (String key : searchup.keySet()) {
+		for (Map.Entry<String, List<SubSkill>> entrySet : searchup.entrySet()) {
+			String key = entrySet.getKey();
 			Pattern p = Pattern.compile(search); 
     		Matcher m = p.matcher(key.toLowerCase());
     		if( m.find() )

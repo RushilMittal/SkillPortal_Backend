@@ -45,7 +45,7 @@ describe('skillgroupservice', () => {
 
       });
 
-      const req = httpMock.expectOne(`http://10.188.27.105:8745/skillportal-0.0.1/skill/getallskillgroups`);
+      const req = httpMock.expectOne(`http://10.188.27.105:8745/skillportal-0.0.1/modelSkill/getallskillgroups`);
       expect(req.request.method).toBe('GET');
       req.flush(
         {

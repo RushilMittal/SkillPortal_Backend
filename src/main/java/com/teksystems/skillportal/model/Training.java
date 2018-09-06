@@ -21,8 +21,8 @@ public class Training {
 
     }
 
-    public Training(String id, String name, String location, int seats, String type, String description, String trainer, String email) {
-        this.id = id;
+    public Training( String name, String location, int seats, String type, String description, String trainer, String email) {
+
         this.name = name;
         this.location = location;
         this.seats = seats;

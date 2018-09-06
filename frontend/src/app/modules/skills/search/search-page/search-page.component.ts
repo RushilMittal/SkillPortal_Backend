@@ -26,7 +26,7 @@ goBack(): void {
 }
 
  ngOnInit() {
-   const x = document.getElementById('skill-search');
+   const x = document.getElementById('modelSkill-search');
    x.focus();
  }
 

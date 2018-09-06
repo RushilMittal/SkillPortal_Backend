@@ -37,8 +37,8 @@ describe('MyskillComponent', () => {
 });
 
 
-it('to check explore add new skill button exists', () => {
-  button = fixture.nativeElement.querySelector('#back-to-skill');
+it('to check explore add new modelSkill button exists', () => {
+  button = fixture.nativeElement.querySelector('#back-to-modelSkill');
       expect(button).toBeDefined();
   });
 

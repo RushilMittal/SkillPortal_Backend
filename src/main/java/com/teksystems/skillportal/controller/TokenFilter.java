@@ -39,15 +39,12 @@ public class TokenFilter extends GenericFilterBean {
                     final String token = authorizationHeader.substring(7); // The part after "Bearer "
 
                     boolean isTokenValid = false;
-                    try {
+
                         tokenValidator = new TokenValidationService(token);
                         isTokenValid = tokenValidator.tokenValidate();
 
 
-                    }catch(Exception e){
-                        logger.info("Invalid Authorization,Unable to Validate Authorization");
-                        logger.error(e.getMessage());
-                    }
+
 
                     if (isTokenValid) {
 

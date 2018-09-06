@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AllskillComponent implements OnInit {
   @Input() skills: string[];
-  @Input() skillGroup: string;
+  @Input() modelSkillGroup: string;
   errorMessage: any;
   constructor(private allSkillService: AllSkillService) { }
   ngOnInit() {

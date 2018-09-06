@@ -39,7 +39,7 @@ describe('DashboardSkillPlaceholderService', () => {
         expect(data.numberOfSkillRated).toEqual(20);
         expect(data.higestRatedSkill).toEqual('EC2');
       });
-      const req = httpMock.expectOne(`http://10.188.27.105:8745/skillportal-0.0.1/skill/getEmployeeSkillPlaceholder?empId=101`);
+      const req = httpMock.expectOne(`http://10.188.27.105:8745/skillportal-0.0.1/modelSkill/getEmployeeSkillPlaceholder?empId=101`);
       expect(req.request.method).toBe('GET');
       req.flush(
         {

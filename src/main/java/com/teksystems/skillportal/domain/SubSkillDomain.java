@@ -30,12 +30,7 @@ public class SubSkillDomain {
 	public void setSubSkill(String subSkill) {
 		this.subSkill = subSkill;
 	}
-	public String getSubSkillDesc() {
-		return subSkillDesc;
-	}
-	public void setSubSkillDesc(String subSkillDesc) {
-		this.subSkillDesc = subSkillDesc;
-	}
+
 	public String getSkill() {
 		return skill;
 	}
@@ -54,12 +49,7 @@ public class SubSkillDomain {
 	public void setPractice(String practice) {
 		this.practice = practice;
 	}
-	public int getTotalNumberofRatedUsers() {
-		return totalNumberofRatedUsers;
-	}
-	public void setTotalNumberofRatedUsers(int totalNumberofRatedUsers) {
-		this.totalNumberofRatedUsers = totalNumberofRatedUsers;
-	}
+	
 	@Override
 	public String toString() {
 		return "SubSkillDomain{" +

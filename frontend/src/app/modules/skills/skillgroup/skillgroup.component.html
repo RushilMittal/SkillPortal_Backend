@@ -47,7 +47,7 @@
       </div>
       <div  [class.show]= "activeTags.includes(skillgroup)" Class = "collapse" >
         <div class="card-body p-0 ml-5 scrollable-menu">
-          <app-allskill [skillGroup] = skillgroup [skills] =temp?.get(skillgroup) ></app-allskill>
+          <app-allskill [modelSkillGroup] = skillgroup [skills] =temp?.get(skillgroup) ></app-allskill>
         </div>
       </div>
     </div>

@@ -33,7 +33,7 @@ public class EmployeeSkillService {
             new AnnotationConfigApplicationContext(MongoConfigNew.class);
     static MongoOperations mongoOperation =
             (MongoOperations) ctx.getBean("mongoTemplate");
-    private static Logger logger = Logger.getLogger(EmployeeSkillService.class);
+
     @Autowired
     EmployeeSkillRepository empSkillRepository;
 
@@ -64,8 +64,8 @@ public class EmployeeSkillService {
             }
 
             if (!flag) {
-                SubSkillDomain temp = new SubSkillDomain(i.getId(), i.getSubSkill(), i.getSubSkillDesc(), i.getSkill(),
-                        i.getSkillGroup(), i.getPractice(), getSubSkillCount(i.getId()));
+                SubSkillDomain temp = new SubSkillDomain(i.getId(), i.getSubSkill(), i.getModelSubSkillDesc(), i.getModelSkill(),
+                        i.getModelSkillGroup(), i.getModelPractice(), getSubSkillCount(i.getId()));
                 toReturn.add(temp);
 
                 // need to call the count of rated users here and assigned for the domain
@@ -79,7 +79,7 @@ public class EmployeeSkillService {
     }
 
 
-    public void addNew(String empId, String subSkillId, int rating) throws Exception {
+    public void addNew(String empId, String subSkillId, int rating) throws MongoException {
         empId = empId.trim();
         subSkillId = subSkillId.trim();
 
@@ -219,7 +219,7 @@ public class EmployeeSkillService {
             //retrieving subskill object from database according to subskillid
             SubSkill subskill = subSkillRepository.findById(iterable.getSubSkillId());
 
-            SubSkillDomain subskilldomain = new SubSkillDomain(subskill.getId(), subskill.getSubSkill(), subskill.getSubSkillDesc(), subskill.getSkill(), subskill.getSkillGroup(), subskill.getPractice(), getSubSkillCount(subskill.getId()));
+            SubSkillDomain subskilldomain = new SubSkillDomain(subskill.getId(), subskill.getSubSkill(), subskill.getModelSubSkillDesc(), subskill.getModelSkill(), subskill.getModelSkillGroup(), subskill.getModelPractice(), getSubSkillCount(subskill.getId()));
 
             EmployeeSkillDomain temp = new EmployeeSkillDomain(iterable.getEmpId(), subskilldomain, iterable.getRating(), iterable.getLastModifiedDate());
 

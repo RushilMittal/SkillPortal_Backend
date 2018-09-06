@@ -158,7 +158,7 @@ public class TokenValidationService {
 
         JWTVerifier verifier = JWT.require(Algorithm.RSA256((RSAKey) publicKey)).withIssuer(issuer).build();
         try {
-            DecodedJWT jwt = verifier.verify(token);
+
             verified = true;
 
         } catch (SignatureVerificationException e) {
@@ -202,7 +202,7 @@ public class TokenValidationService {
 
 
             String moddedToken[] = token.split("\\.");
-            String decodedHeader = new String(Base64.getUrlDecoder().decode((moddedToken[0])));
+
             String decodedBody = new String(Base64.getUrlDecoder().decode((moddedToken[1])));
 
 
@@ -246,15 +246,15 @@ public class TokenValidationService {
 
     public boolean validateAdminRole(HttpServletRequest request, HttpServletResponse response) {
 
-        boolean isAdmin = false;
-        String token = null;
+
+        String validateToken = null;
         try {
-            token = ((HttpServletRequest) request).getHeader("Token");
+            validateToken =  request.getHeader("Token");
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
 
-        if (token != null) {
+        if (validateToken != null) {
             try {
 
 
@@ -262,7 +262,7 @@ public class TokenValidationService {
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
                 conn.setRequestMethod("GET");
-                conn.setRequestProperty("Authorization", "Bearer " + token);
+                conn.setRequestProperty("Authorization", "Bearer " + validateToken);
                 conn.setRequestProperty("Accept", "application/json");
                 String goodRespStr = HttpClientHelper.getResponseStringFromConn(conn, true);
                 int responseCode = conn.getResponseCode();

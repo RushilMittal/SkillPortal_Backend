@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('skill-portal App', () => {
+describe('modelSkill-portal App', () => {
   let page: AppPage;
 
   beforeEach(() => {

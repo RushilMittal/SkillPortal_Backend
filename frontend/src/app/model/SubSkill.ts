@@ -1,9 +1,9 @@
 export class SubSkill {
     id: string;
     subSkill: string;
-    subSkillDesc: string;
-    skill: string;
-    skillGroup: string;
-    practice: string;
+    modelSubSkillDesc: string;
+    modelSkill: string;
+    modelSkillGroup: string;
+    modelPractice: string;
     totalNumberofRatedUsers: number;
     }

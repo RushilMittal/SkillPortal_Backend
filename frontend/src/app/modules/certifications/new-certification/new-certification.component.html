@@ -6,8 +6,8 @@
       <label class="control-label" for="skillNameId"> Select Skill: </label>
       <select class="form-control custom-select" id="skillNameId" formControlName="skillName">
           <option selected>Select A Skill...</option>
-          <option *ngFor="let skill of temp?.keys()">
-              {{skill | stringManipulation}}
+          <option *ngFor="let modelSkill of temp?.keys()">
+              {{modelSkill | stringManipulation}}
           </option>
         </select>
     </div>

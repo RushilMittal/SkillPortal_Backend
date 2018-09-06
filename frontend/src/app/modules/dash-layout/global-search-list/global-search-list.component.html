@@ -1,9 +1,9 @@
 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="search-box">
     <li class="list-group-item gray">Skills</li>
     
-    <ul class="list-group scrollable-menu" id="skill-list">
-        <a *ngFor="let skill of skillitems" routerLink="/skills/skillgroup/explore/{{skill}}" class="list-group-item list-group-item-action">
-            {{skill|stringManipulation}}
+    <ul class="list-group scrollable-menu" id="modelSkill-list">
+        <a *ngFor="let modelSkill of skillitems" routerLink="/skills/skillgroup/explore/{{modelSkill}}" class="list-group-item list-group-item-action">
+            {{modelSkill|stringManipulation}}
         </a>
         <li *ngIf="skillitems?.length==0" class="list-group-item list-group-item-action">No Results Found</li>
     </ul>

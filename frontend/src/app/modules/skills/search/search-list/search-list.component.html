@@ -1,7 +1,7 @@
 
 <ul class="list-group">
-    <li *ngFor="let skill of skills" routerLink="/skills/skillgroup/explore/{{skill}}" class="list-group-item list-group-item-action">
-        {{skill|stringManipulation}}
+    <li *ngFor="let modelSkill of skills" routerLink="/skills/skillgroup/explore/{{modelSkill}}" class="list-group-item list-group-item-action">
+        {{modelSkill|stringManipulation}}
     </li>
     <li *ngIf="skills?.length==0" class="list-group-item">No Results Found</li>
 </ul>

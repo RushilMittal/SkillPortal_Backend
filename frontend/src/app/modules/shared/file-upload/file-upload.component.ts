@@ -17,7 +17,7 @@ export class FileUploadComponent implements OnInit {
   @Input() idvalue: string;
   @Output() upload: EventEmitter<void> = new EventEmitter<void>();
   URL;
-  // uploader is for skill
+  // uploader is for modelSkill
   public uploader: FileUploader = new FileUploader({
     
     authToken: 'Bearer ' + this.authHelper.getUser(),

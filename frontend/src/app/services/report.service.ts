@@ -17,8 +17,8 @@ export class ReportService {
 
   private apiRoot = 'http://localhost:8000/report';
 
-  getSkillTrend(skill: number, date: number): Observable<SubSkill[]> {
-    const url = this.apiRoot + '/reportskilltrend?n=' + skill + '&x=' + date;
+  getSkillTrend(modelSkill: number, date: number): Observable<SubSkill[]> {
+    const url = this.apiRoot + '/reportskilltrend?n=' + modelSkill + '&x=' + date;
     let token = this.authHelper.getAccessToken();
     let idToken = this.authHelper.getUser();
     if (!this._headers.has('Authorization')) {
@@ -32,8 +32,8 @@ export class ReportService {
       );
   }
 
-  getTopSkill(skill: number): Observable<SubSkill[]> {
-    const url = this.apiRoot + '/reportskill?n=' + skill;
+  getTopSkill(modelSkill: number): Observable<SubSkill[]> {
+    const url = this.apiRoot + '/reportskill?n=' + modelSkill;
     let token = this.authHelper.getAccessToken();
     let idToken = this.authHelper.getUser();
     if (!this._headers.has('Authorization')) {

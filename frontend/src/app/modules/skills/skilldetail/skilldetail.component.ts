@@ -20,7 +20,7 @@ export class SkilldetailComponent implements OnInit {
   activeTags = [];
   buttonNotClicked = true;
   skillName: string;
-  skill: string;
+  modelSkill: string;
   subSkillList: SubSkill[];
   employeeSkillList = [];
   errorMessage: any;
@@ -39,7 +39,7 @@ export class SkilldetailComponent implements OnInit {
         if (stringToSplit !== undefined) {
           x = stringToSplit.split('_');
         }
-        this.skill = x[1];
+        this.modelSkill = x[1];
         this.skillName = params['id'];
       });
 

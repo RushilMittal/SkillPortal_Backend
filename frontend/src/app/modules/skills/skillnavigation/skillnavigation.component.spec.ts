@@ -24,12 +24,12 @@ describe('SkillnavigationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('to check all skill navigation', () => {
+  // it('to check all modelSkill navigation', () => {
   //   a = fixture.nativeElement.querySelector('#myskill');
   //   expect(a.textContent.trim()).toBe('My Skills');
   // });
 
-  // it('to check my skill navigation', () => {
+  // it('to check my modelSkill navigation', () => {
   //   a = fixture.nativeElement.querySelector('#allskill');
   //   expect(a.textContent.trim()).toBe('All Skills');
   // });
