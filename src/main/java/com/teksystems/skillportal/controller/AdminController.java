@@ -57,7 +57,7 @@ public class AdminController {
     @GetMapping("/getAllAdminSkills")
     public List<SubSkill> getAllAdminSkill(HttpServletRequest request, HttpServletResponse response) {
         logger.info("getskillgroup API Called");
-        String employeeId = null;
+
         List<SubSkill> toReturn = null;
         try {
             if (checkAdmin(request, response)) {
@@ -77,7 +77,7 @@ public class AdminController {
     void updateSkill(HttpServletRequest request, @RequestBody SubSkill subSkillReceived, HttpServletResponse response) {
 
         logger.info("/updateNewSkill API called");
-        String employeeId = null;
+
         try {
             if (checkAdmin(request, response)) {
 
@@ -95,7 +95,7 @@ public class AdminController {
     @PostMapping("/addNewSkill")
     public void addNewSkill(HttpServletRequest request, @RequestBody SubSkill subSkillReceived, HttpServletResponse response) {
         logger.info("/addNewSkill API called");
-        String employeeId = null;
+
         try {
             if (checkAdmin(request, response)) {
                 adminService.addNewSkill(subSkillReceived);
@@ -115,7 +115,7 @@ public class AdminController {
     @PostMapping("/add_new")
     void postNewUniqueEntry(HttpServletRequest request, @RequestBody CertificationDomain certification, HttpServletResponse response) {
         logger.info("/add_new Certificate API called");
-        String employeeId = null;
+
         try {
 
             if (checkAdmin(request, response)) {
@@ -134,7 +134,7 @@ public class AdminController {
     @PutMapping("/updateCertificate")
     void updateCertificate(HttpServletRequest request, @RequestBody CertificationDomain certification, HttpServletResponse response) {
         logger.info("/add_new Certificate API called");
-        String employeeId = null;
+
         try {
             if (checkAdmin(request, response)) {
                 adminService.updateCertificate(certification);
@@ -151,7 +151,7 @@ public class AdminController {
     @PostMapping("/uploadskillcsv")
     void uploadSkillCsv(HttpServletRequest request, HttpServletResponse response, @RequestParam("file") MultipartFile[] files) {
         logger.info("/uploadskillcsv Certificate API called");
-        String employeeId = null;
+
 
         try {
 
@@ -170,8 +170,7 @@ public class AdminController {
     @PostMapping("/uploadcertificatecsv")
     void uploadCertificateCsv(HttpServletRequest request, HttpServletResponse response, @RequestParam("file") MultipartFile[] files) {
         logger.info("/uploadskillcsv Certificate API called");
-        String employeeId = null;
-//        System.out.println("hello in skill csv upload");
+
         try {
 
             if (checkAdmin(request, response)) {

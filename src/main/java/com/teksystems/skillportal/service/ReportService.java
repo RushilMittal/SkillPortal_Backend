@@ -158,10 +158,7 @@ public class ReportService {
 		List<SkillReport> result = groupResults.getMappedResults();
 		
 		
-		for(SkillReport i:result)
-		{
 
-		}
 		
 		return result;
 	}

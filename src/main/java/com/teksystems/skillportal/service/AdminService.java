@@ -205,7 +205,7 @@ public class AdminService {
     public boolean certificateuploadcsv(BufferedReader br) {
         boolean toReturn = true;
         int i = (int) certificationRepository.count() + 1;
-        //System.out.println("inside the admin service count is" + i);
+
         String line = "";
         Certification checker = null;
         List<Certification> certifications = new LinkedList<>();

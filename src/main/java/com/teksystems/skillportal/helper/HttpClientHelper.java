@@ -88,7 +88,7 @@ public class HttpClientHelper {
         return stringBuffer.toString();
     }
 
-    public static byte[] getByteaArrayFromConn(HttpURLConnection conn, boolean isSuccess) throws IOException {
+    public static byte[] getByteaArrayFromConn(HttpURLConnection conn) throws IOException {
 
         InputStream is = conn.getInputStream();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

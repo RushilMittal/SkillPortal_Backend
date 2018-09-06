@@ -170,7 +170,7 @@ public class TokenValidationService {
         try {
             DecodedJWT jwt = verifier.verify(token);
             verified = true;
-            // System.out.println("Verified");
+
         }catch(SignatureVerificationException e) {
             verified = false;
             logger.error(e.getMessage());
@@ -209,7 +209,7 @@ public class TokenValidationService {
     public boolean tokenValidate(){
 
         try {
-//            boolean a = verify();
+
             boolean a = true;
             if(a) {
                 String moddedToken[] = token.split("\\.");
@@ -241,13 +241,7 @@ public class TokenValidationService {
         final String typ="JWT";
         final String alg="RS256";
 
-        if(jsonObj.get("typ").equals(typ))
-        {
-            if(jsonObj.get("alg").equals(alg))
-            {
 
-            }
-        }
         return isValid;
     }
 
@@ -281,7 +275,6 @@ public class TokenValidationService {
         try{
             token =((HttpServletRequest)request).getHeader("Token");
         }catch(Exception e){
-            //token not present in the admin call, fake call;
             logger.error(e.getMessage());
         }
 

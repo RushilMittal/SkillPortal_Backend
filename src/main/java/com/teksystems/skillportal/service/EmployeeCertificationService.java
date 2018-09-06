@@ -63,7 +63,7 @@ public class EmployeeCertificationService {
         names[0] = names[1] = null;
         String[] years = new String[2];
         years[0] = years[1] = null;
-        Date[] dates = new Date[2];
+
         List<EmployeeCertificationPlaceholderDomain> employeeCertificationPlaceholderDomainsList = new ArrayList<>();
         try {
             List<EmployeeCertificationDomain> employeeCertificationDomain = getEmployeeCertificationByEmployeeId(employeeId);
@@ -85,8 +85,6 @@ public class EmployeeCertificationService {
                 EmployeeCertificationPlaceholderDomain temp1 = new EmployeeCertificationPlaceholderDomain(employeeCertificationDomain.get(0).getCertificationId().getCertificationName(),String.valueOf(calendar.get(Calendar.YEAR)));
                 employeeCertificationPlaceholderDomainsList.add(temp1);
 
-
-            } else {
 
             }
         } catch (Exception e) {

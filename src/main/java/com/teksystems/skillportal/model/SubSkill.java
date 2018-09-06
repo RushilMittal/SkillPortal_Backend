@@ -9,7 +9,7 @@ public class SubSkill {
 	
 	@Id
 	String id;
-	String subSkill;
+	String subSkill1;
 	String subSkillDesc;
 	String skill;
 	String skillGroup;
@@ -20,7 +20,7 @@ public class SubSkill {
 
 	public SubSkill(String id, String subSkill, String subSkillDesc, String skill, String skillGroup, String practice) {
 		this.id = id;
-		this.subSkill = subSkill;
+		this.subSkill1 = subSkill;
 		this.subSkillDesc = subSkillDesc;
 		this.skill = skill;
 		this.skillGroup = skillGroup;
@@ -34,10 +34,10 @@ public class SubSkill {
 		this.id = id;
 	}
 	public String getSubSkill() {
-		return subSkill;
+		return subSkill1;
 	}
 	public void setSubSkill(String subSkill) {
-		this.subSkill = subSkill;
+		this.subSkill1 = subSkill;
 	}
 	public String getSubSkillDesc() {
 		return subSkillDesc;
@@ -68,7 +68,7 @@ public class SubSkill {
 	public String toString() {
 		return "SubSkill{" +
 				"id='" + id + '\'' +
-				", subSkill='" + subSkill + '\'' +
+				", subSkill='" + subSkill1 + '\'' +
 				", subSkillDesc='" + subSkillDesc + '\'' +
 				", skill='" + skill + '\'' +
 				", skillGroup='" + skillGroup + '\'' +

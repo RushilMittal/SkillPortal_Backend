@@ -48,8 +48,6 @@ public class SkillController {
 
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 toReturn = skillGroupService.getAllSkillGroups();
-            } else {
-
             }
         } catch (Exception e) {
             logger.info(ConfigurationStrings.ERROR + e.toString());

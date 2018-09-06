@@ -53,7 +53,7 @@ public class EmployeeSkillService {
 
 		List<String> assignedSkillIds = mongoOperation.getCollection("employeeskill").distinct(ConfigurationStrings.SUBSKILLID,new BasicDBObject(ConfigurationStrings.EMPID,empId));
 
-		List<SubSkill> unassignedSkills = new LinkedList<>();
+	//	List<SubSkill> unassignedSkills = new LinkedList<>();
 		List<SubSkillDomain> toReturn = new LinkedList<>();
         for (SubSkill i : allSkills) {
             boolean flag = false;
@@ -130,7 +130,7 @@ public int getSubSkillCount(String subSkillId)  {
 			}
 		});
 
-		//Fetching  the HIghest Rated Skill nad highest rating
+		//Fetching  the Highest Rated Skill nad highest rating
 		String highestRatedSkill = empSkills.get(0).getSubSkill().getSubSkill();
 		int highestRating  = empSkills.get(0).getRating();
 
@@ -147,7 +147,7 @@ public int getSubSkillCount(String subSkillId)  {
 		recieved = employeeSkill.getLastModifiedDate();
 
 
-		//Calculating the diffrence in time and then will divide by respective to get in years and days
+		//Calculating the difference in time and then will divide by respective to get in years and days
 		long diffrence =  today.getTime() - recieved.getTime();
 
 		Calendar recievedDate = Calendar.getInstance();

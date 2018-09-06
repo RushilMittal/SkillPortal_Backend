@@ -12,6 +12,6 @@ public interface CertificationRepository extends MongoRepository<Certification, 
     List<Certification> findBySkillId(String skillId);
     Certification findById(String id);
     Certification findBycertificationName(String certificationName);
-    //List<Certification> findByEmpIdAndSkillId(String empId, String skillId);
+
 
 }

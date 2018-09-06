@@ -7,7 +7,7 @@ public class SkillDomain {
     
     public SkillDomain() {}
     
-    public SkillDomain (String id,String name,int ratedUsers)
+    public SkillDomain (String id,int ratedUsers)
     {
     	 this.id = id;
     	 this.ratedUsers = ratedUsers;
