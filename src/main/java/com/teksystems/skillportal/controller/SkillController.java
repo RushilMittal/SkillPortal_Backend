@@ -46,7 +46,7 @@ public class SkillController {
         try {
             if(!((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).equals(null)) {
 
-                employeeId = tokenValidator.ExtractEmployeeId(request);
+
                 toReturn = skillGroupService.getAllSkillGroups();
             }
         } catch (Exception e) {

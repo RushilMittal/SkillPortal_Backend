@@ -45,7 +45,7 @@ public class SubSkillController {
             if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                toReturn = subSkillService.getAllSubSkillsOfEmployee(skillName);
+                toReturn = subSkillService.getAllSubSkillsOfEmployee();
 
             } else {
                 logger.info(ConfigurationStrings.NOTFOUND);

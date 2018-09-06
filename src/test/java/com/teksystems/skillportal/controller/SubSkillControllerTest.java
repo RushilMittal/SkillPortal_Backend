@@ -79,7 +79,7 @@ public class SubSkillControllerTest {
         keys.add("BPMG_Tools");
         toReturn.put(keys.get(0),forKey1);
 
-        given(subSkillService.getAllSubSkillsOfEmployee("BPMG_Tools")).willReturn(toReturn);
+        given(subSkillService.getAllSubSkillsOfEmployee()).willReturn(toReturn);
         mockMvc.perform(get("/skill/getallsubskill?skillName=BPMG_Tools")
                 .header("Authorization", "empId:101"))
                 .andExpect(status().isOk())

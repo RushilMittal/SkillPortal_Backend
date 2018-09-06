@@ -1,5 +1,6 @@
 package com.teksystems.skillportal.service;
 
+import com.mongodb.MongoException;
 import com.teksystems.skillportal.domain.CertificationDomain;
 import com.teksystems.skillportal.init.GuavaCacheInit;
 import com.teksystems.skillportal.model.AdminRoles;
@@ -41,7 +42,7 @@ public class AdminService {
     }
 
 
-    public List<SubSkill> getAllAdminSkills() throws ExecutionException {
+    public List<SubSkill> getAllAdminSkills()  throws MongoException {
         List<SubSkill> toReturn = subSkillRepository.findAll();
 
         return toReturn;
@@ -49,7 +50,7 @@ public class AdminService {
     }
 
 
-    public void updateNewSkill(SubSkill subSkillReceived) {
+    public void updateNewSkill(SubSkill subSkillReceived)  throws MongoException {
         SubSkill inCollection = subSkillRepository.findById(subSkillReceived.getId());
 
         if (inCollection != null) {
@@ -64,7 +65,7 @@ public class AdminService {
 
     }
 
-    public void addNewSkill(SubSkill subSkillReceived) {
+    public void addNewSkill(SubSkill subSkillReceived)  throws MongoException {
         subSkillRepository.save(subSkillReceived);
         this.reloadCache();
         this.reloadSkillCache();
@@ -88,7 +89,7 @@ public class AdminService {
      * method for updating the current certification in the collection
      */
 
-    public void updateCertificate(CertificationDomain certificate) {
+    public void updateCertificate(CertificationDomain certificate) throws MongoException {
         Certification inCollectionCertification = certificationRepository.findById(certificate.getId());
         if (inCollectionCertification != null) {
             inCollectionCertification.setSkillId(certificate.getSkillId());
@@ -101,7 +102,7 @@ public class AdminService {
 
 
     // Add new Certification, if not in list
-    public void postNewCertification(CertificationDomain certification) throws Exception {
+    public void postNewCertification(CertificationDomain certification) throws MongoException {
         Certification certification1 = new Certification();
         certification1.setSkillId(certification.getSkillId());
         certification1.setCertificationName(certification.getCertificationName());
@@ -130,7 +131,7 @@ public class AdminService {
                 }
                 while (temp.getId() == certification_id);
             } catch (NullPointerException e) {
-
+                logger.error(e.getMessage());
             }
 
             certification1.setId(certification_id);
@@ -157,7 +158,7 @@ public class AdminService {
             while ((line = br.readLine()) != null) {
 
                 String[] skillstring = line.split(",");
-                checker = null;
+
                 checker = subSkillRepository.findBySubSkill(skillstring[3]);
 
                 if (checker == null) {
@@ -213,7 +214,7 @@ public class AdminService {
             while ((line = br.readLine()) != null) {
 
                 String[] certificateString = line.split(",");
-                checker = null;
+
                 checker = certificationRepository.findBycertificationName(certificateString[1]);
 
                 if (checker == null) {

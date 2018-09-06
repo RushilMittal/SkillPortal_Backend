@@ -3,7 +3,6 @@ package com.teksystems.skillportal.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -14,8 +13,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,9 +38,9 @@ public class TokenValidationService {
 
     // Payload
     private final String issuer;
-    private final String aud;
+
     protected final String name;
-    private final String uniqueName;
+
 
     @Autowired
     AdminService adminService;
@@ -52,12 +49,12 @@ public class TokenValidationService {
         token = null;
         kid = null;
         issuer = null;
-        aud = null;
+
         name = null;
-        uniqueName = null;
+
     }
 
-    public TokenValidationService(String token){
+    public TokenValidationService(String token) {
         this.token = token;
         String[] parts = token.split("\\.");
         // Header Part of the token
@@ -77,13 +74,12 @@ public class TokenValidationService {
 
 
         issuer = payload.getString("iss");
-        aud = payload.getString("aud");
-        name = payload.getString("name");
 
-        uniqueName = payload.getString("preferred_username");
+        name = payload.getString("name");
 
 
     }
+
     private PublicKey loadPublicKey() throws IOException, CertificateException {
         String openIdConfigurationString = readUrl("https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration");
 
@@ -91,13 +87,10 @@ public class TokenValidationService {
         JSONObject openidConfig = new JSONObject(openIdConfigurationString);
 
 
-
         String jwksUri = openidConfig.getString("jwks_uri");
 
 
-
         String jwkConfigStr = readUrl(jwksUri);
-
 
 
         JSONObject jwkConfig = new JSONObject(jwkConfigStr);
@@ -108,12 +101,9 @@ public class TokenValidationService {
         for (int i = 0; i < keys.length(); i++) {
             JSONObject key = keys.getJSONObject(i);
 
-            String kid = key.getString("kid");
-            String x5t = key.getString("x5t");
-            String n = key.getString("n");
-            String e = key.getString("e");
-            String x5c = key.getJSONArray("x5c").getString(0);
+            String kidString = key.getString("kid");
 
+            String x5c = key.getJSONArray("x5c").getString(0);
 
 
             String keyStr = "-----BEGIN CERTIFICATE-----\r\n";
@@ -139,7 +129,7 @@ public class TokenValidationService {
             PublicKey publicKey = cer.getPublicKey();
 
 
-            if (this.kid.equals(kid)) {
+            if (this.kid.equals(kidString)) {
                 return publicKey;
             }
         }
@@ -161,7 +151,7 @@ public class TokenValidationService {
         return sb.toString();
     }
 
-    public boolean verify() throws IOException, CertificateException{
+    public boolean verify() throws IOException, CertificateException {
         boolean verified = false;
 
         PublicKey publicKey = loadPublicKey();
@@ -171,13 +161,13 @@ public class TokenValidationService {
             DecodedJWT jwt = verifier.verify(token);
             verified = true;
 
-        }catch(SignatureVerificationException e) {
+        } catch (SignatureVerificationException e) {
             verified = false;
             logger.error(e.getMessage());
-        }catch(TokenExpiredException e){
+        } catch (TokenExpiredException e) {
             verified = false;
             logger.error(e.getMessage());
-        }catch(Exception e){
+        } catch (Exception e) {
             verified = false;
             logger.error(e.getMessage());
         }
@@ -187,46 +177,45 @@ public class TokenValidationService {
     }
 
     public String ExtractEmployeeId(HttpServletRequest req) {
-        String email =null;
+        String email = null;
         try {
 
             String authorizationHeader = ((HttpServletRequest) req).getHeader("Authorization");
-            final String token = authorizationHeader.substring(7); // The part after "Bearer "
+            final String tokenString = authorizationHeader.substring(7); // The part after "Bearer "
 
-            String[] parts = token.split("\\.");
+            String[] parts = tokenString.split("\\.");
             // Body Part of the token
             String bodystr = new String(Base64.getUrlDecoder().decode((parts[1])));
             JSONObject payload = new JSONObject(bodystr);
             email = payload.getString("preferred_username");
 
 
-        }catch(Exception e){
+        } catch (Exception e) {
             logger.error(e.getMessage());
         }
         return email;
     }
 
-    public boolean tokenValidate(){
+    public boolean tokenValidate() {
 
         try {
 
-            boolean a = true;
-            if(a) {
-                String moddedToken[] = token.split("\\.");
-                String decodedHeader = new String(Base64.getUrlDecoder().decode((moddedToken[0])));
-                String decodedBody = new String(Base64.getUrlDecoder().decode((moddedToken[1])));
 
-                JSONObject jsonHeader = null;
-                JSONObject jsonBody = null;
-                jsonHeader = new JSONObject(decodedHeader);
-                jsonBody = new JSONObject(decodedBody);
+            String moddedToken[] = token.split("\\.");
+            String decodedHeader = new String(Base64.getUrlDecoder().decode((moddedToken[0])));
+            String decodedBody = new String(Base64.getUrlDecoder().decode((moddedToken[1])));
 
-                boolean isValidBody = validateBody(jsonBody);
 
-                if (isValidBody == true) {
-                    return true;
-                }
+            JSONObject jsonBody = null;
+
+            jsonBody = new JSONObject(decodedBody);
+
+            boolean isValidBody = validateBody(jsonBody);
+
+            if (isValidBody == true) {
+                return true;
             }
+
             return false;
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -235,50 +224,37 @@ public class TokenValidationService {
 
     }
 
-    // Cannot be used as the algorithm and the encryption type are subject to be changed
-    private static boolean validateHeader(JSONObject jsonObj) {
-        boolean isValid=false;
-        final String typ="JWT";
-        final String alg="RS256";
 
-
-        return isValid;
-    }
 
     private static boolean validateBody(JSONObject jsonObj) {
-        boolean isValid=false;
-        final String aud="edb31c7a-1273-44e8-b0d0-50830aaede35";
-        final String iss="https://login.microsoftonline.com/371cb917-b098-4303-b878-c182ec8403ac/v2.0";
+        boolean isValid = false;
+        final String aud = "edb31c7a-1273-44e8-b0d0-50830aaede35";
+        final String iss = "https://login.microsoftonline.com/371cb917-b098-4303-b878-c182ec8403ac/v2.0";
         final String tid = "371cb917-b098-4303-b878-c182ec8403ac";
 
-        long currTime = System.currentTimeMillis()/1000;
+        long currTime = System.currentTimeMillis() / 1000;
 
-        long exp= ( jsonObj.getLong("exp"));
-        if(exp>currTime) {
-            if (jsonObj.get("aud").equals(aud)) {
-
-                if (jsonObj.get("iss").equals(iss)) {
-
-                    if (jsonObj.get("tid").equals(tid))
-
-                        isValid = true;
-                }
-            }
+        long exp = (jsonObj.getLong("exp"));
+        if ((exp > currTime) &&
+                (jsonObj.get("aud").equals(aud)) &&
+                (jsonObj.get("iss").equals(iss)) &&
+                (jsonObj.get("tid").equals(tid))) {
+            isValid = true;
         }
         return isValid;
     }
 
-    public boolean validateAdminRole(HttpServletRequest request, HttpServletResponse response){
+    public boolean validateAdminRole(HttpServletRequest request, HttpServletResponse response) {
 
         boolean isAdmin = false;
         String token = null;
-        try{
-            token =((HttpServletRequest)request).getHeader("Token");
-        }catch(Exception e){
+        try {
+            token = ((HttpServletRequest) request).getHeader("Token");
+        } catch (Exception e) {
             logger.error(e.getMessage());
         }
 
-        if(token!=null) {
+        if (token != null) {
             try {
 
 

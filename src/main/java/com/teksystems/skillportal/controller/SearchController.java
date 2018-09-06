@@ -5,7 +5,7 @@ import java.util.concurrent.ExecutionException;
 
 import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.service.CertificationService;
-import com.teksystems.skillportal.service.SearchServiceAtul;
+import com.teksystems.skillportal.service.SearchService;
 import com.teksystems.skillportal.service.TokenValidationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class SearchController {
 	TrainingService trainingService;
 
     @Autowired
-    SearchServiceAtul searchServiceAtul;
+    SearchService searchService;
 
     @Autowired
     CertificationService certificationService;
@@ -52,7 +52,7 @@ public class SearchController {
             if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                toReturn = searchServiceAtul.searchSkill(searchTerm);
+                toReturn = searchService.searchSkill(searchTerm);
 
             } else {
                 logger.info(ConfigurationStrings.NOTFOUND);

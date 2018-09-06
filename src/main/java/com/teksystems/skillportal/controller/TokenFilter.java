@@ -34,7 +34,7 @@ public class TokenFilter extends GenericFilterBean {
             if(typeOfRequest.equals("OPTIONS")){
                 chain.doFilter(req,res);
             }else{
-               try {
+
                     String authorizationHeader = ((HttpServletRequest) req).getHeader(ConfigurationStrings.AUTHORIZATION);
                     final String token = authorizationHeader.substring(7); // The part after "Bearer "
 
@@ -59,13 +59,14 @@ public class TokenFilter extends GenericFilterBean {
                         ((HttpServletResponse) res).sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
                     }
 
-                }catch (Exception e){
-                    logger.info("Authorization Header Not Present");
-                   logger.error(e.getMessage());
-                }
+
             }
 
-        }catch(Exception e) {
+        }catch(NullPointerException e){
+            logger.info("Authorization not present");
+            logger.error(e.getMessage());
+        }
+        catch(Exception e) {
             logger.info("Some Error Occurred in Request");
             logger.error(e.getMessage());
         }

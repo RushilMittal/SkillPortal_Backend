@@ -13,7 +13,7 @@ public class SubSkillService {
     @Autowired
     GuavaCacheInit guavaCacheInit;
     
-    public Map<String,List<SubSkill>> getAllSubSkillsOfEmployee(String skillName) throws ExecutionException{
+    public Map<String,List<SubSkill>> getAllSubSkillsOfEmployee(){
 
         LoadingCache<String, List<SubSkill>> skillCache = guavaCacheInit.getSkillLoadingCache();
         return skillCache.asMap();

@@ -170,7 +170,7 @@
                         <exclude>**/helper/*</exclude>
                         <exclude>**/model/*</exclude>
                         <exclude>**/repository/*</exclude>
-
+						<exclude>**/*Portal*</exclude>
 
 						<!--<exclude>**/*metrics/*</exclude>-->
 						<!--<exclude>**/*logging/*</exclude>-->

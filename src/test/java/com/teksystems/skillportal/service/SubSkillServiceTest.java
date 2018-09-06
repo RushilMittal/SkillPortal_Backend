@@ -56,7 +56,7 @@ public class SubSkillServiceTest {
         cache.putAll(map);
 
         when(guavaCacheInit.getSkillLoadingCache()).thenReturn(cache);
-        Map<String,List<SubSkill>> expectedMap =subSkillService.getAllSubSkillsOfEmployee("java");
+        Map<String,List<SubSkill>> expectedMap =subSkillService.getAllSubSkillsOfEmployee();
         assertThat(2,is(expectedMap.get("java").size()));
     }
 

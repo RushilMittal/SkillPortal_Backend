@@ -155,10 +155,10 @@ public class AdminController {
 
         try {
 
-            if (checkAdmin(request, response)) {
-                if (!adminService.skilluploadcsv(getFileData(files[0]))) {
-                    response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Unknow Format");
-                }
+            if (checkAdmin(request, response) && (!adminService.skilluploadcsv(getFileData(files[0])))) {
+
+                response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Unknow Format");
+
             }
         } catch (Exception e) {
             logger.info(ConfigurationStrings.ERROR + e.toString());
@@ -173,10 +173,10 @@ public class AdminController {
 
         try {
 
-            if (checkAdmin(request, response)) {
-                if (!adminService.certificateuploadcsv(getFileData(files[0]))) {
-                    response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Unknow Format");
-                }
+            if (checkAdmin(request, response) && (!adminService.certificateuploadcsv(getFileData(files[0])))) {
+
+                response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Unknow Format");
+
             }
         } catch (Exception e) {
             logger.info(ConfigurationStrings.ERROR + e.toString());

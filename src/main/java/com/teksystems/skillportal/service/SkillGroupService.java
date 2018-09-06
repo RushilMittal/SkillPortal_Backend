@@ -16,7 +16,7 @@ public class SkillGroupService {
     @Autowired
     GuavaCacheInit guavaCacheInit;
 
-    public Map<String,List<String>> getAllSkillGroups() throws ExecutionException {
+    public Map<String,List<String>> getAllSkillGroups() {
 
         LoadingCache<String, List<String>> skillGroupCache = guavaCacheInit.getLoadingCache();
 
@@ -26,11 +26,11 @@ public class SkillGroupService {
     }
 
 
-    public List<String> getAllSkillsBySkillGroup(String skillGroup) throws Exception {
+    public List<String> getAllSkillsBySkillGroup(String skillGroup)  {
         LoadingCache<String, List<String>> skillGroupCache = guavaCacheInit.getLoadingCache();
         Map<String, List<String>> received =skillGroupCache.asMap();
 
-        List<String> skillGroups = new LinkedList<>();
+        List<String> skillGroups;
 
         skillGroups = received.get(skillGroup);
 

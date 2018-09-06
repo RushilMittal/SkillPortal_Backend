@@ -13,9 +13,12 @@ import com.teksystems.skillportal.repository.TrainingSessionRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 @Service
 public class EmployeeTrainingService {
@@ -31,20 +34,19 @@ public class EmployeeTrainingService {
     TrainingSessionRepository trainingSessionRepository;
 
 
-    public List<EmployeeTrainingDomain> getEmployeeTrainingByEmployeeId(String empId) throws Exception {
+    public List<EmployeeTrainingDomain> getEmployeeTrainingByEmployeeId(String empId) {
 
         List<EmployeeTrainingDomain> employeeTrainingDomains = new LinkedList<>();
-        try {
-            List<EmployeeTraining> employeeTraining = employeeTrainingRepository.findByempId(empId);
 
+        List<EmployeeTraining> employeeTraining = employeeTrainingRepository.findByempId(empId);
+        try {
             for (EmployeeTraining iterable : employeeTraining) {
 
                 Training training = trainingRepository.findByid(iterable.getTrainingId());
                 EmployeeTrainingDomain temp = new EmployeeTrainingDomain(iterable.getEmpId(), training, iterable.getLastModified());
                 employeeTrainingDomains.add(temp);
             }
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             logger.error(e.getMessage());
         }
 
@@ -53,14 +55,14 @@ public class EmployeeTrainingService {
     }
 
 
-    public List<TrainingEventDomain> getTrainingEventByEmployeeId(String empId) throws Exception {
+    public List<TrainingEventDomain> getTrainingEventByEmployeeId(String empId) {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         List<TrainingEventDomain> trainingEventDomains = new LinkedList<>();
-        try {
-            List<EmployeeTraining> employeeTrainings = employeeTrainingRepository.findByempId(empId);
 
+        List<EmployeeTraining> employeeTrainings = employeeTrainingRepository.findByempId(empId);
+        try {
             for (EmployeeTraining iterable : employeeTrainings) {
                 List<TrainingSession> trainingSessions = trainingSessionRepository.findBytrainingId(iterable.getTrainingId());
                 Training training = trainingRepository.findByid(iterable.getTrainingId());
@@ -72,36 +74,38 @@ public class EmployeeTrainingService {
 
                 }
             }
-
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             logger.error(e.getMessage());
         }
+
+
         return trainingEventDomains;
     }
 
-    public void cancelEnrollment(String empId,String trainingId) throws  Exception{
-        Training training = trainingRepository.findByid(trainingId);
-        EmployeeTraining employeeTraining = this.employeeTrainingRepository.findByEmpIdAndTrainingId(empId,trainingId);
-        this.employeeTrainingRepository.delete(employeeTraining);
+    public void cancelEnrollment(String empId, String trainingId) {
+        try {
+            Training training = trainingRepository.findByid(trainingId);
+            EmployeeTraining employeeTraining = this.employeeTrainingRepository.findByEmpIdAndTrainingId(empId, trainingId);
+            this.employeeTrainingRepository.delete(employeeTraining);
 
-        training.setSeats(training.getSeats()+1);
-        trainingRepository.save(training);
-
-
+            training.setSeats(training.getSeats() + 1);
+            trainingRepository.save(training);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
 
     }
 
-    public List<TrainingListEventDomain> getTrainingListEventByEmployeeId(String empId) throws Exception{
-        List<TrainingListEventDomain> trainingListEventDomains=new LinkedList<>();
+    public List<TrainingListEventDomain> getTrainingListEventByEmployeeId(String empId) {
+        List<TrainingListEventDomain> trainingListEventDomains = new LinkedList<>();
         try {
             List<EmployeeTraining> employeeTrainings = employeeTrainingRepository.findByempId(empId);
 
-            for (EmployeeTraining iterable : employeeTrainings){
+            for (EmployeeTraining iterable : employeeTrainings) {
                 List<TrainingSession> trainingSessions = trainingSessionRepository.findBytrainingId(iterable.getTrainingId());
                 Training training = trainingRepository.findByid(iterable.getTrainingId());
-                for (TrainingSession inner_iterable : trainingSessions){
-                    TrainingListEventDomain trainingListEventDomain=new TrainingListEventDomain(
+                for (TrainingSession inner_iterable : trainingSessions) {
+                    TrainingListEventDomain trainingListEventDomain = new TrainingListEventDomain(
                             inner_iterable.getTrainingId(),
                             inner_iterable.getTrainingDate(),
                             inner_iterable.getStartTime(),
@@ -112,14 +116,13 @@ public class EmployeeTrainingService {
                     trainingListEventDomains.add(trainingListEventDomain);
                 }
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             logger.error(e.getMessage());
         }
         return trainingListEventDomains;
     }
 
-    public List<EmployeeTrainingPlaceholderDomain> getUpcomingTraining() throws Exception {
+    public List<EmployeeTrainingPlaceholderDomain> getUpcomingTraining() {
         List<Training> training = trainingRepository.findAll();
         List<EmployeeTrainingPlaceholderDomain> empTrainList = new LinkedList<>();
 
@@ -136,15 +139,14 @@ public class EmployeeTrainingService {
                 empTrainList.add(empTrainingPlaceholderDomain);
 
             }
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             logger.error(e.getMessage());
         }
         return empTrainList;
     }
 
-    public List<EmployeeTrainingPlaceholderDomain> getEnrolledTraining(String empId) throws  Exception{
-        List<EmployeeTraining> empTraining= employeeTrainingRepository.findByempId(empId);
+    public List<EmployeeTrainingPlaceholderDomain> getEnrolledTraining(String empId) {
+        List<EmployeeTraining> empTraining = employeeTrainingRepository.findByempId(empId);
         List<EmployeeTrainingPlaceholderDomain> empTrainList = new LinkedList<>();
         try {
             for (EmployeeTraining iterable : empTraining) {
@@ -157,8 +159,7 @@ public class EmployeeTrainingService {
                 empTrainingPlaceholderDomain.setTrainingDate(trainingSession.get(0).getTrainingDate());
                 empTrainList.add(empTrainingPlaceholderDomain);
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             logger.error(e.getMessage());
         }
         return empTrainList;

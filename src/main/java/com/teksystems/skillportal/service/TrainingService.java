@@ -1,11 +1,14 @@
 package com.teksystems.skillportal.service;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-
+import com.mongodb.MongoException;
+import com.teksystems.skillportal.domain.TrainingDomain;
 import com.teksystems.skillportal.init.MongoConfigNew;
+import com.teksystems.skillportal.model.EmployeeTraining;
+import com.teksystems.skillportal.model.Training;
+import com.teksystems.skillportal.model.TrainingSession;
+import com.teksystems.skillportal.repository.EmployeeTrainingRepository;
+import com.teksystems.skillportal.repository.TrainingRepository;
+import com.teksystems.skillportal.repository.TrainingSessionRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -16,13 +19,10 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import com.teksystems.skillportal.domain.TrainingDomain;
-import com.teksystems.skillportal.model.EmployeeTraining;
-import com.teksystems.skillportal.model.Training;
-import com.teksystems.skillportal.model.TrainingSession;
-import com.teksystems.skillportal.repository.EmployeeTrainingRepository;
-import com.teksystems.skillportal.repository.TrainingRepository;
-import com.teksystems.skillportal.repository.TrainingSessionRepository;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 @Service
 public class TrainingService {
@@ -42,8 +42,7 @@ public class TrainingService {
     MongoOperations mongoOperation =
             (MongoOperations) ctx.getBean("mongoTemplate");
 
-    public void saveTraining(Training training, List<TrainingSession> trainingSessions)
-    {
+    public void saveTraining(Training training, List<TrainingSession> trainingSessions) throws MongoException {
         Training doesExist;
         String id;
         Random random = new Random();
@@ -59,16 +58,13 @@ public class TrainingService {
             }
 
             trainingSessionRepository.save(trainingSessions);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             logger.error(e.getMessage());
         }
 
     }
 
-    public void updateTraining(Training training,List<TrainingSession> trainingSessionNew)
-    {
+    public void updateTraining(Training training, List<TrainingSession> trainingSessionNew) throws MongoException {
         List<TrainingSession> trainingSession = this.trainingSessionRepository.findBytrainingId(training.getId());
         trainingRepository.save(training);
         trainingSessionRepository.delete(trainingSession);
@@ -76,11 +72,10 @@ public class TrainingService {
 
     }
 
-    public List<TrainingDomain> getAllTrainings(String employeeId)
-    {
+    public List<TrainingDomain> getAllTrainings(String employeeId) throws MongoException {
 
         boolean flag;
-        Query query = new Query( Criteria.where("seats").gte(0));
+        Query query = new Query(Criteria.where("seats").gte(0));
         List<Training> trainings = mongoOperation.find(query, Training.class);
         List<EmployeeTraining> employeeTrainings = employeeTrainingRepository.findByempId(employeeId);
         List<TrainingDomain> trainingDomains = new LinkedList<>();
@@ -102,26 +97,22 @@ public class TrainingService {
                     trainingDomains.add(trainingDomain);
                 }
             }
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             logger.error(e.getMessage());
         }
         return trainingDomains;
     }
 
-   public void enrollTraining(String empId, String trainingId)
-	{
-		EmployeeTraining empTraining = new EmployeeTraining(empId,trainingId,new Date());
-		employeeTrainingRepository.save(empTraining);
-		Training training = trainingRepository.findByid(trainingId);
-		training.setSeats(training.getSeats()-1);
-		trainingRepository.save(training);
-	}
-	
-	public List<Training> searchTraining(String search)
-	{
-		 Query query = new Query( Criteria.where("name").regex(search,"i"));
-		 return mongoOperation.find(query,Training.class);
-	}
+    public void enrollTraining(String empId, String trainingId) throws MongoException {
+        EmployeeTraining empTraining = new EmployeeTraining(empId, trainingId, new Date());
+        employeeTrainingRepository.save(empTraining);
+        Training training = trainingRepository.findByid(trainingId);
+        training.setSeats(training.getSeats() - 1);
+        trainingRepository.save(training);
+    }
+
+    public List<Training> searchTraining(String search) throws MongoException {
+        Query query = new Query(Criteria.where("name").regex(search, "i"));
+        return mongoOperation.find(query, Training.class);
+    }
 }

@@ -15,12 +15,12 @@ import com.teksystems.skillportal.init.GuavaCacheInit;
 import com.teksystems.skillportal.model.SubSkill;
 
 @Service
-public class SearchServiceAtul {
+public class SearchService {
 
 	@Autowired
 	GuavaCacheInit guavaCacheInit;
 	
-	public List<String> searchSkill(@RequestParam String search) throws ExecutionException
+	public List<String> searchSkill(@RequestParam String search)
 	{
 		LoadingCache<String, List<SubSkill>> skillCache = guavaCacheInit.getSkillLoadingCache();
 		List<String> searchRes = new LinkedList<>();

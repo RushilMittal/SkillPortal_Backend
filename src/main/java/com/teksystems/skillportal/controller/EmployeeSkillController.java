@@ -76,7 +76,7 @@ public class EmployeeSkillController {
 		logger.info("/api/add accessed");
 		String employeeId =null;
 
-		try{
+
 
             logger.info(ConfigurationStrings.FETCHING);
             if(!( ((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
@@ -84,7 +84,7 @@ public class EmployeeSkillController {
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.info("Trying to Add the Employee Rating of " + employeeId);
                 if (rating <= 0 || rating > 5) {
-                    throw new Exception("Rating Invalid"+ rating);
+                    throw new NumberFormatException("Rating Invalid"+ rating);
                 }
                 else {
                     employeeSkillService.addNew(employeeId, subSkillId, rating);
@@ -95,10 +95,6 @@ public class EmployeeSkillController {
                 logger.info(ConfigurationStrings.NOTFOUND);
             }
 
-        }catch(Exception e){
-            logger.info(ConfigurationStrings.ERROR + e.toString());
-            logger.error(e.getMessage());
-        }
 
 
 

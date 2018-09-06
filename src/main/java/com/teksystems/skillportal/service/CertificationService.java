@@ -1,5 +1,6 @@
 package com.teksystems.skillportal.service;
 
+import com.mongodb.MongoException;
 import com.teksystems.skillportal.domain.CertificationDomain;
 import com.teksystems.skillportal.model.Certification;
 import com.teksystems.skillportal.repository.CertificationRepository;
@@ -19,7 +20,7 @@ public class CertificationService {
 
 
     //Read all certifications of an employee
-    public List<CertificationDomain> getAllCertifications() {
+    public List<CertificationDomain> getAllCertifications()  throws MongoException {
         List<Certification> certifications = this.certificationRepository.findAll();
         List<CertificationDomain> certificationDomains = new LinkedList<>();
 
@@ -33,7 +34,7 @@ public class CertificationService {
         return certificationDomains;
     }
     
-    public CertificationDomain getCertificationByName(String certificationName) throws Exception
+    public CertificationDomain getCertificationByName(String certificationName)  throws MongoException
     {	Certification certification=this.certificationRepository.findBycertificationName(certificationName);
     	CertificationDomain certificationDomains;
 

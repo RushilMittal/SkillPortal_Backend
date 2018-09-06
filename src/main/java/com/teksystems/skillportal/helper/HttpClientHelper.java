@@ -43,7 +43,7 @@ import org.json.JSONObject;
  */
 public class HttpClientHelper {
 
-    public HttpClientHelper() {
+    private HttpClientHelper() {
         super();
     }
 
@@ -55,13 +55,14 @@ public class HttpClientHelper {
         } else {
             reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
         }
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuilder = new StringBuilder();
         String line = "";
         while ((line = reader.readLine()) != null) {
-            stringBuffer.append(line);
+            stringBuilder.append(line);
+
         }
 
-        return stringBuffer.toString();
+        return stringBuilder.toString();
     }
 
     public static String getResponseStringFromConn(HttpURLConnection conn, String payLoad) throws IOException {
@@ -78,14 +79,14 @@ public class HttpClientHelper {
         // Get the message response from the server.
         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String line = "";
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuilder = new StringBuilder();
         while ((line = br.readLine()) != null) {
-            stringBuffer.append(line);
+            stringBuilder.append(line);
         }
 
         br.close();
 
-        return stringBuffer.toString();
+        return stringBuilder.toString();
     }
 
     public static byte[] getByteaArrayFromConn(HttpURLConnection conn) throws IOException {
