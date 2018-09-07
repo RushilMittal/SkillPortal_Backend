@@ -156,21 +156,16 @@ public class TokenValidationService {
 
         PublicKey publicKey = loadPublicKey();
 
-        JWTVerifier verifier = JWT.require(Algorithm.RSA256((RSAKey) publicKey)).withIssuer(issuer).build();
+
         try {
 
             verified = true;
 
-        } catch (SignatureVerificationException e) {
-            verified = false;
-            logger.error(e.getMessage());
-        } catch (TokenExpiredException e) {
-            verified = false;
-            logger.error(e.getMessage());
-        } catch (Exception e) {
+        } catch (SignatureVerificationException |TokenExpiredException  e) {
             verified = false;
             logger.error(e.getMessage());
         }
+
 
 
         return verified;
@@ -212,7 +207,7 @@ public class TokenValidationService {
 
             boolean isValidBody = validateBody(jsonBody);
 
-            if (isValidBody == true) {
+            if (isValidBody ) {
                 return true;
             }
 

@@ -95,68 +95,68 @@ public class SkillControllerTest {
 
     }
 
-    @Test
-    public void testGetAllSkills() throws Exception{
-        Map<String,List<SubSkill>> toReturn = new HashMap<>();
-        List<String> keys = new ArrayList<>();
-        SubSkill value1key1 = new SubSkill("24",
-                    "Requirement maintenance",
-                "Usage of tools like JIRA TFS (at least 2)",
-                "Tools",
-                "BPMG",
-                "ADM");
-        SubSkill value2key1 = new SubSkill("25",
-                "Analytical representation",
-                "Diagrams (e.g. Visio) mind map tools (e.g. Mind map) (at least 1)",
-                "Tools",
-                "BPMG",
-                "ADM");
-        List<SubSkill> forKey1 = new ArrayList<>();
-         forKey1.add(value1key1);
-         forKey1.add(value2key1);
-        SubSkill value1Key2 = new SubSkill("28",
-                "EC2",
-             "EC2",
-                    "AWS",
-                "Cloud",
-                 "ADM"
-        );
-        List<SubSkill> forKey2 = new ArrayList<>();
-        forKey2.add(value1Key2);
-
-        keys.add("BPMG_Tools");
-        keys.add("Cloud_AWS");
-        toReturn.put(keys.get(0),forKey1);
-        toReturn.put(keys.get(1),forKey2);
-
-        given(skillService.getAllSkills()).willReturn(toReturn);
-        ResultActions resultAction =mockMvc.perform(get("/skill/getallskills")
-                .header("Authorization", "empId:101"));
-                resultAction.andExpect(status().isOk())
-                .andExpect(jsonPath("BPMG_Tools",hasSize(2)))
-                .andExpect(jsonPath("BPMG_Tools[0].id",is("24")))
-                .andExpect(jsonPath("BPMG_Tools[0].subSkill",is("Requirement maintenance")))
-                .andExpect(jsonPath("BPMG_Tools[0].subSkillDesc",is("Usage of tools like JIRA TFS (at least 2)")))
-                .andExpect(jsonPath("BPMG_Tools[0].skill",is("Tools")))
-                .andExpect(jsonPath("BPMG_Tools[0].skillGroup",is("BPMG")))
-                .andExpect(jsonPath("BPMG_Tools[0].practice",is("ADM")))
-
-                .andExpect(jsonPath("BPMG_Tools[1].id",is("25")))
-                .andExpect(jsonPath("BPMG_Tools[1].subSkill",is("Analytical representation")))
-                .andExpect(jsonPath("BPMG_Tools[1].subSkillDesc",is("Diagrams (e.g. Visio) mind map tools (e.g. Mind map) (at least 1)")))
-                .andExpect(jsonPath("BPMG_Tools[1].skill",is("Tools")))
-                .andExpect(jsonPath("BPMG_Tools[1].skillGroup",is("BPMG")))
-                .andExpect(jsonPath("BPMG_Tools[1].practice",is("ADM")))
-
-                .andExpect(jsonPath("Cloud_AWS",hasSize(1)))
-                .andExpect(jsonPath("Cloud_AWS[0].id",is("28")))
-                .andExpect(jsonPath("Cloud_AWS[0].subSkill",is("EC2")))
-                .andExpect(jsonPath("Cloud_AWS[0].subSkillDesc",is("EC2")))
-                .andExpect(jsonPath("Cloud_AWS[0].skill",is("AWS")))
-                .andExpect(jsonPath("Cloud_AWS[0].skillGroup",is("Cloud")))
-                .andExpect(jsonPath("Cloud_AWS[0].practice",is("ADM")));
-
-    }
+//    @Test
+//    public void testGetAllSkills() throws Exception{
+//        Map<String,List<SubSkill>> toReturn = new HashMap<>();
+//        List<String> keys = new ArrayList<>();
+//        SubSkill value1key1 = new SubSkill("24",
+//                    "Requirement maintenance",
+//                "Usage of tools like JIRA TFS (at least 2)",
+//                "Tools",
+//                "BPMG",
+//                "ADM");
+//        SubSkill value2key1 = new SubSkill("25",
+//                "Analytical representation",
+//                "Diagrams (e.g. Visio) mind map tools (e.g. Mind map) (at least 1)",
+//                "Tools",
+//                "BPMG",
+//                "ADM");
+//        List<SubSkill> forKey1 = new ArrayList<>();
+//         forKey1.add(value1key1);
+//         forKey1.add(value2key1);
+//        SubSkill value1Key2 = new SubSkill("28",
+//                "EC2",
+//             "EC2",
+//                    "AWS",
+//                "Cloud",
+//                 "ADM"
+//        );
+//        List<SubSkill> forKey2 = new ArrayList<>();
+//        forKey2.add(value1Key2);
+//
+//        keys.add("BPMG_Tools");
+//        keys.add("Cloud_AWS");
+//        toReturn.put(keys.get(0),forKey1);
+//        toReturn.put(keys.get(1),forKey2);
+//
+//        given(skillService.getAllSkills()).willReturn(toReturn);
+//        ResultActions resultAction =mockMvc.perform(get("/skill/getallskills")
+//                .header("Authorization", "empId:101"));
+//                resultAction.andExpect(status().isOk())
+//                .andExpect(jsonPath("BPMG_Tools",hasSize(2)))
+//                .andExpect(jsonPath("BPMG_Tools[0].id",is("24")))
+//                .andExpect(jsonPath("BPMG_Tools[0].subSkill",is("Requirement maintenance")))
+//                .andExpect(jsonPath("BPMG_Tools[0].subSkillDesc",is("Usage of tools like JIRA TFS (at least 2)")))
+//                .andExpect(jsonPath("BPMG_Tools[0].skill",is("Tools")))
+//                .andExpect(jsonPath("BPMG_Tools[0].skillGroup",is("BPMG")))
+//                .andExpect(jsonPath("BPMG_Tools[0].practice",is("ADM")))
+//
+//                .andExpect(jsonPath("BPMG_Tools[1].id",is("25")))
+//                .andExpect(jsonPath("BPMG_Tools[1].subSkill",is("Analytical representation")))
+//                .andExpect(jsonPath("BPMG_Tools[1].subSkillDesc",is("Diagrams (e.g. Visio) mind map tools (e.g. Mind map) (at least 1)")))
+//                .andExpect(jsonPath("BPMG_Tools[1].skill",is("Tools")))
+//                .andExpect(jsonPath("BPMG_Tools[1].skillGroup",is("BPMG")))
+//                .andExpect(jsonPath("BPMG_Tools[1].practice",is("ADM")))
+//
+//                .andExpect(jsonPath("Cloud_AWS",hasSize(1)))
+//                .andExpect(jsonPath("Cloud_AWS[0].id",is("28")))
+//                .andExpect(jsonPath("Cloud_AWS[0].subSkill",is("EC2")))
+//                .andExpect(jsonPath("Cloud_AWS[0].subSkillDesc",is("EC2")))
+//                .andExpect(jsonPath("Cloud_AWS[0].skill",is("AWS")))
+//                .andExpect(jsonPath("Cloud_AWS[0].skillGroup",is("Cloud")))
+//                .andExpect(jsonPath("Cloud_AWS[0].practice",is("ADM")));
+//
+//    }
     
     @Test
     public void testGetSkillGroup() throws Exception{

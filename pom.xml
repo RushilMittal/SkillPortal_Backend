@@ -167,23 +167,12 @@
 					<excludes>
 						<exclude>**/*init/*</exclude>
                         <exclude>**/domain/*</exclude>
-                        <exclude>**/helper/*</exclude>
+                        <exclude>**/helper/*ConfigurationStrings*</exclude>
                         <exclude>**/model/*</exclude>
                         <exclude>**/repository/*</exclude>
 						<exclude>**/*Portal*</exclude>
 
-						<!--<exclude>**/*metrics/*</exclude>-->
-						<!--<exclude>**/*logging/*</exclude>-->
-						<!--<exclude>**/*vault/*</exclude>-->
-						<!--<exclude>**/*configuration/*</exclude>-->
-						<!--<exclude>**/*config/*</exclude>-->
-						<!--<exclude>**/*db/*</exclude>-->
-						<!--<exclude>**/*producer/*</exclude>-->
-						<!--<exclude>**/*exception/*</exclude>-->
-						<!--<exclude>**/*consumer/*</exclude>-->
-						<!--<exclude>**/*administration/*</exclude>-->
-						<!--<exclude>**/*dbqueue/*MySqlDbAccess*</exclude>-->
-						<!--<exclude>**/*dbqueue/*MySqlNotificationQueueAccess*</exclude>-->
+
 					</excludes>
 				</configuration>
 				<executions>

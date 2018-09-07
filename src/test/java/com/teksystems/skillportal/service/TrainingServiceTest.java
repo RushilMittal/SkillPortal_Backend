@@ -42,7 +42,7 @@ public class TrainingServiceTest {
     @Test
     public void saveTrainingTest(){
         List<Training> traininglist = new ArrayList<>();
-        Training training = new Training("1","Java","Cabin-1",20,"Technical","Basics","Abc","sam@teksystems.com");
+        Training training = new Training("Java","Cabin-1",20,"Technical","Basics","Abc","sam@teksystems.com");
         traininglist.add( training);
 
         List<TrainingSession> trainingSession = new ArrayList<>();

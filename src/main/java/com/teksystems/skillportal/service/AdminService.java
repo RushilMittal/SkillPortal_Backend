@@ -72,13 +72,13 @@ public class AdminService {
 
     public void reloadCache() {
         guavaCacheInit.getLoadingCache().invalidateAll();
-        Map<String, List<String>> skillGroupMap = new GuavaCacheInit().loadSkillGroup();
+        Map<String, List<String>> skillGroupMap = guavaCacheInit.loadSkillGroup();
         guavaCacheInit.putSkillGroupCache(skillGroupMap);
     }
 
     public void reloadSkillCache() {
         guavaCacheInit.getSkillLoadingCache().invalidateAll();
-        Map<String, List<SubSkill>> skillMap = new GuavaCacheInit().loadSkill();
+        Map<String, List<SubSkill>> skillMap = guavaCacheInit.loadSkill();
         guavaCacheInit.putSkillCache(skillMap);
 
     }

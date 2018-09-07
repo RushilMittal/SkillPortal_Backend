@@ -72,7 +72,7 @@ public class EmployeeSkillController {
      */
 
 	@PostMapping("/add")
-	public void add(HttpServletRequest request, @RequestParam String subSkillId, @RequestParam int rating) throws Exception {
+	public void add(HttpServletRequest request, @RequestParam String subSkillId, @RequestParam int rating)  {
 		logger.info("/api/add accessed");
 		String employeeId =null;
 
