@@ -1,9 +1,11 @@
 package com.teksystems.skillportal.controller;
 
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import com.mongodb.MongoException;
 import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.service.TokenValidationService;
 import org.apache.log4j.Logger;
@@ -41,24 +43,26 @@ public class EmployeeSkillController {
 	 */
 
 	@GetMapping("/getSubSkillsBySkill")
-	public List<SubSkillDomain> getBySubSkillId(HttpServletRequest request,@RequestParam String skillName) throws ExecutionException {
+	public List<SubSkillDomain> getBySubSkillId(HttpServletRequest request, HttpServletResponse response,@RequestParam String skillName) throws IOException {
         logger.info("/api/getSubSkillsBySkillId accessed");
         logger.debug("Paramater received : SkillName "+skillName );
         List<SubSkillDomain> toReturn = null;
         String employeeId = null;
         try{
             logger.info(ConfigurationStrings.FETCHING);
-            if(!( ((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if(!( ((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 toReturn = employeeSkillService.getAllUnassignedSubSkills(employeeId,skillName);
 
             } else {
                 logger.info(ConfigurationStrings.NOTFOUND);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
             }
         }catch(Exception e){
             logger.info(ConfigurationStrings.ERROR + e.toString());
             logger.error(e.getMessage());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         return toReturn;
 	}
@@ -72,28 +76,33 @@ public class EmployeeSkillController {
      */
 
 	@PostMapping("/add")
-	public void add(HttpServletRequest request, @RequestParam String subSkillId, @RequestParam int rating)  {
+	public void add(HttpServletRequest request, HttpServletResponse response, @RequestParam String subSkillId, @RequestParam int rating) throws IOException {
 		logger.info("/api/add accessed");
 		String employeeId =null;
 
 
-
+        try {
             logger.info(ConfigurationStrings.FETCHING);
-            if(!( ((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.info("Trying to Add the Employee Rating of " + employeeId);
                 if (rating <= 0 || rating > 5) {
-                    throw new NumberFormatException("Rating Invalid"+ rating);
-                }
-                else {
+                    throw new NumberFormatException("Rating Invalid" + rating);
+                } else {
                     employeeSkillService.addNew(employeeId, subSkillId, rating);
                 }
-                logger.debug("Saved Rating of Employee "+employeeId +", subSkillid "+subSkillId+",with rating "+rating);
+                logger.debug("Saved Rating of Employee " + employeeId + ", subSkillid " + subSkillId + ",with rating " + rating);
             } else {
 
                 logger.info(ConfigurationStrings.NOTFOUND);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
             }
+        }catch (MongoException e){
+            logger.info(ConfigurationStrings.ERROR + e.toString());
+            logger.error(e.getMessage());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
 
 
 

@@ -2,10 +2,10 @@ package com.teksystems.skillportal.controller;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -13,15 +13,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import com.mongodb.MongoException;
 import com.teksystems.skillportal.domain.EmployeeSkillPlaceholderDomain;
+import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.service.TokenValidationService;
+import org.apache.log4j.Appender;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.spi.LoggingEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.junit.runners.BlockJUnit4ClassRunner;
+import org.mockito.*;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -32,7 +37,8 @@ import com.teksystems.skillportal.service.EmployeeSkillService;
 import javax.servlet.http.HttpServletRequest;
 
 
-@RunWith(SpringRunner.class)
+@RunWith(value = SpringRunner.class)
+
 
 public class  EmployeeSkillControllerTest {
 
@@ -46,6 +52,7 @@ public class  EmployeeSkillControllerTest {
     EmployeeSkillController controllerUnderTest;
 
     private MockMvc mockMvc;
+
 
     @Before
     public void setup() {
@@ -70,12 +77,46 @@ public class  EmployeeSkillControllerTest {
                 get("/skill/getSubSkillsBySkill?empId=101&skillName=AWS")
                 .header("Authorization", "empId:101")
         );
+
+
+
         resultAction.andExpect(status().isOk())
             .andExpect(jsonPath("$",hasSize(2)))
             .andExpect(jsonPath("$[0].subSkill",is("Lambda")))
             .andExpect(jsonPath("$[1].subSkill",is("EBS")));
 
     }
+
+    @Test
+    public void testGetSubSkillsBySkillLogs() throws Exception{
+
+
+
+        ResultActions resultAction = mockMvc.perform(
+                get("/skill/getSubSkillsBySkill?empId=101&skillName=AWS")
+
+        );
+
+
+        resultAction.andExpect(status().isUnauthorized());
+
+    }
+
+    @Test()
+    public void testGetSubSkillsBySkillExceptions() throws Exception{
+
+        when(employeeSkillService.getAllUnassignedSubSkills("101","AWS")).thenThrow(MongoException.class);
+
+        ResultActions resultAction = mockMvc.perform(
+                get("/skill/getSubSkillsBySkill?empId=101&skillName=AWS")
+                        .header("Authorization", "empId:101")
+        );
+
+
+        resultAction.andExpect(status().isInternalServerError());
+
+    }
+
     @Test
 	public void testAdd() throws Exception {
 

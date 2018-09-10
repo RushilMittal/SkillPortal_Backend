@@ -43,7 +43,7 @@ public class EmployeeSkillService {
     @Autowired
     GuavaCacheInit guavaCacheInit;
 
-    public List<SubSkillDomain> getAllUnassignedSubSkills(String empId, String skill) throws ExecutionException {
+    public List<SubSkillDomain> getAllUnassignedSubSkills(String empId, String skill) throws MongoException, ExecutionException{
         empId = empId.trim();
         skill = skill.trim();
         LoadingCache<String, List<SubSkill>> skillCache = guavaCacheInit.getSkillLoadingCache();

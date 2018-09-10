@@ -18,6 +18,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.io.BufferedReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +46,9 @@ public class AdminServiceTest {
     @InjectMocks
     public AdminService adminService;
 
+
+    final static String SKILLSAMPLECSV = "1,ADM,Programming,Python,Basics,Basics Python Skills";
+    final static String CERTIFICATIONSAMPLECSV = "1,Python Basics,DataCamp";
     @Before
     public void setUp() throws Exception {
 
@@ -174,16 +180,32 @@ public class AdminServiceTest {
     @Test
     public void skilluploadcsv()
     {
-//        when(subSkillRepository.count()).thenReturn((long) 0);
-//        when(subSkillRepository.findBySubSkill(anyString())).thenReturn(getSubSkill());
-//
-//
-//        adminService.skilluploadcsv()
+        when(subSkillRepository.count()).thenReturn((long) 0);
+        // To make that skill doesn't exist in the db, sending null
+        when(subSkillRepository.findBySubSkill(anyString())).thenReturn(null);
+        String uploadString= SKILLSAMPLECSV;
+        Reader inputString = new StringReader(uploadString);
+        BufferedReader sampleInpurFileContentFromUser = new BufferedReader(inputString);
+
+        boolean expecteed = adminService.skilluploadcsv(sampleInpurFileContentFromUser);
+
+        assertThat(true, is(expecteed));
     }
 
     @Test
     public void certificateuploadcsv()
     {
+        when(certificationRepository.count()).thenReturn((long)0);
+
+        when(certificationRepository.findBycertificationName(anyString())).thenReturn(null);
+
+        String uploadString = CERTIFICATIONSAMPLECSV ;
+        Reader inputStringReader = new StringReader(uploadString);
+
+        BufferedReader sampleInputFileContentFromUser = new BufferedReader(inputStringReader);
+
+        boolean expected = adminService.certificateuploadcsv(sampleInputFileContentFromUser);
+        assertThat(true, is(expected));
 
 
     }
