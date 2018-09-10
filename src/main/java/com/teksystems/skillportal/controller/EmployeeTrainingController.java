@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -27,130 +29,159 @@ public class EmployeeTrainingController {
     private TokenValidationService tokenValidator;
 
     @GetMapping("/gettraining")
-    public List<EmployeeTrainingDomain> getByEmpId(HttpServletRequest request) {
+    public List<EmployeeTrainingDomain> getByEmpId(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         logger.info("/gettraining API called");
-        String empId = null;
+        String empId ;
         List<EmployeeTrainingDomain> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!(request.getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
                 empId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to fetch employee's added Training");
                 toReturn = employeeTrainingService.getEmployeeTrainingByEmployeeId(empId);
             } else {
                 logger.info(ConfigurationStrings.NOTFOUND);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
         return toReturn;
     }
 
     @GetMapping("/gettrainingevent")
-    public List<TrainingEventDomain> getEventByEmpId(HttpServletRequest request) {
+    public List<TrainingEventDomain> getEventByEmpId(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         logger.info("/gettrainingevent API called");
-        String empId = null;
+        String empId ;
         List<TrainingEventDomain> toReturn = null;
 
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!(request.getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
                 empId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to fetch employee's added Events for Calendar view");
                 toReturn = employeeTrainingService.getTrainingEventByEmployeeId(empId);
             } else {
                 logger.info(ConfigurationStrings.NOTFOUND);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
         return toReturn;
     }
 
     @DeleteMapping("/delete")
-    public void getByEmpIdAndSubSkillId(HttpServletRequest request, @RequestParam("trainingId")String trainingId) {
+    public void getByEmpIdAndSubSkillId(HttpServletRequest request,
+                                        @RequestParam("trainingId")String trainingId,
+                                        HttpServletResponse response)
+            throws IOException {
         logger.info("/delete API called");
         String empId = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
                 empId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to delete employee's added Events");
                 employeeTrainingService.cancelEnrollment(empId,trainingId);
             } else {
                 logger.info(ConfigurationStrings.NOTFOUND);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/gettrainingeventlist")
-    public List<TrainingListEventDomain> getEventListByEmpId(HttpServletRequest request){
+    public List<TrainingListEventDomain> getEventListByEmpId(HttpServletRequest request,
+                                                             HttpServletResponse response)
+            throws IOException {
         logger.info("/gettrainingeventlist API called");
         String empId = null;
         List<TrainingListEventDomain> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!(request.getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
                 empId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to fetch employee's added Events for list view");
                 toReturn = employeeTrainingService.getTrainingListEventByEmployeeId(empId);
             } else {
                 logger.info(ConfigurationStrings.NOTFOUND);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
         return toReturn;
     }
 
     @GetMapping("/getenrolledtrainings")
-    public List<EmployeeTrainingPlaceholderDomain> getEnrolledTraining(HttpServletRequest request) {
+    public List<EmployeeTrainingPlaceholderDomain> getEnrolledTraining(HttpServletRequest request,
+                                                                       HttpServletResponse response)
+            throws IOException {
         logger.info("/getenrolledtrainings API called");
         String empId = null;
         List<EmployeeTrainingPlaceholderDomain> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)== null)) {
                 empId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to fetch employee's added Trainings for training placeholder");
                 toReturn = employeeTrainingService.getEnrolledTraining(empId);
             } else {
                 logger.info(ConfigurationStrings.NOTFOUND);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         return toReturn;
     }
 
     @GetMapping("/getupcomingtrainings")
-    public List<EmployeeTrainingPlaceholderDomain> getUpcomingTraining(HttpServletRequest request) {
+    public List<EmployeeTrainingPlaceholderDomain> getUpcomingTraining(HttpServletRequest request,
+                                                                       HttpServletResponse response)
+            throws IOException {
         logger.info("/getupcomingtrainings API called");
-        String empId = null;
+        String empId ;
         List<EmployeeTrainingPlaceholderDomain> toReturn = null;
 
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)== null)) {
                 empId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to fetch Upcoming Trainings for training placeholder");
                 toReturn = employeeTrainingService.getUpcomingTraining();
             } else {
                 logger.info(ConfigurationStrings.NOTFOUND);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         return toReturn;
     }

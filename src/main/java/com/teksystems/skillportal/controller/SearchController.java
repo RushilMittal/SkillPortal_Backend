@@ -1,5 +1,6 @@
 package com.teksystems.skillportal.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -22,6 +23,7 @@ import com.teksystems.skillportal.service.TrainingService;
 import com.teksystems.skillportal.model.Training;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/skill")
@@ -43,13 +45,13 @@ public class SearchController {
     private static Logger logger = Logger.getLogger(SearchController.class);
 
     @GetMapping("/searchskill")
-    public List<String> searchSkill(HttpServletRequest request, @RequestParam String searchTerm) throws ExecutionException {
+    public List<String> searchSkill(HttpServletRequest request, @RequestParam String searchTerm, HttpServletResponse response) throws ExecutionException, IOException {
         logger.info("/searchskill API called");
-        String employeeId = null;
+        String employeeId;
         List<String> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 toReturn = searchService.searchSkill(searchTerm);
@@ -58,19 +60,21 @@ public class SearchController {
                 logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         return toReturn;
     }
 
     @GetMapping("/searchcertitems")
-    public List<CertificationDomain> getCertSearch(HttpServletRequest request, @RequestParam String searchTerm) {
+    public List<CertificationDomain> getCertSearch(HttpServletRequest request, @RequestParam String searchTerm, HttpServletResponse response) throws IOException {
         logger.info("/searchcertitems API called");
-        String employeeId = null;
+        String employeeId ;
         List<CertificationDomain> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 toReturn = certificationService.searchCertItems(searchTerm);
@@ -79,20 +83,22 @@ public class SearchController {
                 logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         return toReturn;
 
     }
 	
 	 @GetMapping("/searchtraining")
-    public List<Training> searchTraining(HttpServletRequest request, @RequestParam String searchTerm){
+    public List<Training> searchTraining(HttpServletRequest request, @RequestParam String searchTerm, HttpServletResponse response) throws IOException {
         logger.info("/searchtraining API called");
-        String employeeId = null;
+        String employeeId;
         List<Training> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 toReturn = trainingService.searchTraining(searchTerm);
@@ -101,7 +107,9 @@ public class SearchController {
                 logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         return toReturn;
 

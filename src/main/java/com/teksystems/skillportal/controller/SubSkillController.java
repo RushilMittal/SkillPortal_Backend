@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -36,13 +38,13 @@ public class SubSkillController {
      * EmployeeId Validation
      */
     @GetMapping("/getallsubskill")
-    public Map<String,List<SubSkill>> getAllSubSkillsOfEmployee(HttpServletRequest request,@RequestParam String skillName) throws ExecutionException {
+    public Map<String,List<SubSkill>> getAllSubSkillsOfEmployee(HttpServletRequest request, @RequestParam String skillName, HttpServletResponse response) throws ExecutionException, IOException {
         logger.info("getallsubskill API called");
-        String employeeId = null;
+        String employeeId;
         Map<String,List<SubSkill>> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 toReturn = subSkillService.getAllSubSkillsOfEmployee();
@@ -51,7 +53,9 @@ public class SubSkillController {
                 logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         return toReturn;
     }

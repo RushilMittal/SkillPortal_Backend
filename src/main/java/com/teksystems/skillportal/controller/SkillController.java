@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -38,19 +40,20 @@ public class SkillController {
     * EmployeeId validation added:- 14-04-2018
     */
     @GetMapping("/getallskillgroups")
-    public  Map<String,List<String>> getAllSkillGroups(HttpServletRequest request) throws ExecutionException
-    {
+    public  Map<String,List<String>> getAllSkillGroups(HttpServletRequest request, HttpServletResponse response) throws ExecutionException, IOException {
 
-        String employeeId = null;
+
         Map<String,List<String>> toReturn = null;
         try {
-            if(!((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).equals(null)) {
+            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
 
 
                 toReturn = skillGroupService.getAllSkillGroups();
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
         return toReturn;
@@ -64,14 +67,13 @@ public class SkillController {
      * EmployeeId Validation added :- 14-04-2018
      */
     @GetMapping("/getallskills")
-    public Map<String,List<SubSkill>> getAllSkills(HttpServletRequest request) throws ExecutionException
-    {
+    public Map<String,List<SubSkill>> getAllSkills(HttpServletRequest request, HttpServletResponse response) throws ExecutionException, IOException {
         logger.info("getallskills API called");
-        String employeeId = null;
+        String employeeId;
         Map<String,List<SubSkill>> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 toReturn = skillService.getAllSkills();
@@ -80,7 +82,9 @@ public class SkillController {
                 logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         return toReturn;
     }
@@ -94,14 +98,13 @@ public class SkillController {
      */
 
     @GetMapping("/getskillgroup")
-    public List<String> getSkillGroup(HttpServletRequest request,@RequestParam String skillGroup) throws ExecutionException
-    {
+    public List<String> getSkillGroup(HttpServletRequest request, @RequestParam String skillGroup, HttpServletResponse response) throws ExecutionException, IOException {
         logger.info("getskillgroup API Called");
-        String employeeId = null;
+        String employeeId;
         List<String> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 toReturn = skillService.getSkillGroup(skillGroup);
@@ -110,7 +113,9 @@ public class SkillController {
                 logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         return toReturn;
     }

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -24,14 +26,13 @@ public class TrainingController {
     private TokenValidationService tokenValidator;
 
     @PostMapping("/add")
-    public void add(HttpServletRequest request, @RequestBody TrainingDomain training)
-    {
+    public void add(HttpServletRequest request, @RequestBody TrainingDomain training, HttpServletResponse response) throws IOException {
         logger.info("/add Training API called");
-        String empId = null;
+        String empId;
 
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
                 empId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to add new Training");
@@ -40,20 +41,21 @@ public class TrainingController {
                 logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/getalltraining")
-    public List<TrainingDomain> getTraining(HttpServletRequest request)
-    {
+    public List<TrainingDomain> getTraining(HttpServletRequest request, HttpServletResponse response) throws IOException {
         logger.info("/gettraining API called");
-        String empId = null;
+        String empId ;
         List<TrainingDomain> toReturn = null;
 
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
                 empId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to fetch all the trainings available");
@@ -62,21 +64,22 @@ public class TrainingController {
                 logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         return toReturn;
     }
 
 
     @PostMapping("/enroll")
-    public void enrollTraining(HttpServletRequest request,@RequestParam String trainingId)
-    {
+    public void enrollTraining(HttpServletRequest request, @RequestParam String trainingId, HttpServletResponse response) throws IOException {
         logger.info("/enroll Training API called");
-        String empId = null;
+        String empId;
 
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
                 empId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to enroll a New Training for a particular employee");
@@ -85,20 +88,21 @@ public class TrainingController {
                 logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
     }
 
     @PostMapping("/update")
-    public void update(HttpServletRequest request,@RequestBody TrainingDomain training)
-    {
+    public void update(HttpServletRequest request, @RequestBody TrainingDomain training, HttpServletResponse response) throws IOException {
         logger.info("/update Training API called");
-        String empId = null;
+        String empId;
 
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
                 empId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to update Training details ");
@@ -107,7 +111,9 @@ public class TrainingController {
                 logger.info(ConfigurationStrings.NOTFOUND);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
     }

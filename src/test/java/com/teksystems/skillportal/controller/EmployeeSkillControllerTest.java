@@ -10,6 +10,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -53,10 +55,8 @@ public class  EmployeeSkillControllerTest {
 
     private MockMvc mockMvc;
 
-
     @Before
     public void setup() {
-
         // this must be called for the @Mock annotations above to be processed
         // and for the mock service to be injected into the controller under
         // test.
@@ -67,17 +67,15 @@ public class  EmployeeSkillControllerTest {
 
     }
 
+
     @Test
     public void testGetSubSkillsBySkill() throws Exception{
-        List<SubSkillDomain> subSkillDomains = Arrays.asList(new SubSkillDomain("1","Lambda","Lambda","AWS","Cloud","ADM",2),
-                                                             new SubSkillDomain("2","EBS","EBS","AWS","Cloud","ADM",1)
-                                                            );
-        when(employeeSkillService.getAllUnassignedSubSkills("101","AWS")).thenReturn(subSkillDomains);
+
+        when(employeeSkillService.getAllUnassignedSubSkills(anyString(),anyString())).thenReturn(getSubSkillDomainList());
         ResultActions resultAction = mockMvc.perform(
                 get("/skill/getSubSkillsBySkill?empId=101&skillName=AWS")
                 .header("Authorization", "empId:101")
         );
-
 
 
         resultAction.andExpect(status().isOk())
@@ -88,16 +86,12 @@ public class  EmployeeSkillControllerTest {
     }
 
     @Test
-    public void testGetSubSkillsBySkillLogs() throws Exception{
-
-
+    public void testGetSubSkillsBySkillUnAuthorized() throws Exception{
 
         ResultActions resultAction = mockMvc.perform(
                 get("/skill/getSubSkillsBySkill?empId=101&skillName=AWS")
 
         );
-
-
         resultAction.andExpect(status().isUnauthorized());
 
     }
@@ -105,7 +99,7 @@ public class  EmployeeSkillControllerTest {
     @Test()
     public void testGetSubSkillsBySkillExceptions() throws Exception{
 
-        when(employeeSkillService.getAllUnassignedSubSkills("101","AWS")).thenThrow(MongoException.class);
+        when(employeeSkillService.getAllUnassignedSubSkills(anyString(),anyString())).thenThrow(MongoException.class);
 
         ResultActions resultAction = mockMvc.perform(
                 get("/skill/getSubSkillsBySkill?empId=101&skillName=AWS")
@@ -121,19 +115,59 @@ public class  EmployeeSkillControllerTest {
 	public void testAdd() throws Exception {
 
 
-		doNothing().when(employeeSkillService).addNew("103", "4", 3);
+		doNothing().when(employeeSkillService).addNew(anyString(),anyString(),anyInt());
 
 		mockMvc.perform(post("/skill/add?empId=103&subSkillId=4&rating=3")
                 .header("Authorization", "empId:80"))
                 .andExpect(status().isOk());
 	}
 
-	@Test
-    public void testGetEmployeeSkillPlaceholder() throws Exception{
-        EmployeeSkillPlaceholderDomain a = new EmployeeSkillPlaceholderDomain(2,"Lambda",3, new int[]{0, 1, 1});
-        when(employeeSkillService.getEmployeeSkillPlaceHolderDomain(anyString())).thenReturn(a);
+    @Test
+    public void testAddUnAuthorized() throws Exception {
 
-         ResultActions resultActions = mockMvc.perform(get("/skill/getEmployeeSkillPlaceholder?empId=101")
+
+        doNothing().when(employeeSkillService).addNew(anyString(),anyString(),anyInt());
+
+        mockMvc.perform(post("/skill/add?empId=103&subSkillId=4&rating=3")
+                )
+                .andExpect(status().isUnauthorized());
+    }
+
+
+    @Test
+    public void testAddInvalidRating() throws Exception {
+
+
+        doNothing().when(employeeSkillService).addNew(anyString(),anyString(),anyInt());
+
+        mockMvc.perform(post("/skill/add?empId=103&subSkillId=4&rating=6")
+                .header("Authorization", "empId:80"))
+                .andExpect(status().isNotAcceptable());
+    }
+
+
+    @Test
+    public void testAddMongoException() throws Exception {
+
+
+
+        doThrow(MongoException.class).when(employeeSkillService).addNew(anyString(),anyString(),anyInt());
+
+        mockMvc.perform(post("/skill/add?empId=103&subSkillId=4&rating=5")
+                .header("Authorization", "empId:80"))
+                .andExpect(status().isInternalServerError());
+    }
+
+
+
+
+
+    @Test
+    public void testGetEmployeeSkillPlaceholder() throws Exception{
+
+        when(employeeSkillService.getEmployeeSkillPlaceHolderDomain(anyString())).thenReturn(getEmployeeSkillPlaceholderDomain());
+
+         ResultActions resultActions = mockMvc.perform(get("/skill/getEmployeeSkillPlaceholder")
                  .header("Authorization", "empId:101"));
 
                 resultActions.andExpect(status().isOk())
@@ -145,19 +179,44 @@ public class  EmployeeSkillControllerTest {
                 .andExpect(jsonPath("lastUpdatedPeriod[1]", is(1)))
                 .andExpect(jsonPath("lastUpdatedPeriod[2]", is(1)));
     }
+
+    @Test
+    public void testGetEmployeeSkillPlaceholderUnAuthorized() throws Exception{
+
+
+        when(employeeSkillService.getEmployeeSkillPlaceHolderDomain(anyString())).thenReturn(getEmployeeSkillPlaceholderDomain());
+
+        ResultActions resultActions = mockMvc.perform(get("/skill/getEmployeeSkillPlaceholder")
+                );
+
+        resultActions.andExpect(status().isUnauthorized());
+
+    }
+
+
+    @Test
+    public void testGetEmployeeSkillPlaceholderMongoException() throws Exception{
+
+
+        doThrow(MongoException.class).when(employeeSkillService).getEmployeeSkillPlaceHolderDomain(anyString());
+
+        ResultActions resultActions = mockMvc.perform(get("/skill/getEmployeeSkillPlaceholder")
+                .header("Authorization", "empId:101"));
+
+        resultActions.andExpect(status().isInternalServerError());
+
+    }
+
+
+
+
+
     @Test
     public void testGetEmployeeSkills() throws Exception{
-        SubSkillDomain temp = new SubSkillDomain("1","Lambda","Lambda","AWS","Cloud","ADM",2);
-        SubSkillDomain temp2 = new SubSkillDomain("2","EBS","EBS","AWS","Cloud","ADM",1);
 
-        List<EmployeeSkillDomain> employeeSkillDomains = Arrays.asList(
-                new EmployeeSkillDomain("101",temp,3,new Date()),
-                new EmployeeSkillDomain("101",temp2,2,new Date())
+        given(employeeSkillService.getAll(anyString())).willReturn(getEmployeeSkillDomainList());
 
-        );
-        given(employeeSkillService.getAll("101")).willReturn(employeeSkillDomains);
-
-        ResultActions resultActions =mockMvc.perform(get("/skill/getEmployeeSkills?empId=101")
+        ResultActions resultActions =mockMvc.perform(get("/skill/getEmployeeSkills")
                 .header("Authorization", "empId:101"));
 
                 resultActions.andExpect(status().isOk())
@@ -167,10 +226,75 @@ public class  EmployeeSkillControllerTest {
                 .andExpect(jsonPath("$[1].employeeId",is("101")))
                 .andExpect(jsonPath("$[1].rating",is(2)));
 
+    }
 
+
+    @Test
+    public void testGetEmployeeSkillsUnAuthorized() throws Exception{
+
+        given(employeeSkillService.getAll(anyString())).willReturn(getEmployeeSkillDomainList());
+
+        ResultActions resultActions =mockMvc.perform(get("/skill/getEmployeeSkills")
+                );
+
+        resultActions.andExpect(status().isUnauthorized());
+
+    }
+
+    @Test
+    public void testGetEmployeeSkillsEmployeeIdNotFound() throws Exception{
+
+        when(tokenValidationService.ExtractEmployeeId(Mockito.any(HttpServletRequest.class))).thenReturn(null);
+        given(employeeSkillService.getAll(anyString())).willReturn(getEmployeeSkillDomainList());
+
+        ResultActions resultActions =mockMvc.perform(get("/skill/getEmployeeSkills")
+                .header("Authorization", "sample:101")
+        );
+
+        resultActions.andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    public void testGetEmployeeSkillsMongoException() throws Exception{
+
+
+
+
+        doThrow(MongoException.class).when(employeeSkillService).getAll(anyString());
+        ResultActions resultActions =mockMvc.perform(get("/skill/getEmployeeSkills")
+                .header("Authorization", "sample:101")
+        );
+
+        resultActions.andExpect(status().isInternalServerError());
 
     }
 
 
+    public SubSkillDomain getSubSkillDomain(){
+        return new SubSkillDomain("1","Lambda","Lambda","AWS","Cloud","ADM",2);
+    }
 
+    public SubSkillDomain getSubSkillDomain1(){
+        return new SubSkillDomain("2","EBS","EBS","AWS","Cloud","ADM",1);
+    }
+
+    public List<EmployeeSkillDomain> getEmployeeSkillDomainList(){
+        List<EmployeeSkillDomain> toReturn = new ArrayList<>();
+        toReturn.add( new EmployeeSkillDomain("101",getSubSkillDomain(),3,new Date()));
+        toReturn.add(new EmployeeSkillDomain("101",getSubSkillDomain1(),2,new Date()));
+        return toReturn;
+    }
+
+    public  EmployeeSkillPlaceholderDomain getEmployeeSkillPlaceholderDomain(){
+        return new EmployeeSkillPlaceholderDomain(2,"Lambda",3, new int[]{0, 1, 1});
+    }
+
+    public  List<SubSkillDomain> getSubSkillDomainList(){
+        List<SubSkillDomain> toReturnSubSkillDomainList = new ArrayList<>();
+        toReturnSubSkillDomainList.add(getSubSkillDomain());
+        toReturnSubSkillDomainList.add(getSubSkillDomain1());
+        return toReturnSubSkillDomainList;
+
+    }
 }

@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -35,23 +37,24 @@ public class CertificationController {
     * EmployeeId Validation done :- 14-04-2018
      */
     @GetMapping("/all")
-    List<CertificationDomain> getAvailableCertifications(HttpServletRequest request)
-    {
+    List<CertificationDomain> getAvailableCertifications(HttpServletRequest request, HttpServletResponse response) throws IOException {
         logger.info("/all  API called,under the Certification Controller");
         String employeeId = null;
         List<CertificationDomain> certifications =null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.info("Trying to fetch all the Certificates");
                 certifications = this.certificationService.getAllCertifications();
             } else {
                 logger.info(ConfigurationStrings.NOTFOUND);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
             }
         } catch (Exception e) {
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
         return certifications;
@@ -66,14 +69,13 @@ public class CertificationController {
     * EmployeeId validation donee:- 14-04-2018
     */
     @PostMapping("/addnewCert")
-    void postNewCert(HttpServletRequest request,@RequestParam String id,@RequestParam String certificationName,
-                     @RequestParam String institution,@RequestParam String skillId)
-    {
+    void postNewCert(HttpServletRequest request,HttpServletResponse response,@RequestParam String id,@RequestParam String certificationName,
+                     @RequestParam String institution,@RequestParam String skillId) throws IOException {
         logger.info("/addnewCert API called");
         String employeeId = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!(request.getHeader(ConfigurationStrings.AUTHORIZATION) ==null)) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 CertificationDomain certification=new CertificationDomain(id,skillId,certificationName,institution);
@@ -81,25 +83,27 @@ public class CertificationController {
 
             } else {
                 logger.info(ConfigurationStrings.NOTFOUND);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
             }
         } catch (Exception e) {
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 
 
 
     @PostMapping("/addnewemployeecertificate")
-    void addNewEmployeeCertificate(HttpServletRequest request,
+    void addNewEmployeeCertificate(HttpServletRequest request, HttpServletResponse response,
                                    @RequestParam String skillId,
                                    @RequestParam String certificationName,
                                    @RequestParam String institution
-                                   ){
+                                   ) throws IOException {
         logger.info("/add_new API called");
         String employeeId =  null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 CertificationDomain certification = new CertificationDomain(skillId,certificationName,institution);
@@ -107,9 +111,11 @@ public class CertificationController {
 
             } else {
                 logger.info(ConfigurationStrings.NOTFOUND);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
             }
         } catch (Exception e) {
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -43,20 +43,14 @@ public class TrainingService {
             (MongoOperations) ctx.getBean("mongoTemplate");
 
     public void saveTraining(Training training, List<TrainingSession> trainingSessions) throws MongoException {
-        Training doesExist;
-        String id;
-        Random random = new Random();
-        try {
-            do {
-                id = Integer.toString(random.nextInt(100000));
-                doesExist = trainingRepository.findByid(id);
-            } while (doesExist != null);
-            training.setId(id);
-            trainingRepository.save(training);
-            for (TrainingSession iterable : trainingSessions) {
-                iterable.setTrainingId(id);
-            }
 
+        try {
+
+            Training t = trainingRepository.save(training);
+
+            for (TrainingSession iterable : trainingSessions) {
+                iterable.setTrainingId(t.getId());
+            }
             trainingSessionRepository.save(trainingSessions);
         } catch (Exception e) {
             logger.error(e.getMessage());

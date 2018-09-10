@@ -26,7 +26,7 @@ public class TokenFilter extends GenericFilterBean {
     @Override
     public void doFilter(final ServletRequest req,
                          final ServletResponse res,
-                         final FilterChain chain) throws IOException, ServletException{
+                         final FilterChain chain){
         try{
             logger.info("Inside the doFilter");
             String typeOfRequest = ((HttpServletRequest) req).getMethod();

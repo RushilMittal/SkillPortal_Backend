@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import com.teksystems.skillportal.service.CertificationService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -35,21 +37,24 @@ public class EmployeeCertificationController {
      * Validation and fetching of the EmployeeId done:- 14-04-2018
      */
     @GetMapping("/getcertifications")
-    public List<EmployeeCertificationDomain> getById(HttpServletRequest request) {
-        String employeeId = null;
+    public List<EmployeeCertificationDomain> getById(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String employeeId ;
         List<EmployeeCertificationDomain> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.info("Trying to fetch employee's added Certificate");
                 toReturn = employeeCertificationService.getEmployeeCertificationByEmployeeId(employeeId);
             } else {
                 logger.info(ConfigurationStrings.NOTFOUND);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
         return toReturn;
@@ -70,13 +75,14 @@ public class EmployeeCertificationController {
 	 public void addCertification(HttpServletRequest request,@RequestParam String certificationId,
                                   @RequestParam String certificationDateString,
                                   @RequestParam  String certificationValidityDateString,
-                                  @RequestParam int certificationNumber,@RequestParam  String certificationUrl
-    ) {
+                                  @RequestParam int certificationNumber,@RequestParam  String certificationUrl,
+                                  HttpServletResponse response
+    ) throws IOException {
 
-        String employeeId =null;
+        String employeeId;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.info("Trying to Save the Certificate");
@@ -89,9 +95,12 @@ public class EmployeeCertificationController {
                         certificationNumber, certificationUrl);
             } else {
                 logger.info(ConfigurationStrings.NOTFOUND);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 	 }
 
@@ -107,14 +116,14 @@ public class EmployeeCertificationController {
 	 */
     @PostMapping("/addcertificate")
     public void addNewCertificate (HttpServletRequest request,
-            @RequestBody EmployeeCertificationDomain employeeCertificationDomain
-    ){
+            @RequestBody EmployeeCertificationDomain employeeCertificationDomain, HttpServletResponse response
+    ) throws IOException {
         logger.info("/addcertificate API called");
 
-        String employeeId =null;
+        String employeeId ;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!(request.getHeader(ConfigurationStrings.AUTHORIZATION) ==null)) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 employeeCertificationDomain.setEmpId(employeeId);
@@ -122,10 +131,12 @@ public class EmployeeCertificationController {
                 employeeCertificationService.addNewCertificate(employeeCertificationDomain);
             } else {
                 logger.info(ConfigurationStrings.NOTFOUND);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 	
@@ -137,22 +148,25 @@ public class EmployeeCertificationController {
     */
     @GetMapping("/getcertificationplaceholder")
     public List<EmployeeCertificationPlaceholderDomain> getTopTwoEmployeeCertificationYearById(
-            HttpServletRequest request) {
+            HttpServletRequest request, HttpServletResponse response) throws IOException {
         logger.info("/getcertificationplaceholder API called");
-        String employeeId = null;
+        String employeeId ;
         List<EmployeeCertificationPlaceholderDomain> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.info("Trying to fetch Certification Placeholder");
                 toReturn = employeeCertificationService.getEmployeeCertificationPlaceholderById(employeeId);
             } else {
                 logger.info(ConfigurationStrings.NOTFOUND);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         return toReturn;
     }

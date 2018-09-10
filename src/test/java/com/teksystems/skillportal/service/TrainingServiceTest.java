@@ -1,5 +1,6 @@
 package com.teksystems.skillportal.service;
 
+import com.teksystems.skillportal.init.MongoConfigNew;
 import com.teksystems.skillportal.model.Training;
 import com.teksystems.skillportal.model.TrainingSession;
 import com.teksystems.skillportal.repository.TrainingRepository;
@@ -12,14 +13,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Query;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+
+import java.util.*;
 
 
 import static org.mockito.Matchers.any;
+
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -38,31 +42,35 @@ public class TrainingServiceTest {
     @InjectMocks
     TrainingService trainingService;
 
+    ApplicationContext ctx;
+    MongoOperations mongoOperation;
+
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
+        ctx = new AnnotationConfigApplicationContext(MongoConfigNew.class);
+        mongoOperation =(MongoOperations) ctx.getBean("mongoTemplate");
     }
 
     private Long DATECONSTANT = 1532677775148L;
     private Long DATECONSTANT2 = 1533019950736L;
 
-//    @Test
-//    public void saveTrainingTest(){
-//        List<Training> traininglist = new ArrayList<>();
-//
-//        traininglist.add( getTraining());
-//
-//        List<TrainingSession> trainingSession = new ArrayList<>();
-//        trainingSession.add(new TrainingSession("1",new GregorianCalendar(2018,03,12).getTime(),"16:30","17:30"));
-//
-//        when(trainingRepository.findByid(anyString())).thenReturn(getTraining());
-//        when(trainingSessionRepository.findAll()).thenReturn(trainingSession);
-//
-//        trainingService.saveTraining(getTraining(),trainingSession);
-//        verify(trainingRepository,times(1)).save(any(Training.class));
-//        verify(trainingSessionRepository,times(1)).save(any(TrainingSession.class));
-//
-//    }
+    @Test
+    public void saveTrainingTest(){
+        List<Training> traininglist = new ArrayList<>();
+
+        traininglist.add( getTraining());
+
+        List<TrainingSession> trainingSession = new ArrayList<>();
+        trainingSession.add(new TrainingSession("1",new GregorianCalendar(2018,03,12).getTime(),"16:30","17:30"));
+
+        trainingService.saveTraining(getTraining(),trainingSession);
+
+        verify(trainingRepository,times(1)).save(any(Training.class));
+
+
+    }
 
     @Test
     public void updateTrainingTest(){
@@ -74,6 +82,15 @@ public class TrainingServiceTest {
         verify(trainingSessionRepository,times(1)).delete(any(List.class));
         verify(trainingSessionRepository,times(1)).save(any(List.class));
     }
+
+//    @Test
+//    public void getAllTrainingsTest(){
+//        when(mongoOperation.find(any(), any())).thenReturn(Collections.singletonList(getTraningList()));
+//
+//
+//    }
+
+
 
     public List<Training> getTraningList(){
         List<Training> toReturn = new ArrayList<>();

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -26,13 +27,13 @@ public class RoleController {
      * Controller to fetch all the admin Roles of the app to provide the auth in the frontend
      */
     @GetMapping("/adminRoles")
-    public List<AdminRoles> getAllAdminRoles(HttpServletRequest request) {
+    public List<AdminRoles> getAllAdminRoles(HttpServletRequest request, HttpServletResponse response) throws IOException {
         logger.info("adminRoles API Called");
-        String employeeId = null;
+        String employeeId ;
         List<AdminRoles> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+             if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 if (employeeId != null) {
                     logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
@@ -45,7 +46,9 @@ public class RoleController {
                 logger.info(ConfigurationStrings.AUTHORIZATIONHEADER);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         return toReturn;
     }
@@ -54,12 +57,12 @@ public class RoleController {
      * Controller for adding new Role.
      */
     @PostMapping("/addAdminRole")
-    private void addAdminRole(HttpServletRequest request, @RequestBody AdminRoles role, HttpServletResponse response) {
+    private void addAdminRole(HttpServletRequest request, @RequestBody AdminRoles role, HttpServletResponse response) throws IOException {
         logger.info("addadminRoles API Called");
-        String employeeId = null;
+        String employeeId;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
                 if (tokenValidator.validateAdminRole(request, response)) {
                     employeeId = tokenValidator.ExtractEmployeeId(request);
                     if (employeeId != null) {
@@ -70,23 +73,25 @@ public class RoleController {
                     }
                 } else {
                     logger.debug(ConfigurationStrings.NOADMIN);
-                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
                 }
             } else {
                 logger.info(ConfigurationStrings.AUTHORIZATIONHEADER);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 
     @DeleteMapping("/deleteRole")
-    public void deleteRole(HttpServletRequest request, @RequestParam String id, HttpServletResponse response) {
+    public void deleteRole(HttpServletRequest request, @RequestParam String id, HttpServletResponse response) throws IOException {
         logger.info("deleteRoles API Called");
-        String employeeId = null;
+        String employeeId;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(((HttpServletRequest) request).getHeader(ConfigurationStrings.AUTHORIZATION).toString().equals(null))) {
+            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
                 if (tokenValidator.validateAdminRole(request, response)) {
                     employeeId = tokenValidator.ExtractEmployeeId(request);
                     if (employeeId != null) {
@@ -97,13 +102,15 @@ public class RoleController {
                     }
                 } else {
                     logger.debug(ConfigurationStrings.NOADMIN);
-                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
                 }
             } else {
                 logger.info(ConfigurationStrings.AUTHORIZATIONHEADER);
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 

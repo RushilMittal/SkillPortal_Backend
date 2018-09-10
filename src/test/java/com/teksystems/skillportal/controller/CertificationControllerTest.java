@@ -1,5 +1,6 @@
 package com.teksystems.skillportal.controller;
 
+import com.mongodb.MongoException;
 import com.teksystems.skillportal.domain.CertificationDomain;
 import com.teksystems.skillportal.service.AdminService;
 import com.teksystems.skillportal.service.CertificationService;
@@ -22,7 +23,9 @@ import java.util.List;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -70,6 +73,42 @@ public class CertificationControllerTest {
     }
 
     @Test
+    public void getAvailableCertificationsUnAuthorized() throws Exception {
+
+        when(certificationService.getAllCertifications()).thenReturn(getCertificationDomainList());
+
+        ResultActions resultAction = mockMvc.perform(
+                get("/certifications/all")
+
+        );
+
+
+        resultAction.andExpect(status().isUnauthorized());
+
+    }
+
+
+    @Test
+    public void getAvailableCertificationsMongoException() throws Exception {
+
+
+        doThrow(MongoException.class).when(certificationService).getAllCertifications();
+
+        ResultActions resultAction = mockMvc.perform(
+                get("/certifications/all")
+                        .header("Authorization", "empId:101")
+
+        );
+
+
+        resultAction.andExpect(status().isInternalServerError());
+
+    }
+
+
+
+
+    @Test
     public void postNewCert() throws Exception {
         doNothing().when(adminService).postNewCertification(getCertificationDomain());
 
@@ -78,6 +117,30 @@ public class CertificationControllerTest {
                 .header("Authorization", "empId:80"))
                 .andExpect(status().isOk());
     }
+    @Test
+    public void postNewCertUnAuthorized() throws Exception {
+        doNothing().when(adminService).postNewCertification(getCertificationDomain());
+
+        mockMvc.perform(post("/certifications/addnewCert?id=1&certificationName=Python&" +
+                "institution=DataCamp&skillId=4")
+                )
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    public void postNewCertMongoException() throws Exception {
+
+
+        doThrow(MongoException.class).when(adminService).postNewCertification(any(CertificationDomain.class));
+
+        mockMvc.perform(post("/certifications/addnewCert?id=1&certificationName=Python&" +
+                "institution=DataCamp&skillId=4")
+                .header("Authorization", "empId:80"))
+                .andExpect(status().isInternalServerError());
+    }
+
+
+
+
 
     @Test
     public void addNewEmployeeCertificate() throws Exception {
@@ -88,6 +151,25 @@ public class CertificationControllerTest {
                 .header("Authorization", "empId:80"))
                 .andExpect(status().isOk());
     }
+    @Test
+    public void addNewEmployeeCertificateUnAuthorized() throws Exception {
+        doNothing().when(adminService).postNewCertification(getCertificationDomain());
+
+        mockMvc.perform(post("/certifications/addnewemployeecertificate?certificationName=Python&" +
+                "institution=DataCamp&skillId=4")
+                )
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    public void addNewEmployeeCertificateMongoException() throws Exception {
+
+        doThrow(MongoException.class).when(adminService).postNewCertification(any(CertificationDomain.class));
+        mockMvc.perform(post("/certifications/addnewemployeecertificate?certificationName=Python&" +
+                "institution=DataCamp&skillId=4")
+                .header("Authorization", "empId:80"))
+                .andExpect(status().isInternalServerError());
+    }
+
 
     List<CertificationDomain> getCertificationDomainList(){
         List<CertificationDomain> toReturn = new ArrayList<>();

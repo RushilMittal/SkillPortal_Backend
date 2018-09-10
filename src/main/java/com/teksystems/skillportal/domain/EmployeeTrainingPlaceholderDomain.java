@@ -6,6 +6,15 @@ public class EmployeeTrainingPlaceholderDomain {
 	String trainingId;
 	String name;
 	Date trainingDate;
+	public EmployeeTrainingPlaceholderDomain(){
+
+    }
+
+	public EmployeeTrainingPlaceholderDomain(String trainingId, String name, Date trainingDate) {
+		this.trainingId = trainingId;
+		this.name = name;
+		this.trainingDate = trainingDate;
+	}
 
 	public String getName() {
 		return name;
