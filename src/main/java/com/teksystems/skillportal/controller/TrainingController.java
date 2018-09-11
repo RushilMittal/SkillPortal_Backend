@@ -32,7 +32,7 @@ public class TrainingController {
 
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
+            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
                 empId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to add new Training");
@@ -55,7 +55,7 @@ public class TrainingController {
 
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
+            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
                 empId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to fetch all the trainings available");
@@ -79,7 +79,7 @@ public class TrainingController {
 
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
+            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
                 empId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to enroll a New Training for a particular employee");
@@ -102,7 +102,7 @@ public class TrainingController {
 
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
+            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
                 empId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to update Training details ");

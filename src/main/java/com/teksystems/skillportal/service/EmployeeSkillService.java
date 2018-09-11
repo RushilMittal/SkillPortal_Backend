@@ -14,7 +14,7 @@ import com.teksystems.skillportal.model.EmployeeSkill;
 import com.teksystems.skillportal.model.SubSkill;
 import com.teksystems.skillportal.repository.EmployeeSkillRepository;
 import com.teksystems.skillportal.repository.SubSkillRepository;
-import org.apache.log4j.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -147,7 +147,10 @@ public class EmployeeSkillService {
 
         recievedDate.setTime(recieved);
         todayDate.setTime(today);
-        int day, month, year, increment = 0;
+        int day;
+        int month;
+        int year;
+        int increment = 0;
 
         if (recievedDate.get(Calendar.DAY_OF_MONTH) > todayDate.get(Calendar.DAY_OF_MONTH)) {
             increment = recievedDate.getActualMaximum(Calendar.DAY_OF_MONTH);

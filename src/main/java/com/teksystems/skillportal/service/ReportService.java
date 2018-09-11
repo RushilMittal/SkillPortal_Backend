@@ -116,7 +116,7 @@ public class ReportService {
         return subSkills;
     }
 
-    public List<SkillReport> EmployeesWhoUpdatedSubSkillsinLastXMonths(long from, long to) throws MongoException {
+    public List<SkillReport> employeesWhoUpdatedSubSkillsInLastXMonths(long from, long to) throws MongoException {
 
 
         Calendar cal = Calendar.getInstance();
@@ -139,7 +139,7 @@ public class ReportService {
         return result;
     }
 
-    public List<EmployeeCertificationDomain> CertificatesExipringInNextNmonths(long from, long to)  throws MongoException {
+    public List<EmployeeCertificationDomain> certificatesExpiringInNextNmonths(long from, long to)  throws MongoException {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(from);
         Calendar cal2 = Calendar.getInstance();
@@ -155,7 +155,7 @@ public class ReportService {
         return employeeCertDomains;
     }
 
-    public List<String> EmployeesWithASkill()  throws MongoException {
+    public List<String> employeesWithASkill()  throws MongoException {
         List<String> empIds = mongoOperation.getCollection("employeeskill").distinct(ConfigurationStrings.EMPID);
         return empIds;
     }

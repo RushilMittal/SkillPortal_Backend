@@ -5,25 +5,18 @@ import com.teksystems.skillportal.domain.*;
 import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.service.ReportService;
 import com.teksystems.skillportal.service.TokenValidationService;
-import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import javax.servlet.*;
 import javax.servlet.http.*;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.Principal;
 import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -215,7 +208,7 @@ public class ReportControllerTest {
         when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
                 .thenReturn(true);
 
-        when(reportService.EmployeesWhoUpdatedSubSkillsinLastXMonths(anyLong(),anyLong()))
+        when(reportService.employeesWhoUpdatedSubSkillsInLastXMonths(anyLong(),anyLong()))
                 .thenReturn(getSkillReportList());
 
         ResultActions resultAction = mockMvc.perform(
@@ -234,7 +227,7 @@ public class ReportControllerTest {
         when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
                 .thenReturn(true);
 
-        when(reportService.EmployeesWhoUpdatedSubSkillsinLastXMonths(anyLong(),anyLong()))
+        when(reportService.employeesWhoUpdatedSubSkillsInLastXMonths(anyLong(),anyLong()))
                 .thenThrow(MongoException.class);
 
         ResultActions resultAction = mockMvc.perform(
@@ -252,7 +245,7 @@ public class ReportControllerTest {
         when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
                 .thenReturn(true);
 
-        when(reportService.CertificatesExipringInNextNmonths(anyLong(),anyLong()))
+        when(reportService.certificatesExpiringInNextNmonths(anyLong(),anyLong()))
                 .thenReturn(getEmployeeCertificationDomainList());
 
         ResultActions resultAction = mockMvc.perform(
@@ -271,7 +264,7 @@ public class ReportControllerTest {
         when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
                 .thenReturn(true);
 
-        when(reportService.CertificatesExipringInNextNmonths(anyLong(),anyLong()))
+        when(reportService.certificatesExpiringInNextNmonths(anyLong(),anyLong()))
                 .thenThrow(MongoException.class);
 
         ResultActions resultAction = mockMvc.perform(
@@ -289,7 +282,7 @@ public class ReportControllerTest {
         when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
                 .thenReturn(true);
 
-        when(reportService.EmployeesWithASkill())
+        when(reportService.employeesWithASkill())
                 .thenReturn(getEmployeeId());
 
         ResultActions resultAction = mockMvc.perform(
@@ -307,7 +300,7 @@ public class ReportControllerTest {
         when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
                 .thenReturn(true);
 
-        when(reportService.EmployeesWithASkill())
+        when(reportService.employeesWithASkill())
                 .thenThrow(MongoException.class);
 
         ResultActions resultAction = mockMvc.perform(

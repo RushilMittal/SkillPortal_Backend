@@ -53,7 +53,7 @@
 //
 //    @Test
 //    public void getAllAdminSkill() throws Exception {
-//        when(adminService.IsAdmin(anyString())).thenReturn(true);
+//        when(adminService.isAdmin(anyString())).thenReturn(true);
 //        when(subSkillRepository.findAll()).thenReturn(getSubSkillList());
 //
 //        ResultActions resultAction = mockMvc.perform(

@@ -51,7 +51,7 @@ public class SearchController {
         List<String> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
+            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 toReturn = searchService.searchSkill(searchTerm);
@@ -74,7 +74,7 @@ public class SearchController {
         List<CertificationDomain> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
+            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 toReturn = certificationService.searchCertItems(searchTerm);
@@ -98,7 +98,7 @@ public class SearchController {
         List<Training> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
+            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 toReturn = trainingService.searchTraining(searchTerm);

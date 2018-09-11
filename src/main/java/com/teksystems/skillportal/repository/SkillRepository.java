@@ -7,6 +7,6 @@ import com.teksystems.skillportal.model.Skill;
 @Repository
 public interface SkillRepository extends MongoRepository<Skill,String>{
 
-   public Skill findById(String Id);
+   public Skill findById(String id);
    public Skill findBySkillName(String skillName);
 }
