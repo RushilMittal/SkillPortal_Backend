@@ -30,14 +30,14 @@ public class SkillService {
 		return skillGroupCache.get(skillGroup);
 	}
 	
-	public Map<String,List<String>> getAllSkillGroups() throws ExecutionException
+	public Map<String,List<String>> getAllSkillGroups()
 	{
 		LoadingCache<String, List<String>> skillGroupCache = guavaCacheInit.getLoadingCache();
 
 		return skillGroupCache.asMap();
 	}
 
-    public Map<String,List<SubSkill>> getAllSkills() throws ExecutionException{
+    public Map<String,List<SubSkill>> getAllSkills(){
         LoadingCache<String, List<SubSkill>> skillCache = guavaCacheInit.getSkillLoadingCache();
 
         return skillCache.asMap();

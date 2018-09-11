@@ -16,14 +16,8 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import javax.servlet.*;
 import javax.servlet.http.*;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.Principal;
 import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -63,7 +57,7 @@ public class ReportControllerTest {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.validateAdminRole(request,response)).thenReturn(true);
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class))).thenReturn(true);
 
         boolean expected = reportController.checkValidEmployee(request,response);
         assertThat(true, is(expected));
@@ -73,7 +67,7 @@ public class ReportControllerTest {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn(null);
-        when(tokenValidationService.validateAdminRole(request,response)).thenReturn(true);
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class))).thenReturn(true);
 
         boolean expected = reportController.checkValidEmployee(request,response);
         assertThat(false, is(expected));
@@ -84,7 +78,7 @@ public class ReportControllerTest {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.validateAdminRole(request,response)).thenReturn(false);
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class))).thenReturn(false);
 
         boolean expected = reportController.checkValidEmployee(request,response);
         assertThat(false, is(expected));

@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.nio.Buffer;
 import java.util.List;
 
 @RestController
@@ -25,7 +26,7 @@ public class AdminController {
     @Autowired
     AdminService adminService;
 
-    private boolean checkAdmin(HttpServletRequest request, HttpServletResponse response) {
+    public boolean checkAdmin(HttpServletRequest request, HttpServletResponse response) throws IOException {
         boolean adminStatus = false;
         String employeeId;
         try {
@@ -41,9 +42,11 @@ public class AdminController {
                 }
             } else {
                 logger.info(ConfigurationStrings.NOTFOUND);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
             }
         } catch (IOException e) {
             logger.info("Some Error Occured: " + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
         return adminStatus;
@@ -55,7 +58,7 @@ public class AdminController {
      * And verify the Role role by calling the method
      */
     @GetMapping("/getAllAdminSkills")
-    public List<SubSkill> getAllAdminSkill(HttpServletRequest request, HttpServletResponse response) {
+    public List<SubSkill> getAllAdminSkill(HttpServletRequest request, HttpServletResponse response) throws IOException {
         logger.info("getskillgroup API Called");
 
         List<SubSkill> toReturn = null;
@@ -64,7 +67,9 @@ public class AdminController {
                 toReturn = adminService.getAllAdminSkills();
             }
         } catch (Exception e) {
-            logger.info("Some Error Occured: " + e.toString());
+            logger.error(e.getMessage());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
         return toReturn;
@@ -74,18 +79,19 @@ public class AdminController {
      * Conroller for updadting ths Skill called by admin.
      */
     @PutMapping("/updateNewSkill")
-    void updateSkill(HttpServletRequest request, @RequestBody SubSkill subSkillReceived, HttpServletResponse response) {
+    void updateSkill(HttpServletRequest request, @RequestBody SubSkill subSkillReceived, HttpServletResponse response) throws IOException {
 
         logger.info("/updateNewSkill API called");
 
         try {
             if (checkAdmin(request, response)) {
-
                 adminService.updateNewSkill(subSkillReceived);
             }
 
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -93,7 +99,7 @@ public class AdminController {
      * Controller for adding the new Skill in the Database
      */
     @PostMapping("/addNewSkill")
-    public void addNewSkill(HttpServletRequest request, @RequestBody SubSkill subSkillReceived, HttpServletResponse response) {
+    public void addNewSkill(HttpServletRequest request, @RequestBody SubSkill subSkillReceived, HttpServletResponse response) throws IOException {
         logger.info("/addNewSkill API called");
 
         try {
@@ -102,7 +108,9 @@ public class AdminController {
             }
 
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -113,7 +121,7 @@ public class AdminController {
      * EmployeeID validation done :- 14-04-2018
      */
     @PostMapping("/add_new")
-    void postNewUniqueEntry(HttpServletRequest request, @RequestBody CertificationDomain certification, HttpServletResponse response) {
+    void postNewUniqueEntry(HttpServletRequest request, @RequestBody CertificationDomain certification, HttpServletResponse response) throws IOException {
         logger.info("/add_new Certificate API called");
 
         try {
@@ -123,7 +131,9 @@ public class AdminController {
             }
 
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
     }
@@ -132,7 +142,7 @@ public class AdminController {
      * Controller for Updating existing certificate
      */
     @PutMapping("/updateCertificate")
-    void updateCertificate(HttpServletRequest request, @RequestBody CertificationDomain certification, HttpServletResponse response) {
+    void updateCertificate(HttpServletRequest request, @RequestBody CertificationDomain certification, HttpServletResponse response) throws IOException {
         logger.info("/add_new Certificate API called");
 
         try {
@@ -141,7 +151,9 @@ public class AdminController {
             }
 
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -149,26 +161,31 @@ public class AdminController {
      * Controller for uploading the skill csv
      */
     @PostMapping("/uploadskillcsv")
-    void uploadSkillCsv(HttpServletRequest request, HttpServletResponse response, @RequestParam("file") MultipartFile[] files) {
+    void uploadSkillCsv(HttpServletRequest request, HttpServletResponse response, @RequestParam("file") MultipartFile[] files) throws IOException {
         logger.info("/uploadskillcsv Certificate API called");
 
 
         try {
+            boolean a = checkAdmin(request, response);
+            BufferedReader bf = getFileData(files[0]);
+            boolean b = adminService.skilluploadcsv(bf);
 
-            if (checkAdmin(request, response) && (!adminService.skilluploadcsv(getFileData(files[0])))) {
+            if (a && (!b)) {
 
                 response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Unknow Format");
 
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
 
     }
 
     @PostMapping("/uploadcertificatecsv")
-    void uploadCertificateCsv(HttpServletRequest request, HttpServletResponse response, @RequestParam("file") MultipartFile[] files) {
+    void uploadCertificateCsv(HttpServletRequest request, HttpServletResponse response, @RequestParam("file") MultipartFile[] files) throws IOException {
         logger.info("/uploadskillcsv Certificate API called");
 
         try {
@@ -179,11 +196,13 @@ public class AdminController {
 
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 
-    private BufferedReader getFileData(MultipartFile file) {
+    public BufferedReader getFileData(MultipartFile file) {
         InputStream a = null;
         BufferedReader toReturn = null;
         try {

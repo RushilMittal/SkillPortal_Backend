@@ -40,26 +40,19 @@ public class SkillController {
     * EmployeeId validation added:- 14-04-2018
     */
     @GetMapping("/getallskillgroups")
-    public  Map<String,List<String>> getAllSkillGroups(HttpServletRequest request, HttpServletResponse response) throws ExecutionException, IOException {
-
-
+    public  Map<String,List<String>> getAllSkillGroups(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String,List<String>> toReturn = null;
-        try {
             if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
-
-
                 toReturn = skillGroupService.getAllSkillGroups();
             }
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
-
+            else{
+                logger.info(ConfigurationStrings.NOTFOUND);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            }
         return toReturn;
     }
 
-    /*
+     /*
      * For fetching the all skills of all the Skill Group
      * UI :- Used for populating the dropdown under the "New Certification"
      * Param:- NOPARAM
@@ -67,25 +60,21 @@ public class SkillController {
      * EmployeeId Validation added :- 14-04-2018
      */
     @GetMapping("/getallskills")
-    public Map<String,List<SubSkill>> getAllSkills(HttpServletRequest request, HttpServletResponse response) throws ExecutionException, IOException {
+    public Map<String,List<SubSkill>> getAllSkills(HttpServletRequest request, HttpServletResponse response) throws IOException {
         logger.info("getallskills API called");
         String employeeId;
         Map<String,List<SubSkill>> toReturn = null;
-        try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
-                employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                toReturn = skillService.getAllSkills();
 
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
-            }
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        logger.info(ConfigurationStrings.FETCHING);
+        if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
+            employeeId = tokenValidator.ExtractEmployeeId(request);
+            logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
+            toReturn = skillService.getAllSkills();
+        } else {
+            logger.info(ConfigurationStrings.NOTFOUND);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
         }
+
         return toReturn;
     }
 
@@ -98,25 +87,24 @@ public class SkillController {
      */
 
     @GetMapping("/getskillgroup")
-    public List<String> getSkillGroup(HttpServletRequest request, @RequestParam String skillGroup, HttpServletResponse response) throws ExecutionException, IOException {
+    public List<String> getSkillGroup(HttpServletRequest request, @RequestParam String skillGroup, HttpServletResponse response) throws IOException, ExecutionException {
         logger.info("getskillgroup API Called");
         String employeeId;
         List<String> toReturn = null;
-        try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
-                employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                toReturn = skillService.getSkillGroup(skillGroup);
 
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
-            }
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        logger.info(ConfigurationStrings.FETCHING);
+        if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
+            employeeId = tokenValidator.ExtractEmployeeId(request);
+            logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
+            toReturn = skillService.getSkillGroup(skillGroup);
+
+        } else {
+            logger.info(ConfigurationStrings.NOTFOUND);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
         }
+
+
+
         return toReturn;
     }
 
