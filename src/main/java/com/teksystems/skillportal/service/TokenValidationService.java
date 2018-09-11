@@ -273,7 +273,7 @@ public class TokenValidationService {
                     return toReturn;
 
                 } else {
-                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
                 }
             } catch (Exception e) {
                 logger.error(e.getMessage());

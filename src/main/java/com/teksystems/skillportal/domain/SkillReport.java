@@ -10,7 +10,8 @@ public class SkillReport {
 	int firstRating;
 	Date maxDate;
 	Date minDate;
-	
+
+
 	public Date getMaxDate() {
 		return maxDate;
 	}
@@ -28,12 +29,19 @@ public class SkillReport {
 	}
 
 	public SkillReport() {
-		super();
-	}
-    
-	
 
-	public String getEmpId() {
+	}
+
+    public SkillReport(String empId, String subSkillId, int lastRating, int firstRating, Date maxDate, Date minDate) {
+        this.empId = empId;
+        this.subSkillId = subSkillId;
+        this.lastRating = lastRating;
+        this.firstRating = firstRating;
+        this.maxDate = maxDate;
+        this.minDate = minDate;
+    }
+
+    public String getEmpId() {
 		return empId;
 	}
 

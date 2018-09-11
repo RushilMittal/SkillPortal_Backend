@@ -27,10 +27,10 @@ public class AdminController {
 
     private boolean checkAdmin(HttpServletRequest request, HttpServletResponse response) {
         boolean adminStatus = false;
-        String employeeId = null;
+        String employeeId;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(request.getHeader(ConfigurationStrings.AUTHORIZATION).equals(null))) {
+            if (!(request.getHeader(ConfigurationStrings.AUTHORIZATION) ==null)) {
                 if (tokenValidator.validateAdminRole(request, response)) {
                     employeeId = tokenValidator.ExtractEmployeeId(request);
                     logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);

@@ -26,27 +26,42 @@ public class ReportController {
     ReportService reportService;
     @Autowired
     TokenValidationService tokenValidator;
-    @Autowired
-    AdminService adminService;
 
-    @GetMapping("/reportskill")
-    public List<SubSkillDomain> topNSubSkill(@RequestParam int n, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        List<SubSkillDomain> toReturn = null;
-        logger.info("/reportskill API Called");
-        String employeeId ;
+
+    public boolean checkValidEmployee(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        boolean validEmployee = false;
+        String employeeId;
         try {
             logger.info(ConfigurationStrings.FETCHING);
             if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)== null)) {
                 if (tokenValidator.validateAdminRole(request, response)) {
                     employeeId = tokenValidator.ExtractEmployeeId(request);
                     logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                    toReturn = reportService.topNSubSkills(n);
+                    validEmployee = true;
                 } else {
                     logger.debug(ConfigurationStrings.NOADMIN);
-                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
                 }
             } else {
                 logger.info(ConfigurationStrings.NOTFOUND);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+    return validEmployee;
+    }
+
+    @GetMapping("/reportskill")
+    public List<SubSkillDomain> topNSubSkill(@RequestParam int n, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<SubSkillDomain> toReturn = null;
+        logger.info("/reportskill API Called");
+        try {
+
+            if(checkValidEmployee(request,response)){
+                toReturn = reportService.topNSubSkills(n);
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -60,47 +75,31 @@ public class ReportController {
     public List<SubSkillDomain> topNSubSkillinLastXMonths(@RequestParam int n, @RequestParam long x, HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<SubSkillDomain> toReturn = null;
         logger.info("/reportskilltrend API Called");
-        String employeeId;
+
         try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
-                if (tokenValidator.validateAdminRole(request, response)) {
-                    employeeId = tokenValidator.ExtractEmployeeId(request);
-                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                    toReturn = reportService.topNSubSkillsinLastXMonths(n, x);
-                } else {
-                    logger.debug(ConfigurationStrings.NOADMIN);
-                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
-                }
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
+
+            if(checkValidEmployee(request,response)){
+                toReturn = reportService.topNSubSkillsinLastXMonths(n, x);
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
+
         return toReturn;
     }
 
     @GetMapping("/reportskillofemployee")
-    public List<EmployeeSkillDomain> topNSubSkillinLastXMonths(@RequestParam String empId, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public List<EmployeeSkillDomain> topNSubSkillinLastXMonths(@RequestParam String employeeId, HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<EmployeeSkillDomain> toReturn = null;
         logger.info("/reportskillofemployee API Called");
-        String employeeId ;
+
         try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
-                if (tokenValidator.validateAdminRole(request, response)) {
-                    employeeId = tokenValidator.ExtractEmployeeId(request);
-                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                    toReturn = reportService.skillsOfEmployee(empId);
-                } else {
-                    logger.debug(ConfigurationStrings.NOADMIN);
-                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
-                }
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
+
+            if(checkValidEmployee(request,response)){
+
+                toReturn = reportService.skillsOfEmployee(employeeId);
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -115,26 +114,19 @@ public class ReportController {
     public List<SkillReport> UpdatedByEmpSubSkillinLastXMonths(@RequestParam long from, @RequestParam long to, HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<SkillReport> toReturn = null;
         logger.info("/reportemployeeupdation API Called");
-        String employeeId;
+
         try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
-                if (tokenValidator.validateAdminRole(request, response)) {
-                    employeeId = tokenValidator.ExtractEmployeeId(request);
-                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                    toReturn = reportService.EmployeesWhoUpdatedSubSkillsinLastXMonths(from, to);
-                } else {
-                    logger.debug(ConfigurationStrings.NOADMIN);
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
-                }
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
+
+            if(checkValidEmployee(request,response)){
+
+                toReturn = reportService.EmployeesWhoUpdatedSubSkillsinLastXMonths(from, to);
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
+
         return toReturn;
     }
 
@@ -142,26 +134,20 @@ public class ReportController {
     public List<EmployeeCertificationDomain> certificatesExipringInNextNmonths(@RequestParam long from, @RequestParam long to, HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<EmployeeCertificationDomain> toReturn = null;
         logger.info("/reportcertificationexpiry API Called");
-        String employeeId;
+
+
         try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
-                if (tokenValidator.validateAdminRole(request, response)) {
-                    employeeId = tokenValidator.ExtractEmployeeId(request);
-                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                    toReturn = reportService.CertificatesExipringInNextNmonths(from, to);
-                } else {
-                    logger.debug(ConfigurationStrings.NOADMIN);
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
-                }
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
+
+            if(checkValidEmployee(request,response)){
+
+                toReturn = reportService.CertificatesExipringInNextNmonths(from, to);
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
+
         return toReturn;
 
     }
@@ -170,26 +156,19 @@ public class ReportController {
     public List<String> EmployeesWithASkill(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<String> toReturn = null;
         logger.info("/getemployees API Called");
-        String employeeId;
+
         try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
-                if (tokenValidator.validateAdminRole(request, response)) {
-                    employeeId = tokenValidator.ExtractEmployeeId(request);
-                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                    toReturn = reportService.EmployeesWithASkill();
-                } else {
-                    logger.debug(ConfigurationStrings.NOADMIN);
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
-                }
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
+
+            if(checkValidEmployee(request,response)){
+
+                toReturn = reportService.EmployeesWithASkill();
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
+
         return toReturn;
 
     }
