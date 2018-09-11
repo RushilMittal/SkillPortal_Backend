@@ -31,7 +31,7 @@ public class AdminController {
         String employeeId;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(request.getHeader(ConfigurationStrings.AUTHORIZATION) ==null)) {
+            if ((request.getHeader(ConfigurationStrings.AUTHORIZATION) !=null)) {
                 if (tokenValidator.validateAdminRole(request, response)) {
                     employeeId = tokenValidator.ExtractEmployeeId(request);
                     logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);

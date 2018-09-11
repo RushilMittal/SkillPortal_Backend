@@ -23,7 +23,34 @@ public class RoleController {
     @Autowired
     RoleService roleService;
 
-    /*
+    public boolean checkEmployeeId(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        boolean employeeIdPresent = false;
+        String employeeId;
+        try {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
+                employeeId = tokenValidator.ExtractEmployeeId(request);
+                if (employeeId != null) {
+                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
+                    employeeIdPresent = true;
+                } else {
+                    logger.info(ConfigurationStrings.NOEMAIL);
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
+                }
+
+            } else {
+                logger.info(ConfigurationStrings.AUTHORIZATIONHEADER);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+        return employeeIdPresent;
+    }
+
+     /*
      * Controller to fetch all the admin Roles of the app to provide the auth in the frontend
      */
     @GetMapping("/adminRoles")
@@ -31,25 +58,12 @@ public class RoleController {
         logger.info("adminRoles API Called");
         String employeeId ;
         List<AdminRoles> toReturn = null;
-        try {
-            logger.info(ConfigurationStrings.FETCHING);
-             if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                employeeId = tokenValidator.ExtractEmployeeId(request);
-                if (employeeId != null) {
-                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                    toReturn = roleService.getAdminRoles();
-                } else {
-                    logger.info(ConfigurationStrings.NOEMAIL);
-                }
-
-            } else {
-                logger.info(ConfigurationStrings.AUTHORIZATIONHEADER);
-            }
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            logger.info(ConfigurationStrings.ERROR + e.toString());
+        if(checkEmployeeId(request,response)){
+            toReturn = roleService.getAdminRoles();
+        }else{
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
+
         return toReturn;
     }
 
