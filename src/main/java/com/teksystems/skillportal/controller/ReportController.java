@@ -5,7 +5,6 @@ import com.teksystems.skillportal.domain.EmployeeSkillDomain;
 import com.teksystems.skillportal.domain.SkillReport;
 import com.teksystems.skillportal.domain.SubSkillDomain;
 import com.teksystems.skillportal.helper.ConfigurationStrings;
-import com.teksystems.skillportal.service.AdminService;
 import com.teksystems.skillportal.service.ReportService;
 import com.teksystems.skillportal.service.TokenValidationService;
 import org.apache.log4j.Logger;
@@ -119,7 +118,7 @@ public class ReportController {
 
             if(checkValidEmployee(request,response)){
 
-                toReturn = reportService.EmployeesWhoUpdatedSubSkillsinLastXMonths(from, to);
+                toReturn = reportService.employeesWhoUpdatedSubSkillsInLastXMonths(from, to);
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -140,7 +139,7 @@ public class ReportController {
 
             if(checkValidEmployee(request,response)){
 
-                toReturn = reportService.CertificatesExipringInNextNmonths(from, to);
+                toReturn = reportService.certificatesExpiringInNextNmonths(from, to);
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -161,7 +160,7 @@ public class ReportController {
 
             if(checkValidEmployee(request,response)){
 
-                toReturn = reportService.EmployeesWithASkill();
+                toReturn = reportService.employeesWithASkill();
             }
         } catch (Exception e) {
             logger.error(e.getMessage());

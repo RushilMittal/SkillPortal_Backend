@@ -36,7 +36,7 @@ public class AdminRoleServiceTest {
 
         when(adminRoleRepository.findByUserRole(anyString())).thenReturn(adminRoles);
 
-        boolean expected = adminRoleService.IsAdmin("admin");
+        boolean expected = adminRoleService.isAdmin("admin");
         assertThat(true,is(expected));
     }
 

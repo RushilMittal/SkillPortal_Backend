@@ -7,7 +7,6 @@ import com.teksystems.skillportal.domain.CertificationDomain;
 import com.teksystems.skillportal.init.GuavaCacheInit;
 import com.teksystems.skillportal.model.AdminRoles;
 import com.teksystems.skillportal.model.Certification;
-import com.teksystems.skillportal.model.EmployeeTraining;
 import com.teksystems.skillportal.model.SubSkill;
 import com.teksystems.skillportal.repository.AdminRoleRepository;
 import com.teksystems.skillportal.repository.CertificationRepository;
@@ -93,7 +92,7 @@ public class AdminServiceTest {
 
         when(adminRoleRepository.findByUserRole(anyString())).thenReturn(adminRoles);
 
-        boolean expected = adminService.IsAdmin("admin");
+        boolean expected = adminService.isAdmin("admin");
         assertThat(true,is(expected));
 
     }

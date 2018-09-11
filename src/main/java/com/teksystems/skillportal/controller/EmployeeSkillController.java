@@ -48,7 +48,7 @@ public class EmployeeSkillController {
         String employeeId ;
         try{
             logger.info(ConfigurationStrings.FETCHING);
-            if(!( request.getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
+            if(request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 toReturn = employeeSkillService.getAllUnassignedSubSkills(employeeId,skillName);
@@ -81,7 +81,7 @@ public class EmployeeSkillController {
 
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
+            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.info("Trying to Add the Employee Rating of " + employeeId);
@@ -158,7 +158,7 @@ public class EmployeeSkillController {
 
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if(!( request.getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
+            if(request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 if(employeeId!=null) {
 

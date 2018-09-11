@@ -42,7 +42,10 @@ public class SkillController {
     @GetMapping("/getallskillgroups")
     public  Map<String,List<String>> getAllSkillGroups(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String,List<String>> toReturn = null;
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
+        try {
+            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
+
+
                 toReturn = skillGroupService.getAllSkillGroups();
             }
             else{
@@ -64,6 +67,12 @@ public class SkillController {
         logger.info("getallskills API called");
         String employeeId;
         Map<String,List<SubSkill>> toReturn = null;
+        try {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
+                employeeId = tokenValidator.ExtractEmployeeId(request);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
+                toReturn = skillService.getAllSkills();
 
         logger.info(ConfigurationStrings.FETCHING);
         if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
@@ -91,6 +100,12 @@ public class SkillController {
         logger.info("getskillgroup API Called");
         String employeeId;
         List<String> toReturn = null;
+        try {
+            logger.info(ConfigurationStrings.FETCHING);
+            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
+                employeeId = tokenValidator.ExtractEmployeeId(request);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
+                toReturn = skillService.getSkillGroup(skillGroup);
 
         logger.info(ConfigurationStrings.FETCHING);
         if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {

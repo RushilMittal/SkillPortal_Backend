@@ -1,11 +1,6 @@
 package com.teksystems.skillportal.service;
-
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.helper.HttpClientHelper;
 import org.apache.log4j.Logger;
@@ -13,7 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -24,7 +18,6 @@ import java.security.PublicKey;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.security.interfaces.RSAKey;
 import java.util.Base64;
 
 @Service
@@ -37,7 +30,7 @@ public class TokenValidationService {
     private final String kid;
 
     // Payload
-    private final String issuer;
+
 
     protected final String name;
 
@@ -48,7 +41,7 @@ public class TokenValidationService {
     public TokenValidationService() {
         token = null;
         kid = null;
-        issuer = null;
+
 
         name = null;
 
@@ -73,7 +66,7 @@ public class TokenValidationService {
         JSONObject payload = new JSONObject(payloadStr);
 
 
-        issuer = payload.getString("iss");
+
 
         name = payload.getString("name");
 
@@ -154,7 +147,7 @@ public class TokenValidationService {
     public boolean verify() throws IOException, CertificateException {
         boolean verified = false;
 
-        PublicKey publicKey = loadPublicKey();
+
 
 
         try {
@@ -264,10 +257,10 @@ public class TokenValidationService {
 
                 if (responseCode == 200) {
                     JSONObject responseRecieved = HttpClientHelper.processGoodRespStr(responseCode, goodRespStr);
-                    boolean toReturn = (adminService.IsAdmin(
+                    boolean toReturn = (adminService.isAdmin(
                             responseRecieved.getJSONObject(ConfigurationStrings.RESPONSEMSG).getString("jobTitle")
                     ) ||
-                            adminService.IsAdmin(
+                            adminService.isAdmin(
                                     responseRecieved.getJSONObject(ConfigurationStrings.RESPONSEMSG).getString("mail")
                             ));
                     return toReturn;

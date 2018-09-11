@@ -42,7 +42,7 @@ public class EmployeeCertificationController {
         List<EmployeeCertificationDomain> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
+            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.info("Trying to fetch employee's added Certificate");
@@ -82,7 +82,7 @@ public class EmployeeCertificationController {
         String employeeId;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
+            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.info("Trying to Save the Certificate");
@@ -154,7 +154,7 @@ public class EmployeeCertificationController {
         List<EmployeeCertificationPlaceholderDomain> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
+            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.info("Trying to fetch Certification Placeholder");

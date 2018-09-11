@@ -90,7 +90,7 @@ public class EmployeeTrainingController {
         String empId = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
+            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
                 empId = tokenValidator.ExtractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to delete employee's added Events");

@@ -12,7 +12,7 @@ public class AdminRoleService {
     AdminRoleRepository adminRoleRepository;
 
     //method to validate whether the role is present or not in the list
-    public boolean IsAdmin(String role) throws MongoException {
+    public boolean isAdmin(String role) throws MongoException {
         AdminRoles adminRoles = adminRoleRepository.findByUserRole(role);
         if(!((adminRoles == null) || (adminRoles.getUserRole().isEmpty())))
             return true;

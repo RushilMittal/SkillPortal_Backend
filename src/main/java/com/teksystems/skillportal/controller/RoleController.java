@@ -33,7 +33,7 @@ public class RoleController {
         List<AdminRoles> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-             if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
+             if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
                 employeeId = tokenValidator.ExtractEmployeeId(request);
                 if (employeeId != null) {
                     logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
@@ -62,7 +62,7 @@ public class RoleController {
         String employeeId;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
+            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
                 if (tokenValidator.validateAdminRole(request, response)) {
                     employeeId = tokenValidator.ExtractEmployeeId(request);
                     if (employeeId != null) {
@@ -91,7 +91,7 @@ public class RoleController {
         String employeeId;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
+            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
                 if (tokenValidator.validateAdminRole(request, response)) {
                     employeeId = tokenValidator.ExtractEmployeeId(request);
                     if (employeeId != null) {

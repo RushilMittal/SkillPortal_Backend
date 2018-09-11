@@ -33,7 +33,7 @@ public class AdminService {
     private static Logger logger = Logger.getLogger(AdminService.class);
 
     //method to validate whether the role is present or not in the list
-    public boolean IsAdmin(String role) {
+    public boolean isAdmin(String role) {
         AdminRoles adminRoles = adminRoleRepository.findByUserRole(role);
         if (!((adminRoles == null) || (adminRoles.getUserRole().isEmpty())))
             return true;
@@ -119,21 +119,21 @@ public class AdminService {
         if (flag == 0) {
             //Generating random Id for Certification Model
             Certification temp = new Certification();
-            String certification_id = "";
+            String certificationId = "";
             Random rand = new Random();
 
             //Exception Handling: NullPointerException
             try {
                 do {
-                    certification_id = Integer.toString(rand.nextInt(1000000));
-                    temp = this.certificationRepository.findOne(certification_id);
+                    certificationId = Integer.toString(rand.nextInt(1000000));
+                    temp = this.certificationRepository.findOne(certificationId);
                 }
-                while (temp.getId() == certification_id);
+                while (temp.getId() == certificationId);
             } catch (NullPointerException e) {
                 logger.error(e.getMessage());
             }
 
-            certification1.setId(certification_id);
+            certification1.setId(certificationId);
 
             //To save a new entry
 
