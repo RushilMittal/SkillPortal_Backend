@@ -1,6 +1,7 @@
 package com.teksystems.skillportal.controller;
 
 
+import com.mongodb.MongoException;
 import com.teksystems.skillportal.domain.TrainingDomain;
 import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.service.TokenValidationService;
@@ -15,7 +16,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/training",method= {RequestMethod.GET,RequestMethod.POST})
+@RequestMapping(value = "/training", method = {RequestMethod.GET, RequestMethod.POST})
 @CrossOrigin("*")
 public class TrainingController {
     private static Logger logger = Logger.getLogger(TrainingController.class);
@@ -25,49 +26,51 @@ public class TrainingController {
     @Autowired
     private TokenValidationService tokenValidator;
 
+    public String getEmployeeId(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String fetchedEmployeeId = null;
+
+        logger.info(ConfigurationStrings.FETCHING);
+        if (request.getHeader(ConfigurationStrings.AUTHORIZATION) != null) {
+            fetchedEmployeeId = tokenValidator.ExtractEmployeeId(request);
+            logger.debug(ConfigurationStrings.EMPLOYEEID + fetchedEmployeeId);
+        } else {
+            logger.info(ConfigurationStrings.NOTFOUND);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
+        }
+        return fetchedEmployeeId;
+    }
+
     @PostMapping("/add")
     public void add(HttpServletRequest request, @RequestBody TrainingDomain training, HttpServletResponse response) throws IOException {
         logger.info("/add Training API called");
-        String empId;
-
         try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                empId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
-                logger.info("Trying to add new Training");
-                    trainingService.saveTraining(training.getTraining(), training.getTrainingSessions());
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
+            if (getEmployeeId(request, response) != null) {
+                trainingService.saveTraining(training.getTraining(), training.getTrainingSessions());
             }
-        } catch (Exception e) {
+        } catch (MongoException e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
     }
 
     @GetMapping("/getalltraining")
     public List<TrainingDomain> getTraining(HttpServletRequest request, HttpServletResponse response) throws IOException {
         logger.info("/gettraining API called");
-        String empId ;
-        List<TrainingDomain> toReturn = null;
 
+        List<TrainingDomain> toReturn = null;
+        String employeeId = getEmployeeId(request, response);
         try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                empId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
-                logger.info("Trying to fetch all the trainings available");
-                toReturn = trainingService.getAllTrainings(empId);
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
+            if (employeeId != null) {
+                toReturn = trainingService.getAllTrainings(employeeId);
             }
-        } catch (Exception e) {
+        } catch (MongoException e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
+
         }
+
         return toReturn;
     }
 
@@ -75,46 +78,33 @@ public class TrainingController {
     @PostMapping("/enroll")
     public void enrollTraining(HttpServletRequest request, @RequestParam String trainingId, HttpServletResponse response) throws IOException {
         logger.info("/enroll Training API called");
-        String empId;
-
+        String employeeId = getEmployeeId(request, response);
         try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                empId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
-                logger.info("Trying to enroll a New Training for a particular employee");
-                trainingService.enrollTraining(empId, trainingId);
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
+            if (employeeId != null) {
+                trainingService.enrollTraining(employeeId, trainingId);
             }
-        } catch (Exception e) {
+        } catch (MongoException e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
+
 
     }
 
     @PostMapping("/update")
     public void update(HttpServletRequest request, @RequestBody TrainingDomain training, HttpServletResponse response) throws IOException {
         logger.info("/update Training API called");
-        String empId;
-
         try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                empId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
-                logger.info("Trying to update Training details ");
+            if (getEmployeeId(request, response) != null) {
                 trainingService.updateTraining(training.getTraining(), training.getTrainingSessions());
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
             }
-        } catch (Exception e) {
+        } catch (MongoException e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
+
 
     }
 

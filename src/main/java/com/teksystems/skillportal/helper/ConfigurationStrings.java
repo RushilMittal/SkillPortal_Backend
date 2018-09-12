@@ -23,4 +23,6 @@ public class ConfigurationStrings {
     public static final String RATEDUSERS="ratedUsers";
     public static final String LASTMODIFIED="lastModifiedDate";
     public static final String RATING="rating";
+    public static final String MONGOEXCEPTION = "Some MongoException Occured";
+    public static final String IOEXCEPTION = "Unable to write on respose header";
 }

@@ -82,7 +82,7 @@ public class ReportControllerTest {
         boolean expected = reportController.checkValidEmployee(request,response);
         assertThat(false, is(expected));
     }
-    @Test
+    @Test(expected = IOException.class)
     public void checkValidEmployeeTestIOException() throws IOException {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
@@ -92,8 +92,8 @@ public class ReportControllerTest {
 
         doThrow(IOException.class).when(response).sendError(anyInt(),anyString());
 
-        boolean expected = reportController.checkValidEmployee(request,response);
-        assertThat(false, is(expected));
+        reportController.checkValidEmployee(request,response);
+
     }
 
     @Test
@@ -113,6 +113,24 @@ public class ReportControllerTest {
                 .andExpect(jsonPath("$",hasSize(2)))
                 .andExpect(jsonPath("$[0].subSkill", is("Lambda")))
                 .andExpect(jsonPath("$[1].subSkill", is("EBS")));
+
+    }
+    @Test
+    public void topNSubSkillInvalid() throws Exception {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+                .thenReturn(false);
+
+//        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+
+        when(reportService.topNSubSkills(anyInt())).thenReturn(getSubSkillDomainList());
+
+        ResultActions resultAction = mockMvc.perform(
+                get("/report/reportskill?n=1")
+
+        );
+        resultAction.andExpect(status().isUnauthorized());
 
     }
     @Test
@@ -152,6 +170,22 @@ public class ReportControllerTest {
                 .andExpect(jsonPath("$[1].subSkill", is("EBS")));
     }
     @Test
+    public void topNSubSkillinLastXMonthsInvalid() throws Exception {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+                .thenReturn(true);
+        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+
+        when(reportService.topNSubSkillsinLastXMonths(anyInt(), anyInt())).thenReturn(getSubSkillDomainList());
+
+        ResultActions resultAction = mockMvc.perform(
+                get("/report/reportskilltrend?n=1&x=2")
+
+        );
+        resultAction.andExpect(status().isUnauthorized());
+    }
+    @Test
     public void topNSubSkillinLastXMonthsMongoException() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
@@ -184,6 +218,23 @@ public class ReportControllerTest {
                 .andExpect(jsonPath("$",hasSize(2)))
                 .andExpect(jsonPath("$[0].subSkill.subSkill", is("Lambda")))
                 .andExpect(jsonPath("$[1].subSkill.subSkill", is("EBS")));
+    }
+    @Test
+    public void topNSubSkillinLastXMonths1Invalid() throws Exception {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+                .thenReturn(true);
+
+        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+
+        when(reportService.skillsOfEmployee(anyString())).thenReturn(getEmployeeSkillDomainList());
+
+        ResultActions resultAction = mockMvc.perform(
+                get("/report/reportskillofemployee?employeeId=101")
+
+        );
+        resultAction.andExpect(status().isUnauthorized());
     }
     @Test
     public void topNSubSkillinLastXMonths1MongoException() throws Exception {
@@ -221,6 +272,24 @@ public class ReportControllerTest {
                 .andExpect(jsonPath("$[1].subSkillId", is("2")));
     }
     @Test
+    public void updatedByEmpSubSkillinLastXMonthsInvalid() throws Exception {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+                .thenReturn(true);
+
+        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+
+        when(reportService.employeesWhoUpdatedSubSkillsInLastXMonths(anyLong(),anyLong()))
+                .thenReturn(getSkillReportList());
+
+        ResultActions resultAction = mockMvc.perform(
+                get("/report/reportemployeeupdation?from=1042&to=1053")
+
+        );
+        resultAction.andExpect(status().isUnauthorized());
+    }
+    @Test
     public void updatedByEmpSubSkillinLastXMonthsMongoException() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
@@ -255,7 +324,24 @@ public class ReportControllerTest {
         resultAction.andExpect(status().isOk())
                 .andExpect(jsonPath("$",hasSize(1)))
                 .andExpect(jsonPath("$[0].empId", is("101")));
+    }
+    @Test
+    public void certificatesExipringInNextNmonthsInvalid() throws Exception {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+                .thenReturn(true);
 
+        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+
+        when(reportService.certificatesExpiringInNextNmonths(anyLong(),anyLong()))
+                .thenReturn(getEmployeeCertificationDomainList());
+
+        ResultActions resultAction = mockMvc.perform(
+                get("/report/reportcertificateexpiry?from=1042&to=1053")
+
+        );
+        resultAction.andExpect(status().isUnauthorized());
     }
     @Test
     public void certificatesExipringInNextNmonthsMOngoException() throws Exception {
@@ -292,6 +378,24 @@ public class ReportControllerTest {
         resultAction.andExpect(status().isOk())
                 .andExpect(jsonPath("$",hasSize(2)))
                 .andExpect(jsonPath("$[0]", is("abc@teksystems.com")));
+    }
+    @Test
+    public void employeesWithASkillInvalid() throws Exception{
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+                .thenReturn(true);
+
+        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+
+        when(reportService.employeesWithASkill())
+                .thenReturn(getEmployeeId());
+
+        ResultActions resultAction = mockMvc.perform(
+                get("/report/getemployees")
+
+        );
+        resultAction.andExpect(status().isUnauthorized());
     }
     @Test
     public void employeesWithASkillMongoException() throws Exception{

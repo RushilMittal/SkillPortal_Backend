@@ -55,7 +55,7 @@ public class SubSkillController {
         } catch (Exception e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,ConfigurationStrings.MONGOEXCEPTION);
         }
         return toReturn;
     }

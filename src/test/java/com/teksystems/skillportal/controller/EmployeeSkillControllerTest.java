@@ -135,12 +135,22 @@ public class  EmployeeSkillControllerTest {
 
 
     @Test
-    public void testAddInvalidRating() throws Exception {
+    public void testAddInvalidRatingGreaterThan5() throws Exception {
 
 
         doNothing().when(employeeSkillService).addNew(anyString(),anyString(),anyInt());
 
         mockMvc.perform(post("/skill/add?empId=103&subSkillId=4&rating=6")
+                .header("Authorization", "empId:80"))
+                .andExpect(status().isNotAcceptable());
+    }
+    @Test
+    public void testAddInvalidRatingLessThan0() throws Exception {
+
+
+        doNothing().when(employeeSkillService).addNew(anyString(),anyString(),anyInt());
+
+        mockMvc.perform(post("/skill/add?empId=103&subSkillId=4&rating=-1")
                 .header("Authorization", "empId:80"))
                 .andExpect(status().isNotAcceptable());
     }

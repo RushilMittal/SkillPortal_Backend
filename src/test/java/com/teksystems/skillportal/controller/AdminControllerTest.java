@@ -104,16 +104,17 @@ public class AdminControllerTest {
         assertThat(false, is(expected));
     }
 
-    @Test
+    @Test(expected = IOException.class)
     public void checkAdmninTestIoException() throws IOException {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
+
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
         when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
                 .thenReturn(false);
+
         doThrow(IOException.class).when(response).sendError(anyInt(),anyString());
-        boolean expected = adminController.checkAdmin(request,response);
-        assertThat(false, is(expected));
+        adminController.checkAdmin(request,response);
     }
 
 
@@ -134,6 +135,21 @@ public class AdminControllerTest {
                 .andExpect(jsonPath("$",hasSize(2)))
                 .andExpect(jsonPath("$[0].subSkill", is("Basic Java")))
                 .andExpect(jsonPath("$[1].subSkill", is("Generics")));
+    }
+    @Test
+    public void getAllAdminSkillInvalid() throws Exception {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+                .thenReturn(true);
+
+        when(adminService.getAllAdminSkills()).thenReturn(getAllSubSkill());
+
+        ResultActions resultAction = mockMvc.perform(
+                get("/admin/getAllAdminSkills")
+
+        );
+        resultAction.andExpect(status().isUnauthorized());
     }
     @Test
     public void getAllAdminSkillMongoException() throws Exception {
@@ -171,7 +187,27 @@ public class AdminControllerTest {
 
         );
         resultAction.andExpect(status().isOk());
+    }
+    @Test
+    public void updateSkillInvalid() throws Exception {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+                .thenReturn(true);
 
+        doNothing().when(adminService).updateNewSkill(any(SubSkill.class));
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+        ResultActions resultAction = mockMvc.perform(
+                get("/admin/updateNewSkill")
+
+                        .contentType(APPLICATION_JSON_UTF8)
+                        .content(mapper.writeValueAsBytes(getSubSkill()))
+
+        );
+        resultAction.andExpect(status().isUnauthorized());
     }
     @Test
     public void updateSkillMongoException() throws Exception {
@@ -196,6 +232,7 @@ public class AdminControllerTest {
 
     }
 
+
     @Test
     public void addNewSkill() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -216,6 +253,27 @@ public class AdminControllerTest {
 
         );
         resultAction.andExpect(status().isOk());
+    }
+    @Test
+    public void addNewSkillInvalid() throws Exception {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+                .thenReturn(true);
+
+        doNothing().when(adminService).addNewSkill(any(SubSkill.class));
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+        ResultActions resultAction = mockMvc.perform(
+                get("/admin/addNewSkill")
+
+                        .contentType(APPLICATION_JSON_UTF8)
+                        .content(mapper.writeValueAsBytes(getSubSkill()))
+
+        );
+        resultAction.andExpect(status().isUnauthorized());
     }
     @Test
     public void addNewSkillMongoException() throws Exception {
@@ -263,6 +321,28 @@ public class AdminControllerTest {
 
     }
     @Test
+    public void postNewUniqueEntryInvalid() throws Exception {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+                .thenReturn(true);
+
+        doNothing().when(adminService).postNewCertification(any(CertificationDomain.class));
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+        ResultActions resultAction = mockMvc.perform(
+                get("/admin/add_new")
+
+                        .contentType(APPLICATION_JSON_UTF8)
+                        .content(mapper.writeValueAsBytes(getCertificationDomain()))
+
+        );
+        resultAction.andExpect(status().isUnauthorized());
+
+    }
+    @Test
     public void postNewUniqueEntryMongoException() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
@@ -305,6 +385,27 @@ public class AdminControllerTest {
 
         );
         resultAction.andExpect(status().isOk());
+    }
+    @Test
+    public void updateCertificateINvalid() throws Exception {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+                .thenReturn(true);
+
+        doNothing().when(adminService).updateCertificate(any(CertificationDomain.class));
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+        ResultActions resultAction = mockMvc.perform(
+                get("/admin/updateCertificate")
+
+                        .contentType(APPLICATION_JSON_UTF8)
+                        .content(mapper.writeValueAsBytes(getCertificationDomain()))
+
+        );
+        resultAction.andExpect(status().isUnauthorized());
     }
     @Test
     public void updateCertificateMongoException() throws Exception {

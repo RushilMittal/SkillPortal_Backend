@@ -11,8 +11,9 @@ public class TrainingDomain {
 
 
     public TrainingDomain() {
-        super();
+
     }
+
 
     public Training getTraining() {
         return training;

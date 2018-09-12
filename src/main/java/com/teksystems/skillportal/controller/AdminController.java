@@ -1,5 +1,6 @@
 package com.teksystems.skillportal.controller;
 
+import com.mongodb.MongoException;
 import com.teksystems.skillportal.domain.CertificationDomain;
 import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.model.SubSkill;
@@ -29,25 +30,22 @@ public class AdminController {
     public boolean checkAdmin(HttpServletRequest request, HttpServletResponse response) throws IOException {
         boolean adminStatus = false;
         String employeeId;
-        try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if ((request.getHeader(ConfigurationStrings.AUTHORIZATION) !=null)) {
-                if (tokenValidator.validateAdminRole(request, response)) {
-                    employeeId = tokenValidator.ExtractEmployeeId(request);
-                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                    adminStatus = true;
-                } else {
-                    logger.debug(ConfigurationStrings.NOADMIN);
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
-                }
+
+        logger.info(ConfigurationStrings.FETCHING);
+        if ((request.getHeader(ConfigurationStrings.AUTHORIZATION) != null)) {
+            if (tokenValidator.validateAdminRole(request, response)) {
+                employeeId = tokenValidator.ExtractEmployeeId(request);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
+                adminStatus = true;
             } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
+                logger.debug(ConfigurationStrings.NOADMIN);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
             }
-        } catch (IOException e) {
-            logger.info("Some Error Occured: " + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } else {
+            logger.info(ConfigurationStrings.NOTFOUND);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
         }
+
 
         return adminStatus;
     }
@@ -66,10 +64,10 @@ public class AdminController {
             if (checkAdmin(request, response)) {
                 toReturn = adminService.getAllAdminSkills();
             }
-        } catch (Exception e) {
+        } catch (MongoException e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
 
         return toReturn;
@@ -88,10 +86,10 @@ public class AdminController {
                 adminService.updateNewSkill(subSkillReceived);
             }
 
-        } catch (Exception e) {
+        } catch (MongoException e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
     }
 
@@ -107,10 +105,10 @@ public class AdminController {
                 adminService.addNewSkill(subSkillReceived);
             }
 
-        } catch (Exception e) {
+        } catch (MongoException e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
     }
 
@@ -130,10 +128,10 @@ public class AdminController {
                 adminService.postNewCertification(certification);
             }
 
-        } catch (Exception e) {
+        } catch (MongoException e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
 
     }
@@ -150,10 +148,10 @@ public class AdminController {
                 adminService.updateCertificate(certification);
             }
 
-        } catch (Exception e) {
+        } catch (MongoException e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
     }
 
@@ -175,10 +173,10 @@ public class AdminController {
                 response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Unknow Format");
 
             }
-        } catch (Exception e) {
+        } catch (MongoException e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
 
 
@@ -195,10 +193,10 @@ public class AdminController {
                 response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Unknow Format");
 
             }
-        } catch (Exception e) {
+        } catch (MongoException e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
     }
 

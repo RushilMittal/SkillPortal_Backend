@@ -30,27 +30,23 @@ public class ReportController {
     public boolean checkValidEmployee(HttpServletRequest request, HttpServletResponse response) throws IOException {
         boolean validEmployee = false;
         String employeeId;
-        try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)== null)) {
-                if (tokenValidator.validateAdminRole(request, response)) {
-                    employeeId = tokenValidator.ExtractEmployeeId(request);
-                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                    validEmployee = true;
-                } else {
-                    logger.debug(ConfigurationStrings.NOADMIN);
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
-                }
+
+        logger.info(ConfigurationStrings.FETCHING);
+        if (!(request.getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
+            if (tokenValidator.validateAdminRole(request, response)) {
+                employeeId = tokenValidator.ExtractEmployeeId(request);
+                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
+                validEmployee = true;
             } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
+                logger.debug(ConfigurationStrings.NOADMIN);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
             }
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } else {
+            logger.info(ConfigurationStrings.NOTFOUND);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
         }
-    return validEmployee;
+
+        return validEmployee;
     }
 
     @GetMapping("/reportskill")
@@ -59,13 +55,13 @@ public class ReportController {
         logger.info("/reportskill API Called");
         try {
 
-            if(checkValidEmployee(request,response)){
+            if (checkValidEmployee(request, response)) {
                 toReturn = reportService.topNSubSkills(n);
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
         return toReturn;
     }
@@ -77,13 +73,13 @@ public class ReportController {
 
         try {
 
-            if(checkValidEmployee(request,response)){
+            if (checkValidEmployee(request, response)) {
                 toReturn = reportService.topNSubSkillsinLastXMonths(n, x);
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
 
         return toReturn;
@@ -96,14 +92,14 @@ public class ReportController {
 
         try {
 
-            if(checkValidEmployee(request,response)){
+            if (checkValidEmployee(request, response)) {
 
                 toReturn = reportService.skillsOfEmployee(employeeId);
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
         return toReturn;
 
@@ -116,14 +112,14 @@ public class ReportController {
 
         try {
 
-            if(checkValidEmployee(request,response)){
+            if (checkValidEmployee(request, response)) {
 
                 toReturn = reportService.employeesWhoUpdatedSubSkillsInLastXMonths(from, to);
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
 
         return toReturn;
@@ -137,14 +133,14 @@ public class ReportController {
 
         try {
 
-            if(checkValidEmployee(request,response)){
+            if (checkValidEmployee(request, response)) {
 
                 toReturn = reportService.certificatesExpiringInNextNmonths(from, to);
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
 
         return toReturn;
@@ -158,14 +154,14 @@ public class ReportController {
 
         try {
 
-            if(checkValidEmployee(request,response)){
+            if (checkValidEmployee(request, response)) {
 
                 toReturn = reportService.employeesWithASkill();
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
 
         return toReturn;

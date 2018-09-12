@@ -1,5 +1,6 @@
 package com.teksystems.skillportal.controller;
 
+import com.mongodb.MongoException;
 import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.model.AdminRoles;
 import com.teksystems.skillportal.service.RoleService;
@@ -26,42 +27,43 @@ public class RoleController {
     public boolean checkEmployeeId(HttpServletRequest request, HttpServletResponse response) throws IOException {
         boolean employeeIdPresent = false;
         String employeeId;
-        try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                employeeId = tokenValidator.ExtractEmployeeId(request);
-                if (employeeId != null) {
-                    logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                    employeeIdPresent = true;
-                } else {
-                    logger.info(ConfigurationStrings.NOEMAIL);
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
-                }
 
+        logger.info(ConfigurationStrings.FETCHING);
+        if (request.getHeader(ConfigurationStrings.AUTHORIZATION) != null) {
+            employeeId = tokenValidator.ExtractEmployeeId(request);
+            if (employeeId != null) {
+                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
+                employeeIdPresent = true;
             } else {
-                logger.info(ConfigurationStrings.AUTHORIZATIONHEADER);
+                logger.info(ConfigurationStrings.NOEMAIL);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
             }
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+
+        } else {
+            logger.info(ConfigurationStrings.AUTHORIZATIONHEADER);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
         }
+
         return employeeIdPresent;
     }
 
-     /*
+    /*
      * Controller to fetch all the admin Roles of the app to provide the auth in the frontend
      */
     @GetMapping("/adminRoles")
     public List<AdminRoles> getAllAdminRoles(HttpServletRequest request, HttpServletResponse response) throws IOException {
         logger.info("adminRoles API Called");
-        String employeeId ;
+
         List<AdminRoles> toReturn = null;
-        if(checkEmployeeId(request,response)){
-            toReturn = roleService.getAdminRoles();
-        }else{
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        try {
+            if (checkEmployeeId(request, response)) {
+                toReturn = roleService.getAdminRoles();
+            }
+
+        }catch (MongoException e) {
+            logger.error(e.getMessage());
+            logger.info(ConfigurationStrings.ERROR + e.toString());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
 
         return toReturn;
@@ -73,59 +75,31 @@ public class RoleController {
     @PostMapping("/addAdminRole")
     private void addAdminRole(HttpServletRequest request, @RequestBody AdminRoles role, HttpServletResponse response) throws IOException {
         logger.info("addadminRoles API Called");
-        String employeeId;
         try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                if (tokenValidator.validateAdminRole(request, response)) {
-                    employeeId = tokenValidator.ExtractEmployeeId(request);
-                    if (employeeId != null) {
-                        logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                        roleService.addRoles(role);
-                    } else {
-                        logger.info(ConfigurationStrings.NOEMAIL);
-                    }
-                } else {
-                    logger.debug(ConfigurationStrings.NOADMIN);
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
-                }
-            } else {
-                logger.info(ConfigurationStrings.AUTHORIZATIONHEADER);
+            if (checkEmployeeId(request, response)) {
+                roleService.addRoles(role);
             }
-        } catch (Exception e) {
+        } catch (MongoException e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
+
     }
 
     @DeleteMapping("/deleteRole")
     public void deleteRole(HttpServletRequest request, @RequestParam String id, HttpServletResponse response) throws IOException {
         logger.info("deleteRoles API Called");
-        String employeeId;
         try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                if (tokenValidator.validateAdminRole(request, response)) {
-                    employeeId = tokenValidator.ExtractEmployeeId(request);
-                    if (employeeId != null) {
-                        logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                        roleService.deleteRole(id);
-                    } else {
-                        logger.info(ConfigurationStrings.NOEMAIL);
-                    }
-                } else {
-                    logger.debug(ConfigurationStrings.NOADMIN);
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
-                }
-            } else {
-                logger.info(ConfigurationStrings.AUTHORIZATIONHEADER);
+            if (checkEmployeeId(request, response)) {
+                roleService.deleteRole(id);
             }
-        } catch (Exception e) {
+        }catch (MongoException e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
+
     }
 
 }

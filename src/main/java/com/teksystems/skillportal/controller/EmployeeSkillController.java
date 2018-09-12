@@ -60,7 +60,7 @@ public class EmployeeSkillController {
         }catch(Exception e){
             logger.info(ConfigurationStrings.ERROR + e.toString());
             logger.error(e.getMessage());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,ConfigurationStrings.MONGOEXCEPTION);
         }
         return toReturn;
 	}
@@ -99,7 +99,7 @@ public class EmployeeSkillController {
         }catch (MongoException e){
             logger.info(ConfigurationStrings.ERROR + e.toString());
             logger.error(e.getMessage());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,ConfigurationStrings.MONGOEXCEPTION);
         }
 
 
@@ -137,7 +137,7 @@ public class EmployeeSkillController {
         }catch(Exception e){
 		    logger.info("Some error occured" + e.toString());
             logger.error(e.getMessage());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,ConfigurationStrings.MONGOEXCEPTION);
         }
 
 
@@ -178,7 +178,7 @@ public class EmployeeSkillController {
         }catch(Exception e ) {
             logger.info(ConfigurationStrings.ERROR + e.toString());
             logger.error(e.getMessage());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,ConfigurationStrings.MONGOEXCEPTION);
         }
 
 		return toReturn;
