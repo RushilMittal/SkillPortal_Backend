@@ -7,7 +7,6 @@ import com.teksystems.skillportal.model.Certification;
 import com.teksystems.skillportal.model.EmployeeCertification;
 import com.teksystems.skillportal.repository.CertificationRepository;
 import com.teksystems.skillportal.repository.EmployeeCertificationRepository;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -16,10 +15,9 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.*;
 
-import static org.mockito.Matchers.anyString;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 
@@ -50,22 +48,22 @@ public class EmployeeCertificationServiceTest {
 
         List<EmployeeCertificationDomain> expected = employeeCertificationService.getEmployeeCertificationByEmployeeId("101");
 
-        assertThat(2,is(expected.size()));
+        assertThat(2, is(expected.size()));
     }
 
     @Test
     public void testAddNew() {
         //when(employeeCertificationRepository.save(any(EmployeeCertification.class))).thenReturn(getEmployeeCertification());
 
-        employeeCertificationService.addNew(getEmployeeCertification().getEmployeeId(),getEmployeeCertification().getCertificationId(),getEmployeeCertification().getCertificationDate(),getEmployeeCertification().getCertificationValidityDate(),getEmployeeCertification().getCertificationNumber(),getEmployeeCertification().getCertificationUrl());
-        verify(employeeCertificationRepository,times(1)).save(any(EmployeeCertification.class));
+        employeeCertificationService.addNew(getEmployeeCertification().getEmployeeId(), getEmployeeCertification().getCertificationId(), getEmployeeCertification().getCertificationDate(), getEmployeeCertification().getCertificationValidityDate(), getEmployeeCertification().getCertificationNumber(), getEmployeeCertification().getCertificationUrl());
+        verify(employeeCertificationRepository, times(1)).save(any(EmployeeCertification.class));
     }
 
     @Test
     public void testAddNewCertificate() {
         employeeCertificationService.addNewCertificate(getEmployeeCertificationDomain());
 
-        verify(employeeCertificationRepository,times(1)).save(any(EmployeeCertification.class));
+        verify(employeeCertificationRepository, times(1)).save(any(EmployeeCertification.class));
     }
 
     // Test when EmployeeCertificationPlaceholder when it returns list of size 2
@@ -80,15 +78,15 @@ public class EmployeeCertificationServiceTest {
 
         List<EmployeeCertificationPlaceholderDomain> expectedEmployeeCertificationPlaceholderDomain = employeeCertificationService.getEmployeeCertificationPlaceholderById("101");
 
-        assertThat(2,is(expectedEmployeeCertificationPlaceholderDomain.size()));
-        assertThat("2018",is(expectedEmployeeCertificationPlaceholderDomain.get(0).getYear()));
-        assertThat("AWS-Beginner",is(expectedEmployeeCertificationPlaceholderDomain.get(0).getCertificationName()));
+        assertThat(2, is(expectedEmployeeCertificationPlaceholderDomain.size()));
+        assertThat("2018", is(expectedEmployeeCertificationPlaceholderDomain.get(0).getYear()));
+        assertThat("AWS-Beginner", is(expectedEmployeeCertificationPlaceholderDomain.get(0).getCertificationName()));
     }
 
 
     // Test when EmployeeCertificationPlaceholder when it returns list of size 2
     @Test
-    public void testGetOneEmployeeCertificationPlaceholderById(){
+    public void testGetOneEmployeeCertificationPlaceholderById() {
 
         when(employeeCertificationRepository.findByempId(anyString())).thenReturn(Collections.singletonList(getEmployeeCertification()));
         when(certificationRepository.findById("1")).thenReturn(certificate1());
@@ -99,15 +97,15 @@ public class EmployeeCertificationServiceTest {
 
         List<EmployeeCertificationPlaceholderDomain> expectedEmployeeCertificationPlaceholderDomain = employeeCertificationService.getEmployeeCertificationPlaceholderById("101");
 
-        assertThat(1,is(expectedEmployeeCertificationPlaceholderDomain.size()));
-        assertThat("2018",is(expectedEmployeeCertificationPlaceholderDomain.get(0).getYear()));
-        assertThat("AWS-Beginner",is(expectedEmployeeCertificationPlaceholderDomain.get(0).getCertificationName()));
+        assertThat(1, is(expectedEmployeeCertificationPlaceholderDomain.size()));
+        assertThat("2018", is(expectedEmployeeCertificationPlaceholderDomain.get(0).getYear()));
+        assertThat("AWS-Beginner", is(expectedEmployeeCertificationPlaceholderDomain.get(0).getCertificationName()));
     }
 
 
     // Test when EmployeeCertificationPlaceholder when it returns list of size 0
     @Test
-    public void testGetNoEmployeeCertificationPlaceholderById(){
+    public void testGetNoEmployeeCertificationPlaceholderById() {
         when(employeeCertificationRepository.findByempId(anyString())).thenReturn(new LinkedList<EmployeeCertification>());
 
         when(certificationRepository.findById("1")).thenReturn(certificate1());
@@ -116,7 +114,7 @@ public class EmployeeCertificationServiceTest {
 
         List<EmployeeCertificationPlaceholderDomain> expectedEmployeeCertificationPlaceholderDomain = employeeCertificationService.getEmployeeCertificationPlaceholderById("101");
 
-        assertThat(0,is(expectedEmployeeCertificationPlaceholderDomain.size()));
+        assertThat(0, is(expectedEmployeeCertificationPlaceholderDomain.size()));
 
     }
 
@@ -126,17 +124,16 @@ public class EmployeeCertificationServiceTest {
 
         Calendar mockedCalendar = mock(GregorianCalendar.class);
 
-        Date expected = employeeCertificationService.dateExtractor("2018-07-27",new GregorianCalendar());
+        Date expected = employeeCertificationService.dateExtractor("2018-07-27", new GregorianCalendar());
         Date temp = new Date(DATECONSTANT);
-        assertThat(temp.getDate(),is(expected.getDate()));
-        assertThat(temp.getYear(),is(expected.getYear()));
-
+        assertThat(temp.getDate(), is(expected.getDate()));
+        assertThat(temp.getYear(), is(expected.getYear()));
 
 
     }
 
     //helper method to return the List of employee Certification
-    private List<EmployeeCertification> getEmployeeCertificationList(){
+    private List<EmployeeCertification> getEmployeeCertificationList() {
         EmployeeCertification employeeCertification = new EmployeeCertification(
                 "101",
                 "1",
@@ -158,7 +155,7 @@ public class EmployeeCertificationServiceTest {
         return employeeCertificationList;
     }
 
-    private EmployeeCertification getEmployeeCertification(){
+    private EmployeeCertification getEmployeeCertification() {
         return new EmployeeCertification(
                 "101",
                 "1",
@@ -168,9 +165,9 @@ public class EmployeeCertificationServiceTest {
                 "www.amazon.com");
     }
 
-    private EmployeeCertificationDomain getEmployeeCertificationDomain(){
+    private EmployeeCertificationDomain getEmployeeCertificationDomain() {
 
-        CertificationDomain certificationDomainToPass  = new CertificationDomain(
+        CertificationDomain certificationDomainToPass = new CertificationDomain(
                 "1",
                 "1",
                 "AWS-Beginner",
@@ -184,7 +181,8 @@ public class EmployeeCertificationServiceTest {
                 1,
                 "www.amazon.com");
     }
-    private Certification certificate1(){
+
+    private Certification certificate1() {
         return new Certification(
                 "1",
                 "1",
@@ -192,7 +190,7 @@ public class EmployeeCertificationServiceTest {
                 "AWS");
     }
 
-    private Certification certificate2(){
+    private Certification certificate2() {
         return new Certification(
                 "2",
                 "2",

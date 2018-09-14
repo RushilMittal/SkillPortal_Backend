@@ -137,7 +137,7 @@ public class ReportService {
 
     }
 
-    public List<EmployeeCertificationDomain> certificatesExpiringInNextNmonths(long from, long to)  throws MongoException {
+    public List<EmployeeCertificationDomain> certificatesExpiringInNextNmonths(long from, long to) throws MongoException {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(from);
         Calendar cal2 = Calendar.getInstance();
@@ -153,7 +153,7 @@ public class ReportService {
         return employeeCertDomains;
     }
 
-    public List<String> employeesWithASkill()  throws MongoException {
+    public List<String> employeesWithASkill() throws MongoException {
         return mongoOperation.getCollection("employeeskill").distinct(ConfigurationStrings.EMPID);
 
     }

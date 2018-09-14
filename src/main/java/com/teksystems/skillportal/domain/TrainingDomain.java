@@ -1,4 +1,5 @@
 package com.teksystems.skillportal.domain;
+
 import com.teksystems.skillportal.model.Training;
 import com.teksystems.skillportal.model.TrainingSession;
 

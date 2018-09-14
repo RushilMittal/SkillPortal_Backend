@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,9 +26,7 @@ import java.util.List;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -69,14 +66,15 @@ public class EmployeeTrainingControllerTest {
 
 
         resultAction.andExpect(status().isOk())
-                .andExpect(jsonPath("$",hasSize(2)))
-                .andExpect(jsonPath("$[0].empId",is("101")))
-                .andExpect(jsonPath("$[0].lastModified",is(DATECONSTANT)))
-                .andExpect(jsonPath("$[0].training.name",is("Basic Python")))
-                .andExpect(jsonPath("$[1].empId",is("101")))
-                .andExpect(jsonPath("$[1].lastModified",is(DATECONSTANT)))
-                .andExpect(jsonPath("$[1].training.name",is("Advanced Python")));
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].empId", is("101")))
+                .andExpect(jsonPath("$[0].lastModified", is(DATECONSTANT)))
+                .andExpect(jsonPath("$[0].training.name", is("Basic Python")))
+                .andExpect(jsonPath("$[1].empId", is("101")))
+                .andExpect(jsonPath("$[1].lastModified", is(DATECONSTANT)))
+                .andExpect(jsonPath("$[1].training.name", is("Advanced Python")));
     }
+
     @Test
     public void getByEmpIdUnAuthorized() throws Exception {
         when(employeeTrainingService.getEmployeeTrainingByEmployeeId(anyString()))
@@ -90,6 +88,7 @@ public class EmployeeTrainingControllerTest {
 
         resultAction.andExpect(status().isUnauthorized());
     }
+
     @Test
     public void getByEmpIdMOngoException() throws Exception {
         when(employeeTrainingService.getEmployeeTrainingByEmployeeId(anyString()))
@@ -115,10 +114,11 @@ public class EmployeeTrainingControllerTest {
 
 
         resultAction.andExpect(status().isOk())
-                .andExpect(jsonPath("$",hasSize(2)))
-                .andExpect(jsonPath("$[0].title",is("Basic Python")))
-                .andExpect(jsonPath("$[1].title",is("Advanced Python")));
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].title", is("Basic Python")))
+                .andExpect(jsonPath("$[1].title", is("Advanced Python")));
     }
+
     @Test
     public void getEventByEmpIdUnAuthorized() throws Exception {
         when(employeeTrainingService.getTrainingEventByEmployeeId(anyString())).
@@ -131,6 +131,7 @@ public class EmployeeTrainingControllerTest {
 
         resultAction.andExpect(status().isUnauthorized());
     }
+
     @Test
     public void getEventByEmpIdMongoException() throws Exception {
         when(employeeTrainingService.getTrainingEventByEmployeeId(anyString())).
@@ -146,7 +147,7 @@ public class EmployeeTrainingControllerTest {
 
     @Test
     public void getByEmpIdAndSubSkillId() throws Exception {
-        doNothing().when(employeeTrainingService).cancelEnrollment(anyString(),anyString());
+        doNothing().when(employeeTrainingService).cancelEnrollment(anyString(), anyString());
         ResultActions resultAction = mockMvc.perform(
                 delete("/training/delete?trainingId=1")
                         .header("Authorization", "empId:101")
@@ -154,9 +155,10 @@ public class EmployeeTrainingControllerTest {
 
         resultAction.andExpect(status().isOk());
     }
+
     @Test
     public void getByEmpIdAndSubSkillIdUnAuthorized() throws Exception {
-        doNothing().when(employeeTrainingService).cancelEnrollment(anyString(),anyString());
+        doNothing().when(employeeTrainingService).cancelEnrollment(anyString(), anyString());
         ResultActions resultAction = mockMvc.perform(
                 delete("/training/delete?trainingId=1")
 
@@ -164,9 +166,10 @@ public class EmployeeTrainingControllerTest {
 
         resultAction.andExpect(status().isUnauthorized());
     }
+
     @Test
     public void getByEmpIdAndSubSkillIdMongoException() throws Exception {
-        doThrow(MongoException.class).when(employeeTrainingService).cancelEnrollment(anyString(),anyString());
+        doThrow(MongoException.class).when(employeeTrainingService).cancelEnrollment(anyString(), anyString());
         ResultActions resultAction = mockMvc.perform(
                 delete("/training/delete?trainingId=1")
                         .header("Authorization", "empId:101")
@@ -187,10 +190,11 @@ public class EmployeeTrainingControllerTest {
 
 
         resultAction.andExpect(status().isOk())
-                .andExpect(jsonPath("$",hasSize(2)))
-                .andExpect(jsonPath("$[0].name",is("Basic Python")))
-                .andExpect(jsonPath("$[1].name",is("Advanced Python")));
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].name", is("Basic Python")))
+                .andExpect(jsonPath("$[1].name", is("Advanced Python")));
     }
+
     @Test
     public void getEventListByEmpIdUnAuthorized() throws Exception {
         when(employeeTrainingService.getTrainingListEventByEmployeeId(anyString()))
@@ -204,6 +208,7 @@ public class EmployeeTrainingControllerTest {
 
         resultAction.andExpect(status().isUnauthorized());
     }
+
     @Test
     public void getEventListByEmpIdMongoException() throws Exception {
         when(employeeTrainingService.getTrainingListEventByEmployeeId(anyString()))
@@ -228,10 +233,11 @@ public class EmployeeTrainingControllerTest {
                         .header("Authorization", "empId:101")
         );
         resultAction.andExpect(status().isOk())
-                .andExpect(jsonPath("$",hasSize(2)))
-                .andExpect(jsonPath("$[0].name",is("Basic Python")))
-                .andExpect(jsonPath("$[1].name",is("Advanced Python")));
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].name", is("Basic Python")))
+                .andExpect(jsonPath("$[1].name", is("Advanced Python")));
     }
+
     @Test
     public void getEnrolledTrainingUnAuthorized() throws Exception {
         when(employeeTrainingService.getEnrolledTraining(anyString()))
@@ -242,6 +248,7 @@ public class EmployeeTrainingControllerTest {
         );
         resultAction.andExpect(status().isUnauthorized());
     }
+
     @Test
     public void getEnrolledTrainingMongoException() throws Exception {
         when(employeeTrainingService.getEnrolledTraining(anyString()))
@@ -262,10 +269,11 @@ public class EmployeeTrainingControllerTest {
                         .header("Authorization", "empId:101")
         );
         resultAction.andExpect(status().isOk())
-                .andExpect(jsonPath("$",hasSize(2)))
-                .andExpect(jsonPath("$[0].name",is("Basic Python")))
-                .andExpect(jsonPath("$[1].name",is("Advanced Python")));
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].name", is("Basic Python")))
+                .andExpect(jsonPath("$[1].name", is("Advanced Python")));
     }
+
     @Test
     public void getUpcomingTrainingUnAuthorized() throws Exception {
         when(employeeTrainingService.getUpcomingTraining())
@@ -277,6 +285,7 @@ public class EmployeeTrainingControllerTest {
         resultAction.andExpect(status().isUnauthorized());
 
     }
+
     @Test
     public void getUpcomingTrainingMongoException() throws Exception {
         when(employeeTrainingService.getUpcomingTraining())
@@ -291,49 +300,55 @@ public class EmployeeTrainingControllerTest {
 
 
     // Helper Methods to be shifted in the seperate file
-    public List<EmployeeTrainingDomain> getEmployeeTrainingList(){
+    public List<EmployeeTrainingDomain> getEmployeeTrainingList() {
         List<EmployeeTrainingDomain> toReturnList = new ArrayList<>();
         toReturnList.add(getEmployeeTrainingDomain());
         toReturnList.add(getEmployeeTrainingDomain1());
         return toReturnList;
     }
-    public EmployeeTrainingDomain getEmployeeTrainingDomain(){
-        return new EmployeeTrainingDomain("101",getTrainingPython(), new Date(DATECONSTANT));
-    }
-    public EmployeeTrainingDomain getEmployeeTrainingDomain1(){
-        return new EmployeeTrainingDomain("101", getTrainingAdvancedePython(),new Date(DATECONSTANT));
+
+    public EmployeeTrainingDomain getEmployeeTrainingDomain() {
+        return new EmployeeTrainingDomain("101", getTrainingPython(), new Date(DATECONSTANT));
     }
 
-    public Training getTrainingPython(){
+    public EmployeeTrainingDomain getEmployeeTrainingDomain1() {
+        return new EmployeeTrainingDomain("101", getTrainingAdvancedePython(), new Date(DATECONSTANT));
+    }
+
+    public Training getTrainingPython() {
         return new Training("Basic Python",
                 "Training Room 1",
-                20,"Technical",
+                20, "Technical",
                 "Basic Python Training",
                 "John",
                 "john@teksystems.com");
     }
-    public Training getTrainingAdvancedePython(){
+
+    public Training getTrainingAdvancedePython() {
         return new Training("Advanced Python",
                 "Training Room 1",
-                20,"Technical",
+                20, "Technical",
                 "Advanced Python Training",
                 "John",
                 "john@teksystems.com");
     }
-    public TrainingEventDomain getTrainingEventDomain(){
-        return new TrainingEventDomain("1","Basic Python", "02:00","04:00");
+
+    public TrainingEventDomain getTrainingEventDomain() {
+        return new TrainingEventDomain("1", "Basic Python", "02:00", "04:00");
     }
-    public TrainingEventDomain getTrainingEventDomain1(){
-        return new TrainingEventDomain("1","Advanced Python", "02:00","04:00");
+
+    public TrainingEventDomain getTrainingEventDomain1() {
+        return new TrainingEventDomain("1", "Advanced Python", "02:00", "04:00");
     }
-    public List<TrainingEventDomain> getTrainingEventDomainList(){
-        List<TrainingEventDomain> toReturn  = new ArrayList<>();
+
+    public List<TrainingEventDomain> getTrainingEventDomainList() {
+        List<TrainingEventDomain> toReturn = new ArrayList<>();
         toReturn.add(getTrainingEventDomain());
         toReturn.add(getTrainingEventDomain1());
         return toReturn;
     }
 
-    public TrainingListEventDomain getTrainingListEventDomain(){
+    public TrainingListEventDomain getTrainingListEventDomain() {
         return new TrainingListEventDomain("1",
                 new Date(DATECONSTANT),
                 "02:00",
@@ -343,7 +358,7 @@ public class EmployeeTrainingControllerTest {
                 "Training Room");
     }
 
-    public TrainingListEventDomain getTrainingListEventDomain1(){
+    public TrainingListEventDomain getTrainingListEventDomain1() {
         return new TrainingListEventDomain("2",
                 new Date(DATECONSTANT),
                 "02:00",
@@ -353,23 +368,26 @@ public class EmployeeTrainingControllerTest {
                 "Training Room");
     }
 
-    public List<TrainingListEventDomain> getTrainingListEventDomainList(){
+    public List<TrainingListEventDomain> getTrainingListEventDomainList() {
         List<TrainingListEventDomain> toReturn = new ArrayList<>();
         toReturn.add(getTrainingListEventDomain());
         toReturn.add(getTrainingListEventDomain1());
         return toReturn;
     }
-    public List<EmployeeTrainingPlaceholderDomain> getEmployeeTrainingPlaceholderDomainList(){
+
+    public List<EmployeeTrainingPlaceholderDomain> getEmployeeTrainingPlaceholderDomainList() {
         List<EmployeeTrainingPlaceholderDomain> toReturn = new ArrayList<>();
         toReturn.add(getEmployeeTrainingPlaceholderDomain());
         toReturn.add(getEmployeeTrainingPlaceholderDomain1());
         return toReturn;
     }
-    public EmployeeTrainingPlaceholderDomain getEmployeeTrainingPlaceholderDomain(){
-        return new EmployeeTrainingPlaceholderDomain("1","Basic Python", new Date(DATECONSTANT));
+
+    public EmployeeTrainingPlaceholderDomain getEmployeeTrainingPlaceholderDomain() {
+        return new EmployeeTrainingPlaceholderDomain("1", "Basic Python", new Date(DATECONSTANT));
     }
-    public EmployeeTrainingPlaceholderDomain getEmployeeTrainingPlaceholderDomain1(){
-        return new EmployeeTrainingPlaceholderDomain("2","Advanced Python", new Date(DATECONSTANT));
+
+    public EmployeeTrainingPlaceholderDomain getEmployeeTrainingPlaceholderDomain1() {
+        return new EmployeeTrainingPlaceholderDomain("2", "Advanced Python", new Date(DATECONSTANT));
     }
 
 }

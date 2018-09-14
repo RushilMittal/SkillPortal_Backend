@@ -6,29 +6,29 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = ConfigurationStrings.SKILL)
 public class Skill {
-	
+
     @Id
     String id;
     String skillName;
 
-   
+
     public Skill(String id, String skillName) {
-		this.id=id;
-		this.skillName=skillName;
-	}
+        this.id = id;
+        this.skillName = skillName;
+    }
 
 
-	public Skill() {
-		//  Auto-generated constructor stub
-	}
+    public Skill() {
+        //  Auto-generated constructor stub
+    }
 
 
-	public String getId(){
+    public String getId() {
         return id;
     }
 
 
-    public String getName(){
+    public String getName() {
         return skillName;
     }
 

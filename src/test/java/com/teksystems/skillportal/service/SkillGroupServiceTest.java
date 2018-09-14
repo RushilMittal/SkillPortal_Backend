@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
 public class SkillGroupServiceTest {
@@ -45,9 +45,9 @@ public class SkillGroupServiceTest {
 
     @Test
     public void getAllSkillGroups() {
-        Map<String,List<String>> expected = skillGroupService.getAllSkillGroups();
+        Map<String, List<String>> expected = skillGroupService.getAllSkillGroups();
 
-        assertThat(1,is(expected.size()));
+        assertThat(1, is(expected.size()));
         assertThat(true, is(expected.containsKey("Programming")));
 
 
@@ -56,15 +56,15 @@ public class SkillGroupServiceTest {
     @Test
     public void getAllSkillsBySkillGroup() {
         List<String> expected = skillGroupService.getAllSkillsBySkillGroup("Programming");
-        assertThat("Java",is(expected.get(0)));
+        assertThat("Java", is(expected.get(0)));
         assertThat("Python", is(expected.get(1)));
     }
 
 
-    private List<String> getSkillList(){
+    private List<String> getSkillList() {
         List<String> toReturn = new ArrayList<>();
         toReturn.add("Java");
         toReturn.add("Python");
-        return  toReturn;
+        return toReturn;
     }
 }

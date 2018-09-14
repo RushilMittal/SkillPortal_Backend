@@ -11,15 +11,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.hamcrest.core.Is.is;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import static org.junit.Assert.*;
-
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
 public class SubSkillServiceTest {
@@ -56,11 +55,11 @@ public class SubSkillServiceTest {
         cache.putAll(map);
 
         when(guavaCacheInit.getSkillLoadingCache()).thenReturn(cache);
-        Map<String,List<SubSkill>> expectedMap =subSkillService.getAllSubSkillsOfEmployee();
-        assertThat(2,is(expectedMap.get("java").size()));
+        Map<String, List<SubSkill>> expectedMap = subSkillService.getAllSubSkillsOfEmployee();
+        assertThat(2, is(expectedMap.get("java").size()));
     }
 
-    public List<SubSkill> getSubSkillList(){
+    public List<SubSkill> getSubSkillList() {
         List<SubSkill> toReturnList = new ArrayList<>();
         toReturnList.add(getSubSkill());
         toReturnList.add(getSubSkill1());
@@ -68,7 +67,7 @@ public class SubSkillServiceTest {
 
     }
 
-    public SubSkill getSubSkill(){
+    public SubSkill getSubSkill() {
         return new SubSkill("1",
                 "Basic Java",
                 "Basic java Skills",
@@ -77,7 +76,7 @@ public class SubSkillServiceTest {
                 "ADM");
     }
 
-    public SubSkill getSubSkill1(){
+    public SubSkill getSubSkill1() {
         return new SubSkill("2",
                 "Generics",
                 "Basic generics in Java",

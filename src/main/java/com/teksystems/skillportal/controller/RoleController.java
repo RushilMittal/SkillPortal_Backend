@@ -60,7 +60,7 @@ public class RoleController {
                 toReturn = roleService.getAdminRoles();
             }
 
-        }catch (MongoException e) {
+        } catch (MongoException e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
@@ -94,7 +94,7 @@ public class RoleController {
             if (checkEmployeeId(request, response)) {
                 roleService.deleteRole(id);
             }
-        }catch (MongoException e) {
+        } catch (MongoException e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);

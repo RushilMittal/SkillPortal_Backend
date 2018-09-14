@@ -1,23 +1,18 @@
 package com.teksystems.skillportal.service;
+
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.helper.HttpClientHelper;
 import org.apache.log4j.Logger;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.security.PublicKey;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
 import java.util.Base64;
 
 @Service
@@ -27,7 +22,6 @@ public class TokenValidationService {
     private final String token;
     // Header
 
-    private final String kid;
 
     // Payload
 
@@ -40,7 +34,6 @@ public class TokenValidationService {
 
     public TokenValidationService() {
         token = null;
-        kid = null;
 
 
         name = null;
@@ -56,16 +49,11 @@ public class TokenValidationService {
         JSONObject header = new JSONObject(headerStr);
 
 
-        kid = header.getString("kid");
-
-
         // Payload
         // reserved, public, and private claims.
         String payloadStr = new String(Base64.getUrlDecoder().decode((parts[1])));
 
         JSONObject payload = new JSONObject(payloadStr);
-
-
 
 
         name = payload.getString("name");
@@ -74,35 +62,15 @@ public class TokenValidationService {
     }
 
 
-
-    //: cache content to file to prevent access internet everytime.
-    private String readUrl(String url) throws IOException {
-        URL addr = new URL(url);
-        StringBuilder sb = new StringBuilder();
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(addr.openStream()))) {
-            String inputLine = null;
-            while ((inputLine = in.readLine()) != null) {
-                sb.append(inputLine);
-            }
-        }
-        return sb.toString();
-    }
-
-    public boolean verify() throws IOException, CertificateException {
-        boolean verified = false;
-
-
-
-
+    public boolean verify() {
+        boolean verified;
         try {
-
             verified = true;
 
-        } catch (SignatureVerificationException |TokenExpiredException  e) {
+        } catch (SignatureVerificationException | TokenExpiredException e) {
             verified = false;
             logger.error(e.getMessage());
         }
-
 
 
         return verified;
@@ -112,7 +80,7 @@ public class TokenValidationService {
         String email = null;
         try {
 
-            String authorizationHeader = ((HttpServletRequest) req).getHeader("Authorization");
+            String authorizationHeader = req.getHeader("Authorization");
             final String tokenString = authorizationHeader.substring(7); // The part after "Bearer "
 
             String[] parts = tokenString.split("\\.");
@@ -138,25 +106,24 @@ public class TokenValidationService {
             String decodedBody = new String(Base64.getUrlDecoder().decode((moddedToken[1])));
 
 
-            JSONObject jsonBody ;
+            JSONObject jsonBody;
 
             jsonBody = new JSONObject(decodedBody);
 
             boolean isValidBody = validateBody(jsonBody);
 
-            if (isValidBody ) {
+            if (isValidBody) {
                 status = true;
             }
 
-            status =false;
+
         } catch (Exception e) {
             logger.error(e.getMessage());
-            status =false;
+            status = false;
         }
 
         return status;
     }
-
 
 
     private static boolean validateBody(JSONObject jsonObj) {
@@ -182,7 +149,7 @@ public class TokenValidationService {
 
         String validateToken = null;
         try {
-            validateToken =  request.getHeader("Token");
+            validateToken = request.getHeader("Token");
         } catch (Exception e) {
             logger.error(e.getMessage());
         }

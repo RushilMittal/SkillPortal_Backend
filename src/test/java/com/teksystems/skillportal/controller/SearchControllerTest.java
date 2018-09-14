@@ -18,20 +18,17 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -65,20 +62,22 @@ public class SearchControllerTest {
         HttpServletResponse response = mock(HttpServletResponse.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
 
-        boolean expected = searchController.checkEmployeeId(request,response);
+        boolean expected = searchController.checkEmployeeId(request, response);
 
         assertThat(true, is(expected));
     }
+
     @Test
     public void checkEmployeeIdUnAuthorized() throws IOException {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn(null);
 
-        boolean expected = searchController.checkEmployeeId(request,response);
+        boolean expected = searchController.checkEmployeeId(request, response);
 
-        assertThat( false, is(expected));
+        assertThat(false, is(expected));
     }
+
     @Test(expected = IOException.class)
     public void checkEmployeeIdIOException() throws IOException {
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -86,11 +85,12 @@ public class SearchControllerTest {
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn(null);
 
 
-        doThrow(IOException.class).when(response).sendError(anyInt(),anyString());
-        searchController.checkEmployeeId(request,response);
-        assertThat(500,is(response.getStatus()));
+        doThrow(IOException.class).when(response).sendError(anyInt(), anyString());
+        searchController.checkEmployeeId(request, response);
+        assertThat(500, is(response.getStatus()));
 
     }
+
     @Test
     public void searchSkill() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -103,10 +103,11 @@ public class SearchControllerTest {
                         .header("Authorization", "empId:101")
         );
         resultAction.andExpect(status().isOk())
-                .andExpect(jsonPath("$",hasSize(2)))
+                .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0]", is("AWS")))
                 .andExpect(jsonPath("$[1]", is("AWS Cloud")));
     }
+
     @Test
     public void searchSkillInvalid() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -119,7 +120,6 @@ public class SearchControllerTest {
 
         );
         resultAction.andExpect(status().isUnauthorized());
-
 
 
     }
@@ -136,10 +136,11 @@ public class SearchControllerTest {
                         .header("Authorization", "empId:101")
         );
         resultAction.andExpect(status().isOk())
-                .andExpect(jsonPath("$",hasSize(1)))
+                .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].skillId", is("1")));
 
     }
+
     @Test
     public void getCertSearchInvalid() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -168,7 +169,7 @@ public class SearchControllerTest {
                         .header("Authorization", "empId:101")
         );
         resultAction.andExpect(status().isOk())
-                .andExpect(jsonPath("$",hasSize(1)))
+                .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].name", is("Basic Python")));
 
     }
@@ -188,30 +189,33 @@ public class SearchControllerTest {
 
     }
 
-    List<String> getSkillSearchList(){
+    List<String> getSkillSearchList() {
         List<String> searchresult = new ArrayList<>();
         searchresult.add("AWS");
         searchresult.add("AWS Cloud");
         return searchresult;
     }
-    List<CertificationDomain> getCertificateSearchList(){
+
+    List<CertificationDomain> getCertificateSearchList() {
         List<CertificationDomain> searchresult = new ArrayList<>();
         searchresult.add(getCertificationDomain());
         return searchresult;
     }
-    CertificationDomain getCertificationDomain(){
-        return new CertificationDomain("1","Basic AWS Certification","AWS");
+
+    CertificationDomain getCertificationDomain() {
+        return new CertificationDomain("1", "Basic AWS Certification", "AWS");
     }
 
-    List<Training> getTrainingSearchList(){
+    List<Training> getTrainingSearchList() {
         List<Training> searchresult = new ArrayList<>();
         searchresult.add(getTraining());
         return searchresult;
     }
-    Training getTraining(){
+
+    Training getTraining() {
         return new Training("Basic Python",
                 "Training Room 1",
-                20,"Technical",
+                20, "Technical",
                 "Basic Python Training",
                 "John",
                 "john@teksystems.com");

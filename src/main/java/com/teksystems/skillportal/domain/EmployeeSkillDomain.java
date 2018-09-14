@@ -4,11 +4,11 @@ package com.teksystems.skillportal.domain;
 import java.util.Date;
 
 public class EmployeeSkillDomain {
-	
- String employeeId;
- SubSkillDomain subSkill; //changed from SubSkill to SubSkillDomain
- int rating;
- Date lastModifiedDate;
+
+    String employeeId;
+    SubSkillDomain subSkill; //changed from SubSkill to SubSkillDomain
+    int rating;
+    Date lastModifiedDate;
 
     public EmployeeSkillDomain(String employeeId, SubSkillDomain subSkill, int rating, Date lastModifiedDate) {
         this.employeeId = employeeId;

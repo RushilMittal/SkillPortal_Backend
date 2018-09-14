@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,9 +29,7 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -72,9 +69,10 @@ public class EmployeeCertificationControllerTest {
                         .header("Authorization", "empId:101")
         );
         resultAction.andExpect(status().isOk())
-            .andExpect(jsonPath("$",hasSize(1)))
-            .andExpect(jsonPath("$[0].empId",is("101")));
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].empId", is("101")));
     }
+
     @Test
     public void getByIdUnAuthorized() throws Exception {
         when(employeeCertificationService.getEmployeeCertificationByEmployeeId(anyString())).thenReturn(getEmployeeCertificationDomainList());
@@ -86,6 +84,7 @@ public class EmployeeCertificationControllerTest {
         resultAction.andExpect(status().isUnauthorized());
 
     }
+
     @Test
     public void getByIdMongoException() throws Exception {
         when(employeeCertificationService.getEmployeeCertificationByEmployeeId(anyString())).thenThrow(MongoException.class);
@@ -98,11 +97,10 @@ public class EmployeeCertificationControllerTest {
     }
 
 
-
     @Test
     public void addCertification() throws Exception {
-        doNothing().when(employeeCertificationService).addNew("101","1",
-                new Date(DATECONSTANT),new Date(DATECONSTANT),1,"www.datacamp.com");
+        doNothing().when(employeeCertificationService).addNew("101", "1",
+                new Date(DATECONSTANT), new Date(DATECONSTANT), 1, "www.datacamp.com");
 
         mockMvc.perform(post("/certifications/addCertification?certificationId=1" +
                 "&certificationDateString=24/12/2018&certificationValidityDateString=24/12/2019&certificationNumber=1" +
@@ -111,23 +109,25 @@ public class EmployeeCertificationControllerTest {
                 .andExpect(status().isOk());
 
     }
+
     @Test
     public void addCertificationUnAuthorized() throws Exception {
-        doNothing().when(employeeCertificationService).addNew("101","1",
-                new Date(DATECONSTANT),new Date(DATECONSTANT),1,"www.datacamp.com");
+        doNothing().when(employeeCertificationService).addNew("101", "1",
+                new Date(DATECONSTANT), new Date(DATECONSTANT), 1, "www.datacamp.com");
 
         mockMvc.perform(post("/certifications/addCertification?certificationId=1" +
                 "&certificationDateString=24/12/2018&certificationValidityDateString=24/12/2019&certificationNumber=1" +
                 "&certificationUrl=www.datacamp.com")
-                )
+        )
                 .andExpect(status().isUnauthorized());
 
     }
+
     @Test
     public void addCertificationMongoException() throws Exception {
 
-        doThrow(MongoException.class).when(employeeCertificationService).addNew(anyString(),anyString(), any(Date.class)
-                ,any(Date.class),anyInt(),anyString());
+        doThrow(MongoException.class).when(employeeCertificationService).addNew(anyString(), anyString(), any(Date.class)
+                , any(Date.class), anyInt(), anyString());
         mockMvc.perform(post("/certifications/addCertification?certificationId=1" +
                 "&certificationDateString=24/12/2018&certificationValidityDateString=24/12/2019&certificationNumber=1" +
                 "&certificationUrl=www.datacamp.com")
@@ -135,8 +135,6 @@ public class EmployeeCertificationControllerTest {
                 .andExpect(status().isInternalServerError());
 
     }
-
-
 
 
     @Test
@@ -151,9 +149,10 @@ public class EmployeeCertificationControllerTest {
                 .header("Authorization", "empId:101")
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(mapper.writeValueAsBytes(getEmployeeCertificationDomain()))
-                )
-        .andExpect(status().isOk());
+        )
+                .andExpect(status().isOk());
     }
+
     @Test
     public void addNewCertificateUnAuthorized() throws Exception {
         doNothing().when(employeeCertificationService).addNewCertificate(getEmployeeCertificationDomain());
@@ -169,6 +168,7 @@ public class EmployeeCertificationControllerTest {
         )
                 .andExpect(status().isUnauthorized());
     }
+
     @Test
     public void addNewCertificateMongoException() throws Exception {
 
@@ -186,7 +186,6 @@ public class EmployeeCertificationControllerTest {
     }
 
 
-
     @Test
     public void getTopTwoEmployeeCertificationYearById() throws Exception {
         when(employeeCertificationService.getEmployeeCertificationPlaceholderById(anyString()))
@@ -197,9 +196,10 @@ public class EmployeeCertificationControllerTest {
                         .header("Authorization", "empId:101")
         );
         resultAction.andExpect(status().isOk())
-                .andExpect(jsonPath("$",hasSize(2)))
-                .andExpect(jsonPath("$[0].certificationName",is("RedHat Basics")));
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].certificationName", is("RedHat Basics")));
     }
+
     @Test
     public void getTopTwoEmployeeCertificationYearByIdUnAuthrized() throws Exception {
         when(employeeCertificationService.getEmployeeCertificationPlaceholderById(anyString()))
@@ -212,6 +212,7 @@ public class EmployeeCertificationControllerTest {
         resultAction.andExpect(status().isUnauthorized());
 
     }
+
     @Test
     public void getTopTwoEmployeeCertificationYearByIdMongoException() throws Exception {
         when(employeeCertificationService.getEmployeeCertificationPlaceholderById(anyString()))
@@ -234,7 +235,7 @@ public class EmployeeCertificationControllerTest {
         return toReturn;
     }
 
-    public CertificationDomain getCertificationDomain(){
+    public CertificationDomain getCertificationDomain() {
         return new CertificationDomain(
                 "1",
                 "1",
@@ -242,7 +243,7 @@ public class EmployeeCertificationControllerTest {
                 "AWS");
     }
 
-    public EmployeeCertificationDomain getEmployeeCertificationDomain(){
+    public EmployeeCertificationDomain getEmployeeCertificationDomain() {
         return new EmployeeCertificationDomain(
                 "101",
                 getCertificationDomain(),
@@ -253,15 +254,16 @@ public class EmployeeCertificationControllerTest {
 
     }
 
-    public EmployeeCertificationPlaceholderDomain getEmployeeCertificationPlaceholderDomain(){
+    public EmployeeCertificationPlaceholderDomain getEmployeeCertificationPlaceholderDomain() {
         return new EmployeeCertificationPlaceholderDomain("RedHat Basics", "2018");
     }
 
-    public EmployeeCertificationPlaceholderDomain getEmployeeCertificationPlaceholderDomain1(){
+    public EmployeeCertificationPlaceholderDomain getEmployeeCertificationPlaceholderDomain1() {
         return new EmployeeCertificationPlaceholderDomain("Linux Basics", "2017");
     }
-    public List<EmployeeCertificationPlaceholderDomain> getEmployeeCertificationPlaceholderDomainList(){
-        List<EmployeeCertificationPlaceholderDomain> toReturn= new ArrayList<>();
+
+    public List<EmployeeCertificationPlaceholderDomain> getEmployeeCertificationPlaceholderDomainList() {
+        List<EmployeeCertificationPlaceholderDomain> toReturn = new ArrayList<>();
         toReturn.add(getEmployeeCertificationPlaceholderDomain());
         toReturn.add(getEmployeeCertificationPlaceholderDomain1());
         return toReturn;

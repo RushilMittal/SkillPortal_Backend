@@ -29,8 +29,11 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.*;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyList;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -67,20 +70,22 @@ public class TrainingControllerTest {
         HttpServletResponse response = mock(HttpServletResponse.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
 
-        String expectedEmployeeId = trainingController.getEmployeeId(request,response);
+        String expectedEmployeeId = trainingController.getEmployeeId(request, response);
 
-        assertThat("101",is(expectedEmployeeId));
+        assertThat("101", is(expectedEmployeeId));
     }
+
     @Test
     public void getEmployeeIdUnAuthorized() throws IOException {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn(null);
 
-        String expectedEmployeeId = trainingController.getEmployeeId(request,response);
+        String expectedEmployeeId = trainingController.getEmployeeId(request, response);
 
-        assertThat(null,is(expectedEmployeeId));
+        assertThat(null, is(expectedEmployeeId));
     }
+
     @Test(expected = IOException.class)
     public void getEmployeeIdIOException() throws IOException {
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -89,11 +94,10 @@ public class TrainingControllerTest {
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn(null);
 
 
-        doThrow(IOException.class).when(response).sendError(anyInt(),anyString());
+        doThrow(IOException.class).when(response).sendError(anyInt(), anyString());
 
-        trainingController.getEmployeeId(request,response);
+        trainingController.getEmployeeId(request, response);
     }
-
 
 
     @Test
@@ -115,6 +119,7 @@ public class TrainingControllerTest {
         resultAction.andExpect(status().isOk());
 
     }
+
     @Test
     public void addInvalid() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -135,6 +140,7 @@ public class TrainingControllerTest {
         resultAction.andExpect(status().isUnauthorized());
 
     }
+
     @Test
     public void addMongoException() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -168,10 +174,11 @@ public class TrainingControllerTest {
                         .header("Authorization", "empId:101")
         );
         resultAction.andExpect(status().isOk())
-                .andExpect(jsonPath("$",hasSize(1)))
+                .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].training.name", is("Basic Python")));
 
     }
+
     @Test
     public void getTrainingMongoException() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -187,6 +194,7 @@ public class TrainingControllerTest {
         resultAction.andExpect(status().isInternalServerError());
 
     }
+
     @Test
     public void getTrainingInvalid() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -211,7 +219,7 @@ public class TrainingControllerTest {
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
 
 
-        doNothing().when(trainingService).enrollTraining(anyString(),anyString());
+        doNothing().when(trainingService).enrollTraining(anyString(), anyString());
 
         ResultActions resultAction = mockMvc.perform(
                 get("/training/enroll?trainingId=1")
@@ -219,13 +227,14 @@ public class TrainingControllerTest {
         );
         resultAction.andExpect(status().isOk());
     }
+
     @Test
     public void enrollTrainingInvalid() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn(null);
 
         when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
-        doNothing().when(trainingService).enrollTraining(anyString(),anyString());
+        doNothing().when(trainingService).enrollTraining(anyString(), anyString());
 
         ResultActions resultAction = mockMvc.perform(
                 get("/training/enroll?trainingId=1")
@@ -233,13 +242,14 @@ public class TrainingControllerTest {
         );
         resultAction.andExpect(status().isUnauthorized());
     }
+
     @Test
     public void enrollTrainingMongoException() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
 
 
-        doThrow(MongoException.class).when(trainingService).enrollTraining(anyString(),anyString());
+        doThrow(MongoException.class).when(trainingService).enrollTraining(anyString(), anyString());
 
         ResultActions resultAction = mockMvc.perform(
                 get("/training/enroll?trainingId=1")
@@ -266,6 +276,7 @@ public class TrainingControllerTest {
         );
         resultAction.andExpect(status().isOk());
     }
+
     @Test
     public void updateInvalid() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -285,6 +296,7 @@ public class TrainingControllerTest {
         );
         resultAction.andExpect(status().isUnauthorized());
     }
+
     @Test
     public void updateMongoException() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -303,26 +315,30 @@ public class TrainingControllerTest {
         );
         resultAction.andExpect(status().isInternalServerError());
     }
+
     List<TrainingDomain> getTrainingDomainList() {
         List<TrainingDomain> toReturn = new ArrayList<>();
         toReturn.add(getTrainingDomain());
         return toReturn;
     }
-    TrainingDomain getTrainingDomain(){
+
+    TrainingDomain getTrainingDomain() {
         TrainingDomain trainingDomain = new TrainingDomain();
         trainingDomain.setTraining(getTrainingPython());
         trainingDomain.setTrainingSessions(getTrainingSessionList());
         return trainingDomain;
     }
-    Training getTrainingPython(){
+
+    Training getTrainingPython() {
         return new Training("Basic Python",
                 "Training Room 1",
-                20,"Technical",
+                20, "Technical",
                 "Basic Python Training",
                 "John",
                 "john@teksystems.com");
     }
-    List<TrainingSession> getTrainingSessionList(){
+
+    List<TrainingSession> getTrainingSessionList() {
         List<TrainingSession> toReturn = new ArrayList<>();
         TrainingSession trainingSession = new TrainingSession("1",
                 new Date(DATECONSTANT),

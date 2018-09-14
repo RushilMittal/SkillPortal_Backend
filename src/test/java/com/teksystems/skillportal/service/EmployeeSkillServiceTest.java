@@ -2,7 +2,6 @@ package com.teksystems.skillportal.service;
 
 
 import com.teksystems.skillportal.init.GuavaCacheInit;
-
 import com.teksystems.skillportal.model.EmployeeSkill;
 import com.teksystems.skillportal.model.SubSkill;
 import com.teksystems.skillportal.repository.EmployeeSkillRepository;
@@ -13,20 +12,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.data.mongodb.core.MongoOperations;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import static org.hamcrest.CoreMatchers.any;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 public class EmployeeSkillServiceTest {
 
@@ -45,9 +38,9 @@ public class EmployeeSkillServiceTest {
     @InjectMocks
     EmployeeSkillService employeeSkillService;
 
-    final static String EMPID ="101";
+    final static String EMPID = "101";
     final static String SUBSKILLID = "1";
-    final static int RATING =3;
+    final static int RATING = 3;
     private Long DATECONSTANT = 1532677775148L;
     private Long DATECONSTANT2 = 1533019950736L;
 
@@ -90,11 +83,12 @@ public class EmployeeSkillServiceTest {
 
     @Test
     public void addNew() {
-        employeeSkillService.addNew(EMPID,SUBSKILLID,RATING);
+        employeeSkillService.addNew(EMPID, SUBSKILLID, RATING);
 
-        verify(employeeSkillRepository,times(1)).save(Matchers.any(EmployeeSkill.class));
+        verify(employeeSkillRepository, times(1)).save(Matchers.any(EmployeeSkill.class));
 
     }
+
     // TODO mongooperation one
     @Test
     public void getSubSkillCount() {
@@ -122,7 +116,7 @@ public class EmployeeSkillServiceTest {
     public void deleteSubSkill() {
     }
 
-    List<SubSkill> getAllSubSkill(){
+    List<SubSkill> getAllSubSkill() {
         List<SubSkill> toReturnList = new ArrayList<>();
         toReturnList.add(getSubSkill());
         toReturnList.add(getSubSkill1());
@@ -131,7 +125,7 @@ public class EmployeeSkillServiceTest {
     }
 
 
-    public SubSkill getSubSkill(){
+    public SubSkill getSubSkill() {
         return new SubSkill("1",
                 "Basic Java",
                 "Basic java Skills",
@@ -140,7 +134,7 @@ public class EmployeeSkillServiceTest {
                 "ADM");
     }
 
-    public SubSkill getSubSkill1(){
+    public SubSkill getSubSkill1() {
         return new SubSkill("2",
                 "Generics",
                 "Basic generics in Java",
@@ -149,7 +143,7 @@ public class EmployeeSkillServiceTest {
                 "ADM");
     }
 
-    public SubSkill getSubSkill2(){
+    public SubSkill getSubSkill2() {
         return new SubSkill("3",
                 "MS Excel",
                 "Basic Ms Excel",
@@ -158,22 +152,22 @@ public class EmployeeSkillServiceTest {
                 "Basics");
     }
 
-    private List<String> getUnassignedSkills(){
+    private List<String> getUnassignedSkills() {
         List<String> toReturnSkills = new ArrayList<>();
         toReturnSkills.add("1");
         toReturnSkills.add("2");
         return toReturnSkills;
     }
 
-    private EmployeeSkill getEmployeeSkill(){
-        return new EmployeeSkill("101","1",3,new Date(DATECONSTANT));
+    private EmployeeSkill getEmployeeSkill() {
+        return new EmployeeSkill("101", "1", 3, new Date(DATECONSTANT));
     }
 
-    private EmployeeSkill getEmployeeSkill1(){
-        return new EmployeeSkill("101","2",4,new Date(DATECONSTANT2));
+    private EmployeeSkill getEmployeeSkill1() {
+        return new EmployeeSkill("101", "2", 4, new Date(DATECONSTANT2));
     }
 
-    private List<EmployeeSkill> getAssignedEmployeeSkill(){
+    private List<EmployeeSkill> getAssignedEmployeeSkill() {
         List<EmployeeSkill> toReturn = new ArrayList<>();
 
         toReturn.add(getEmployeeSkill());

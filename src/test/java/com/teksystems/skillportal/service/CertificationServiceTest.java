@@ -3,7 +3,6 @@ package com.teksystems.skillportal.service;
 import com.teksystems.skillportal.domain.CertificationDomain;
 import com.teksystems.skillportal.model.Certification;
 import com.teksystems.skillportal.repository.CertificationRepository;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -30,34 +29,31 @@ public class CertificationServiceTest {
 
     //to initialise mockito setup
     @Before
-    public void setup()
-    {
+    public void setup() {
         MockitoAnnotations.initMocks(this);
     }
 
-    final private String MOCKEDCERTIFICATIONNAME ="AWS-Beginner";
+    final private String MOCKEDCERTIFICATIONNAME = "AWS-Beginner";
     final private String MOCKEDSEARCH = "AWS";
-
-
 
 
     //Unit Test case for getAllCertifications
     @Test
-    public void testGetAllCertifications(){
+    public void testGetAllCertifications() {
 
         when(certificationRepository.findAll()).thenReturn(getCertificationList());
 
 //        List<CertificationDomain> actual = getCertifdicationDomain();
         List<CertificationDomain> expected = certificationService.getAllCertifications();
 
-        assertThat(2,is(expected.size()));
-        assertThat("1",is(expected.get(0).getId()));
-        assertThat(MOCKEDCERTIFICATIONNAME,is(expected.get(0).getCertificationName()));
-        assertThat("2",is(expected.get(1).getId()));
+        assertThat(2, is(expected.size()));
+        assertThat("1", is(expected.get(0).getId()));
+        assertThat(MOCKEDCERTIFICATIONNAME, is(expected.get(0).getCertificationName()));
+        assertThat("2", is(expected.get(1).getId()));
     }
 
-    public Certification getCertification(){
-        return new Certification("1","1","AWS-Beginner","AWS");
+    public Certification getCertification() {
+        return new Certification("1", "1", "AWS-Beginner", "AWS");
     }
 
     @Test
@@ -65,31 +61,29 @@ public class CertificationServiceTest {
 
         when(certificationRepository.findBycertificationName(anyString())).thenReturn(getCertification());
 
-        assertThat(MOCKEDCERTIFICATIONNAME,is(certificationService.getCertificationByName(MOCKEDCERTIFICATIONNAME).getCertificationName()));
+        assertThat(MOCKEDCERTIFICATIONNAME, is(certificationService.getCertificationByName(MOCKEDCERTIFICATIONNAME).getCertificationName()));
 
     }
 
     @Test
-    public void testSearchCertItems(){
+    public void testSearchCertItems() {
 
         when(certificationRepository.findAll()).thenReturn(getCertificationList());
 
 
-
-
         List<CertificationDomain> expected = certificationService.searchCertItems(MOCKEDSEARCH);
 
-        assertThat(2,is(expected.size()));
+        assertThat(2, is(expected.size()));
 
     }
 
     // helper method to return the dummy data for testing
-    public List<Certification> getCertificationList(){
+    public List<Certification> getCertificationList() {
 
         List<Certification> certifications = new ArrayList<>();
 
-        Certification certification = new Certification("1","1","AWS-Beginner","AWS");
-        Certification certification1 = new Certification("2","2","AWS-Intermediate","AWS");
+        Certification certification = new Certification("1", "1", "AWS-Beginner", "AWS");
+        Certification certification1 = new Certification("2", "2", "AWS-Intermediate", "AWS");
 
         certifications.add(certification);
         certifications.add(certification1);

@@ -16,27 +16,23 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import java.io.*;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -70,29 +66,31 @@ public class AdminControllerTest {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class))).thenReturn(true);
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class), any(HttpServletResponse.class))).thenReturn(true);
 
-        boolean expected = adminController.checkAdmin(request,response);
+        boolean expected = adminController.checkAdmin(request, response);
         assertThat(true, is(expected));
     }
+
     @Test
     public void checkAdmninTestUnAuthorized() throws IOException {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn(null);
-        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class))).thenReturn(true);
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class), any(HttpServletResponse.class))).thenReturn(true);
 
-        boolean expected = adminController.checkAdmin(request,response);
+        boolean expected = adminController.checkAdmin(request, response);
         assertThat(false, is(expected));
     }
+
     @Test
     public void checkAdmninTestNotAnAdmin() throws IOException {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class))).thenReturn(false);
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class), any(HttpServletResponse.class))).thenReturn(false);
 
-        boolean expected = adminController.checkAdmin(request,response);
+        boolean expected = adminController.checkAdmin(request, response);
         assertThat(false, is(expected));
     }
 
@@ -102,11 +100,11 @@ public class AdminControllerTest {
         HttpServletResponse response = mock(HttpServletResponse.class);
 
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class), any(HttpServletResponse.class)))
                 .thenReturn(false);
 
-        doThrow(IOException.class).when(response).sendError(anyInt(),anyString());
-        adminController.checkAdmin(request,response);
+        doThrow(IOException.class).when(response).sendError(anyInt(), anyString());
+        adminController.checkAdmin(request, response);
     }
 
 
@@ -114,7 +112,7 @@ public class AdminControllerTest {
     public void getAllAdminSkill() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class), any(HttpServletResponse.class)))
                 .thenReturn(true);
 
         when(adminService.getAllAdminSkills()).thenReturn(getAllSubSkill());
@@ -124,15 +122,16 @@ public class AdminControllerTest {
                         .header("Authorization", "empId:101")
         );
         resultAction.andExpect(status().isOk())
-                .andExpect(jsonPath("$",hasSize(2)))
+                .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].subSkill", is("Basic Java")))
                 .andExpect(jsonPath("$[1].subSkill", is("Generics")));
     }
+
     @Test
     public void getAllAdminSkillInvalid() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class), any(HttpServletResponse.class)))
                 .thenReturn(true);
 
         when(adminService.getAllAdminSkills()).thenReturn(getAllSubSkill());
@@ -143,11 +142,12 @@ public class AdminControllerTest {
         );
         resultAction.andExpect(status().isUnauthorized());
     }
+
     @Test
     public void getAllAdminSkillMongoException() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class), any(HttpServletResponse.class)))
                 .thenReturn(true);
 
         when(adminService.getAllAdminSkills()).thenThrow(MongoException.class);
@@ -163,7 +163,7 @@ public class AdminControllerTest {
     public void updateSkill() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class), any(HttpServletResponse.class)))
                 .thenReturn(true);
 
         doNothing().when(adminService).updateNewSkill(any(SubSkill.class));
@@ -180,11 +180,12 @@ public class AdminControllerTest {
         );
         resultAction.andExpect(status().isOk());
     }
+
     @Test
     public void updateSkillInvalid() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class), any(HttpServletResponse.class)))
                 .thenReturn(true);
 
         doNothing().when(adminService).updateNewSkill(any(SubSkill.class));
@@ -201,11 +202,12 @@ public class AdminControllerTest {
         );
         resultAction.andExpect(status().isUnauthorized());
     }
+
     @Test
     public void updateSkillMongoException() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class), any(HttpServletResponse.class)))
                 .thenReturn(true);
 
         doThrow(MongoException.class).when(adminService).updateNewSkill(any(SubSkill.class));
@@ -229,7 +231,7 @@ public class AdminControllerTest {
     public void addNewSkill() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class), any(HttpServletResponse.class)))
                 .thenReturn(true);
 
         doNothing().when(adminService).addNewSkill(any(SubSkill.class));
@@ -246,11 +248,12 @@ public class AdminControllerTest {
         );
         resultAction.andExpect(status().isOk());
     }
+
     @Test
     public void addNewSkillInvalid() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class), any(HttpServletResponse.class)))
                 .thenReturn(true);
 
         doNothing().when(adminService).addNewSkill(any(SubSkill.class));
@@ -267,11 +270,12 @@ public class AdminControllerTest {
         );
         resultAction.andExpect(status().isUnauthorized());
     }
+
     @Test
     public void addNewSkillMongoException() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class), any(HttpServletResponse.class)))
                 .thenReturn(true);
 
         doThrow(MongoException.class).when(adminService).addNewSkill(any(SubSkill.class));
@@ -294,7 +298,7 @@ public class AdminControllerTest {
     public void postNewUniqueEntry() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class), any(HttpServletResponse.class)))
                 .thenReturn(true);
 
         doNothing().when(adminService).postNewCertification(any(CertificationDomain.class));
@@ -312,11 +316,12 @@ public class AdminControllerTest {
         resultAction.andExpect(status().isOk());
 
     }
+
     @Test
     public void postNewUniqueEntryInvalid() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class), any(HttpServletResponse.class)))
                 .thenReturn(true);
 
         doNothing().when(adminService).postNewCertification(any(CertificationDomain.class));
@@ -334,11 +339,12 @@ public class AdminControllerTest {
         resultAction.andExpect(status().isUnauthorized());
 
     }
+
     @Test
     public void postNewUniqueEntryMongoException() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class), any(HttpServletResponse.class)))
                 .thenReturn(true);
 
         doThrow(MongoException.class).when(adminService).postNewCertification(any(CertificationDomain.class));
@@ -361,7 +367,7 @@ public class AdminControllerTest {
     public void updateCertificate() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class), any(HttpServletResponse.class)))
                 .thenReturn(true);
 
         doNothing().when(adminService).updateCertificate(any(CertificationDomain.class));
@@ -378,11 +384,12 @@ public class AdminControllerTest {
         );
         resultAction.andExpect(status().isOk());
     }
+
     @Test
     public void updateCertificateINvalid() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class), any(HttpServletResponse.class)))
                 .thenReturn(true);
 
         doNothing().when(adminService).updateCertificate(any(CertificationDomain.class));
@@ -399,11 +406,12 @@ public class AdminControllerTest {
         );
         resultAction.andExpect(status().isUnauthorized());
     }
+
     @Test
     public void updateCertificateMongoException() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class), any(HttpServletResponse.class)))
                 .thenReturn(true);
 
         doThrow(MongoException.class).when(adminService).updateCertificate(any(CertificationDomain.class));
@@ -474,7 +482,8 @@ public class AdminControllerTest {
     @Test
     public void uploadCertificateCsv() {
     }
-    List<SubSkill> getAllSubSkill(){
+
+    List<SubSkill> getAllSubSkill() {
         List<SubSkill> toReturnList = new ArrayList<>();
         toReturnList.add(getSubSkill());
         toReturnList.add(getSubSkill1());
@@ -482,7 +491,7 @@ public class AdminControllerTest {
     }
 
 
-    public SubSkill getSubSkill(){
+    public SubSkill getSubSkill() {
         return new SubSkill("1",
                 "Basic Java",
                 "Basic java Skills",
@@ -491,7 +500,7 @@ public class AdminControllerTest {
                 "ADM");
     }
 
-    public SubSkill getSubSkill1(){
+    public SubSkill getSubSkill1() {
         return new SubSkill("2",
                 "Generics",
                 "Basic generics in Java",
@@ -499,7 +508,8 @@ public class AdminControllerTest {
                 "skillGroup",
                 "practice");
     }
-    CertificationDomain getCertificationDomain(){
-        return new CertificationDomain("1","1","AWS-Beginner","AWS");
+
+    CertificationDomain getCertificationDomain() {
+        return new CertificationDomain("1", "1", "AWS-Beginner", "AWS");
     }
 }

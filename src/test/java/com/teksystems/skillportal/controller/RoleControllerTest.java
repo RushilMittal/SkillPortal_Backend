@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
@@ -67,30 +66,33 @@ public class RoleControllerTest {
         HttpServletResponse response = mock(HttpServletResponse.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
 
-        boolean expected = roleController.checkEmployeeId(request,response);
+        boolean expected = roleController.checkEmployeeId(request, response);
 
         assertThat(true, is(expected));
     }
+
     @Test
     public void checkEmployeeIdUnAuthorized() throws IOException {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn(null);
 
-        boolean expected = roleController.checkEmployeeId(request,response);
+        boolean expected = roleController.checkEmployeeId(request, response);
 
-        assertThat( false, is(expected));
+        assertThat(false, is(expected));
     }
+
     @Test
     public void checkEmployeeIdEmployeeIdNotPresent() throws IOException {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
         when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
-        boolean expected = roleController.checkEmployeeId(request,response);
+        boolean expected = roleController.checkEmployeeId(request, response);
 
-        assertThat( false, is(expected));
+        assertThat(false, is(expected));
     }
+
     @Test(expected = IOException.class)
     public void checkEmployeeIdIOException() throws IOException {
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -98,11 +100,11 @@ public class RoleControllerTest {
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
         when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
 
-        doThrow(IOException.class).when(response).sendError(anyInt(),anyString());
+        doThrow(IOException.class).when(response).sendError(anyInt(), anyString());
 
-        roleController.checkEmployeeId(request,response);
+        roleController.checkEmployeeId(request, response);
 
-        assertThat(500,is(response.getStatus()));
+        assertThat(500, is(response.getStatus()));
 
     }
 
@@ -120,10 +122,11 @@ public class RoleControllerTest {
                         .header("Authorization", "empId:101")
         );
         resultAction.andExpect(status().isOk())
-                .andExpect(jsonPath("$",hasSize(2)))
+                .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].userRole", is("abc@teksystems.com")))
                 .andExpect(jsonPath("$[1].userRole", is("def@teksystems.com")));
     }
+
     @Test
     public void getAllAdminRolesInvalid() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -135,6 +138,7 @@ public class RoleControllerTest {
         );
         resultAction.andExpect(status().isUnauthorized());
     }
+
     @Test
     public void getAllAdminRolesMongoException() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -152,7 +156,7 @@ public class RoleControllerTest {
 
 
     @Test
-    public void addAdminRole() throws Exception{
+    public void addAdminRole() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
 
@@ -173,8 +177,9 @@ public class RoleControllerTest {
 
         resultAction.andExpect(status().isOk());
     }
+
     @Test
-    public void addAdminRoleInvalid() throws Exception{
+    public void addAdminRoleInvalid() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
         when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
@@ -195,13 +200,14 @@ public class RoleControllerTest {
 
         resultAction.andExpect(status().isUnauthorized());
     }
+
     @Test
-    public void addAdminRoleMongoException() throws Exception{
+    public void addAdminRoleMongoException() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
 
 
-       doThrow(MongoException.class).when(roleService).addRoles(any(AdminRoles.class));
+        doThrow(MongoException.class).when(roleService).addRoles(any(AdminRoles.class));
 
 
         ObjectMapper mapper = new ObjectMapper();
@@ -232,6 +238,7 @@ public class RoleControllerTest {
         );
         resultAction.andExpect(status().isOk());
     }
+
     @Test
     public void deleteRoleInvalid() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -246,6 +253,7 @@ public class RoleControllerTest {
         );
         resultAction.andExpect(status().isUnauthorized());
     }
+
     @Test
     public void deleteRoleMongoException() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -261,13 +269,15 @@ public class RoleControllerTest {
         resultAction.andExpect(status().isInternalServerError());
     }
 
-    private AdminRoles getAdminRoles(){
-        return new AdminRoles("1","abc@teksystems.com");
+    private AdminRoles getAdminRoles() {
+        return new AdminRoles("1", "abc@teksystems.com");
     }
-    private AdminRoles getAdminRoles1(){
-        return new AdminRoles("2","def@teksystems.com");
+
+    private AdminRoles getAdminRoles1() {
+        return new AdminRoles("2", "def@teksystems.com");
     }
-    private List<AdminRoles> getAdminRolesList(){
+
+    private List<AdminRoles> getAdminRolesList() {
         List<AdminRoles> toReturn = new ArrayList<>();
         toReturn.add(getAdminRoles());
         toReturn.add(getAdminRoles1());

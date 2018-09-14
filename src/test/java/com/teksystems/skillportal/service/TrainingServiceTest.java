@@ -16,18 +16,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.query.Query;
 
-
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 import static org.mockito.Matchers.any;
-
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 @RunWith(JUnit4.class)
@@ -50,37 +47,37 @@ public class TrainingServiceTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         ctx = new AnnotationConfigApplicationContext(MongoConfigNew.class);
-        mongoOperation =(MongoOperations) ctx.getBean("mongoTemplate");
+        mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
     }
 
     private Long DATECONSTANT = 1532677775148L;
     private Long DATECONSTANT2 = 1533019950736L;
 
     @Test
-    public void saveTrainingTest(){
+    public void saveTrainingTest() {
         List<Training> traininglist = new ArrayList<>();
 
-        traininglist.add( getTraining());
+        traininglist.add(getTraining());
 
         List<TrainingSession> trainingSession = new ArrayList<>();
-        trainingSession.add(new TrainingSession("1",new GregorianCalendar(2018,03,12).getTime(),"16:30","17:30"));
+        trainingSession.add(new TrainingSession("1", new GregorianCalendar(2018, 03, 12).getTime(), "16:30", "17:30"));
 
-        trainingService.saveTraining(getTraining(),trainingSession);
+        trainingService.saveTraining(getTraining(), trainingSession);
 
-        verify(trainingRepository,times(1)).save(any(Training.class));
+        verify(trainingRepository, times(1)).save(any(Training.class));
 
 
     }
 
     @Test
-    public void updateTrainingTest(){
+    public void updateTrainingTest() {
         when(trainingSessionRepository.findBytrainingId(anyString())).thenReturn(getTrainingSessions());
 
-        trainingService.updateTraining(getTraining(),getTrainingSessions());
+        trainingService.updateTraining(getTraining(), getTrainingSessions());
 
-        verify(trainingRepository,times(1)).save(any(Training.class));
-        verify(trainingSessionRepository,times(1)).delete(any(List.class));
-        verify(trainingSessionRepository,times(1)).save(any(List.class));
+        verify(trainingRepository, times(1)).save(any(Training.class));
+        verify(trainingSessionRepository, times(1)).delete(any(List.class));
+        verify(trainingSessionRepository, times(1)).save(any(List.class));
     }
 
 //    @Test
@@ -91,14 +88,14 @@ public class TrainingServiceTest {
 //    }
 
 
-
-    public List<Training> getTraningList(){
+    public List<Training> getTraningList() {
         List<Training> toReturn = new ArrayList<>();
         toReturn.add(getTraining());
         return toReturn;
     }
-    public Training getTraining(){
-        return new  Training(
+
+    public Training getTraining() {
+        return new Training(
                 "Java",
                 "Cabin-1",
                 20,
@@ -108,12 +105,13 @@ public class TrainingServiceTest {
                 "sam@teksystems.com");
     }
 
-    public List<TrainingSession> getTrainingSessions(){
+    public List<TrainingSession> getTrainingSessions() {
         List<TrainingSession> toReturn = new ArrayList<>();
         toReturn.add(getTrainingSession());
         return toReturn;
     }
-    public TrainingSession getTrainingSession(){
+
+    public TrainingSession getTrainingSession() {
         return new TrainingSession(
                 "1",
                 new Date(DATECONSTANT),

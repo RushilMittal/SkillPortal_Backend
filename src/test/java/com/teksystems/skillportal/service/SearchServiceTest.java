@@ -11,14 +11,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
 public class SearchServiceTest {
@@ -52,10 +51,9 @@ public class SearchServiceTest {
         assertThat(1, is(expected.size()));
 
 
-
     }
 
-    List<SubSkill> getAllSubSkill(){
+    List<SubSkill> getAllSubSkill() {
         List<SubSkill> toReturnList = new ArrayList<>();
         toReturnList.add(getSubSkill());
         toReturnList.add(getSubSkill1());
@@ -63,7 +61,7 @@ public class SearchServiceTest {
     }
 
 
-    public SubSkill getSubSkill(){
+    public SubSkill getSubSkill() {
         return new SubSkill("1",
                 "Basic Java",
                 "Basic java Skills",
@@ -72,7 +70,7 @@ public class SearchServiceTest {
                 "ADM");
     }
 
-    public SubSkill getSubSkill1(){
+    public SubSkill getSubSkill1() {
         return new SubSkill("2",
                 "Generics",
                 "Basic generics in Java",

@@ -14,7 +14,6 @@ import com.teksystems.skillportal.model.EmployeeSkill;
 import com.teksystems.skillportal.model.SubSkill;
 import com.teksystems.skillportal.repository.EmployeeSkillRepository;
 import com.teksystems.skillportal.repository.SubSkillRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -43,7 +42,7 @@ public class EmployeeSkillService {
     @Autowired
     GuavaCacheInit guavaCacheInit;
 
-    public List<SubSkillDomain> getAllUnassignedSubSkills(String empId, String skill) throws MongoException, ExecutionException{
+    public List<SubSkillDomain> getAllUnassignedSubSkills(String empId, String skill) throws MongoException, ExecutionException {
         empId = empId.trim();
         skill = skill.trim();
         LoadingCache<String, List<SubSkill>> skillCache = guavaCacheInit.getSkillLoadingCache();
@@ -236,7 +235,7 @@ public class EmployeeSkillService {
      *Service to delete rating of a subskill of an employee
      *
      */
-    public void deleteSubSkill(String empId, String subSkillId)  throws MongoException {
+    public void deleteSubSkill(String empId, String subSkillId) throws MongoException {
         // retrieving all subskill ratings of a particular subskill of an employee
 
         List<EmployeeSkill> employeeSkills = this.empSkillRepository.findByEmpIdAndSubSkillId(empId, subSkillId);

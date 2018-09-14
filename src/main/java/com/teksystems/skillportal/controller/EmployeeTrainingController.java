@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/training",method= RequestMethod.GET)
+@RequestMapping(value = "/training", method = RequestMethod.GET)
 @CrossOrigin()
 public class EmployeeTrainingController {
 
@@ -32,7 +32,7 @@ public class EmployeeTrainingController {
     public List<EmployeeTrainingDomain> getByEmpId(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         logger.info("/gettraining API called");
-        String empId ;
+        String empId;
         List<EmployeeTrainingDomain> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
@@ -48,7 +48,7 @@ public class EmployeeTrainingController {
         } catch (Exception e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,ConfigurationStrings.MONGOEXCEPTION);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
 
         return toReturn;
@@ -58,7 +58,7 @@ public class EmployeeTrainingController {
     public List<TrainingEventDomain> getEventByEmpId(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         logger.info("/gettrainingevent API called");
-        String empId ;
+        String empId;
         List<TrainingEventDomain> toReturn = null;
 
         try {
@@ -75,7 +75,7 @@ public class EmployeeTrainingController {
         } catch (Exception e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,ConfigurationStrings.MONGOEXCEPTION);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
 
         return toReturn;
@@ -83,18 +83,18 @@ public class EmployeeTrainingController {
 
     @DeleteMapping("/delete")
     public void getByEmpIdAndSubSkillId(HttpServletRequest request,
-                                        @RequestParam("trainingId")String trainingId,
+                                        @RequestParam("trainingId") String trainingId,
                                         HttpServletResponse response)
             throws IOException {
         logger.info("/delete API called");
         String empId = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
+            if (request.getHeader(ConfigurationStrings.AUTHORIZATION) != null) {
                 empId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to delete employee's added Events");
-                employeeTrainingService.cancelEnrollment(empId,trainingId);
+                employeeTrainingService.cancelEnrollment(empId, trainingId);
             } else {
                 logger.info(ConfigurationStrings.NOTFOUND);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
@@ -102,7 +102,7 @@ public class EmployeeTrainingController {
         } catch (Exception e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,ConfigurationStrings.MONGOEXCEPTION);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
     }
 
@@ -127,7 +127,7 @@ public class EmployeeTrainingController {
         } catch (Exception e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,ConfigurationStrings.MONGOEXCEPTION);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
 
         return toReturn;
@@ -142,7 +142,7 @@ public class EmployeeTrainingController {
         List<EmployeeTrainingPlaceholderDomain> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (( request.getHeader(ConfigurationStrings.AUTHORIZATION)!= null)) {
+            if ((request.getHeader(ConfigurationStrings.AUTHORIZATION) != null)) {
                 empId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to fetch employee's added Trainings for training placeholder");
@@ -154,7 +154,7 @@ public class EmployeeTrainingController {
         } catch (Exception e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,ConfigurationStrings.MONGOEXCEPTION);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
         return toReturn;
     }
@@ -164,12 +164,12 @@ public class EmployeeTrainingController {
                                                                        HttpServletResponse response)
             throws IOException {
         logger.info("/getupcomingtrainings API called");
-        String empId ;
+        String empId;
         List<EmployeeTrainingPlaceholderDomain> toReturn = null;
 
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (( request.getHeader(ConfigurationStrings.AUTHORIZATION)!= null)) {
+            if ((request.getHeader(ConfigurationStrings.AUTHORIZATION) != null)) {
                 empId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to fetch Upcoming Trainings for training placeholder");
@@ -181,7 +181,7 @@ public class EmployeeTrainingController {
         } catch (Exception e) {
             logger.error(e.getMessage());
             logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,ConfigurationStrings.MONGOEXCEPTION);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ConfigurationStrings.MONGOEXCEPTION);
         }
         return toReturn;
     }

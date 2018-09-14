@@ -171,6 +171,8 @@
                         <exclude>**/model/*</exclude>
                         <exclude>**/repository/*</exclude>
 						<exclude>**/*Portal*</exclude>
+						<exclude>**/controller/*TokenFilter*</exclude>
+
 
 
 					</excludes>

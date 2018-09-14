@@ -4,7 +4,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
-
 @Document(collection = "Certification")
 public class Certification {
 
@@ -14,15 +13,17 @@ public class Certification {
     private String certificationName;
     private String institution;
 
-    public Certification(String id,String skillId, String certificationName,
+    public Certification(String id, String skillId, String certificationName,
                          String institution) {
-    	this.id=id;
+        this.id = id;
         this.skillId = skillId;
         this.certificationName = certificationName;
         this.institution = institution;
     }
 
-    public Certification(){}
+    public Certification() {
+    }
+
     public String getId() {
         return id;
     }

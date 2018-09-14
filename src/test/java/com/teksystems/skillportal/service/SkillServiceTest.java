@@ -3,7 +3,6 @@ package com.teksystems.skillportal.service;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-
 import com.teksystems.skillportal.init.GuavaCacheInit;
 import com.teksystems.skillportal.init.MongoConfigNew;
 import com.teksystems.skillportal.model.SubSkill;
@@ -24,8 +23,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
 public class SkillServiceTest {
@@ -50,7 +48,7 @@ public class SkillServiceTest {
                 new AnnotationConfigApplicationContext(MongoConfigNew.class);
 
 
-        mongoOperation =(MongoOperations) ctx.getBean("mongoTemplate");
+        mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
     }
 
     @Test
@@ -76,10 +74,10 @@ public class SkillServiceTest {
 
         List<String> expected = skillService.getSkillGroup("Programming");
 
-        assertThat(2,is(expected.size()));
+        assertThat(2, is(expected.size()));
 
 
-     }
+    }
 
     @Test
     public void getAllSkillGroups() throws ExecutionException {
@@ -102,10 +100,10 @@ public class SkillServiceTest {
 
         when(guavaCacheInit.getLoadingCache()).thenReturn(skillGroupCache);
 
-        Map<String,List<String>> expected = skillService.getAllSkillGroups();
+        Map<String, List<String>> expected = skillService.getAllSkillGroups();
 
-        assertThat(1,is(expected.size()));
-        assertThat(2,is(expected.get("Programming").size()));
+        assertThat(1, is(expected.size()));
+        assertThat(2, is(expected.get("Programming").size()));
 
 
     }
@@ -131,19 +129,19 @@ public class SkillServiceTest {
 
         when(guavaCacheInit.getSkillLoadingCache()).thenReturn(cache);
 
-        Map<String,List<SubSkill>> expectedMap = skillService.getAllSkills();
-        assertThat(2,is(expectedMap.get("java").size()));
+        Map<String, List<SubSkill>> expectedMap = skillService.getAllSkills();
+        assertThat(2, is(expectedMap.get("java").size()));
 
     }
 
-    private List<String> getSkillList(){
+    private List<String> getSkillList() {
         List<String> toReturn = new ArrayList<>();
         toReturn.add("Java");
         toReturn.add("Python");
-        return  toReturn;
+        return toReturn;
     }
 
-    public List<SubSkill> getSubSkillList(){
+    public List<SubSkill> getSubSkillList() {
         List<SubSkill> toReturnList = new ArrayList<>();
         toReturnList.add(getSubSkill());
         toReturnList.add(getSubSkill1());
@@ -151,7 +149,7 @@ public class SkillServiceTest {
 
     }
 
-    public SubSkill getSubSkill(){
+    public SubSkill getSubSkill() {
         return new SubSkill("1",
                 "Basic Java",
                 "Basic java Skills",
@@ -160,7 +158,7 @@ public class SkillServiceTest {
                 "ADM");
     }
 
-    public SubSkill getSubSkill1(){
+    public SubSkill getSubSkill1() {
         return new SubSkill("2",
                 "Generics",
                 "Basic generics in Java",

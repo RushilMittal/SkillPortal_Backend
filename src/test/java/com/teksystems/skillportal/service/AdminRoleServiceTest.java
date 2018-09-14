@@ -9,12 +9,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class AdminRoleServiceTest {
     @Mock
@@ -27,17 +25,17 @@ public class AdminRoleServiceTest {
     public void setUp() throws Exception {
 
 
-            MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
     public void isAdmin() {
-        AdminRoles adminRoles = new AdminRoles("1","admin");
+        AdminRoles adminRoles = new AdminRoles("1", "admin");
 
         when(adminRoleRepository.findByUserRole(anyString())).thenReturn(adminRoles);
 
         boolean expected = adminRoleService.isAdmin("admin");
-        assertThat(true,is(expected));
+        assertThat(true, is(expected));
     }
 
     @Test

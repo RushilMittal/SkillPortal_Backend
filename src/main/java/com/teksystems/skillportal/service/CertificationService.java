@@ -20,46 +20,43 @@ public class CertificationService {
 
 
     //Read all certifications of an employee
-    public List<CertificationDomain> getAllCertifications()  throws MongoException {
+    public List<CertificationDomain> getAllCertifications() throws MongoException {
         List<Certification> certifications = this.certificationRepository.findAll();
         List<CertificationDomain> certificationDomains = new LinkedList<>();
 
         //transforming certification to certification_domain type
-        for(Certification iterable: certifications)
-        {
-            CertificationDomain temp = new CertificationDomain(iterable.getId(),iterable.getSkillId(), iterable.getCertificationName(),
-                                        iterable.getInstitution());
+        for (Certification iterable : certifications) {
+            CertificationDomain temp = new CertificationDomain(iterable.getId(), iterable.getSkillId(), iterable.getCertificationName(),
+                    iterable.getInstitution());
             certificationDomains.add(temp);
         }
         return certificationDomains;
     }
-    
-    public CertificationDomain getCertificationByName(String certificationName)  throws MongoException
-    {	Certification certification=this.certificationRepository.findBycertificationName(certificationName);
-    	CertificationDomain certificationDomains;
 
-    //transforming certification to certification_domain type
-        certificationDomains = new CertificationDomain(certification.getId(),certification.getSkillId(), certification.getCertificationName(),
-        		certification.getInstitution());
-        
-    
-    return certificationDomains;
-    	
+    public CertificationDomain getCertificationByName(String certificationName) throws MongoException {
+        Certification certification = this.certificationRepository.findBycertificationName(certificationName);
+        CertificationDomain certificationDomains;
+
+        //transforming certification to certification_domain type
+        certificationDomains = new CertificationDomain(certification.getId(), certification.getSkillId(), certification.getCertificationName(),
+                certification.getInstitution());
+
+
+        return certificationDomains;
+
     }
 
 
-    public List<CertificationDomain> searchCertItems(String searchTerm){
+    public List<CertificationDomain> searchCertItems(String searchTerm) {
 
         List<CertificationDomain> certDomain = getAllCertifications();
         List<CertificationDomain> certSearch = new LinkedList<>();
 
-        for(CertificationDomain iterable: certDomain)
-        {
+        for (CertificationDomain iterable : certDomain) {
             Pattern p = Pattern.compile(searchTerm.toLowerCase());
             Matcher m1 = p.matcher((iterable.getCertificationName()).toLowerCase());
             Matcher m2 = p.matcher((iterable.getInstitution()).toLowerCase());
-            if(m1.find()||m2.find())
-            {
+            if (m1.find() || m2.find()) {
                 certSearch.add(iterable);
             }
         }

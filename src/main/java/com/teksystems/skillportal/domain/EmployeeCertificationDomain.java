@@ -1,4 +1,5 @@
 package com.teksystems.skillportal.domain;
+
 import java.util.Date;
 
 public class EmployeeCertificationDomain {
@@ -9,9 +10,12 @@ public class EmployeeCertificationDomain {
     Date certificationValidityDate;
     int certificationNumber;
     String certificationUrl;
-    public EmployeeCertificationDomain() {}
+
+    public EmployeeCertificationDomain() {
+    }
+
     public EmployeeCertificationDomain(String empId, CertificationDomain certificationId, Date certificationDate,
-    		Date certificationValidityDate, int certificationNumber, String certificationUrl) {
+                                       Date certificationValidityDate, int certificationNumber, String certificationUrl) {
         this.empId = empId;
         this.certificationId = certificationId;
         this.certificationDate = certificationDate;
@@ -34,7 +38,7 @@ public class EmployeeCertificationDomain {
     }
 
     public String getCertificationIdId() {
-    	return this.certificationId.id;
+        return this.certificationId.id;
     }
 
     public Date getCertificationDate() {

@@ -29,9 +29,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class AdminServiceTest {
     @Mock
@@ -48,6 +46,7 @@ public class AdminServiceTest {
 
     final static String SKILLSAMPLECSV = "1,ADM,Programming,Python,Basics,Basics Python Skills";
     final static String CERTIFICATIONSAMPLECSV = "1,Python Basics,DataCamp";
+
     @Before
     public void setUp() throws Exception {
 
@@ -86,103 +85,93 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void testIsAdmin()
-    {
-        AdminRoles adminRoles = new AdminRoles("1","admin");
+    public void testIsAdmin() {
+        AdminRoles adminRoles = new AdminRoles("1", "admin");
 
         when(adminRoleRepository.findByUserRole(anyString())).thenReturn(adminRoles);
 
         boolean expected = adminService.isAdmin("admin");
-        assertThat(true,is(expected));
+        assertThat(true, is(expected));
 
     }
 
     @Test
-    public void testGetAllAdminSkills()
-    {
+    public void testGetAllAdminSkills() {
 
         when(subSkillRepository.findAll()).thenReturn(getAllSubSkill());
 
         List<SubSkill> expected = adminService.getAllAdminSkills();
 
-        assertThat(2,is(expected.size()));
-        assertThat("1",is(expected.get(0).getId()));
-        assertThat("2",is(expected.get(1).getId()));
+        assertThat(2, is(expected.size()));
+        assertThat("1", is(expected.get(0).getId()));
+        assertThat("2", is(expected.get(1).getId()));
 
     }
 
     @Test
-    public void testUpdateNewSkill()
-    {
+    public void testUpdateNewSkill() {
         when(subSkillRepository.findById(anyString())).thenReturn(getSubSkill());
 
 
-
         adminService.updateNewSkill(getSubSkill());
-        verify(subSkillRepository,times(1)).save(any(SubSkill.class));
+        verify(subSkillRepository, times(1)).save(any(SubSkill.class));
 
     }
 
     @Test
-    public void testAddNewSkill()
-    {
+    public void testAddNewSkill() {
         adminService.addNewSkill(getSubSkill());
-        verify(subSkillRepository,times(1)).save(any(SubSkill.class));
+        verify(subSkillRepository, times(1)).save(any(SubSkill.class));
     }
 
     @Test
-    public void testReloadCache()
-    {
+    public void testReloadCache() {
         adminService.reloadCache();
-        verify(guavaCacheInit,times(1)).getLoadingCache();
-        verify(guavaCacheInit,times(1)).loadSkillGroup();
-        verify(guavaCacheInit,times(1)).putSkillGroupCache(any(Map.class));
+        verify(guavaCacheInit, times(1)).getLoadingCache();
+        verify(guavaCacheInit, times(1)).loadSkillGroup();
+        verify(guavaCacheInit, times(1)).putSkillGroupCache(any(Map.class));
 
     }
 
     @Test
-    public void testReloadSkillCache()
-    {
+    public void testReloadSkillCache() {
         adminService.reloadSkillCache();
-        verify(guavaCacheInit,times(1)).getSkillLoadingCache();
-        verify(guavaCacheInit,times(1)).loadSkill();
-        verify(guavaCacheInit,times(1)).putSkillCache(any(Map.class));
+        verify(guavaCacheInit, times(1)).getSkillLoadingCache();
+        verify(guavaCacheInit, times(1)).loadSkill();
+        verify(guavaCacheInit, times(1)).putSkillCache(any(Map.class));
 
     }
 
 
     @Test
-    public void testUpdateCertificate()
-    {
+    public void testUpdateCertificate() {
         when(certificationRepository.findById(anyString())).thenReturn(getCertification());
 
         adminService.updateCertificate(getCertificationDomain());
 
-        verify(certificationRepository,times(1)).save(any(Certification.class));
+        verify(certificationRepository, times(1)).save(any(Certification.class));
 
 
     }
 
     @Test
-    public void postNewCertification()
-    {
+    public void postNewCertification() {
 
         when(certificationRepository.findAll()).thenReturn(getCertificationList());
         when(certificationRepository.findOne(anyString())).thenReturn(getCertification());
 
         adminService.postNewCertification(getUniqueCertificationDomain());
 
-        verify(certificationRepository,times(1)).save((any(Certification.class)));
+        verify(certificationRepository, times(1)).save((any(Certification.class)));
 
     }
 
     @Test
-    public void skilluploadcsv()
-    {
+    public void skilluploadcsv() {
         when(subSkillRepository.count()).thenReturn((long) 0);
         // To make that skill doesn't exist in the db, sending null
         when(subSkillRepository.findBySubSkill(anyString())).thenReturn(null);
-        String uploadString= SKILLSAMPLECSV;
+        String uploadString = SKILLSAMPLECSV;
         Reader inputString = new StringReader(uploadString);
         BufferedReader sampleInpurFileContentFromUser = new BufferedReader(inputString);
 
@@ -192,13 +181,12 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void certificateuploadcsv()
-    {
-        when(certificationRepository.count()).thenReturn((long)0);
+    public void certificateuploadcsv() {
+        when(certificationRepository.count()).thenReturn((long) 0);
 
         when(certificationRepository.findBycertificationName(anyString())).thenReturn(null);
 
-        String uploadString = CERTIFICATIONSAMPLECSV ;
+        String uploadString = CERTIFICATIONSAMPLECSV;
         Reader inputStringReader = new StringReader(uploadString);
 
         BufferedReader sampleInputFileContentFromUser = new BufferedReader(inputStringReader);
@@ -209,7 +197,7 @@ public class AdminServiceTest {
 
     }
 
-    List<SubSkill> getAllSubSkill(){
+    List<SubSkill> getAllSubSkill() {
         List<SubSkill> toReturnList = new ArrayList<>();
         toReturnList.add(getSubSkill());
         toReturnList.add(getSubSkill1());
@@ -217,7 +205,7 @@ public class AdminServiceTest {
     }
 
 
-    public SubSkill getSubSkill(){
+    public SubSkill getSubSkill() {
         return new SubSkill("1",
                 "Basic Java",
                 "Basic java Skills",
@@ -226,7 +214,7 @@ public class AdminServiceTest {
                 "ADM");
     }
 
-    public SubSkill getSubSkill1(){
+    public SubSkill getSubSkill1() {
         return new SubSkill("2",
                 "Generics",
                 "Basic generics in Java",
@@ -235,30 +223,32 @@ public class AdminServiceTest {
                 "practice");
     }
 
-    private List<String> getSkillList(){
+    private List<String> getSkillList() {
         List<String> toReturn = new ArrayList<>();
         toReturn.add("Java");
         toReturn.add("Python");
-        return  toReturn;
+        return toReturn;
     }
 
-    CertificationDomain getCertificationDomain(){
-        return new CertificationDomain("1","1","AWS-Beginner","AWS");
-    }
-    Certification getCertification(){
-        return new Certification("1","1","AWS-Beginner","AWS");
+    CertificationDomain getCertificationDomain() {
+        return new CertificationDomain("1", "1", "AWS-Beginner", "AWS");
     }
 
-    CertificationDomain getUniqueCertificationDomain(){
-        return new CertificationDomain("3","1","Sample Certificate","Sample");
+    Certification getCertification() {
+        return new Certification("1", "1", "AWS-Beginner", "AWS");
     }
+
+    CertificationDomain getUniqueCertificationDomain() {
+        return new CertificationDomain("3", "1", "Sample Certificate", "Sample");
+    }
+
     // helper method to return the dummy data for testing
-    public List<Certification> getCertificationList(){
+    public List<Certification> getCertificationList() {
 
         List<Certification> certifications = new ArrayList<>();
 
-        Certification certification = new Certification("1","1","AWS-Beginner","AWS");
-        Certification certification1 = new Certification("2","2","AWS-Intermediate","AWS");
+        Certification certification = new Certification("1", "1", "AWS-Beginner", "AWS");
+        Certification certification1 = new Certification("2", "2", "AWS-Intermediate", "AWS");
 
         certifications.add(certification);
         certifications.add(certification1);

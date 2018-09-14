@@ -1,29 +1,28 @@
 package com.teksystems.skillportal.repository;
 
-import java.util.List;
-
+import com.teksystems.skillportal.model.EmployeeSkill;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.teksystems.skillportal.model.*;
+import java.util.List;
 
 
-public interface EmployeeSkillRepository extends MongoRepository<EmployeeSkill,String> {
-	 
-	 /**
-	    * This method will find an Booking instance in the database by its departure.
-	    * Note that this method is not implemented and its working code will be
-	    * automatically generated from its signature by Spring Data JPA.
-	    */
+public interface EmployeeSkillRepository extends MongoRepository<EmployeeSkill, String> {
 
-	    public List<EmployeeSkill> findByEmpId(String empId);
-	    
-	    public EmployeeSkill findById(String id);
-	    
-	    List<EmployeeSkill> findByEmpIdAndSubSkillId(String empId,String subSkillId);
-	    
-        List<EmployeeSkill> findDistinctEmployeeSkillBySubSkillId(String subSkillId);
-	    
-	    List<EmployeeSkill> findBySubSkillId(String subSkillId);
-	    
-	    EmployeeSkill findTopByEmpIdOrderByLastModifiedDateDesc(String empId);
-	}
+    /**
+     * This method will find an Booking instance in the database by its departure.
+     * Note that this method is not implemented and its working code will be
+     * automatically generated from its signature by Spring Data JPA.
+     */
+
+    public List<EmployeeSkill> findByEmpId(String empId);
+
+    public EmployeeSkill findById(String id);
+
+    List<EmployeeSkill> findByEmpIdAndSubSkillId(String empId, String subSkillId);
+
+    List<EmployeeSkill> findDistinctEmployeeSkillBySubSkillId(String subSkillId);
+
+    List<EmployeeSkill> findBySubSkillId(String subSkillId);
+
+    EmployeeSkill findTopByEmpIdOrderByLastModifiedDateDesc(String empId);
+}

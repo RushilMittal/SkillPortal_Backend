@@ -37,18 +37,18 @@ public class AdminService {
         boolean toReturn = false;
         AdminRoles adminRoles = adminRoleRepository.findByUserRole(role);
         if (!((adminRoles == null) || (adminRoles.getUserRole().isEmpty())))
-            toReturn= true;
+            toReturn = true;
 
         return toReturn;
     }
 
 
-    public List<SubSkill> getAllAdminSkills()  throws MongoException {
+    public List<SubSkill> getAllAdminSkills() throws MongoException {
         return subSkillRepository.findAll();
     }
 
 
-    public void updateNewSkill(SubSkill subSkillReceived)  throws MongoException {
+    public void updateNewSkill(SubSkill subSkillReceived) throws MongoException {
         SubSkill inCollection = subSkillRepository.findById(subSkillReceived.getId());
 
         if (inCollection != null) {
@@ -63,7 +63,7 @@ public class AdminService {
 
     }
 
-    public void addNewSkill(SubSkill subSkillReceived)  throws MongoException {
+    public void addNewSkill(SubSkill subSkillReceived) throws MongoException {
         subSkillRepository.save(subSkillReceived);
         this.reloadCache();
         this.reloadSkillCache();

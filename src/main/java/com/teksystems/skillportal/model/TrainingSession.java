@@ -1,22 +1,22 @@
 package com.teksystems.skillportal.model;
 
-import java.util.Date;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 @Document(collection = "trainingSession")
 public class TrainingSession implements Comparable<TrainingSession> {
-	@Id
-	String id;
-	String trainingId;
-	Date trainingDate;
-	String startTime;
-	String endTime;
+    @Id
+    String id;
+    String trainingId;
+    Date trainingDate;
+    String startTime;
+    String endTime;
 
-	public TrainingSession(){
+    public TrainingSession() {
 
-	}
+    }
 
 
     public TrainingSession(String trainingId, Date trainingDate, String startTime, String endTime) {
@@ -28,37 +28,37 @@ public class TrainingSession implements Comparable<TrainingSession> {
     }
 
 
-	public String getTrainingId() {
-		return trainingId;
-	}
+    public String getTrainingId() {
+        return trainingId;
+    }
 
-	public void setTrainingId(String trainingId) {
-		this.trainingId = trainingId;
-	}
+    public void setTrainingId(String trainingId) {
+        this.trainingId = trainingId;
+    }
 
-	public Date getTrainingDate() {
-		return trainingDate;
-	}
+    public Date getTrainingDate() {
+        return trainingDate;
+    }
 
-	public void setTrainingDate(Date trainingDate) {
-		this.trainingDate = trainingDate;
-	}
+    public void setTrainingDate(Date trainingDate) {
+        this.trainingDate = trainingDate;
+    }
 
-	public String getStartTime() {
-		return startTime;
-	}
+    public String getStartTime() {
+        return startTime;
+    }
 
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
-	}
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
 
-	public String getEndTime() {
-		return endTime;
-	}
+    public String getEndTime() {
+        return endTime;
+    }
 
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
-	}
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
 
     @Override
     public int compareTo(TrainingSession o) {

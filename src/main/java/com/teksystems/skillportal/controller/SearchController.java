@@ -1,28 +1,20 @@
 package com.teksystems.skillportal.controller;
 
-import java.io.IOException;
-import java.util.List;
-
+import com.teksystems.skillportal.domain.CertificationDomain;
 import com.teksystems.skillportal.helper.ConfigurationStrings;
+import com.teksystems.skillportal.model.Training;
 import com.teksystems.skillportal.service.CertificationService;
 import com.teksystems.skillportal.service.SearchService;
 import com.teksystems.skillportal.service.TokenValidationService;
+import com.teksystems.skillportal.service.TrainingService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.teksystems.skillportal.domain.CertificationDomain;
-
-
-import com.teksystems.skillportal.service.TrainingService;
-import com.teksystems.skillportal.model.Training;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/skill")

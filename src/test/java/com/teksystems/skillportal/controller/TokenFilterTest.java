@@ -34,7 +34,7 @@ public class TokenFilterTest {
     }
 
     @Test
-    public void doFilterTest(){
+    public void doFilterTest() {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
 //        request.

@@ -10,7 +10,9 @@ import java.util.List;
 public interface CertificationRepository extends MongoRepository<Certification, String> {
 
     List<Certification> findBySkillId(String skillId);
+
     Certification findById(String id);
+
     Certification findBycertificationName(String certificationName);
 
 

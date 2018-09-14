@@ -11,7 +11,7 @@ public class RequestWrapper extends HttpServletRequestWrapper {
     private final Map<String, String[]> modifiableParameters;
     private Map<String, String[]> allParameters = null;
 
-    public RequestWrapper(HttpServletRequest request,final Map<String, String[]> additionalParams) {
+    public RequestWrapper(HttpServletRequest request, final Map<String, String[]> additionalParams) {
         super(request);
         modifiableParameters = new TreeMap<>();
         modifiableParameters.putAll(additionalParams);
@@ -20,7 +20,7 @@ public class RequestWrapper extends HttpServletRequestWrapper {
     @Override
     public String getParameter(String name) {
         String[] strings = getParameterMap().get(name);
-        if(strings !=null){
+        if (strings != null) {
             return strings[0];
         }
         return super.getParameter(name);
@@ -28,7 +28,7 @@ public class RequestWrapper extends HttpServletRequestWrapper {
 
     @Override
     public Map<String, String[]> getParameterMap() {
-        if(allParameters == null){
+        if (allParameters == null) {
             allParameters = new TreeMap<>();
             allParameters.putAll(super.getParameterMap());
             allParameters.putAll(modifiableParameters);

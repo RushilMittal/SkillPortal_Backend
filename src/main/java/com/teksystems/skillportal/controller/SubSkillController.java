@@ -1,15 +1,16 @@
 package com.teksystems.skillportal.controller;
 
 
-
 import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.model.SubSkill;
 import com.teksystems.skillportal.service.SubSkillService;
 import com.teksystems.skillportal.service.TokenValidationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +24,7 @@ import java.util.Map;
 public class SubSkillController {
 
     private static Logger logger = Logger.getLogger(SubSkillController.class);
-	@Autowired
+    @Autowired
     SubSkillService subSkillService;
 
     @Autowired
@@ -37,21 +38,21 @@ public class SubSkillController {
      * EmployeeId Validation
      */
     @GetMapping("/getallsubskill")
-    public Map<String,List<SubSkill>> getAllSubSkillsOfEmployee(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public Map<String, List<SubSkill>> getAllSubSkillsOfEmployee(HttpServletRequest request, HttpServletResponse response) throws IOException {
         logger.info("getallsubskill API called");
         String employeeId;
-        Map<String,List<SubSkill>> toReturn = null;
+        Map<String, List<SubSkill>> toReturn = null;
 
-            logger.info(ConfigurationStrings.FETCHING);
-            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                employeeId = tokenValidator.extractEmployeeId(request);
-                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                toReturn = subSkillService.getAllSubSkillsOfEmployee();
+        logger.info(ConfigurationStrings.FETCHING);
+        if (request.getHeader(ConfigurationStrings.AUTHORIZATION) != null) {
+            employeeId = tokenValidator.extractEmployeeId(request);
+            logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
+            toReturn = subSkillService.getAllSubSkillsOfEmployee();
 
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-            }
+        } else {
+            logger.info(ConfigurationStrings.NOTFOUND);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        }
         return toReturn;
     }
 }

@@ -15,12 +15,13 @@ public class AdminRoleService {
     public boolean isAdmin(String role) throws MongoException {
         boolean toReturn = false;
         AdminRoles adminRoles = adminRoleRepository.findByUserRole(role);
-        if(!((adminRoles == null) || (adminRoles.getUserRole().isEmpty())))
+        if (!((adminRoles == null) || (adminRoles.getUserRole().isEmpty())))
             toReturn = true;
 
         return toReturn;
     }
-    public void addRoles(){
+
+    public void addRoles() {
         AdminRoles admin = new AdminRoles();
         admin.setUserRole("HR");
         adminRoleRepository.save(admin);

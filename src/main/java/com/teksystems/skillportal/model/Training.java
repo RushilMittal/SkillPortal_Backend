@@ -5,23 +5,22 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "training")
 public class Training {
-	
-	@Id
-	String id;
-	String name;
-	String location;
-	int seats;
-	String type;
-	String description;
-	String trainer;
-	String email;
 
-	public Training()
-    {
+    @Id
+    String id;
+    String name;
+    String location;
+    int seats;
+    String type;
+    String description;
+    String trainer;
+    String email;
+
+    public Training() {
 
     }
 
-    public Training( String name, String location, int seats, String type, String description, String trainer, String email) {
+    public Training(String name, String location, int seats, String type, String description, String trainer, String email) {
 
         this.name = name;
         this.location = location;
@@ -33,66 +32,66 @@ public class Training {
     }
 
     public String getId() {
-		return id;
-	}
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getLocation() {
-		return location;
-	}
+    public String getLocation() {
+        return location;
+    }
 
-	public void setLocation(String location) {
-		this.location = location;
-	}
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
-	public int getSeats() {
-		return seats;
-	}
+    public int getSeats() {
+        return seats;
+    }
 
-	public void setSeats(int seats) {
-		this.seats = seats;
-	}
+    public void setSeats(int seats) {
+        this.seats = seats;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public String getTrainer() {
-		return trainer;
-	}
+    public String getTrainer() {
+        return trainer;
+    }
 
-	public void setTrainer(String trainer) {
-		this.trainer = trainer;
-	}
+    public void setTrainer(String trainer) {
+        this.trainer = trainer;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

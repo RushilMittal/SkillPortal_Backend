@@ -5,7 +5,7 @@ public class EmployeeSkillPlaceholderDomain {
     int numberOfSkillRated;
     String higestRatedSkill;
     int highestRating;
-    int [] lastUpdatedPeriod;
+    int[] lastUpdatedPeriod;
 
     public EmployeeSkillPlaceholderDomain(int numberOfSkillRated, String higestRatedSkill, int highestRating, int[] lastUpdatedPeriod) {
         this.numberOfSkillRated = numberOfSkillRated;
@@ -30,5 +30,5 @@ public class EmployeeSkillPlaceholderDomain {
         return lastUpdatedPeriod;
     }
 
-    
+
 }
