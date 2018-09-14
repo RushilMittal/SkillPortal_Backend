@@ -21,7 +21,10 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 
@@ -48,7 +51,8 @@ public class EmployeeSkillService {
         LoadingCache<String, List<SubSkill>> skillCache = guavaCacheInit.getSkillLoadingCache();
         List<SubSkill> allSkills = skillCache.get(skill);
 
-        List<String> assignedSkillIds = mongoOperation.getCollection("employeeskill").distinct(ConfigurationStrings.SUBSKILLID, new BasicDBObject(ConfigurationStrings.EMPID, empId));
+        //Fetch all the records
+        List<String> assignedSkillIds = getAssignedSkillIds(empId);
 
 
         List<SubSkillDomain> toReturn = new LinkedList<>();
@@ -248,5 +252,27 @@ public class EmployeeSkillService {
 
     }
 
+    public List<String> getAssignedSkillIds(String employeeId){
+
+        List<String> toReturn = new ArrayList<>();
+        List<EmployeeSkill> employeeSkillList = empSkillRepository.findByEmpId(employeeId);
+
+        List<EmployeeSkill> distinctEmployeeSkill = employeeSkillList.stream()
+            .filter(distinctByKey(p -> p.getSubSkillId()))
+            .collect(Collectors.toList());
+
+        for(EmployeeSkill from : distinctEmployeeSkill)
+            toReturn.add(from.getSubSkillId());
+        return toReturn;
+    }
+
+
+
+    //Utility function
+    public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor)
+    {
+        Map<Object, Boolean> map = new ConcurrentHashMap<>();
+        return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+    }
 
 }

@@ -158,13 +158,14 @@ public class AdminController {
      * Controller for uploading the skill csv
      */
     @PostMapping("/uploadskillcsv")
-    void uploadSkillCsv(HttpServletRequest request, HttpServletResponse response, @RequestParam("file") MultipartFile[] files) throws IOException {
+    void uploadSkillCsv(HttpServletRequest request, HttpServletResponse response, @RequestParam("file") MultipartFile files) throws IOException {
         logger.info("/uploadskillcsv Certificate API called");
+
 
 
         try {
             boolean a = checkAdmin(request, response);
-            BufferedReader bf = getFileData(files[0]);
+            BufferedReader bf = getFileData(files);
             boolean b = adminService.skilluploadcsv(bf);
 
             if (a && (!b)) {
@@ -182,12 +183,12 @@ public class AdminController {
     }
 
     @PostMapping("/uploadcertificatecsv")
-    void uploadCertificateCsv(HttpServletRequest request, HttpServletResponse response, @RequestParam("file") MultipartFile[] files) throws IOException {
+    void uploadCertificateCsv(HttpServletRequest request, HttpServletResponse response, @RequestParam("file") MultipartFile files) throws IOException {
         logger.info("/uploadskillcsv Certificate API called");
 
         try {
 
-            if (checkAdmin(request, response) && (!adminService.certificateuploadcsv(getFileData(files[0])))) {
+            if (checkAdmin(request, response) && (!adminService.certificateuploadcsv(getFileData(files)))) {
 
                 response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Unknow Format");
 

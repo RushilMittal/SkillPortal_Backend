@@ -8,21 +8,26 @@ import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.model.SubSkill;
 import com.teksystems.skillportal.service.AdminService;
 import com.teksystems.skillportal.service.TokenValidationService;
+import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -33,6 +38,7 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -431,39 +437,46 @@ public class AdminControllerTest {
 
     @Test
     public void uploadSkillCsv() throws Exception {
-//        HttpServletRequest request = mock(HttpServletRequest.class);
-//        when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-//        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
-//                .thenReturn(true);
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
+        when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
+                .thenReturn(true);
+
+        FileInputStream fis = new FileInputStream("\\sa.csv");
+        BufferedReader bf = new BufferedReader(new InputStreamReader(fis));
 //
-////        FileInputStream fis = new FileInputStream("\\sa.csv");
-////        BufferedReader bf = new BufferedReader(new InputStreamReader(fis));
-////
-////        when(any(MultipartFile.class).getInputStream()).thenReturn(fis);
-////
-//////        when(adminController.getFileData(any(MultipartFile.class))).thenReturn(bf);
-////
-////        when(adminService.skilluploadcsv(bf)).thenReturn(true);
-////
-////
-////
-////        MockMultipartFile multipartFile = new MockMultipartFile("file", fis);
-////
-////        HashMap<String, String> contentTypeParams = new HashMap<String, String>();
-////        contentTypeParams.put("boundary", "265001916915724");
-////        MediaType mediaType = new MediaType("multipart", "form-data", contentTypeParams);
-////
-////        ResultActions resultAction = mockMvc.perform(
-////                post("/admin/uploadskillcsv")
-////                        .header("Authorization", "empId:101")
-////                        .content(multipartFile.getBytes())
-////                        .contentType(mediaType)
-////        );
-////
-////        MvcResult result = resultAction.andReturn();
-////        System.out.println(result.getResponse().getStatus());
-////        System.out.println(result.getResponse().getErrorMessage());
-//
+//        when(any(MultipartFile.class).getInputStream()).thenReturn(fis);
+
+//        when(adminController.getFileData(any(MultipartFile.class))).thenReturn(bf);
+
+        when(adminService.skilluploadcsv(bf)).thenReturn(true);
+
+
+
+        MultipartFile multipartFile = new MockMultipartFile("file",fis);
+
+        HashMap<String, String> contentTypeParams = new HashMap<String, String>();
+        contentTypeParams.put("boundary", "265001916915724");
+        MediaType mediaType = new MediaType("multipart", "form-data", contentTypeParams);
+
+
+        File file = new File("\\sa.csv");
+        FileInputStream input = new FileInputStream(file);
+        MultipartFile multipartFile1 = new MockMultipartFile("file",
+                file.getName(), "text/plain", IOUtils.toByteArray(input));
+
+
+        ResultActions resultAction = mockMvc.perform(
+                post("/admin/uploadskillcsv")
+                        .header("Authorization", "empId:101")
+                        .content("\\sa.csv")
+                        .contentType(mediaType)
+        );
+
+        MvcResult result = resultAction.andReturn();
+        System.out.println(result.getResponse().getStatus());
+        System.out.println(result.getResponse().getErrorMessage());
+
 //        MockMultipartFile firstFile = new MockMultipartFile("data", "filename.txt", "text/plain", "some xml".getBytes());
 //        MockMultipartFile secondFile = new MockMultipartFile("data", "other-file-name.data", "text/plain", "some other type".getBytes());
 //        MockMultipartFile jsonFile = new MockMultipartFile("json", "", "application/json", "{\"json\": \"someValue\"}".getBytes());

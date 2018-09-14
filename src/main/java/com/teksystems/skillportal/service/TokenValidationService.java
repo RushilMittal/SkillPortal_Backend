@@ -43,10 +43,7 @@ public class TokenValidationService {
     public TokenValidationService(String token) {
         this.token = token;
         String[] parts = token.split("\\.");
-        // Header Part of the token
-        String headerStr = new String(Base64.getUrlDecoder().decode((parts[0])));
 
-        JSONObject header = new JSONObject(headerStr);
 
 
         // Payload
@@ -169,13 +166,13 @@ public class TokenValidationService {
 
                 if (responseCode == 200) {
                     JSONObject responseRecieved = HttpClientHelper.processGoodRespStr(responseCode, goodRespStr);
-                    boolean toReturn = (adminService.isAdmin(
+                   return  (adminService.isAdmin(
                             responseRecieved.getJSONObject(ConfigurationStrings.RESPONSEMSG).getString("jobTitle")
                     ) ||
                             adminService.isAdmin(
                                     responseRecieved.getJSONObject(ConfigurationStrings.RESPONSEMSG).getString("mail")
                             ));
-                    return toReturn;
+
 
                 } else {
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");

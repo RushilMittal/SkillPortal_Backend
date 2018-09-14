@@ -180,5 +180,9 @@ public class EmployeeSkillController {
 
     }
 
+//    @GetMapping("/sample")
+//    public void sample(){
+//        employeeSkillService.getAssignedSkillIds();
+//    }
 
 }
