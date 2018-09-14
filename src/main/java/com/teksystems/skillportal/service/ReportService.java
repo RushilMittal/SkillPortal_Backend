@@ -133,10 +133,8 @@ public class ReportService {
         AggregationResults<SkillReport> groupResults
                 = mongoOperation.aggregate(agg, EmployeeSkill.class, SkillReport.class);
 
-        List<SkillReport> result = groupResults.getMappedResults();
+        return groupResults.getMappedResults();
 
-
-        return result;
     }
 
     public List<EmployeeCertificationDomain> certificatesExpiringInNextNmonths(long from, long to)  throws MongoException {
@@ -156,8 +154,8 @@ public class ReportService {
     }
 
     public List<String> employeesWithASkill()  throws MongoException {
-        List<String> empIds = mongoOperation.getCollection("employeeskill").distinct(ConfigurationStrings.EMPID);
-        return empIds;
+        return mongoOperation.getCollection("employeeskill").distinct(ConfigurationStrings.EMPID);
+
     }
 
 

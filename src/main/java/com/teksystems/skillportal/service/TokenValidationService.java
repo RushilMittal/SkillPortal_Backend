@@ -73,62 +73,6 @@ public class TokenValidationService {
 
     }
 
-    private PublicKey loadPublicKey() throws IOException, CertificateException {
-        String openIdConfigurationString = readUrl("https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration");
-
-
-        JSONObject openidConfig = new JSONObject(openIdConfigurationString);
-
-
-        String jwksUri = openidConfig.getString("jwks_uri");
-
-
-        String jwkConfigStr = readUrl(jwksUri);
-
-
-        JSONObject jwkConfig = new JSONObject(jwkConfigStr);
-
-
-        JSONArray keys = jwkConfig.getJSONArray("keys");
-
-        for (int i = 0; i < keys.length(); i++) {
-            JSONObject key = keys.getJSONObject(i);
-
-            String kidString = key.getString("kid");
-
-            String x5c = key.getJSONArray("x5c").getString(0);
-
-
-            String keyStr = "-----BEGIN CERTIFICATE-----\r\n";
-            String tmp = x5c;
-            while (tmp.length() > 0) {
-                if (tmp.length() > 64) {
-                    String x = tmp.substring(0, 64);
-                    keyStr += x + "\r\n";
-                    tmp = tmp.substring(64);
-                } else {
-                    keyStr += tmp + "\r\n";
-                    tmp = "";
-                }
-            }
-            keyStr += "-----END CERTIFICATE-----\r\n";
-
-            CertificateFactory fact = CertificateFactory.getInstance("X.509");
-            InputStream stream = new ByteArrayInputStream(keyStr.getBytes(StandardCharsets.US_ASCII));
-            X509Certificate cer = (X509Certificate) fact.generateCertificate(stream);
-
-
-            // get public key from certification
-            PublicKey publicKey = cer.getPublicKey();
-
-
-            if (this.kid.equals(kidString)) {
-                return publicKey;
-            }
-        }
-        return null;
-
-    }
 
 
     //: cache content to file to prevent access internet everytime.
@@ -164,7 +108,7 @@ public class TokenValidationService {
         return verified;
     }
 
-    public String ExtractEmployeeId(HttpServletRequest req) {
+    public String extractEmployeeId(HttpServletRequest req) {
         String email = null;
         try {
 
@@ -185,31 +129,32 @@ public class TokenValidationService {
     }
 
     public boolean tokenValidate() {
-
+        boolean status = false;
         try {
 
 
-            String moddedToken[] = token.split("\\.");
+            String[] moddedToken = token.split("\\.");
 
             String decodedBody = new String(Base64.getUrlDecoder().decode((moddedToken[1])));
 
 
-            JSONObject jsonBody = null;
+            JSONObject jsonBody ;
 
             jsonBody = new JSONObject(decodedBody);
 
             boolean isValidBody = validateBody(jsonBody);
 
             if (isValidBody ) {
-                return true;
+                status = true;
             }
 
-            return false;
+            status =false;
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return false;
+            status =false;
         }
 
+        return status;
     }
 
 

@@ -62,7 +62,7 @@ public class SkillControllerTest {
         // test.
         MockitoAnnotations.initMocks(this);
 
-        when(tokenValidationService.ExtractEmployeeId(Mockito.any(HttpServletRequest.class))).thenReturn("101");
+        when(tokenValidationService.extractEmployeeId(Mockito.any(HttpServletRequest.class))).thenReturn("101");
         this.mockMvc = MockMvcBuilders.standaloneSetup(controllerUnderTest).build();
 
     }

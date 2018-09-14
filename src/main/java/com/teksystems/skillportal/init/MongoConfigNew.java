@@ -11,8 +11,8 @@ public class MongoConfigNew {
 	public @Bean
 	MongoTemplate mongoTemplate() throws MongoClientException{
 		
-		MongoTemplate mongoTemplate = new MongoTemplate(new MongoClient("localhost"),"Skill_Portal");
-		return mongoTemplate;
+		return new MongoTemplate(new MongoClient("localhost"),"Skill_Portal");
+
 	}
 	
 }

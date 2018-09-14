@@ -12,22 +12,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import com.mongodb.MongoException;
 import com.teksystems.skillportal.domain.EmployeeSkillPlaceholderDomain;
-import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.service.TokenValidationService;
-import org.apache.log4j.Appender;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggingEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.BlockJUnit4ClassRunner;
 import org.mockito.*;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -62,7 +55,7 @@ public class  EmployeeSkillControllerTest {
         // test.
         MockitoAnnotations.initMocks(this);
 
-        when(tokenValidationService.ExtractEmployeeId(Mockito.any(HttpServletRequest.class))).thenReturn("101");
+        when(tokenValidationService.extractEmployeeId(Mockito.any(HttpServletRequest.class))).thenReturn("101");
         this.mockMvc = MockMvcBuilders.standaloneSetup(controllerUnderTest).build();
 
     }
@@ -254,7 +247,7 @@ public class  EmployeeSkillControllerTest {
     @Test
     public void testGetEmployeeSkillsEmployeeIdNotFound() throws Exception{
 
-        when(tokenValidationService.ExtractEmployeeId(Mockito.any(HttpServletRequest.class))).thenReturn(null);
+        when(tokenValidationService.extractEmployeeId(Mockito.any(HttpServletRequest.class))).thenReturn(null);
         given(employeeSkillService.getAll(anyString())).willReturn(getEmployeeSkillDomainList());
 
         ResultActions resultActions =mockMvc.perform(get("/skill/getEmployeeSkills")

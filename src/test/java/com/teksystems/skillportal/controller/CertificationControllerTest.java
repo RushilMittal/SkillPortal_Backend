@@ -22,7 +22,6 @@ import java.util.List;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
@@ -52,7 +51,7 @@ public class CertificationControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        when(tokenValidationService.ExtractEmployeeId(Mockito.any(HttpServletRequest.class))).thenReturn("101");
+        when(tokenValidationService.extractEmployeeId(Mockito.any(HttpServletRequest.class))).thenReturn("101");
         this.mockMvc = MockMvcBuilders.standaloneSetup(certificationController).build();
     }
 

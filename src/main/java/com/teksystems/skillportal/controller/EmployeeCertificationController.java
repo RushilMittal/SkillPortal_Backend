@@ -43,7 +43,7 @@ public class EmployeeCertificationController {
         try {
             logger.info(ConfigurationStrings.FETCHING);
             if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                employeeId = tokenValidator.ExtractEmployeeId(request);
+                employeeId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.info("Trying to fetch employee's added Certificate");
                 toReturn = employeeCertificationService.getEmployeeCertificationByEmployeeId(employeeId);
@@ -83,7 +83,7 @@ public class EmployeeCertificationController {
         try {
             logger.info(ConfigurationStrings.FETCHING);
             if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                employeeId = tokenValidator.ExtractEmployeeId(request);
+                employeeId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.info("Trying to Save the Certificate");
                 Calendar calendar = Calendar.getInstance();
@@ -123,8 +123,8 @@ public class EmployeeCertificationController {
         String employeeId ;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(request.getHeader(ConfigurationStrings.AUTHORIZATION) ==null)) {
-                employeeId = tokenValidator.ExtractEmployeeId(request);
+            if ((request.getHeader(ConfigurationStrings.AUTHORIZATION) !=null)) {
+                employeeId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 employeeCertificationDomain.setEmpId(employeeId);
                 logger.info("Trying to save the Certificate");
@@ -155,7 +155,7 @@ public class EmployeeCertificationController {
         try {
             logger.info(ConfigurationStrings.FETCHING);
             if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                employeeId = tokenValidator.ExtractEmployeeId(request);
+                employeeId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.info("Trying to fetch Certification Placeholder");
                 toReturn = employeeCertificationService.getEmployeeCertificationPlaceholderById(employeeId);

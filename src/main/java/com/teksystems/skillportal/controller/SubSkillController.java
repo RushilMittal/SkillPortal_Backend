@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/skill")
@@ -38,25 +37,21 @@ public class SubSkillController {
      * EmployeeId Validation
      */
     @GetMapping("/getallsubskill")
-    public Map<String,List<SubSkill>> getAllSubSkillsOfEmployee(HttpServletRequest request, @RequestParam String skillName, HttpServletResponse response) throws ExecutionException, IOException {
+    public Map<String,List<SubSkill>> getAllSubSkillsOfEmployee(HttpServletRequest request, HttpServletResponse response) throws IOException {
         logger.info("getallsubskill API called");
         String employeeId;
         Map<String,List<SubSkill>> toReturn = null;
-        try {
+
             logger.info(ConfigurationStrings.FETCHING);
             if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                employeeId = tokenValidator.ExtractEmployeeId(request);
+                employeeId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 toReturn = subSkillService.getAllSubSkillsOfEmployee();
 
             } else {
                 logger.info(ConfigurationStrings.NOTFOUND);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             }
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,ConfigurationStrings.MONGOEXCEPTION);
-        }
         return toReturn;
     }
 }

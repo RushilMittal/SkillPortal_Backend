@@ -2,7 +2,6 @@ package com.teksystems.skillportal.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import com.teksystems.skillportal.helper.ConfigurationStrings;
 import com.teksystems.skillportal.service.CertificationService;
@@ -31,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SearchController {
 
     @Autowired
-	TrainingService trainingService;
+    TrainingService trainingService;
 
     @Autowired
     SearchService searchService;
@@ -44,25 +43,28 @@ public class SearchController {
 
     private static Logger logger = Logger.getLogger(SearchController.class);
 
-    @GetMapping("/searchskill")
-    public List<String> searchSkill(HttpServletRequest request, @RequestParam String searchTerm, HttpServletResponse response) throws ExecutionException, IOException {
-        logger.info("/searchskill API called");
+    public boolean checkEmployeeId(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String employeeId;
-        List<String> toReturn = null;
-        try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                toReturn = searchService.searchSkill(searchTerm);
+        boolean status = false;
 
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
-            }
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,ConfigurationStrings.MONGOEXCEPTION);
+        logger.info(ConfigurationStrings.FETCHING);
+        if (request.getHeader(ConfigurationStrings.AUTHORIZATION) != null) {
+            employeeId = tokenValidator.extractEmployeeId(request);
+            logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
+            status = true;
+        } else {
+            logger.info(ConfigurationStrings.NOTFOUND);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConfigurationStrings.INVALIDTOKEN);
+        }
+        return status;
+    }
+
+    @GetMapping("/searchskill")
+    public List<String> searchSkill(HttpServletRequest request, @RequestParam String searchTerm, HttpServletResponse response) throws IOException {
+        logger.info("/searchskill API called");
+        List<String> toReturn = null;
+        if (checkEmployeeId(request, response)) {
+            toReturn = searchService.searchSkill(searchTerm);
         }
         return toReturn;
     }
@@ -70,46 +72,21 @@ public class SearchController {
     @GetMapping("/searchcertitems")
     public List<CertificationDomain> getCertSearch(HttpServletRequest request, @RequestParam String searchTerm, HttpServletResponse response) throws IOException {
         logger.info("/searchcertitems API called");
-        String employeeId ;
-        List<CertificationDomain> toReturn = null;
-        try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                toReturn = certificationService.searchCertItems(searchTerm);
 
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
-            }
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,ConfigurationStrings.MONGOEXCEPTION);
+        List<CertificationDomain> toReturn = null;
+        if (checkEmployeeId(request, response)) {
+            toReturn = certificationService.searchCertItems(searchTerm);
         }
         return toReturn;
-
     }
-	
-	 @GetMapping("/searchtraining")
+
+    @GetMapping("/searchtraining")
     public List<Training> searchTraining(HttpServletRequest request, @RequestParam String searchTerm, HttpServletResponse response) throws IOException {
         logger.info("/searchtraining API called");
-        String employeeId;
-        List<Training> toReturn = null;
-        try {
-            logger.info(ConfigurationStrings.FETCHING);
-            if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                employeeId = tokenValidator.ExtractEmployeeId(request);
-                logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
-                toReturn = trainingService.searchTraining(searchTerm);
 
-            } else {
-                logger.info(ConfigurationStrings.NOTFOUND);
-            }
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            logger.info(ConfigurationStrings.ERROR + e.toString());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,ConfigurationStrings.MONGOEXCEPTION);
+        List<Training> toReturn = null;
+        if (checkEmployeeId(request, response)) {
+            toReturn = trainingService.searchTraining(searchTerm);
         }
         return toReturn;
 

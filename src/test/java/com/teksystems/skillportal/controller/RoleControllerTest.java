@@ -57,7 +57,7 @@ public class RoleControllerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn("101");
+        when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn("101");
         this.mockMvc = MockMvcBuilders.standaloneSetup(roleController).build();
     }
 
@@ -86,7 +86,7 @@ public class RoleControllerTest {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+        when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
         boolean expected = roleController.checkEmployeeId(request,response);
 
         assertThat( false, is(expected));
@@ -96,7 +96,7 @@ public class RoleControllerTest {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+        when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
 
         doThrow(IOException.class).when(response).sendError(anyInt(),anyString());
 
@@ -128,7 +128,7 @@ public class RoleControllerTest {
     public void getAllAdminRolesInvalid() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+        when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
         ResultActions resultAction = mockMvc.perform(
                 get("/role/adminRoles")
                         .header("Authorization", "empId:101")
@@ -177,7 +177,7 @@ public class RoleControllerTest {
     public void addAdminRoleInvalid() throws Exception{
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+        when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
 
         doNothing().when(roleService).addRoles(any(AdminRoles.class));
 
@@ -236,7 +236,7 @@ public class RoleControllerTest {
     public void deleteRoleInvalid() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
-        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+        when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
 
         doNothing().when(roleService).deleteRole(anyString());
 

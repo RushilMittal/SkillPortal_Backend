@@ -32,9 +32,9 @@ public class ReportController {
         String employeeId;
 
         logger.info(ConfigurationStrings.FETCHING);
-        if (!(request.getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
+        if ((request.getHeader(ConfigurationStrings.AUTHORIZATION) != null)) {
             if (tokenValidator.validateAdminRole(request, response)) {
-                employeeId = tokenValidator.ExtractEmployeeId(request);
+                employeeId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 validEmployee = true;
             } else {
@@ -106,7 +106,7 @@ public class ReportController {
     }
 
     @GetMapping("/reportemployeeupdation")
-    public List<SkillReport> UpdatedByEmpSubSkillinLastXMonths(@RequestParam long from, @RequestParam long to, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public List<SkillReport> updatedByEmpSubSkillinLastXMonths(@RequestParam long from, @RequestParam long to, HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<SkillReport> toReturn = null;
         logger.info("/reportemployeeupdation API Called");
 
@@ -148,7 +148,7 @@ public class ReportController {
     }
 
     @GetMapping("/getemployees")
-    public List<String> EmployeesWithASkill(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public List<String> employeesWithASkill(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<String> toReturn = null;
         logger.info("/getemployees API Called");
 

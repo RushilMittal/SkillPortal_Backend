@@ -181,10 +181,8 @@ public class EmployeeSkillService {
         lastUpdated[1] = month;
         lastUpdated[2] = day;
 
-        EmployeeSkillPlaceholderDomain temp = new EmployeeSkillPlaceholderDomain(numberofSkillRated, highestRatedSkill, highestRating, lastUpdated);
+        return new EmployeeSkillPlaceholderDomain(numberofSkillRated, highestRatedSkill, highestRating, lastUpdated);
 
-
-        return temp;
     }
 
     public List<EmployeeSkillDomain> getAll(String empId) throws MongoException {

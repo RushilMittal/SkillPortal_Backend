@@ -69,8 +69,8 @@ public class SkillController {
         Map<String,List<SubSkill>> toReturn = null;
 
         logger.info(ConfigurationStrings.FETCHING);
-        if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
-            employeeId = tokenValidator.ExtractEmployeeId(request);
+        if (( request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null)) {
+            employeeId = tokenValidator.extractEmployeeId(request);
             logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
             toReturn = skillService.getAllSkills();
         } else {
@@ -97,8 +97,8 @@ public class SkillController {
 
 
         logger.info(ConfigurationStrings.FETCHING);
-        if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)==null)) {
-            employeeId = tokenValidator.ExtractEmployeeId(request);
+        if (( request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null)) {
+            employeeId = tokenValidator.extractEmployeeId(request);
             logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
             toReturn = skillService.getSkillGroup(skillGroup);
 

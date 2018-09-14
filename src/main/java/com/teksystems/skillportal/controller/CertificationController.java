@@ -44,7 +44,7 @@ public class CertificationController {
         try {
             logger.info(ConfigurationStrings.FETCHING);
             if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                employeeId = tokenValidator.ExtractEmployeeId(request);
+                employeeId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.info("Trying to fetch all the Certificates");
                 certifications = this.certificationService.getAllCertifications();
@@ -75,8 +75,8 @@ public class CertificationController {
         String employeeId = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(request.getHeader(ConfigurationStrings.AUTHORIZATION) ==null)) {
-                employeeId = tokenValidator.ExtractEmployeeId(request);
+            if ((request.getHeader(ConfigurationStrings.AUTHORIZATION) !=null)) {
+                employeeId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 CertificationDomain certification=new CertificationDomain(id,skillId,certificationName,institution);
                 adminService.postNewCertification(certification);
@@ -104,7 +104,7 @@ public class CertificationController {
         try {
             logger.info(ConfigurationStrings.FETCHING);
             if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                employeeId = tokenValidator.ExtractEmployeeId(request);
+                employeeId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 CertificationDomain certification = new CertificationDomain(skillId,certificationName,institution);
                 adminService.postNewCertification(certification);

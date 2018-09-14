@@ -1,7 +1,6 @@
 package com.teksystems.skillportal.controller;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.MongoException;
 import com.teksystems.skillportal.domain.TrainingDomain;
@@ -10,7 +9,6 @@ import com.teksystems.skillportal.model.Training;
 import com.teksystems.skillportal.model.TrainingSession;
 import com.teksystems.skillportal.service.TokenValidationService;
 import com.teksystems.skillportal.service.TrainingService;
-import org.hibernate.validator.constraints.ModCheck;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -59,7 +57,7 @@ public class TrainingControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn("101");
+        when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn("101");
         this.mockMvc = MockMvcBuilders.standaloneSetup(trainingController).build();
     }
 
@@ -89,11 +87,11 @@ public class TrainingControllerTest {
         HttpServletResponse response = mock(HttpServletResponse.class);
 
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn(null);
-//        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+
 
         doThrow(IOException.class).when(response).sendError(anyInt(),anyString());
 
-        String expectedEmployeeId = trainingController.getEmployeeId(request,response);
+        trainingController.getEmployeeId(request,response);
     }
 
 
@@ -122,7 +120,7 @@ public class TrainingControllerTest {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
 
-        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+        when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
         doNothing().when(trainingService).saveTraining(any(Training.class), anyList());
 
         ObjectMapper mapper = new ObjectMapper();
@@ -194,7 +192,7 @@ public class TrainingControllerTest {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn(null);
 
-        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+        when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
 
         when(trainingService.getAllTrainings(anyString())).thenReturn(getTrainingDomainList());
 
@@ -226,7 +224,7 @@ public class TrainingControllerTest {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn(null);
 
-        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+        when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
         doNothing().when(trainingService).enrollTraining(anyString(),anyString());
 
         ResultActions resultAction = mockMvc.perform(
@@ -273,7 +271,7 @@ public class TrainingControllerTest {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn(null);
 
-        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+        when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
         doNothing().when(trainingService).updateTraining(any(Training.class), anyList());
 
         ObjectMapper mapper = new ObjectMapper();

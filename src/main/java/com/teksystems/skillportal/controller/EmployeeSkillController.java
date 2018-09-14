@@ -49,7 +49,7 @@ public class EmployeeSkillController {
         try{
             logger.info(ConfigurationStrings.FETCHING);
             if(request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                employeeId = tokenValidator.ExtractEmployeeId(request);
+                employeeId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 toReturn = employeeSkillService.getAllUnassignedSubSkills(employeeId,skillName);
 
@@ -82,7 +82,7 @@ public class EmployeeSkillController {
         try {
             logger.info(ConfigurationStrings.FETCHING);
             if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                employeeId = tokenValidator.ExtractEmployeeId(request);
+                employeeId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.info("Trying to Add the Employee Rating of " + employeeId);
                 if (rating <= 0 || rating > 5) {
@@ -122,9 +122,9 @@ public class EmployeeSkillController {
         String employeeId ;
       	try {
             logger.info(ConfigurationStrings.FETCHING);
-            if(!(request.getHeader(ConfigurationStrings.AUTHORIZATION)== null)) {
+            if((request.getHeader(ConfigurationStrings.AUTHORIZATION)!= null)) {
 
-                employeeId = tokenValidator.ExtractEmployeeId(request);
+                employeeId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 logger.debug("Getting detail for the Skill Placeholder, using employeeId " + employeeId);
                 toReturn = employeeSkillService.getEmployeeSkillPlaceHolderDomain(employeeId);
@@ -159,7 +159,7 @@ public class EmployeeSkillController {
         try {
             logger.info(ConfigurationStrings.FETCHING);
             if(request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                employeeId = tokenValidator.ExtractEmployeeId(request);
+                employeeId = tokenValidator.extractEmployeeId(request);
                 if(employeeId!=null) {
 
                     logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);

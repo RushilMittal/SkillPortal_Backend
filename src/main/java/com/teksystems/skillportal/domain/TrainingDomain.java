@@ -10,11 +10,6 @@ public class TrainingDomain {
     List<TrainingSession> trainingSessions;
 
 
-    public TrainingDomain() {
-
-    }
-
-
     public Training getTraining() {
         return training;
     }

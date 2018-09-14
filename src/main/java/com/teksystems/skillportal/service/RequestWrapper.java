@@ -13,7 +13,7 @@ public class RequestWrapper extends HttpServletRequestWrapper {
 
     public RequestWrapper(HttpServletRequest request,final Map<String, String[]> additionalParams) {
         super(request);
-        modifiableParameters = new TreeMap<String, String[]>();
+        modifiableParameters = new TreeMap<>();
         modifiableParameters.putAll(additionalParams);
     }
 
@@ -29,7 +29,7 @@ public class RequestWrapper extends HttpServletRequestWrapper {
     @Override
     public Map<String, String[]> getParameterMap() {
         if(allParameters == null){
-            allParameters = new TreeMap<String, String[]>();
+            allParameters = new TreeMap<>();
             allParameters.putAll(super.getParameterMap());
             allParameters.putAll(modifiableParameters);
         }

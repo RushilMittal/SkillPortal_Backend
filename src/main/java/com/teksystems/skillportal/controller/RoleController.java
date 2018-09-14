@@ -30,7 +30,7 @@ public class RoleController {
 
         logger.info(ConfigurationStrings.FETCHING);
         if (request.getHeader(ConfigurationStrings.AUTHORIZATION) != null) {
-            employeeId = tokenValidator.ExtractEmployeeId(request);
+            employeeId = tokenValidator.extractEmployeeId(request);
             if (employeeId != null) {
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 employeeIdPresent = true;

@@ -19,8 +19,8 @@ public class RoleService {
 
     public List<AdminRoles> getAdminRoles() throws MongoException {
 
-        List<AdminRoles> toReturn = adminRoleRepository.findAll();
-        return toReturn;
+        return adminRoleRepository.findAll();
+
     }
 
     public void deleteRole(String id) throws MongoException {

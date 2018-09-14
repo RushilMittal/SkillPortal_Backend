@@ -31,7 +31,7 @@ public class TrainingController {
 
         logger.info(ConfigurationStrings.FETCHING);
         if (request.getHeader(ConfigurationStrings.AUTHORIZATION) != null) {
-            fetchedEmployeeId = tokenValidator.ExtractEmployeeId(request);
+            fetchedEmployeeId = tokenValidator.extractEmployeeId(request);
             logger.debug(ConfigurationStrings.EMPLOYEEID + fetchedEmployeeId);
         } else {
             logger.info(ConfigurationStrings.NOTFOUND);

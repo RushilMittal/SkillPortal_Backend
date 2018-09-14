@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.nio.Buffer;
 import java.util.List;
 
 @RestController
@@ -34,7 +33,7 @@ public class AdminController {
         logger.info(ConfigurationStrings.FETCHING);
         if ((request.getHeader(ConfigurationStrings.AUTHORIZATION) != null)) {
             if (tokenValidator.validateAdminRole(request, response)) {
-                employeeId = tokenValidator.ExtractEmployeeId(request);
+                employeeId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + employeeId);
                 adminStatus = true;
             } else {

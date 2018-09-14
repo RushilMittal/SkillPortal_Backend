@@ -47,7 +47,7 @@ public class ReportControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn("101");
+        when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn("101");
         this.mockMvc = MockMvcBuilders.standaloneSetup(reportController).build();
     }
 
@@ -122,7 +122,7 @@ public class ReportControllerTest {
         when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
                 .thenReturn(false);
 
-//        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+//        when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
 
         when(reportService.topNSubSkills(anyInt())).thenReturn(getSubSkillDomainList());
 
@@ -175,7 +175,7 @@ public class ReportControllerTest {
         when(request.getHeader(ConfigurationStrings.AUTHORIZATION)).thenReturn("Authorization", "empId:101");
         when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
                 .thenReturn(true);
-        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+        when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
 
         when(reportService.topNSubSkillsinLastXMonths(anyInt(), anyInt())).thenReturn(getSubSkillDomainList());
 
@@ -226,7 +226,7 @@ public class ReportControllerTest {
         when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
                 .thenReturn(true);
 
-        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+        when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
 
         when(reportService.skillsOfEmployee(anyString())).thenReturn(getEmployeeSkillDomainList());
 
@@ -278,7 +278,7 @@ public class ReportControllerTest {
         when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
                 .thenReturn(true);
 
-        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+        when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
 
         when(reportService.employeesWhoUpdatedSubSkillsInLastXMonths(anyLong(),anyLong()))
                 .thenReturn(getSkillReportList());
@@ -332,7 +332,7 @@ public class ReportControllerTest {
         when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
                 .thenReturn(true);
 
-        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+        when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
 
         when(reportService.certificatesExpiringInNextNmonths(anyLong(),anyLong()))
                 .thenReturn(getEmployeeCertificationDomainList());
@@ -386,7 +386,7 @@ public class ReportControllerTest {
         when(tokenValidationService.validateAdminRole(any(HttpServletRequest.class),any(HttpServletResponse.class)))
                 .thenReturn(true);
 
-        when(tokenValidationService.ExtractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
+        when(tokenValidationService.extractEmployeeId(any(HttpServletRequest.class))).thenReturn(null);
 
         when(reportService.employeesWithASkill())
                 .thenReturn(getEmployeeId());

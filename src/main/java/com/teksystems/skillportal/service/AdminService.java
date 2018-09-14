@@ -34,18 +34,17 @@ public class AdminService {
 
     //method to validate whether the role is present or not in the list
     public boolean isAdmin(String role) {
+        boolean toReturn = false;
         AdminRoles adminRoles = adminRoleRepository.findByUserRole(role);
         if (!((adminRoles == null) || (adminRoles.getUserRole().isEmpty())))
-            return true;
-        return false;
+            toReturn= true;
+
+        return toReturn;
     }
 
 
     public List<SubSkill> getAllAdminSkills()  throws MongoException {
-        List<SubSkill> toReturn = subSkillRepository.findAll();
-
-        return toReturn;
-
+        return subSkillRepository.findAll();
     }
 
 

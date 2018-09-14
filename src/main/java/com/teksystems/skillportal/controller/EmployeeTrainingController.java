@@ -36,8 +36,8 @@ public class EmployeeTrainingController {
         List<EmployeeTrainingDomain> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(request.getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
-                empId = tokenValidator.ExtractEmployeeId(request);
+            if ((request.getHeader(ConfigurationStrings.AUTHORIZATION) != null)) {
+                empId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to fetch employee's added Training");
                 toReturn = employeeTrainingService.getEmployeeTrainingByEmployeeId(empId);
@@ -63,8 +63,8 @@ public class EmployeeTrainingController {
 
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(request.getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
-                empId = tokenValidator.ExtractEmployeeId(request);
+            if ((request.getHeader(ConfigurationStrings.AUTHORIZATION) != null)) {
+                empId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to fetch employee's added Events for Calendar view");
                 toReturn = employeeTrainingService.getTrainingEventByEmployeeId(empId);
@@ -91,7 +91,7 @@ public class EmployeeTrainingController {
         try {
             logger.info(ConfigurationStrings.FETCHING);
             if (request.getHeader(ConfigurationStrings.AUTHORIZATION)!=null) {
-                empId = tokenValidator.ExtractEmployeeId(request);
+                empId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to delete employee's added Events");
                 employeeTrainingService.cancelEnrollment(empId,trainingId);
@@ -115,8 +115,8 @@ public class EmployeeTrainingController {
         List<TrainingListEventDomain> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!(request.getHeader(ConfigurationStrings.AUTHORIZATION) == null)) {
-                empId = tokenValidator.ExtractEmployeeId(request);
+            if ((request.getHeader(ConfigurationStrings.AUTHORIZATION) != null)) {
+                empId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to fetch employee's added Events for list view");
                 toReturn = employeeTrainingService.getTrainingListEventByEmployeeId(empId);
@@ -142,8 +142,8 @@ public class EmployeeTrainingController {
         List<EmployeeTrainingPlaceholderDomain> toReturn = null;
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)== null)) {
-                empId = tokenValidator.ExtractEmployeeId(request);
+            if (( request.getHeader(ConfigurationStrings.AUTHORIZATION)!= null)) {
+                empId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to fetch employee's added Trainings for training placeholder");
                 toReturn = employeeTrainingService.getEnrolledTraining(empId);
@@ -169,8 +169,8 @@ public class EmployeeTrainingController {
 
         try {
             logger.info(ConfigurationStrings.FETCHING);
-            if (!( request.getHeader(ConfigurationStrings.AUTHORIZATION)== null)) {
-                empId = tokenValidator.ExtractEmployeeId(request);
+            if (( request.getHeader(ConfigurationStrings.AUTHORIZATION)!= null)) {
+                empId = tokenValidator.extractEmployeeId(request);
                 logger.debug(ConfigurationStrings.EMPLOYEEID + empId);
                 logger.info("Trying to fetch Upcoming Trainings for training placeholder");
                 toReturn = employeeTrainingService.getUpcomingTraining();
