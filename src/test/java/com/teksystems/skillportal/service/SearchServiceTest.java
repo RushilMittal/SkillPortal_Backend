@@ -28,7 +28,7 @@ public class SearchServiceTest {
     SearchService searchService;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         List<SubSkill> subSkillList = getAllSubSkill();
         CacheLoader<String, List<SubSkill>> subSkillLoader = new CacheLoader<String, List<SubSkill>>() {
@@ -49,9 +49,15 @@ public class SearchServiceTest {
         List<String> expected = searchService.searchSkill("Java");
 
         assertThat(1, is(expected.size()));
-
-
     }
+    @Test
+    public void searchSkillNotFound() {
+        List<String> expected = searchService.searchSkill("Cloud");
+
+        assertThat(0, is(expected.size()));
+    }
+
+
 
     List<SubSkill> getAllSubSkill() {
         List<SubSkill> toReturnList = new ArrayList<>();

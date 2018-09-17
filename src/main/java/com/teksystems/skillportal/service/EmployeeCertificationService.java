@@ -66,7 +66,7 @@ public class EmployeeCertificationService {
         years[0] = years[1] = null;
 
         List<EmployeeCertificationPlaceholderDomain> employeeCertificationPlaceholderDomainsList = new ArrayList<>();
-        try {
+
             List<EmployeeCertificationDomain> employeeCertificationDomain = getEmployeeCertificationByEmployeeId(employeeId);
 
 
@@ -87,9 +87,7 @@ public class EmployeeCertificationService {
 
 
             }
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-        }
+
 
         return employeeCertificationPlaceholderDomainsList;
     }

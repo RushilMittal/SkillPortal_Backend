@@ -2,22 +2,21 @@ package com.teksystems.skillportal.service;
 
 
 import com.google.common.cache.LoadingCache;
-import com.mongodb.BasicDBObject;
+
 import com.mongodb.MongoException;
 import com.teksystems.skillportal.domain.EmployeeSkillDomain;
 import com.teksystems.skillportal.domain.EmployeeSkillPlaceholderDomain;
 import com.teksystems.skillportal.domain.SubSkillDomain;
-import com.teksystems.skillportal.helper.ConfigurationStrings;
+
 import com.teksystems.skillportal.init.GuavaCacheInit;
-import com.teksystems.skillportal.init.MongoConfigNew;
+
 import com.teksystems.skillportal.model.EmployeeSkill;
 import com.teksystems.skillportal.model.SubSkill;
 import com.teksystems.skillportal.repository.EmployeeSkillRepository;
 import com.teksystems.skillportal.repository.SubSkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.data.mongodb.core.MongoOperations;
+
+
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -30,11 +29,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class EmployeeSkillService {
-
-    static ApplicationContext ctx =
-            new AnnotationConfigApplicationContext(MongoConfigNew.class);
-    static MongoOperations mongoOperation =
-            (MongoOperations) ctx.getBean("mongoTemplate");
 
     @Autowired
     EmployeeSkillRepository empSkillRepository;
@@ -53,7 +47,6 @@ public class EmployeeSkillService {
 
         //Fetch all the records
         List<String> assignedSkillIds = getAssignedSkillIds(empId);
-
 
         List<SubSkillDomain> toReturn = new LinkedList<>();
         for (SubSkill i : allSkills) {
@@ -106,13 +99,21 @@ public class EmployeeSkillService {
      * Service to get count of subskills rated by users by subskill id
      */
     public int getSubSkillCount(String subSkillId) {
+
         subSkillId = subSkillId.trim();
-//finding all distinct employee skills records for one subskill
-        List<String> empSkills = mongoOperation.getCollection("employeeskill").distinct(ConfigurationStrings.EMPID,
-                new BasicDBObject(ConfigurationStrings.SUBSKILLID, subSkillId));
+        //finding all distinct employee skills records for one subskill
+
+        List<EmployeeSkill> employeeSkillList = empSkillRepository.findBySubSkillId(subSkillId);
+
+        List<EmployeeSkill> distinctEmployeeSkill = employeeSkillList.stream()
+                .filter(distinctByKey(p -> p.getEmpId()))
+                .collect(Collectors.toList());
+
         //returning the size of list, i.e.,
         //the number of employees who have rated a particular subskill
-        return empSkills.size();
+
+        return distinctEmployeeSkill.size();
+
     }
 
 
@@ -154,8 +155,9 @@ public class EmployeeSkillService {
         int month;
         int year;
         int increment = 0;
-
-        if (recievedDate.get(Calendar.DAY_OF_MONTH) > todayDate.get(Calendar.DAY_OF_MONTH)) {
+        int recievedInt = recievedDate.get(Calendar.DAY_OF_MONTH);
+        int todayInt = todayDate.get(Calendar.DAY_OF_MONTH);
+        if ( recievedInt> todayInt) {
             increment = recievedDate.getActualMaximum(Calendar.DAY_OF_MONTH);
         }
 
@@ -235,6 +237,8 @@ public class EmployeeSkillService {
 
     }
 
+
+
     /*
      *Service to delete rating of a subskill of an employee
      *
@@ -252,27 +256,27 @@ public class EmployeeSkillService {
 
     }
 
-    public List<String> getAssignedSkillIds(String employeeId){
+    // get distinct skils rated by users.
+    public List<String> getAssignedSkillIds(String employeeId) {
 
         List<String> toReturn = new ArrayList<>();
         List<EmployeeSkill> employeeSkillList = empSkillRepository.findByEmpId(employeeId);
 
         List<EmployeeSkill> distinctEmployeeSkill = employeeSkillList.stream()
-            .filter(distinctByKey(p -> p.getSubSkillId()))
-            .collect(Collectors.toList());
+                .filter(distinctByKey(p -> p.getSubSkillId()))
+                .collect(Collectors.toList());
 
-        for(EmployeeSkill from : distinctEmployeeSkill)
+        for (EmployeeSkill from : distinctEmployeeSkill)
             toReturn.add(from.getSubSkillId());
         return toReturn;
     }
 
 
-
     //Utility function
-    public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor)
-    {
+    public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
         Map<Object, Boolean> map = new ConcurrentHashMap<>();
         return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
+
 
 }

@@ -1,6 +1,12 @@
 package com.teksystems.skillportal.service;
 
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.teksystems.skillportal.domain.EmployeeSkillDomain;
+import com.teksystems.skillportal.domain.EmployeeSkillPlaceholderDomain;
+import com.teksystems.skillportal.domain.SubSkillDomain;
 import com.teksystems.skillportal.init.GuavaCacheInit;
 import com.teksystems.skillportal.model.EmployeeSkill;
 import com.teksystems.skillportal.model.SubSkill;
@@ -13,13 +19,14 @@ import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.*;
 
 public class EmployeeSkillServiceTest {
 
@@ -53,31 +60,26 @@ public class EmployeeSkillServiceTest {
     //TODO ASK From Sir, how to mock mongooperations
     @Test
     public void getAllUnassignedSubSkills() throws ExecutionException {
-//        List<SubSkill> subSkillList = getAllSubSkill();
-//        CacheLoader<String, List<SubSkill>> subSkillLoader = new CacheLoader<String, List<SubSkill>>() {
-//            @Override
-//            public List<SubSkill> load(String key) {
-//                return subSkillList;
-//            }
-//        };
-//        LoadingCache<String, List<SubSkill>> cache = CacheBuilder.newBuilder().build(subSkillLoader);
-//        Map<String, List<SubSkill>> subSkillMap = new HashMap<>();
-//        subSkillMap.put("java", subSkillList);
-//        cache.putAll(subSkillMap);
-//        when(guavaCacheInit.getSkillLoadingCache()).thenReturn(cache);
-//
-//        ApplicationContext ctx =
-//                new AnnotationConfigApplicationContext(MongoConfigNew.class);
-//
-//
-//        mongoOperation =(MongoOperations) ctx.getBean("mongoTemplate");
-//
-//        when(mongoOperation.getCollection("employeeskill")
-//                .distinct(ConfigurationStrings.SUBSKILLID, new BasicDBObject(ConfigurationStrings.EMPID, anyString())))
-//                .thenReturn(getUnassignedSkills());
-//
-//        List<SubSkillDomain> expected = employeeSkillService.getAllUnassignedSubSkills("101","Programming");
-//        assertThat(1,is(expected.size()));
+        List<SubSkill> subSkillList = getAllSubSkillList();
+        CacheLoader<String, List<SubSkill>> loader = new CacheLoader<String, List<SubSkill>>() {
+            @Override
+            public List<SubSkill> load(String key) {
+                return subSkillList;
+            }
+        };
+        LoadingCache<String, List<SubSkill>> cache = CacheBuilder.newBuilder().build(loader);
+        Map<String, List<SubSkill>> map = new HashMap<>();
+        map.put("java", subSkillList);
+        cache.putAll(map);
+        when(guavaCacheInit.getSkillLoadingCache()).thenReturn(cache);
+
+        when(employeeSkillRepository.findByEmpId(anyString())).thenReturn(getAssignedEmployeeSkill());
+
+        List<SubSkillDomain> expected = employeeSkillService.getAllUnassignedSubSkills("101","Java");
+
+        assertThat(1,is(expected.size()));
+        assertThat("Advanced Java",is(expected.get(0).getSubSkill()));
+
 
     }
 
@@ -89,34 +91,69 @@ public class EmployeeSkillServiceTest {
 
     }
 
-    // TODO mongooperation one
+
     @Test
     public void getSubSkillCount() {
+        when(employeeSkillRepository.findBySubSkillId(anyString())).thenReturn(getAssignedEmployeeSkill());
+
+        int expected = employeeSkillService.getSubSkillCount("1");
+
+        assertThat(1,is(expected));
 
     }
 
-//    @Test
-//    public void getEmployeeSkillPlaceHolderDomain() {
-//        when(employeeSkillRepository.findByEmpId(anyString())).thenReturn(getAssignedEmployeeSkill());
-//        when(subSkillRepository.findById("1")).thenReturn(getSubSkill());
-//        when(subSkillRepository.findById("2")).thenReturn(getSubSkill1());
-//
-//        when(employeeSkillRepository.findTopByEmpIdOrderByLastModifiedDateDesc(anyString())).thenReturn(getEmployeeSkill());
-//
-//        EmployeeSkillPlaceholderDomain expectedEmployeeSkillPlaceholderDomain =
-//                employeeSkillService.getEmployeeSkillPlaceHolderDomain("101");
-//        assertThat(2,is(expectedEmployeeSkillPlaceholderDomain.getNumberOfSkillRated()));
-//    }
+    @Test
+    public void getEmployeeSkillPlaceHolderDomain() {
+        when(employeeSkillRepository.findByEmpId(anyString())).thenReturn(getAssignedEmployeeSkill());
+        when(subSkillRepository.findById("1")).thenReturn(getSubSkill());
+        when(subSkillRepository.findById("2")).thenReturn(getSubSkill1());
+
+        when(employeeSkillRepository.findTopByEmpIdOrderByLastModifiedDateDesc(anyString())).thenReturn(getEmployeeSkill());
+
+        EmployeeSkillPlaceholderDomain expectedEmployeeSkillPlaceholderDomain =
+                employeeSkillService.getEmployeeSkillPlaceHolderDomain("101");
+        assertThat(2,is(expectedEmployeeSkillPlaceholderDomain.getNumberOfSkillRated()));
+    }
+
+
 
     @Test
     public void getAll() {
+        when(employeeSkillRepository.findByEmpId(anyString())).thenReturn(getAssignedEmployeeSkill());
+        when(subSkillRepository.findById("1")).thenReturn(getSubSkill());
+        when(subSkillRepository.findById("2")).thenReturn(getSubSkill1());
+
+        List<EmployeeSkillDomain> expected = employeeSkillService.getAll("101");
+        assertThat(2,is(expected.size()));
+        assertThat("Basic Java",is(expected.get(0).getSubSkill().getSubSkill()));
+        assertThat("Generics",is(expected.get(1).getSubSkill().getSubSkill()));
     }
+
 
     @Test
     public void deleteSubSkill() {
+        when(employeeSkillRepository.findByEmpIdAndSubSkillId(anyString(),anyString()))
+                .thenReturn(getAssignedEmployeeSkill());
+
+        employeeSkillService.deleteSubSkill("101","1");
+        verify(employeeSkillRepository,times(2)).delete(any(EmployeeSkill.class));
+
     }
 
-    List<SubSkill> getAllSubSkill() {
+
+    @Test
+    public void getAssignedSkillIdsTest(){
+        when(employeeSkillRepository.findByEmpId(anyString())).thenReturn(getAssignedEmployeeSkill());
+
+        List<String> expected = employeeSkillService.getAssignedSkillIds("101");
+
+        assertThat(2,is(expected.size()));
+        assertThat("1",is(expected.get(0)));
+        assertThat("2",is(expected.get(1)));
+
+    }
+
+    List<SubSkill> getAllSubSkillList() {
         List<SubSkill> toReturnList = new ArrayList<>();
         toReturnList.add(getSubSkill());
         toReturnList.add(getSubSkill1());
@@ -143,14 +180,15 @@ public class EmployeeSkillServiceTest {
                 "ADM");
     }
 
-    public SubSkill getSubSkill2() {
+    public SubSkill getSubSkill2(){
         return new SubSkill("3",
-                "MS Excel",
-                "Basic Ms Excel",
-                "MS Word",
-                "Applcations",
-                "Basics");
+                "Advanced Java",
+                "Advanced Java",
+                "Java",
+                "skillGroup",
+                "ADM");
     }
+
 
     private List<String> getUnassignedSkills() {
         List<String> toReturnSkills = new ArrayList<>();

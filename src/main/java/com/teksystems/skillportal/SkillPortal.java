@@ -12,16 +12,16 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ComponentScan({"com.teksystems.skillportal.*"})
 public class SkillPortal extends SpringBootServletInitializer {
-
-    @Bean
-    public FilterRegistrationBean tokenFilter() {
-        final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-        registrationBean.setFilter(new TokenFilter());
-        registrationBean.addUrlPatterns("/");
-        registrationBean.addUrlPatterns("/*");
-
-        return registrationBean;
-    }
+//
+//    @Bean
+//    public FilterRegistrationBean tokenFilter() {
+//        final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+//        registrationBean.setFilter(new TokenFilter());
+//        registrationBean.addUrlPatterns("/");
+//        registrationBean.addUrlPatterns("/*");
+//
+//        return registrationBean;
+//    }
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {

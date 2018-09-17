@@ -94,6 +94,16 @@ public class AdminServiceTest {
         assertThat(true, is(expected));
 
     }
+    @Test
+    public void testIsNotAdmin() {
+
+
+        when(adminRoleRepository.findByUserRole(anyString())).thenReturn(null);
+
+        boolean expected = adminService.isAdmin("admin");
+        assertThat(false, is(expected));
+
+    }
 
     @Test
     public void testGetAllAdminSkills() {
@@ -159,6 +169,17 @@ public class AdminServiceTest {
 
         when(certificationRepository.findAll()).thenReturn(getCertificationList());
         when(certificationRepository.findOne(anyString())).thenReturn(getCertification());
+
+        adminService.postNewCertification(getUniqueCertificationDomain());
+
+        verify(certificationRepository, times(1)).save((any(Certification.class)));
+
+    }
+    @Test
+    public void postNewCertificationNullPointer() {
+
+        when(certificationRepository.findAll()).thenReturn(getCertificationList());
+        when(certificationRepository.findOne(anyString())).thenReturn(null);
 
         adminService.postNewCertification(getUniqueCertificationDomain());
 

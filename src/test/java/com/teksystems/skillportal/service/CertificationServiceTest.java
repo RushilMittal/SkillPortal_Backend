@@ -76,6 +76,18 @@ public class CertificationServiceTest {
         assertThat(2, is(expected.size()));
 
     }
+    @Test
+    public void testSearchCertItemsNotFound() {
+
+        when(certificationRepository.findAll()).thenReturn(getCertificationList());
+
+
+        List<CertificationDomain> expected = certificationService.searchCertItems("Java");
+
+        assertThat(0, is(expected.size()));
+
+    }
+
 
     // helper method to return the dummy data for testing
     public List<Certification> getCertificationList() {
