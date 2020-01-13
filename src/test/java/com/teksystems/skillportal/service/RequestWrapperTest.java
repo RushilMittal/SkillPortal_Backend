@@ -1,4 +1,5 @@
-package com.teksystems.skillportal.service;
+import static org.junit.Assert.*;
 
 public class RequestWrapperTest {
+
 }

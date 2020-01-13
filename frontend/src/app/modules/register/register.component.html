@@ -1,0 +1,69 @@
+<body>
+  <div id="login">
+    <h3 class="text-center text-white pt-5">Register form</h3>
+    <div class="container">
+      <div id="login-row" class="row justify-content-center align-items-center">
+        <div id="login-column" class="col-md-6">
+          <div id="login-box" class="col-md-12">
+            <form id="login-form" class="form" action="" method="post">
+              <h3 class="text-center text-info">Register</h3>
+              <div class="form-group">
+                <label for="username">Username:</label><br />
+                <input
+                  type="text"
+                  name="username"
+                  id="username"
+                  placeholder="Enter username"
+                  class="form-control"
+                  [(ngModel)]="employeeDetails.username"
+                />
+              </div>
+              <div class="form-group">
+                <label for="email">Email:</label><br />
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="Enter email"
+                  class="form-control"
+                  [(ngModel)]="employeeDetails.mail"
+                />
+              </div>
+              <div class="form-group">
+                <label for="job_title">Job Title:</label><br />
+                <input
+                  type="text"
+                  name="job_title"
+                  id="job_title"
+                  placeholder="Enter job title"
+                  class="form-control"
+                  [(ngModel)]="employeeDetails.jobTitle"
+                />
+              </div>
+              <div class="form-group">
+                <label for="password">Password:</label><br />
+                <input
+                  type="text"
+                  name="password"
+                  id="password"
+                  placeholder="Enter password"
+                  class="form-control"
+                  [(ngModel)]="employeeDetails.password"
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  type="submit"
+                  name="submit"
+                  class="btn btn-info btn-md"
+                  value="Submit"
+                  (click)="submit()"
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
